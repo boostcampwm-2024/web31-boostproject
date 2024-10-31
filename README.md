@@ -18,7 +18,7 @@
 
 <br />
 
-### 📌 그라운드룰 [[Detail Link]](https://github.com/boostcampwm-2024/web31-boostproject/wiki/%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0)
+### 📌 그라운드룰 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%E2%9B%B3%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0)
 3번 지각할 때마다 random 채널에 지각 반성문 작성하기(불가피한 사정 제외)
 
 ```
