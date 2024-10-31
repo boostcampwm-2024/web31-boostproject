@@ -19,17 +19,11 @@
 <br />
 
 ## 📌 그라운드룰 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%E2%9B%B3%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0)
-3번 지각할 때마다 random 채널에 지각 반성문 작성하기(불가피한 사정 제외)
 
-```
-안녕하세요. 000조 대역죄인 000입니다.
-3번이나 지각한 점 깊이 반성하고 있으며, 반성의 의미로 이 글을 작성하게 되었습니다. 
-앞으로 이러한 일이 반복되지 않도록 더욱 주의하겠습니다.
-```
+![image](https://github.com/user-attachments/assets/9151ea57-d655-4bb8-9624-b807b10911e4)
+![image](https://github.com/user-attachments/assets/04782b0b-f00a-41e0-8b41-ab6abfa68d4a)
 
-![image](https://github.com/user-attachments/assets/b2e2ddce-ac9e-406c-b1f5-b442c58f9ae1)
 
-(얼굴 합성해드리겠습니다. by 홍박사님)
 
 <br />
 
