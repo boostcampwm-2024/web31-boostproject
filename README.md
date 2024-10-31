@@ -13,12 +13,12 @@
 
 <br />
 
-### 🧙‍♀️ 협업 전략 [[Detail Link]](https://github.com/boostcampwm-2024/web31-boostproject/wiki/Git-%EC%A0%84%EB%9E%B5)
+## 🧙‍♀️ 협업 전략 [[Detail Link]](https://github.com/boostcampwm-2024/web31-boostproject/wiki/Git-%EC%A0%84%EB%9E%B5)
 ![image](https://github.com/user-attachments/assets/54e8bf94-2a04-4bfc-987f-bce9cf75f077)
 
 <br />
 
-### 📌 그라운드룰 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%E2%9B%B3%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0)
+## 📌 그라운드룰 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%E2%9B%B3%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0)
 3번 지각할 때마다 random 채널에 지각 반성문 작성하기(불가피한 사정 제외)
 
 ```
@@ -33,7 +33,7 @@
 
 <br />
 
-### 🎨 기획/디자인 [[Detail Link]](https://www.figma.com/design/nv2pP4yUPGkdoaie2SHsfR/%EB%94%94%EC%9E%90%EC%9D%B8%EB%B3%B4%EB%93%9C?node-id=187-749&node-type=section&t=LUI7l6jpqnPLsfTc-0)
+## 🎨 기획/디자인 [[Detail Link]](https://www.figma.com/design/nv2pP4yUPGkdoaie2SHsfR/%EB%94%94%EC%9E%90%EC%9D%B8%EB%B3%B4%EB%93%9C?node-id=187-749&node-type=section&t=LUI7l6jpqnPLsfTc-0)
 
 
 ![image](https://github.com/user-attachments/assets/f4d110cb-162b-4466-9afb-9d81faf63dad)
@@ -41,7 +41,7 @@
 
 <br />
 
-### ⚒️ 기술 스택 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D)
+## ⚒️ 기술 스택 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D)
 
 |분류|기술 스택|
 |------|---|
