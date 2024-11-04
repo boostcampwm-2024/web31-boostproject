@@ -1,0 +1,38 @@
+# pnpm modules and cache
+.pnpm-store/
+
+# Node modules directory (managed by pnpm)
+node_modules/
+
+# Build outputs
+dist/
+build/
+out/
+
+# Temporary files
+.temp/
+.cache/
+
+# Logs
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependency graph
+.pnp.*
+
+# Local environment files
+.env
+.env.*.local
+.env.local
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# OS-specific files
+.DS_Store
+Thumbs.db
