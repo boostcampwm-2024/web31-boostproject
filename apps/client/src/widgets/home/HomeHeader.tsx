@@ -3,7 +3,7 @@ import BooLockIcon from '@/shared/assets/boolock_icon.svg?react';
 
 export const HomeHeader = () => {
   return (
-    <header className="flex h-14 items-center justify-between bg-[#1E272E]">
+    <header className="flex h-14 items-center justify-between bg-gray-black">
       <div className="flex items-center gap-4">
         <BooLockIcon />
         <BooLockLogoWhite />
