@@ -6,7 +6,7 @@ export default {
       colors: {
         gray: {
           white: '#FFFFFF',
-          50: '#F4FBFA',
+          50: '#F4F8FA',
           100: '#CDD9E4',
           200: '#90A2B7',
           300: '#768797',
@@ -31,6 +31,9 @@ export default {
         red: {
           500: '#FF5151',
         },
+      },
+      boxShadow: {
+        drop: '4px 4px 4px 0px rgba(120, 119, 125, 0.06)',
       },
     },
   },

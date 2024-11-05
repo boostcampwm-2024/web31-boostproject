@@ -3,9 +3,9 @@ import { WorkspcaeList } from './WorkspaceList';
 
 export const WorkspaceContainer = () => {
   return (
-    <div>
+    <section>
       <WorkspaceHeader />
       <WorkspcaeList />
-    </div>
+    </section>
   );
 };
