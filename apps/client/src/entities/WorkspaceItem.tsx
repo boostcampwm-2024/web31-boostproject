@@ -1,3 +1,5 @@
+import TrashSVG from '@/shared/assets/trash.svg?react';
+
 type WorkspaceItemProps = {
   title: string;
   thumbnail: string;
@@ -6,7 +8,10 @@ type WorkspaceItemProps = {
 
 export const WorkspcaeItem = ({ title, thumbnail, lastEdited }: WorkspaceItemProps) => {
   return (
-    <li className="shadow-drop rounded-lg">
+    <li className="shadow-drop relative rounded-lg">
+      <button className="absolute right-2 top-2 text-gray-300 hover:text-red-500">
+        <TrashSVG width={16} />
+      </button>
       <div className="flex h-[180px] overflow-hidden bg-gray-50">
         {/* TODO: 썸네일 형태에 따라 이미지 태그 OR 백그라운드로 지정 */}
         {thumbnail && (
