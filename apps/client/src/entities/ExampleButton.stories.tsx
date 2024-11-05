@@ -2,7 +2,7 @@ import { Meta, StoryObj } from '@storybook/react';
 import ExampleButton from './ExampleButton';
 import { fn } from '@storybook/test';
 
-export const meta: Meta<typeof ExampleButton> = {
+const meta: Meta<typeof ExampleButton> = {
   title: 'Button/ExampleButton',
   component: ExampleButton,
   parameters: {
@@ -11,6 +11,8 @@ export const meta: Meta<typeof ExampleButton> = {
   tags: ['autodocs'],
   args: { onClick: fn() },
 };
+
+export default meta;
 
 type Story = StoryObj<typeof ExampleButton>;
 
