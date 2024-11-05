@@ -1,5 +1,4 @@
 import { RedoButton, SaveButton, UndoButton, WorkspaceNameInput } from '@/features';
-
 import Logo from '@/shared/assets/boolock_logo.svg?react';
 
 export const WorkspaceHeader = () => {
