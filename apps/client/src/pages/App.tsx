@@ -1,5 +1,11 @@
-function App() {
-  return <div className="bg-green-500">app</div>;
-}
+import { GuidesBox } from '@/widgets/index';
+import { HomeHeader } from '@/widgets/index';
 
-export default App;
+export const App = () => {
+  return (
+    <>
+      <HomeHeader />
+      <GuidesBox />
+    </>
+  );
+};
