@@ -1,6 +1,6 @@
 import { GuidesBox } from '@/widgets/index';
 import { HomeHeader } from '@/widgets/index';
-import { WorkspaceContainer } from '@/widgets/main/WorkspaceContainer';
+import { WorkspaceContainer } from '@/widgets/home/WorkspaceContainer';
 
 export const App = () => {
   return (

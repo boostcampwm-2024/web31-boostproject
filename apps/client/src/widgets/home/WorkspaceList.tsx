@@ -1,6 +1,6 @@
-import { WorkspcaeItem } from '@/entities/WorkspaceItem';
+import { WorkspaceItem } from '@/entities/home/WorkspaceItem';
 
-export const WorkspcaeList = () => {
+export const WorkspaceList = () => {
   const mockData = [
     { room_id: 1, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
     { room_id: 2, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
@@ -11,7 +11,7 @@ export const WorkspcaeList = () => {
   return (
     <ul className="grid-cols-list grid justify-start gap-x-6 gap-y-8">
       {mockData.map((data) => (
-        <WorkspcaeItem
+        <WorkspaceItem
           key={data.room_id}
           title={data.name}
           thumbnail={data.thumbnail}

@@ -1,4 +1,4 @@
-import { WorkspaceAddBtn } from '../../features/main/WorkspaceAddBtn';
+import { WorkspaceAddBtn } from '../../features/home/WorkspaceAddBtn';
 
 export const WorkspaceHeader = () => {
   return (

@@ -6,7 +6,7 @@ type WorkspaceItemProps = {
   lastEdited: string;
 };
 
-export const WorkspcaeItem = ({ title, thumbnail, lastEdited }: WorkspaceItemProps) => {
+export const WorkspaceItem = ({ title, thumbnail, lastEdited }: WorkspaceItemProps) => {
   return (
     <li className="shadow-drop relative rounded-lg">
       <button className="absolute right-2 top-2 text-gray-300 hover:text-red-500">
