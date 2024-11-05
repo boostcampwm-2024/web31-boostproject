@@ -1,11 +1,15 @@
+import { GuidesBox } from '@/widgets/index';
+import { HomeHeader } from '@/widgets/index';
 import { WorkspaceContainer } from '@/widgets/main/WorkspaceContainer';
 
-function App() {
+export const App = () => {
   return (
-    <div>
+    <>
+      <HomeHeader />
+      <GuidesBox />
       <WorkspaceContainer />
-    </div>
+    </>
   );
-}
+};
 
 export default App;
