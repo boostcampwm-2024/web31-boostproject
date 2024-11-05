@@ -14,7 +14,7 @@
 <br />
 
 ## 🧙‍♀️ 협업 전략 [[Detail Link]](https://github.com/boostcampwm-2024/web31-boostproject/wiki/Git-%EC%A0%84%EB%9E%B5)
-![image](https://github.com/user-attachments/assets/54e8bf94-2a04-4bfc-987f-bce9cf75f077)
+![image](https://github.com/user-attachments/assets/77ba519f-462d-4dc0-b315-b39a8070e3d3)
 
 <br />
 
