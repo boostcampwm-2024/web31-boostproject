@@ -1,5 +1,11 @@
+import { WorkspaceContainer } from '@/widgets/main/WorkspaceContainer';
+
 function App() {
-  return <div className="bg-green-500">app</div>;
+  return (
+    <div>
+      <WorkspaceContainer />
+    </div>
+  );
 }
 
 export default App;
