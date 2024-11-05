@@ -51,7 +51,7 @@
 @font-face {
   font-family: 'SUIT Variable';
   font-weight: 100 900;
-  src: url('../../public/fonts/SUIT-Variable.woff2') format('woff2-variations');
+  src: url('fonts/SUIT-Variable.woff2') format('woff2-variations');
 }
 
 body {

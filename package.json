@@ -7,7 +7,8 @@
     "dev:server": "pnpm -F server dev",
     "build:client": "pnpm -F client build",
     "install:all": "pnpm install -r",
-    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\""
+    "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
+    "swagger-auto": "pnpm -F server swagger-auto"
   },
   "devDependencies": {
     "prettier": "^3.3.3",
