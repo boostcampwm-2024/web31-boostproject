@@ -1,5 +1,5 @@
-import { GuidesBox } from '@/widgets/home/GuidesBox';
-import { HomeHeader } from '@/widgets/home/HomeHeader';
+import { GuidesBox } from '@/widgets/index';
+import { HomeHeader } from '@/widgets/index';
 
 export const App = () => {
   return (
