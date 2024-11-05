@@ -35,6 +35,9 @@ export default {
       boxShadow: {
         drop: '4px 4px 4px 0px rgba(120, 119, 125, 0.06)',
       },
+      gridTemplateColumns: {
+        list: 'repeat(4, minmax(0, 264px))',
+      },
     },
   },
   plugins: [],

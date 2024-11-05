@@ -6,8 +6,9 @@ type WorkspaceItemProps = {
 
 export const WorkspcaeItem = ({ title, thumbnail, lastEdited }: WorkspaceItemProps) => {
   return (
-    <li className="shadow-drop w-[264px] overflow-hidden rounded-lg">
-      <div className="flex h-[180px] items-center justify-center overflow-hidden bg-gray-50">
+    <li className="shadow-drop rounded-lg">
+      <div className="flex h-[180px] overflow-hidden bg-gray-50">
+        {/* TODO: 썸네일 형태에 따라 이미지 태그 OR 백그라운드로 지정 */}
         {thumbnail && (
           <img src={thumbnail} alt="workspace thumbnail" className="h-32 w-full object-cover" />
         )}
