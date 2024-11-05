@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .text-bold-xl {
+    @apply text-2xl font-bold leading-5;
+  }
+  .text-bold-lg {
+    @apply text-xl font-bold leading-4;
+  }
+  .text-bold-md {
+    @apply text-base font-bold leading-5;
+  }
+  .text-bold-rg {
+    @apply text-sm font-bold leading-4;
+  }
+  .text-bold-sm {
+    @apply text-xs font-bold leading-4;
+  }
+
+  .text-semibold-lg {
+    @apply text-xl font-semibold leading-5;
+  }
+
+  .text-semibold-md {
+    @apply text-base font-semibold leading-5;
+  }
+
+  .text-semibold-rg {
+    @apply text-sm font-semibold leading-4;
+  }
+
+  .text-semibold-sm {
+    @apply text-xs font-semibold leading-4;
+  }
+
+  .text-medium-md {
+    @apply text-base font-medium leading-6;
+  }
+
+  .text-medium-rg {
+    @apply text-sm font-medium leading-6;
+  }
+
+  .text-medium-sm {
+    @apply text-xs font-medium leading-4;
+  }
+}
+
+@font-face {
+  font-family: 'SUIT Variable';
+  font-weight: 100 900;
+  src: url('../../public/fonts/SUIT-Variable.woff2') format('woff2-variations');
+}
+
+body {
+  font-family: 'SUIT Variable', serif;
+}
