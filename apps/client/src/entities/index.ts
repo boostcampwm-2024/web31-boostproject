@@ -1,1 +1,2 @@
-export { GuideVideo } from './GuideVideo';
+export { GuideVideo } from './home/GuideVideo';
+export { WorkspaceItem } from './home/WorkspaceItem';
