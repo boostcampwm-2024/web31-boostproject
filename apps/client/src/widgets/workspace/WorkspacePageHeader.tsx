@@ -2,7 +2,7 @@ import { RedoButton, SaveButton, UndoButton, WorkspaceNameInput } from '@/featur
 
 import { Logo } from '@/shared/ui';
 
-export const WorkspaceHeader = () => {
+export const WorkspacePageHeader = () => {
   return (
     <div className="flex h-14 w-full items-center justify-between border-b border-gray-100 pl-8 pr-4">
       <div className="flex items-center gap-5">
