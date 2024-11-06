@@ -1,4 +1,4 @@
-import { GuidesBox, WorkspaceContainer } from '@/widgets/index';
+import { GuidesBox, WorkspaceModal, WorkspaceContainer } from '@/widgets/index';
 import { HomeHeader } from '@/widgets/index';
 
 export const App = () => {
@@ -7,6 +7,7 @@ export const App = () => {
       <HomeHeader />
       <GuidesBox />
       <WorkspaceContainer />
+      <WorkspaceModal />
     </>
   );
 };
