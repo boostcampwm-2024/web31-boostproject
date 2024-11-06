@@ -1,4 +1,4 @@
-import { SquareButton } from '@/shared/ui/button/SquareButton';
+import { ModalConfirm, SquareButton } from '@/shared/ui';
 
 type WorkspaceModalProps = {};
 
@@ -12,7 +12,7 @@ export const WorkspaceModal = () => {
   ];
 
   return (
-    <>
+    <ModalConfirm>
       <p>[워크스페이스 이름]을 삭제하시겠습니까?</p>
       <div>
         {buttonContents.map((content, index) => (
@@ -21,6 +21,6 @@ export const WorkspaceModal = () => {
           </SquareButton>
         ))}
       </div>
-    </>
+    </ModalConfirm>
   );
 };

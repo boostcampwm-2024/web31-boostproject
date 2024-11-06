@@ -1,5 +1,15 @@
-type ModalConfirmProps = {};
+import { ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 
-export const ModalConfirm = () => {
-  return <></>;
+type ModalConfirmProps = {
+  children: ReactNode;
+};
+
+export const ModalConfirm = ({ children }: ModalConfirmProps) => {
+  return createPortal(
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">
+      <div className="bg-gray-white shadow-drop rounded-3xl px-10 py-[36px]">{children}</div>
+    </div>,
+    document.body
+  );
 };
