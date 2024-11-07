@@ -30,7 +30,7 @@ export const WorkspaceModal = ({ workspaceName = '[워크스페이스 이름]' }
       <div className="text-center">
         <div className="mb-10 flex flex-col items-center justify-center gap-3 text-center">
           <BooDuckFrontSVG />
-          <p className="text-semibold-lg whitespace-pre-line text-gray-500">
+          <p className="text-semibold-lg whitespace-pre-line leading-tight text-gray-500">
             {`${workspaceName}을 
             삭제하시겠습니까?`}
           </p>
