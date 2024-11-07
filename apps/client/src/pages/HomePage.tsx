@@ -1,12 +1,20 @@
-import { GuidesBox, HomeHeader, WorkspaceContainer, WorkspaceModal } from '@/widgets';
+import {
+  EmptyWorkspace,
+  GuidesBox,
+  HomeHeader,
+  WorkspaceContainer,
+  WorkspaceModal,
+} from '@/widgets';
 
 export const HomePage = () => {
   return (
-    <>
-      <HomeHeader />
+    <div className="flex h-full w-full flex-col items-center">
+      <HomeHeader isBlack={true} />
       <GuidesBox />
       <WorkspaceContainer />
+      <EmptyWorkspace />
+
       <WorkspaceModal />
-    </>
+    </div>
   );
 };

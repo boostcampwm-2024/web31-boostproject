@@ -8,6 +8,7 @@
     "swagger-auto": "ts-node src/docs/swaggerAutogen.ts"
   },
   "dependencies": {
+    "dotenv": "^16.4.5",
     "express": "^4.21.1",
     "mongoose": "^8.8.0"
   },
