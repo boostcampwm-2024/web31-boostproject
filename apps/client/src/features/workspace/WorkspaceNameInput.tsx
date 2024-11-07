@@ -1,8 +1,8 @@
 export const WorkspaceNameInput = () => {
-  //TODO 워크스페이스 이름 변경 로직 필요
+  // TODO: 워크스페이스 이름 변경 로직 필요
   const handleBlur = () => {};
 
-  //TODO 워크스페이스 이름 존재 시 placeholder가 그에 맞추어 변경되어야함
+  // TODO: 워크스페이스 이름 존재 시 placeholder가 그에 맞추어 변경되어야함
   return (
     <input
       placeholder="워크스페이스 이름"

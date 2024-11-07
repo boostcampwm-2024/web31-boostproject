@@ -1,5 +1,6 @@
 import YouTube, { YouTubeProps } from 'react-youtube';
 
+// TODO: 뒤에 props 붙이기 T 없애기 (props이므로)
 type TvideoId = {
   videoId: string;
 };

@@ -7,7 +7,7 @@ const meta: Meta<typeof GuideVideo> = {
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
+  tags: ['auTODO:cs'],
   argTypes: {
     videoId: {
       control: 'text',

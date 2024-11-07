@@ -7,7 +7,7 @@ const meta: Meta<typeof EmptyWorkspace> = {
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
+  tags: ['auTODO:cs'],
 };
 
 export default meta;
