@@ -1,4 +1,4 @@
-import { WorkspaceAddBtn } from '../../features/home/WorkspaceAddBtn';
+import { WorkspaceAddBtn } from '@/entities';
 
 export const WorkspaceHeader = () => {
   return (

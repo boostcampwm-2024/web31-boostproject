@@ -1,4 +1,4 @@
-import { WorkspaceItem } from '@/entities/home/WorkspaceItem';
+import { WorkspaceItem } from '@/entities';
 
 export const WorkspaceList = () => {
   const mockData = [

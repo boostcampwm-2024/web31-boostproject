@@ -1,4 +1,4 @@
-import { GuideVideo } from '@/entities/index';
+import { GuideVideo } from '@/entities';
 
 export const GuidesBox = () => {
   return (
