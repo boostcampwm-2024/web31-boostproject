@@ -1,6 +1,7 @@
 import { Logo } from '@/shared/ui';
 import NotFoundIcon from '@/shared/assets/not_found_icon.svg?react';
 
+// TODO: 메세지 상수화 shared/utils/constants.ts 안에 관리
 export const NotFound = () => {
   return (
     <>

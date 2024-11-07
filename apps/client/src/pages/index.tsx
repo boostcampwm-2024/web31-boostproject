@@ -4,6 +4,7 @@ import { Route } from 'react-router-dom';
 import { Routes } from 'react-router-dom';
 import { WorkspacePage } from '@/pages/WorkspacePage';
 
+// TODO: 라우팅을 app에서 처리하고, 여기는 page관련 export 코드만! (fsd규칙)
 export const Routing = () => {
   return (
     <Routes>
