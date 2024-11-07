@@ -1,13 +1,14 @@
-import { BrowserRouter } from 'react-router-dom';
-import { Routing } from '@/pages';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { HomePage, NotFound, WorkspacePage } from '@/pages';
 
-// TODO: 라우팅 설정 여기서 다 처리
-export const App = () => {
-  return (
-    <BrowserRouter>
-      <Routing />
-    </BrowserRouter>
-  );
-};
+export const App = () => (
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/workspace/:workspaceId" element={<WorkspacePage />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  </BrowserRouter>
+);
 
 export default App;
