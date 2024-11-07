@@ -1,18 +1,15 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import routes from './routes/v1/index';
+import { swaggerUi } from './docs/swagger';
+import swaggerDocument from './docs/swagger-output.json';
+import './config/dbConnection';
 
 const app = express();
 
 // 미들웨어 설정
 app.use(express.json());
 
-// 간단한 라우트 설정
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello, Express with TypeScript!');
-});
-
-// 404 핸들러
-app.use((req: Request, res: Response) => {
-  res.status(404).send('Not Found');
-});
+app.use('/', routes);
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 export default app;
