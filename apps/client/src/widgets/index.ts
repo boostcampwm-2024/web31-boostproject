@@ -5,3 +5,5 @@ export { WorkspaceHeader } from './home/WorkspaceHeader';
 export { EmptyWorkspace } from './home/EmptyWorkspace';
 export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
 
+export { WorkspaceContainer } from './home/WorkspaceContainer';
+export { WorkspaceModal } from './home/WorkspaceModal';

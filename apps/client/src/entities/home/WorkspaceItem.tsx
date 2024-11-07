@@ -1,4 +1,5 @@
 import TrashSVG from '@/shared/assets/trash.svg?react';
+import { useModalStore } from '@/shared/store/useModalStore';
 
 type WorkspaceItemProps = {
   title: string;
@@ -7,9 +8,11 @@ type WorkspaceItemProps = {
 };
 
 export const WorkspaceItem = ({ title, thumbnail, lastEdited }: WorkspaceItemProps) => {
+  const { openModal: onOpen } = useModalStore();
+
   return (
     <li className="shadow-drop relative rounded-lg">
-      <button className="absolute right-2 top-2 text-gray-300 hover:text-red-500">
+      <button className="absolute right-2 top-2 text-gray-300 hover:text-red-500" onClick={onOpen}>
         <TrashSVG width={16} />
       </button>
       <div className="flex h-[180px] overflow-hidden bg-gray-50">
