@@ -1,7 +1,6 @@
 import PlusSVG from '@/shared/assets/plus.svg?react';
 import { CircleButton } from '@/shared/ui';
 
-// TODO: feature는 이사
 export const WorkspaceAddBtn = () => {
   const handleClick = () => {};
 
