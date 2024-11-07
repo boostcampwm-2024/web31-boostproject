@@ -9,7 +9,7 @@ export const WorkspaceList = () => {
     { room_id: 5, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
   ];
   return (
-    <ul className="grid-cols-list grid justify-start gap-x-6 gap-y-8">
+    <ul className="grid-cols-list grid w-[1128px] justify-start gap-x-6 gap-y-8">
       {mockData.map((data) => (
         <WorkspaceItem
           key={data.room_id}

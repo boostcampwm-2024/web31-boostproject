@@ -1,13 +1,19 @@
+import { HoveredEmptyWorkspace } from '@/entities/home/HoveredEmptyWorkspace';
+import { NotHoveredEmptyWorkspace } from '@/entities/home/NotHoveredEmptyWorkspace';
 import { useState } from 'react';
 
-// TODO: 빈 워크스페이스 코드로 구현하기
 export const EmptyWorkspace = () => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <></>
-    // <div onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-    //   {isHovered ? <HoveredEmptyWorkspace /> : <EmptyIcon />}
-    // </div>
+    <div
+      className="flex h-[23rem] w-full justify-center"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="w-[1128px]">
+        {isHovered ? <HoveredEmptyWorkspace /> : <NotHoveredEmptyWorkspace />}
+      </div>
+    </div>
   );
 };
