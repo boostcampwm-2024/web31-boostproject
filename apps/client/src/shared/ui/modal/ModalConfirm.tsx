@@ -4,11 +4,10 @@ import { createPortal } from 'react-dom';
 type ModalConfirmProps = {
   children: ReactNode;
   isOpen: boolean;
-  onClose: () => void;
 };
 
-export const ModalConfirm = ({ children, isOpen, onClose }: ModalConfirmProps) => {
-  // if (!isOpen) return null;
+export const ModalConfirm = ({ children, isOpen }: ModalConfirmProps) => {
+  if (!isOpen) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-40 backdrop-blur-sm">

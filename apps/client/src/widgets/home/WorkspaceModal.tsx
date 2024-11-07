@@ -1,10 +1,9 @@
 import { ModalConfirm, SquareButton } from '@/shared/ui';
 import BooDuckFrontSVG from '@/shared/assets/booduck_front.svg?react';
+import { useModalStore } from '@/shared/store/useModalStore';
 
 type WorkspaceModalProps = {
   workspaceName?: string;
-  isOpen: boolean;
-  onClose: () => void;
 };
 
 type TbuttonContent = {
@@ -13,20 +12,21 @@ type TbuttonContent = {
   type: 'neutral' | 'danger';
 };
 
-export const WorkspaceModal = ({
-  workspaceName = '[워크스페이스 이름]',
-  isOpen,
-  onClose,
-}: WorkspaceModalProps) => {
-  const removeWorkspace = () => {};
+export const WorkspaceModal = ({ workspaceName = '[워크스페이스 이름]' }: WorkspaceModalProps) => {
+  const { isModalOpen: isOpen, closeModal: onClose } = useModalStore();
+
+  const removeWorkspace = () => {
+    // TODO: 워크스페이스 삭제
+    onClose();
+  };
 
   const buttonContents: TbuttonContent[] = [
-    { name: '아차차~', func: removeWorkspace, type: 'neutral' },
-    { name: '지울래요', func: onClose, type: 'danger' },
+    { name: '아차차~', func: onClose, type: 'neutral' },
+    { name: '지울래요', func: removeWorkspace, type: 'danger' },
   ];
 
   return (
-    <ModalConfirm isOpen={isOpen} onClose={onClose}>
+    <ModalConfirm isOpen={isOpen}>
       <div className="text-center">
         <div className="mb-10 flex flex-col items-center justify-center gap-3 text-center">
           <BooDuckFrontSVG />
@@ -38,7 +38,7 @@ export const WorkspaceModal = ({
 
         <div className="flex gap-3">
           {buttonContents.map((content, index) => (
-            <SquareButton key={index} onClick={() => content.func} variant={content.type}>
+            <SquareButton key={index} onClick={() => content.func()} variant={content.type}>
               {content.name}
             </SquareButton>
           ))}
