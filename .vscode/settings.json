@@ -3,5 +3,10 @@
   "prettier.prettierPath": "./node_modules/prettier",
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
-  }
+  },
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ]
 }

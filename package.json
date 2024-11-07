@@ -18,5 +18,8 @@
   "packageManager": "pnpm@9.12.3",
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "husky": "^9.1.6"
   }
 }
