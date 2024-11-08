@@ -30,7 +30,8 @@
 ## 🎨 기획/디자인 [[Detail Link]](https://www.figma.com/design/nv2pP4yUPGkdoaie2SHsfR/%EB%94%94%EC%9E%90%EC%9D%B8%EB%B3%B4%EB%93%9C?node-id=187-749&node-type=section&t=LUI7l6jpqnPLsfTc-0)
 
 
-![image](https://github.com/user-attachments/assets/f4d110cb-162b-4466-9afb-9d81faf63dad)
+![image](https://github.com/user-attachments/assets/d94c33aa-04be-45d2-adae-00b715e901f5)
+
 
 
 <br />
@@ -46,3 +47,53 @@
 |협업|![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)|
 
 <br />
+
+## 🧑‍🏫 구조
+
+![image](https://github.com/user-attachments/assets/11f3904e-c0f0-4cf0-a516-f69578740fe5)
+
+![image](https://github.com/user-attachments/assets/b91a3f64-4113-4207-a0b2-142a80c71b4c)
+
+![image](https://github.com/user-attachments/assets/3e90d6f3-cce6-464b-9356-79564532165c)
+
+<br />
+
+## 📈 진행 사항
+
+![image](https://github.com/user-attachments/assets/ab31430b-7f7a-4607-8e19-47b905074c61)
+
+
+![image](https://github.com/user-attachments/assets/53e3c214-276f-448d-be7b-5ceb4cfa094a)
+
+
+<br />
+
+## 🛹 메인 예상 디자인
+
+![image](https://github.com/user-attachments/assets/d41ffef5-0eb3-48a5-af99-8e8b4bd37c80)
+
+<br />
+
+## ⭐ 팀 목표
+### v 0.0.0
+1. 코드품질: 누가 봐도 깔끔한 코드를 작성한다.
+    - 컨벤션 준수 → ESLint와 Prettier로 검증한다.
+2. 동작이 1순위이다.
+    - 조립한 블록을 통해 HTML, CSS 코드 결과를 확인할 수 있다.
+    - 블록리 라이브러리의 기능 중 몇 가지를 직접 구현한다.
+    - 사용자 중심 서비스를 구현한다. (FE 5명 다운 결과물을 만든다.)
+        - 렌더링 최적화
+        - 이미지 최적화
+        - 크로스브라우징 (크롬, 엣지)
+        - 데이터 패칭에 끊김이 없다. (로딩중, 에러화면 처리 및 패칭이 오래 걸리게 하지 않는다)
+        - 스켈레톤 UI로 경험 사용자 경험 개선
+    - 스토리 하나를 구현할 때마다 최소 1가지 테스트를 작성한다.
+3. 성공적인 배포
+    - 하나의 서비스를 완성한다. (버전 업하는 식으로 개선시키기)
+    - 서비스를 사용한 유저한테 피드백을 받아서 보완한다.
+4. 개발자적 성장
+    - 모두가 모든 코드를 이해한다. (`어? 제 파트 아닌데요` 금지)
+    - 용두사미가 되지 않는다. (저희는 개발자입니다.) (`여기까지만 하죠` 금지)
+5. WE ARE TEAM 
+    - 프로젝트가 끝나고 다 같이 🏕️ **글램핑**을 가는 사이가 된다.
+
