@@ -20,8 +20,8 @@
 
 ## 📌 그라운드룰 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%E2%9B%B3%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0)
 
-![image](https://github.com/user-attachments/assets/9151ea57-d655-4bb8-9624-b807b10911e4)
-![image](https://github.com/user-attachments/assets/04782b0b-f00a-41e0-8b41-ab6abfa68d4a)
+![image](https://github.com/user-attachments/assets/13266929-faed-4da6-9d77-3ee02e39c1b2)
+
 
 
 
@@ -70,7 +70,8 @@
 
 ## 🛹 메인 예상 디자인
 
-![image](https://github.com/user-attachments/assets/d41ffef5-0eb3-48a5-af99-8e8b4bd37c80)
+![image](https://github.com/user-attachments/assets/bdf41054-7d7a-448b-ab4a-0e8a01374c5e)
+
 
 <br />
 
