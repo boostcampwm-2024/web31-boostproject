@@ -19,14 +19,6 @@
 ## 🧙‍♀️ 협업 전략 [[Detail Link]](https://github.com/boostcampwm-2024/web31-boostproject/wiki/Git-%EC%A0%84%EB%9E%B5)
 ![image](https://github.com/user-attachments/assets/77ba519f-462d-4dc0-b315-b39a8070e3d3)
 
-<br />
-
-## 📌 그라운드룰 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%E2%9B%B3%EA%B7%B8%EB%9D%BC%EC%9A%B4%EB%93%9C-%EB%A3%B0)
-
-![image](https://github.com/user-attachments/assets/13266929-faed-4da6-9d77-3ee02e39c1b2)
-
-
-
 
 <br />
 
