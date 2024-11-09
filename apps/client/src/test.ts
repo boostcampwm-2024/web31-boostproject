@@ -1,5 +1,4 @@
-setTimeout(function () {
-  console.log('Hello');
-}, 1000);
-
-if (true) console.log('??');
+const a = 12;
+function test() {
+  console.log('a');
+}
