@@ -1,25 +1,33 @@
 {
-  "name": "BooLock",
+  "name": "boolock",
   "private": true,
-  "main": "index.js",
+  "packageManager": "pnpm@9.12.3",
+  "engines": {
+    "node": ">=20",
+    "pnpm": ">=9"
+  },
   "scripts": {
     "dev:client": "pnpm -F client dev",
     "dev:server": "pnpm -F server dev",
     "build:client": "pnpm -F client build",
     "install:all": "pnpm install -r",
+    "lint:client": "pnpm -F client lint",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
-    "swagger-auto": "pnpm -F server swagger-auto"
+    "swagger-auto": "pnpm -F server swagger-auto",
+    "prepare": "husky install",
+    "lint-staged:client": "lint-staged"
   },
   "devDependencies": {
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.8",
     "typescript": "^5.6.3"
   },
-  "packageManager": "pnpm@9.12.3",
-  "engines": {
-    "node": ">=20"
-  },
-  "dependencies": {
-    "husky": "^9.1.6"
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,md}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }
