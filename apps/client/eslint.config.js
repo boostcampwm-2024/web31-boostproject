@@ -1,44 +1,40 @@
-import { resolve, dirname } from 'path';
-import { fileURLToPath } from 'url';
-import typescriptEslintParser from '@typescript-eslint/parser';
+import defaultConfig from '@packages/eslint';
+import react from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import reactRefreshPlugin from 'eslint-plugin-react-refresh';
 import storybookPlugin from 'eslint-plugin-storybook';
 
-// __filename 및 __dirname 대체
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-const baseConfig = resolve(__dirname, 'tsconfig.json');
-
 export default [
+  defaultConfig.jsCommended,
+  defaultConfig.base,
   {
-    files: ['*.ts', '*.tsx'],
-    languageOptions: {
-      parser: typescriptEslintParser,
-      parserOptions: {
-        ecmaVersion: 12,
-        sourceType: 'module',
-        project: [baseConfig],
-      },
-    },
+    files: [...defaultConfig.base.files, '**/*.{jsx,tsx}'],
     plugins: {
+      ...defaultConfig.base.plugins,
+      react,
       'react-hooks': reactHooksPlugin,
       'react-refresh': reactRefreshPlugin,
       storybook: storybookPlugin,
     },
+    languageOptions: {
+      ...defaultConfig.base.languageOptions,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
     settings: {
       react: {
-        version: 'detect',
+        version: '18.3.1',
       },
       'import/resolver': {
-        typescript: {
-          project: [baseConfig],
-          alias: {
-            map: [['@', './src']],
-            extensions: ['.js', '.jsx', '.ts', '.tsx'],
-          },
+        alias: {
+          map: [['@', './src']],
+          extensions: ['.ts', '.tsx', '.js', '.jsx'],
         },
       },
     },
   },
+  defaultConfig.ignorePrettier,
 ];

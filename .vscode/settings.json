@@ -1,11 +1,25 @@
 {
   "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "prettier.requireConfig": true,
+  "eslint.enable": true,
+  "eslint.useFlatConfig": true,
+  "eslint.validate": ["javascript", "typescript", "javascriptreact", "html", "typescriptreact"],
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
+    "source.fixAll.eslint": "explicit"
   },
   "eslint.workingDirectories": [
     {
-      "mode": "auto"
+      "directory": "apps/client",
+      "!cwd": true,
+      "changeProcessCWD": true,
+      "configFile": "eslint.config.js"
+    },
+    {
+      "directory": "apps/server",
+      "!cwd": true,
+      "changeProcessCWD": true,
+      "configFile": "eslint.config.js"
     }
   ]
 }
