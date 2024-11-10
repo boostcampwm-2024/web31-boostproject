@@ -47,11 +47,7 @@
     "vite-plugin-svgr": "^4.3.0",
     "eslint-plugin-react-hooks": "^5.0.0",
     "eslint-plugin-react-refresh": "^0.4.14",
-    "eslint-plugin-storybook": "^0.11.0"
-  },
-  "eslintConfig": {
-    "extends": [
-      "plugin:storybook/recommended"
-    ]
+    "eslint-plugin-storybook": "^0.11.0",
+    "typescript-eslint": "^8.11.0"
   }
 }

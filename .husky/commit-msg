@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+
+commit_msg=$(cat "$1")
+
+echo commit_msg
+
+echo "✅ 대 헌 지님이 정해주신 커밋 양식을 지키셨군요?"

@@ -1,1 +1,18 @@
-npx lint-staged
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo "\033[33m🔍 pre-commit 훅을 실행합니다.\033[0m"
+
+echo "\033[34m📝 lint-staged script 실행...\033[0m"
+pnpm lint-staged || {
+    echo "\033[31m❌ Lint-staged script 실행을 실패하셨습니다.\033[0m"
+    exit 1
+}
+
+# echo "\033[34m📝 test 실행...\033[0m"
+# pnpm test || {
+#     echo "\033[31m❌ test script 실행을 실패하셨습니다.\033[0m"
+#     exit 1
+# }
+
+echo "\033[32m✅ prettier가 자동으로 수행되었으며, lint 검사를 모두 통과하셨습니다.\033[0m"
