@@ -26,6 +26,30 @@ const options = {
           },
           required: ['todoid', 'content'],
         },
+        Workspace: {
+          type: 'object',
+          properties: {
+            workspace_id: {
+              type: 'string',
+              example: 'b15eac31-3942-4192-9cbd-2e2cdd48da0a',
+            },
+            name: {
+              type: 'string',
+              example: '워크스페이스 이름',
+              default: '워크스페이스 이름',
+            },
+            thumbnail: {
+              type: 'string',
+              example: 'https://example.com/thumbnail.png',
+            },
+            updated_at: {
+              type: 'string',
+              format: 'date-time',
+              example: '2024-11-07T00:00:00.000Z',
+            },
+          },
+          required: ['workspace_id', 'name', 'updated_at'],
+        },
       },
     },
   },
@@ -34,4 +58,4 @@ const options = {
 
 const specs = swaggerJsdoc(options);
 
-export { options, swaggerUi, specs};
+export { options, swaggerUi, specs };
