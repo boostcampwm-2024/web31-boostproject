@@ -1,35 +1,13 @@
 import { Request, Response } from 'express';
-import { createTodo, getTodoById, getAllTodos, updateTodoById, deleteTodoById } from '../services/exampleService';
+import {
+  createTodo,
+  getTodoById,
+  getAllTodos,
+  updateTodoById,
+  deleteTodoById,
+} from '../services/exampleService';
 
 export const createTodoController = async (req: Request, res: Response): Promise<void> => {
-  /* 
-    #swagger.summary = '새로운 Todo 생성'
-    #swagger.description = '새로운 todo 항목을 생성합니다.'
-    #swagger.tags = ['Todos']
-    #swagger.requestBody = {
-      required: true,
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/Todo" 
-          }
-        }
-      }
-    }
-    #swagger.responses[201] = {
-      description: 'Todo 생성 성공',
-      content: {
-        "application/json": {
-          schema: {
-            $ref: "#/components/schemas/Todo"
-          }
-        }
-      }
-    }
-    #swagger.responses[500] = {
-      description: '서버 에러'
-    }
-  */
   try {
     const todo = await createTodo(req.body);
     res.status(201).json(todo);

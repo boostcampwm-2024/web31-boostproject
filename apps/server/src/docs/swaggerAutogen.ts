@@ -21,8 +21,8 @@ swaggerAutogenInstance(outputFile, endpointsFiles, options).then(() => {
     if (swaggerDoc.host && swaggerDoc.basePath) {
       swaggerDoc.servers = [
         {
-          url: `http://${swaggerDoc.host}${swaggerDoc.basePath}`
-        }
+          url: `http://${swaggerDoc.host}${swaggerDoc.basePath}`,
+        },
       ];
     }
     delete swaggerDoc.host;
