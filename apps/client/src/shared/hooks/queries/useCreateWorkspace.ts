@@ -12,15 +12,11 @@ export const useCreateWorkspace = () => {
   const { mutate } = useMutation<TcreatedWorkspaceDto, Error, void, unknown>({
     mutationFn: () => {
       setPending(true);
-      return workspaceApi.createWorkspace();
+      const userId = localStorage.getItem('userId') || crypto.randomUUID();
+      localStorage.setItem('userId', userId);
+      return workspaceApi.createWorkspace(userId);
     },
     onSuccess: (newWorkspace) => {
-      const workspaceList =
-        localStorage.getItem('workspaceList') !== null
-          ? (JSON.parse(localStorage.getItem('workspaceList')!) as Array<string>)
-          : [];
-      workspaceList.unshift(newWorkspace.newWorkspaceId);
-      localStorage.setItem('workspaceList', JSON.stringify(workspaceList));
       navigate(`/workspace/${newWorkspace.newWorkspaceId}`);
     },
     onError: (error) => {
