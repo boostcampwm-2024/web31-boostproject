@@ -1,11 +1,11 @@
 import { Instance } from './axiosInstance';
-import { TcreatedWorkspace } from '@/shared/types';
+import { TcreatedWorkspaceDto } from '@/shared/types';
 
 export const WorkspaceApi = () => {
   const createWorkspace = async () => {
     const response = await Instance.post('/workspace');
     if (response) {
-      return response.data as TcreatedWorkspace;
+      return response.data as TcreatedWorkspaceDto;
     }
     throw new Error('Invalid response from server');
   };
