@@ -57,3 +57,45 @@
 body {
   font-family: 'SUIT Variable', serif;
 }
+
+.blocklyToolboxDiv blocklyNonSelectable {
+  padding: 0;
+}
+
+.blocklyToolboxContents {
+  background-color: white;
+  height: 100%;
+  border-left: 1px #cdd9e4 solid;
+}
+
+.blocklyToolboxCategory {
+  padding: 0;
+  margin: 0;
+}
+
+.blocklyTreeRow {
+  width: 6rem;
+  height: auto;
+  background-color: white;
+  padding: 0.5rem 0;
+  margin: 0;
+  border-bottom: 1px #cdd9e4 solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blocklyTreeRowContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.blocklyTreeRow:hover {
+  cursor: pointer;
+}
+
+.blocklyTreeLabel {
+  @apply text-semibold-sm;
+}
