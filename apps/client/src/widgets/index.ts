@@ -7,3 +7,4 @@ export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
 
 export { WorkspaceContainer } from './home/WorkspaceContainer';
 export { WorkspaceModal } from './home/WorkspaceModal';
+export { WorkspaceContent } from './workspace/WorkspaceContent';
