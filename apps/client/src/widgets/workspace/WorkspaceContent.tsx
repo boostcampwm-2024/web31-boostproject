@@ -158,19 +158,23 @@ export const WorkspaceContent = () => {
       return;
     }
     const code = htmlCodeGenerator.workspaceToCode(workspace);
-    console.log(code);
     setHtmlCode(code);
   };
 
   return (
     <div className="flex">
-      <div id="blocklyDiv" style={{ width: '700px', height: '700px' }}></div>
+      <div id="blocklyDiv" style={{ width: '600px', height: '700px' }}></div>
       <div>
         <button className="h-[50px] w-[100px] bg-blue-400" onClick={generateHtmlCode}>
           변환하기
         </button>
-        <p className="h-[200px] w-[600px] bg-green-200">{htmlCode}</p>
-        <iframe srcDoc={htmlCode} className="h-[450px] w-[600px] bg-pink-200"></iframe>
+        <p className="h-[200px] w-[400px] bg-green-200">{htmlCode}</p>
+        <iframe srcDoc={htmlCode} className="h-[450px] w-[400px] bg-pink-200"></iframe>
+      </div>
+      <div className="bg-yellow-400 p-3">
+        <input type="text" placeholder="스타일명을 정해주세요" />
+        <button className="bg-red-500 px-2">추가</button>
+        {/* TODO: 서버에서 받은 cssList 나열 */}
       </div>
     </div>
   );
