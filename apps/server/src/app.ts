@@ -1,12 +1,19 @@
+import './config/dbConnection';
+
+import cors from 'cors';
 import express from 'express';
 import routes from './routes/v1/index';
-import { swaggerUi } from './docs/swagger';
 import swaggerDocument from './docs/swagger-output.json';
-import './config/dbConnection';
+import { swaggerUi } from './docs/swagger';
 
 const app = express();
 
 // 미들웨어 설정
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+  })
+);
 app.use(express.json());
 
 app.use('/', routes);
