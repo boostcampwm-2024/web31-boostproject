@@ -1,3 +1,3 @@
 export type TcreatedWorkspaceDto = {
-  workspaceId: string;
+  newWorkspaceId: string;
 };
