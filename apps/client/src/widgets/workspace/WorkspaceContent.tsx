@@ -86,7 +86,7 @@ Blockly.Blocks['text'] = {
 Blockly.Blocks['css_style'] = {
   init: function () {
     this.appendDummyInput().appendField(new Blockly.FieldTextInput('클래스명'), 'CLASS'); // "클래스명"은 초기값
-    this.setOutput(true, ""); // 이 블록을 다른 블록에 연결할 수 있도록 설정
+    this.setOutput(true); // 이 블록을 다른 블록에 연결할 수 있도록 설정
   },
 };
 
@@ -158,7 +158,6 @@ export const WorkspaceContent = () => {
       return;
     }
     const code = htmlCodeGenerator.workspaceToCode(workspace);
-    console.log('전체코드', code);
     setHtmlCode(code);
   };
 

@@ -1,5 +1,5 @@
 import TrashSVG from '@/shared/assets/trash.svg?react';
-import { useModalStore } from '@/shared/store/useModalStore';
+import { useModalStore } from '@/shared/store';
 
 type WorkspaceItemProps = {
   title: string;
