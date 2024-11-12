@@ -43,20 +43,18 @@ export const WorkspaceContainer = () => {
   }, [workspaceList]);
 
   return (
-    <>
-      <section className="pb-48">
-        <WorkspaceHeader />
-        <WorkspaceGrid>
-          {workspaceList &&
-            (workspaceList.length === 0 ? (
-              <EmptyWorkspace />
-            ) : (
-              <WorkspaceList workspaceList={workspaceList} />
-            ))}
-          {(isPending || isFetchingNextPage) && <SkeletonWorkspaceList skeletonNum={8} />}
-        </WorkspaceGrid>
-        <div ref={nextFetchTargetRef} className="h-3 w-full"></div>
-      </section>
-    </>
+    <section className="pb-48">
+      <WorkspaceHeader />
+      <WorkspaceGrid>
+        {workspaceList &&
+          (workspaceList.length === 0 ? (
+            <EmptyWorkspace />
+          ) : (
+            <WorkspaceList workspaceList={workspaceList} />
+          ))}
+        {(isPending || isFetchingNextPage) && <SkeletonWorkspaceList skeletonNum={8} />}
+      </WorkspaceGrid>
+      <div ref={nextFetchTargetRef} className="h-3 w-full"></div>
+    </section>
   );
 };
