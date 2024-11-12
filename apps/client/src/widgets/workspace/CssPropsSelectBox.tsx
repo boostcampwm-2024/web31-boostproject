@@ -31,7 +31,7 @@ export const CssPropsSelectBox = () => {
           <div
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`text-bold-sm flex h-[36px] w-[100px] cursor-pointer items-center rounded p-2 text-gray-200 ${selectedCategory === category ? 'text-gray-black bg-yellow-500' : ''}`}
+            className={`text-bold-sm flex h-[36px] w-[100px] cursor-pointer items-center rounded p-2 text-gray-200 ${selectedCategory === category && 'text-gray-black bg-yellow-500'}`}
           >
             {category}
           </div>
