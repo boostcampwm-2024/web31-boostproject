@@ -1,11 +1,15 @@
-import { useGetWorkspaceList } from '@/shared/hooks';
-import { WorkspaceHeader } from './WorkspaceHeader';
-import { WorkspaceList } from './WorkspaceList';
-import { EmptyWorkspace } from './EmptyWorkspace';
 import { useEffect, useRef } from 'react';
 
+import { EmptyWorkspace } from './EmptyWorkspace';
+import { SkeletonWorkspaceList } from '@/shared/ui';
+import { WorkspaceGrid } from '@/widgets';
+import { WorkspaceHeader } from './WorkspaceHeader';
+import { WorkspaceList } from './WorkspaceList';
+import { useGetWorkspaceList } from '@/shared/hooks';
+
 export const WorkspaceContainer = () => {
-  const { hasNextPage, fetchNextPage, isFetchingNextPage, workspaceList } = useGetWorkspaceList();
+  const { hasNextPage, fetchNextPage, isPending, isFetchingNextPage, workspaceList } =
+    useGetWorkspaceList();
 
   const nextFetchTargetRef = useRef<HTMLDivElement | null>(null);
 
@@ -39,16 +43,20 @@ export const WorkspaceContainer = () => {
   }, [workspaceList]);
 
   return (
-    <section className="pb-48">
-      <WorkspaceHeader />
-      {!workspaceList || workspaceList?.length === 0 ? (
-        <EmptyWorkspace />
-      ) : (
-        <>
-          <WorkspaceList workspaceList={workspaceList} />
-          <div ref={nextFetchTargetRef} className="h-3 w-full"></div>
-        </>
-      )}
-    </section>
+    <>
+      <section className="pb-48">
+        <WorkspaceHeader />
+        <WorkspaceGrid>
+          {workspaceList &&
+            (workspaceList.length === 0 ? (
+              <EmptyWorkspace />
+            ) : (
+              <WorkspaceList workspaceList={workspaceList} />
+            ))}
+          {(isPending || isFetchingNextPage) && <SkeletonWorkspaceList skeletonNum={8} />}
+        </WorkspaceGrid>
+        <div ref={nextFetchTargetRef} className="h-3 w-full"></div>
+      </section>
+    </>
   );
 };
