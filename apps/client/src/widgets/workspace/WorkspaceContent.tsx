@@ -223,7 +223,7 @@ export const WorkspaceContent = () => {
             CSS
           </button>
         </nav>
-        <div className="h-1/2">
+        <div className="h-1/2 border-b border-gray-100">
           {activeTab === 'preview' && (
             <iframe srcDoc={htmlCode} className="h-full w-full p-5"></iframe>
           )}
