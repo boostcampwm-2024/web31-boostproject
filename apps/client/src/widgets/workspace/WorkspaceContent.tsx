@@ -2,6 +2,52 @@ import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
+import { CssPropsSelectBox } from '@/widgets/workspace/CssPropsSelectBox';
+
+const toolboxConfig = {
+  kind: 'categoryToolbox',
+  contents: [
+    {
+      kind: 'category',
+      name: 'html',
+      contents: [
+        {
+          kind: 'block',
+          type: 'html',
+        },
+        {
+          kind: 'block',
+          type: 'head',
+        },
+        {
+          kind: 'block',
+          type: 'body',
+        },
+        {
+          kind: 'block',
+          type: 'p',
+        },
+        {
+          kind: 'block',
+          type: 'button',
+        },
+        {
+          kind: 'block',
+          type: 'text',
+        },
+      ],
+    },
+    {
+      kind: 'category',
+      name: 'css',
+      contents: [
+        { kind: 'button', text: '추가하기' },
+        { kind: 'block', type: 'css_style' },
+      ],
+      id: 'css_category',
+    },
+  ],
+};
 
 const customTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',
@@ -93,49 +139,12 @@ Blockly.Blocks['css_style'] = {
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
+  const [styleName, setStyleName] = useState('');
+
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       renderer: 'zelos',
-      toolbox: {
-        kind: 'categoryToolbox',
-        contents: [
-          {
-            kind: 'category',
-            name: 'html',
-            contents: [
-              {
-                kind: 'block',
-                type: 'html',
-              },
-              {
-                kind: 'block',
-                type: 'head',
-              },
-              {
-                kind: 'block',
-                type: 'body',
-              },
-              {
-                kind: 'block',
-                type: 'p',
-              },
-              {
-                kind: 'block',
-                type: 'button',
-              },
-              {
-                kind: 'block',
-                type: 'text',
-              },
-            ],
-          },
-          {
-            kind: 'category',
-            name: 'css',
-            contents: [{ kind: 'block', type: 'css_style' }],
-          },
-        ],
-      },
+      toolbox: toolboxConfig,
       theme: customTheme, // 커스텀 테마 적용
       zoom: {
         // 확대 및 축소 버튼 설정
@@ -148,6 +157,35 @@ export const WorkspaceContent = () => {
       },
     });
     setWorkspace(newWorkspace);
+
+    // CSS 카테고리가 열릴 때 input 필드를 동적으로 추가하는 함수
+    const addInputFieldToFlyout = () => {
+      const toolboxElement = document.querySelector('.blocklyFlyout');
+
+      if (toolboxElement) {
+        // 기존에 추가된 input 필드가 있는지 확인하고, 있으면 제거
+        let existingInputDiv = toolboxElement.querySelector('.custom-input');
+        if (existingInputDiv) {
+          existingInputDiv.remove();
+        }
+
+        // 새로운 input 필드 생성
+        const inputDiv = document.createElement('div');
+        inputDiv.className = 'custom-input';
+        inputDiv.style.padding = '5px';
+        inputDiv.innerHTML = `<input type="text" placeholder="스타일을 정해주세요" style="width: 90%;" />`;
+
+        // Flyout toolbox에 input 필드를 추가
+        toolboxElement.insertBefore(inputDiv, toolboxElement.firstChild);
+      }
+    };
+
+    // CSS 카테고리 열기를 감지하고 input 필드를 추가
+    newWorkspace.addChangeListener((event) => {
+      if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT && event.newItemId === 'css_category') {
+        addInputFieldToFlyout();
+      }
+    });
     return () => {
       newWorkspace.dispose();
     };
@@ -161,9 +199,36 @@ export const WorkspaceContent = () => {
     setHtmlCode(code);
   };
 
+  const handleAddCssClass = () => {
+    if (workspace && styleName.trim()) {
+      const blockType = `css_style_${styleName}`;
+      Blockly.Blocks[blockType] = {
+        init: function () {
+          this.appendDummyInput().appendField(new Blockly.FieldTextInput(styleName), 'CLASS');
+          this.setOutput(true);
+          this.setColour(200);
+        },
+      };
+
+      // CSS 카테고리에 동적으로 새 블록 추가
+      const toolbox = workspace.getToolbox();
+      console.log('toolbox', toolbox);
+      const cssCategory = toolbox?.getToolboxItemById('css_category');
+      console.log('181번째', cssCategory);
+      if (cssCategory) {
+        cssCategory.updateFlyoutContents([
+          ...cssCategory.getContents(),
+          { kind: 'block', type: blockType },
+        ]);
+      }
+
+      setStyleName(''); // 입력 필드 초기화
+    }
+  };
+
   return (
     <div className="flex">
-      <div id="blocklyDiv" style={{ width: '600px', height: '700px' }}></div>
+      <CssPropsSelectBox />
       <div>
         <button className="h-[50px] w-[100px] bg-blue-400" onClick={generateHtmlCode}>
           변환하기
@@ -171,11 +236,7 @@ export const WorkspaceContent = () => {
         <p className="h-[200px] w-[400px] bg-green-200">{htmlCode}</p>
         <iframe srcDoc={htmlCode} className="h-[450px] w-[400px] bg-pink-200"></iframe>
       </div>
-      <div className="bg-yellow-400 p-3">
-        <input type="text" placeholder="스타일명을 정해주세요" />
-        <button className="bg-red-500 px-2">추가</button>
-        {/* TODO: 서버에서 받은 cssList 나열 */}
-      </div>
+      <div id="blocklyDiv" style={{ width: '600px', height: '700px' }}></div>
     </div>
   );
 };
