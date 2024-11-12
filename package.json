@@ -6,6 +6,7 @@
     "dev:client": "pnpm -F client dev",
     "dev:server": "pnpm -F server dev",
     "dev": "cross-env concurrently \"pnpm dev:client\" \"pnpm dev:server\"",
+    "storybook": "pnpm -F client storybook",
     "build:client": "pnpm -F client build",
     "install:all": "pnpm install -r",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
