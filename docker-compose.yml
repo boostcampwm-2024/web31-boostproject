@@ -1,52 +1,28 @@
-# services:
-#   base:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile.base
-#     image: base-image
-#     command: ['echo', 'Base image built']
-
-#   client:
-#     build:
-#       context: .
-#       dockerfile: ./apps/client/Dockerfile
-#       cache_from:
-#         - base-image
-#     depends_on:
-#       - base
-#     ports:
-#       - '80:80'
-
-#   server:
-#     build:
-#       context: .
-#       dockerfile: ./apps/server/Dockerfile
-#       cache_from:
-#         - base-image
-#     depends_on:
-#       - base
-#     ports:
-#       - '3000:3000'
-
 services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: base-image
+
   frontend:
     build:
       context: .
       dockerfile: ./apps/client/Dockerfile
+      args:
+        BASE_IMAGE: base-image
     ports:
       - '80:80'
-    networks:
-      - app-network
+    depends_on:
+      - base
 
   backend:
     build:
       context: .
-      dockerfile: ./apps/server/Dockerfile
+      dockerfile: ./apps/client/Dockerfile
+      args:
+        BASE_IMAGE: base-image
     ports:
-      - '8080:8080'
-    networks:
-      - app-network
-
-networks:
-  app-network:
-    driver: bridge
+      - '3000:3000'
+    depends_on:
+      - base
