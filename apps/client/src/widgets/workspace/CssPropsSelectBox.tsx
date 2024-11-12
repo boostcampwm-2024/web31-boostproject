@@ -2,19 +2,43 @@ import { useState } from 'react';
 import Question from '@/shared/assets/question.svg?react';
 
 export const CssPropsSelectBox = () => {
-  const [selectedCategory, setSelectedCategory] = useState<keyof typeof categories>('레이아웃');
-  const [checkedProperties, setCheckedProperties] = useState<{ [key: string]: boolean }>({});
-
-  const categories: { [key: string]: string[] } = {
-    레이아웃: ['display', 'position', 'top', 'right', 'bottom', 'left', 'float', 'z-index'],
-    박스모델: ['width', 'height', 'box-sizing', 'overflow'],
-    타이포그래피: ['line-height', 'font-size', 'text-align', 'color'],
-    배경: ['background-color'],
-    테두리: ['border', 'border-radius', 'border-width'],
-    간격: ['margin', 'padding'],
-    'flex 속성': ['flex', 'flex-direction', 'justify-content', 'align-items'],
-    'grid 속성': ['grid', 'grid-template-rows', 'grid-template-comumns', 'gap'],
+  const cssCategoriesObj: { [key: string]: { label: string; items: string[] } } = {
+    layout: {
+      label: '레이아웃',
+      items: ['display', 'position', 'top', 'right', 'bottom', 'left', 'float', 'z-index'],
+    },
+    boxmodel: {
+      label: '박스모델',
+      items: ['width', 'height', 'box-sizing', 'overflow'],
+    },
+    typography: {
+      label: '타이포그래피',
+      items: ['line-height', 'font-size', 'text-align', 'color'],
+    },
+    background: {
+      label: '배경',
+      items: ['background-color'],
+    },
+    border: {
+      label: '테두리',
+      items: ['border', 'border-radius', 'border-width'],
+    },
+    spacing: {
+      label: '간격',
+      items: ['margin', 'padding'],
+    },
+    flexProperties: {
+      label: 'flex 속성',
+      items: ['flex', 'flex-direction', 'justify-content', 'align-items'],
+    },
+    gridProperties: {
+      label: 'grid 속성',
+      items: ['grid', 'grid-template-rows', 'grid-template-columns', 'gap'],
+    },
   };
+
+  const [selectedCategory, setSelectedCategory] = useState<keyof typeof cssCategoriesObj>('layout');
+  const [checkedProperties, setCheckedProperties] = useState<{ [key: string]: boolean }>({});
 
   // 체크박스 상태 변경 함수
   const handleCheckboxChange = (property: string) => {
@@ -27,18 +51,18 @@ export const CssPropsSelectBox = () => {
   return (
     <div className="flex h-[392px] w-[504px]">
       <div className="border-r border-r-gray-100 p-2">
-        {Object.keys(categories).map((category) => (
+        {Object.keys(cssCategoriesObj).map((cssCategory) => (
           <div
-            key={category}
-            onClick={() => setSelectedCategory(category)}
-            className={`text-bold-sm flex h-[36px] w-[100px] cursor-pointer items-center rounded p-2 text-gray-200 ${selectedCategory === category && 'text-gray-black bg-yellow-500'}`}
+            key={cssCategory}
+            onClick={() => setSelectedCategory(cssCategory)}
+            className={`text-bold-sm flex h-[36px] w-[100px] cursor-pointer items-center rounded p-2 text-gray-200 ${selectedCategory === cssCategory && 'text-gray-black bg-yellow-500'}`}
           >
-            {category}
+            {cssCategory}
           </div>
         ))}
       </div>
       <div className="space-y-2 overflow-hidden p-3">
-        {categories[selectedCategory].map((property, index) => (
+        {cssCategoriesObj[selectedCategory].items.map((property, index) => (
           <div
             key={index}
             className={`flex h-[66px] w-[344px] items-center rounded-lg px-4 ${
