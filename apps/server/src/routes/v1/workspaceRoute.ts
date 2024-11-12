@@ -5,10 +5,26 @@ export const workspaceRouter = express.Router();
 
 const workspaceController = WorkspaceController();
 
-workspaceRouter.post('/', workspaceController.createNewWorkspace);
 workspaceRouter.get('/', workspaceController.getWorkspaceListByPage);
-
-/**
- * /workspace?pageNum=0
- * header userId : userId
- */
+workspaceRouter.post(
+  '/',
+  workspaceController.createNewWorkspace
+  /* 
+    #swagger.summary = '새로운 워크스페이스 생성'
+    #swagger.description = '새로운 워크스페이스를 생성합니다.'
+    #swagger.tags = ['Workspace']
+    #swagger.responses[201] = {
+      description: 'success',
+      content: {
+        "application/json": {
+          schema: {
+            $ref: "#/components/schemas/Workspace"
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: 'internal server error'
+    }
+  */
+);
