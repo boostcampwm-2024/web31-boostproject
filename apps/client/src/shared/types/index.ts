@@ -1,1 +1,6 @@
-export type { TcreatedWorkspaceDto } from './workspaceType';
+export type {
+  TcreatedWorkspaceDto,
+  TworkspaceDto,
+  TpagedWorkspaceListResult,
+  Tcursor,
+} from './workspaceType';
