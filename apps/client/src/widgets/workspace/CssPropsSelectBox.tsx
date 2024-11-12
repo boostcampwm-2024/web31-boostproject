@@ -49,7 +49,7 @@ export const CssPropsSelectBox = () => {
   };
 
   return (
-    <section className="flex h-[392px] w-[504px]">
+    <section className="flex h-[392px] w-full">
       <nav className="border-r border-r-gray-100 p-2">
         {Object.keys(cssCategoriesObj).map((cssCategory) => (
           <button
