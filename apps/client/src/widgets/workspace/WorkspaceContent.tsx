@@ -206,7 +206,7 @@ export const WorkspaceContent = () => {
         <nav className="h-10 border-b border-gray-100">
           <button
             onClick={() => setActiveTab('preview')}
-            className={`${activeTab === 'preview' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'}  h-full w-1/3 border-r border-gray-100 bg-green-500`}
+            className={`${activeTab === 'preview' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full w-1/3 border-r border-gray-100 bg-green-500`}
           >
             미리보기
           </button>
@@ -224,8 +224,12 @@ export const WorkspaceContent = () => {
           </button>
         </nav>
         <div className="h-1/2">
-          {activeTab === 'preview' && <iframe srcDoc={htmlCode} className="h-full w-full"></iframe>}
-          {activeTab === 'html' && <p className="h-full w-full">{htmlCode}</p>}
+          {activeTab === 'preview' && (
+            <iframe srcDoc={htmlCode} className="h-full w-full p-5"></iframe>
+          )}
+          {activeTab === 'html' && (
+            <pre className="h-full w-full whitespace-pre-wrap p-5">{htmlCode}</pre>
+          )}
           {activeTab === 'css' && <p>css 파싱 기능은 구현 중 입니다.</p>}
         </div>
         <CssPropsSelectBox />
