@@ -17,30 +17,48 @@ export const WorkspaceService = () => {
 
   /**
    * @description
-   * workspace 페이지네이션 get 메서드
-   * userId : header,  page : query string
+   * workspace 커서 기반 페이지네이션 메소드
    * @param userId
-   * @param page
-   * @return
-   * totalWorkspaceCount : 해당 유저의 총 워크스페이스 개수
-   * currentPage : 현재 페이지
-   * workspacePerPage : 페이지 당 워크스페이스 수
+   * @param cursor
+   * @return {workspaceList , nextCursor}
+   * workspaceList : 현재 페이지의 워크스페이스
+   * nextCursor : 다음 페이지네이션 시작 커서
    */
-  const findWorkspaceListByPage = async (userId: string, page: number) => {
+
+  const findWorkspaceListByPage = async (
+    userId: string,
+    cursor: { updatedAt: string; workspaceId: string } | null
+  ) => {
     try {
-      const totalWorkspace = await Workspace.find({ user_id: userId });
-      const totalWorkspaceCount = totalWorkspace.length;
-      const workspaceListOfCurrentPage = await Workspace.find({ user_id: userId })
-        .skip(20 * page)
+      const query: any = { user_id: userId };
+      if (cursor) {
+        query.$or = [
+          { updated_at: { $lt: cursor.updatedAt } },
+          { updated_at: cursor.updatedAt, workspace_id: { $gt: cursor.workspaceId } },
+        ];
+      }
+      const workspaceList = await Workspace.find(query)
+        .sort({ updated_at: -1, workspace_id: 1 })
         .limit(20);
+      let nextCursor = null;
+      if (workspaceList.length === 20) {
+        nextCursor = {
+          updatedAt: workspaceList[19].updated_at,
+          workspaceId: workspaceList[19].workspace_id,
+        };
+      }
       return {
-        totalWorkspaceCount,
-        workspaceListOfCurrentPage,
-        currentPage: page,
-        workspacePerPage: 20,
+        workspaceList,
+        nextCursor,
       };
-    } catch (error) {}
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to get workspaceList : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while getting workspaceList`);
+    }
   };
+
   return {
     createWorkspace,
     findWorkspaceListByPage,
