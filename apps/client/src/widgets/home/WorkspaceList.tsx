@@ -1,23 +1,24 @@
 import { WorkspaceItem } from '@/entities';
+import { TworkspaceDto } from '@/shared/types';
 
-export const WorkspaceList = () => {
-  const mockData = [
-    { room_id: 1, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-    { room_id: 2, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-    { room_id: 3, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-    { room_id: 4, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-    { room_id: 5, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-  ];
+type workspaceListProps = {
+  workspaceList: Array<TworkspaceDto>;
+};
+
+export const WorkspaceList = ({ workspaceList }: workspaceListProps) => {
   return (
     <ul className="grid-cols-list grid w-[1128px] justify-start gap-x-6 gap-y-8">
-      {mockData.map((data) => (
-        <WorkspaceItem
-          key={data.room_id}
-          title={data.name}
-          thumbnail={data.thumbnail}
-          lastEdited={data.updated_at}
-        />
-      ))}
+      {workspaceList.map((workspace) => {
+        console.log(workspace.updated_at);
+        return (
+          <WorkspaceItem
+            key={workspace.workspace_id}
+            title={workspace.name}
+            thumbnail={workspace.thumbnail || ''}
+            lastEdited={workspace.updated_at}
+          />
+        );
+      })}
     </ul>
   );
 };

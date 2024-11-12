@@ -7,9 +7,29 @@ type WorkspaceItemProps = {
   lastEdited: string;
 };
 
+const formatDate = (dateString: string) => {
+  const date = new Date(dateString);
+  const now = new Date();
+  const rtf = new Intl.RelativeTimeFormat('ko', { numeric: 'auto' });
+  const diffMinutes = Math.floor((date.getTime() - now.getTime()) / (1000 * 60));
+  const diffHours = Math.floor(diffMinutes / 60);
+  console.log(diffMinutes);
+  if (diffMinutes > -60) {
+    return rtf.format(diffMinutes, 'minute');
+  }
+
+  if (diffHours > -24) {
+    return rtf.format(diffHours, 'hour');
+  }
+  return new Intl.DateTimeFormat('ko', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  }).format(date);
+};
+
 export const WorkspaceItem = ({ title, thumbnail, lastEdited }: WorkspaceItemProps) => {
   const { openModal: onOpen } = useModalStore();
-
   return (
     <li className="shadow-drop relative rounded-lg">
       <button className="absolute right-2 top-2 text-gray-300 hover:text-red-500" onClick={onOpen}>
@@ -24,7 +44,7 @@ export const WorkspaceItem = ({ title, thumbnail, lastEdited }: WorkspaceItemPro
 
       <aside className="p-4 pb-6">
         <h4 className="text-bold-md mb-1.5 text-gray-500">{title}</h4>
-        <p className="text-medium-sm text-gray-200">{lastEdited}</p>
+        <p className="text-medium-sm text-gray-200">{formatDate(lastEdited)}</p>
       </aside>
     </li>
   );
