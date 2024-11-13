@@ -19,7 +19,7 @@ workspaceRouter.get(
     }
     #swagger.parameters['cursor'] = {
       in: 'query',
-      description: '커서 정보입니다. ex: {updatedAt: 2024-11-07T00:00:00.000Z, workspaceId: workspace-id}',
+      description: '커서 정보입니다. ex: {updatedAt: 2024-11-07T00:00:00.000Z, workspaceId: b15eac31-3942-4192-9cbd-2e2cdd48da0a}',
       required: false,
       type: 'string',
     }
@@ -104,4 +104,56 @@ workspaceRouter.get(
     }
   */
   workspaceController.getWorkspaceInfo
+);
+
+workspaceRouter.patch(
+  '/name',
+  /* 
+    #swagger.summary = '워크스페이스 이름 변경'
+    #swagger.description = 'user id 와 workspace id로 워크스페이스를 조회 후 새로운 워크스페이스 이름으로 변경합니다.'
+    #swagger.tags = ['Workspace']
+    #swagger.parameters['user-id'] = {
+      in: 'header',
+      description: '유저 아이디 (UUID 형식)',
+      type: 'string',
+      required: true,
+    }
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: 'object',
+            properties: {
+              workspaceId: {
+                type: 'string',
+                example: 'b15eac31-3942-4192-9cbd-2e2cdd48da0a',
+              },
+              newName: {
+                type: 'string',
+                example: '새로운 워크스페이스 이름',
+              },
+            },
+          }
+        }
+      }
+    }
+    #swagger.responses[200] = {
+      description: 'success',
+      content : {
+        "application/json" : {
+          schema: {
+            $ref: '#/components/schemas/Workspace'
+          }
+        }
+      }
+    }
+    #swagger.responses[404] = {
+      description: 'Not Found'
+    }
+    #swagger.responses[500] = {
+      description: 'internal server error'
+    }
+  */
+  workspaceController.editWorkspaceName
 );
