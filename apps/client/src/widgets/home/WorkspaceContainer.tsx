@@ -46,15 +46,15 @@ export const WorkspaceContainer = () => {
       {isError ? (
         <WorkspaceLoadError />
       ) : (
-        <WorkspaceGrid>
-          {workspaceList &&
-            (workspaceList.length === 0 ? (
-              <EmptyWorkspace />
-            ) : (
-              <WorkspaceList workspaceList={workspaceList} />
-            ))}
-          {(isPending || isFetchingNextPage) && <SkeletonWorkspaceList skeletonNum={8} />}
-        </WorkspaceGrid>
+        workspaceList &&
+        (workspaceList.length === 0 ? (
+          <EmptyWorkspace />
+        ) : (
+          <WorkspaceGrid>
+            <WorkspaceList workspaceList={workspaceList} />
+            {(isPending || isFetchingNextPage) && <SkeletonWorkspaceList skeletonNum={8} />}
+          </WorkspaceGrid>
+        ))
       )}
       {!isPending && !isFetchingNextPage && hasNextPage && (
         <div ref={nextFetchTargetRef} className="h-3 w-full"></div>
