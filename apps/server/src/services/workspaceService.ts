@@ -59,12 +59,16 @@ export const WorkspaceService = () => {
     }
   };
 
+  // TODO: 워크스페이스 상태도 불러와야 함
   const findWorkspaceByWorkspaceId = async (userId: string, workspaceId: string) => {
     try {
-      const workspace = await Workspace.find({
-        user_id: userId,
-        workspace_id: workspaceId,
-      });
+      const workspace = await Workspace.findOne(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        { workspace_id: 1, name: 1, _id: 0, user_id: 0, updated_at: 0 }
+      );
       return workspace;
     } catch (error) {
       if (error instanceof Error) {
