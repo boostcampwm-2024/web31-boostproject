@@ -6,6 +6,15 @@ export type TpagedWorkspaceListResultDto = {
   pagedWorkspaceListResult: TpagedWorkspaceListResult;
 };
 
+export type TgetWorkspaceResponse = {
+  workspaceDto: TworkspaceDto;
+};
+
+export type TworkspaceDto = {
+  workspace_id: string;
+  name: string;
+};
+
 export type TpagedWorkspaceListResult = {
   workspaceList: Array<Tworkspace>;
   nextCursor: Tcursor | null;
