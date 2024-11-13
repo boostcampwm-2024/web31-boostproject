@@ -78,9 +78,26 @@ export const WorkspaceService = () => {
     }
   };
 
+  const updateWorkspaceName = async (userId: string, workspaceId: string, newName: string) => {
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        { user_id: userId, workspace_id: workspaceId },
+        { name: newName, updated_at: Date.now() },
+        { new: true }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to get workspace : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while getting workspace`);
+    }
+  };
+
   return {
     createWorkspace,
     findWorkspaceListByPage,
     findWorkspaceByWorkspaceId,
+    updateWorkspaceName,
   };
 };
