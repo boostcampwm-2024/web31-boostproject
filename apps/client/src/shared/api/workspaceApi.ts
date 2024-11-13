@@ -1,5 +1,6 @@
-import { Instance } from './axiosInstance';
 import { TcreatedWorkspaceDto, TpagedWorkspaceListResultDto } from '@/shared/types';
+
+import { Instance } from '@/shared/api';
 
 export const WorkspaceApi = () => {
   const createWorkspace = async (userId: string) => {
@@ -20,7 +21,7 @@ export const WorkspaceApi = () => {
 
   const getWorkspaceList = async (userId: string, cursor: string) => {
     const response = await Instance.get(
-      `/workspace${cursor !== 'null' ? `?cursor=${encodeURIComponent(cursor)}` : ''}`,
+      `/workspace/list${cursor !== 'null' ? `?cursor=${encodeURIComponent(cursor)}` : ''}`,
       {
         headers: { 'user-id': userId },
       }
