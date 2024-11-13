@@ -2,52 +2,15 @@ import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
+import CustomCategory from './customCategory';
 import { CssPropsSelectBox } from '@/widgets/workspace/CssPropsSelectBox';
 
-const toolboxConfig = {
-  kind: 'categoryToolbox',
-  contents: [
-    {
-      kind: 'category',
-      name: 'html',
-      contents: [
-        {
-          kind: 'block',
-          type: 'html',
-        },
-        {
-          kind: 'block',
-          type: 'head',
-        },
-        {
-          kind: 'block',
-          type: 'body',
-        },
-        {
-          kind: 'block',
-          type: 'p',
-        },
-        {
-          kind: 'block',
-          type: 'button',
-        },
-        {
-          kind: 'block',
-          type: 'text',
-        },
-      ],
-    },
-    {
-      kind: 'category',
-      name: 'css',
-      contents: [
-        { kind: 'button', text: '추가하기' },
-        { kind: 'block', type: 'css_style' },
-      ],
-      id: 'css_category',
-    },
-  ],
-};
+Blockly.registry.register(
+  Blockly.registry.Type.TOOLBOX_ITEM,
+  Blockly.ToolboxCategory.registrationName,
+  CustomCategory,
+  true
+);
 
 const customTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',
@@ -63,6 +26,29 @@ const customTheme = Blockly.Theme.defineTheme('custom', {
     insertionMarkerOpacity: 0.3,
     scrollbarOpacity: 0.001,
     cursorColour: '#d0d0d0',
+  },
+  categoryStyles: {
+    containerCategory: {
+      colour: 'FF3A61',
+    },
+    textCategory: {
+      colour: 'FFD900',
+    },
+    formCategory: {
+      colour: 'FF9821',
+    },
+    tableCategory: {
+      colour: 'B223F5',
+    },
+    listCategory: {
+      colour: '3ED5FF',
+    },
+    linkCategory: {
+      colour: '3E84FF',
+    },
+    etcCategory: {
+      colour: '00AF6F',
+    },
   },
 });
 
@@ -136,6 +122,81 @@ Blockly.Blocks['css_style'] = {
   },
 };
 
+const contents = [
+  {
+    kind: 'block',
+    type: 'html',
+  },
+  {
+    kind: 'block',
+    type: 'head',
+  },
+  {
+    kind: 'block',
+    type: 'body',
+  },
+  {
+    kind: 'block',
+    type: 'p',
+  },
+  {
+    kind: 'block',
+    type: 'button',
+  },
+  {
+    kind: 'block',
+    type: 'text',
+  },
+];
+
+const toolboxConfig = {
+  kind: 'categoryToolbox',
+  contents: [
+    {
+      kind: 'category',
+      name: '컨테이너',
+      categorystyle: 'containerCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '텍스트',
+      categorystyle: 'textCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '폼',
+      categorystyle: 'formCategory',
+      contents: [{ kind: 'block', type: 'css_style' }],
+    },
+    {
+      kind: 'category',
+      name: '표',
+      categorystyle: 'tableCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '리스트',
+      categorystyle: 'listCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '링크',
+      categorystyle: 'linkCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '기타',
+      categorystyle: 'etcCategory',
+      contents: contents,
+    },
+  ],
+};
+
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
@@ -144,6 +205,7 @@ export const WorkspaceContent = () => {
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       renderer: 'zelos',
+      toolboxPosition: 'end',
       toolbox: toolboxConfig,
       theme: customTheme, // 커스텀 테마 적용
       zoom: {
