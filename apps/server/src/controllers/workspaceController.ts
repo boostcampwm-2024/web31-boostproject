@@ -55,7 +55,7 @@ export const WorkspaceController = () => {
       const userId = req.get('user-id') as string;
       const workspaceId = req.query.workspaceId as string;
       const workspaceDto = await workspaceService.findWorkspaceByWorkspaceId(userId, workspaceId);
-      if (workspaceDto.length === 0) {
+      if (!workspaceDto) {
         throw new Error('Workspace not found');
       }
       res.status(200).json({ workspaceDto });
