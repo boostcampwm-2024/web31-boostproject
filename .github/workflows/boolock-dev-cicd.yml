@@ -25,7 +25,7 @@ jobs:
 
       - name: Set BE .env
         run: |
-          printf "MONGO_URI=\"${{ secrets.MONGO_URI }}\"\n" > apps/server/.env
+          echo "MONGO_URI=\"${{ secrets.MONGO_URI }}\"" > apps/server/.env
           echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> apps/server/.env
           echo "SSH_PORT=${{ secrets.SSH_PORT }}" >> apps/server/.env
           echo "SSH_USER=${{ secrets.SSH_USER }}" >> apps/server/.env
@@ -81,7 +81,7 @@ jobs:
             git checkout dev
             git pull
 
-            printf "MONGO_URI=\"${{ secrets.MONGO_URI }}\"\n" > apps/server/.env
+            echo "MONGO_URI=\"${{ secrets.MONGO_URI }}\"" > apps/server/.env
             echo "IS_LOCAL=false" >> apps/server/.env
 
             sudo docker-compose build base
