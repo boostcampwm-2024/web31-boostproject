@@ -7,11 +7,11 @@ export type TpagedWorkspaceListResultDto = {
 };
 
 export type TpagedWorkspaceListResult = {
-  workspaceList: Array<TworkspaceDto>;
+  workspaceList: Array<Tworkspace>;
   nextCursor: Tcursor | null;
 };
 
-export type TworkspaceDto = {
+export type Tworkspace = {
   name: string;
   updated_at: string;
   user_id: string;

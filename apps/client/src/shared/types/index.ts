@@ -1,6 +1,6 @@
 export type {
   TcreatedWorkspaceDto,
-  TworkspaceDto,
+  Tworkspace,
   TpagedWorkspaceListResultDto,
   TpagedWorkspaceListResult,
   Tcursor,
