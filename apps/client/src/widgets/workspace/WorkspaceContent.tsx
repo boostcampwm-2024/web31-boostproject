@@ -139,7 +139,7 @@ Blockly.Blocks['css_style'] = {
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
-  const [styleName, setStyleName] = useState('');
+  // const [styleName, setStyleName] = useState('');
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -182,7 +182,10 @@ export const WorkspaceContent = () => {
 
     // CSS 카테고리 열기를 감지하고 input 필드를 추가
     newWorkspace.addChangeListener((event) => {
-      if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT && event.newItemId === 'css_category') {
+      if (
+        event.type === Blockly.Events.TOOLBOX_ITEM_SELECT &&
+        (event as any).newItemId === 'css_category'
+      ) {
         addInputFieldToFlyout();
       }
     });
@@ -197,33 +200,6 @@ export const WorkspaceContent = () => {
     }
     const code = htmlCodeGenerator.workspaceToCode(workspace);
     setHtmlCode(code);
-  };
-
-  const handleAddCssClass = () => {
-    if (workspace && styleName.trim()) {
-      const blockType = `css_style_${styleName}`;
-      Blockly.Blocks[blockType] = {
-        init: function () {
-          this.appendDummyInput().appendField(new Blockly.FieldTextInput(styleName), 'CLASS');
-          this.setOutput(true);
-          this.setColour(200);
-        },
-      };
-
-      // CSS 카테고리에 동적으로 새 블록 추가
-      const toolbox = workspace.getToolbox();
-      console.log('toolbox', toolbox);
-      const cssCategory = toolbox?.getToolboxItemById('css_category');
-      console.log('181번째', cssCategory);
-      if (cssCategory) {
-        cssCategory.updateFlyoutContents([
-          ...cssCategory.getContents(),
-          { kind: 'block', type: blockType },
-        ]);
-      }
-
-      setStyleName(''); // 입력 필드 초기화
-    }
   };
 
   return (
