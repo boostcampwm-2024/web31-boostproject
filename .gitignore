@@ -38,3 +38,5 @@ yarn-error.log*
 Thumbs.db
 
 *storybook.log
+
+swagger-output.json
