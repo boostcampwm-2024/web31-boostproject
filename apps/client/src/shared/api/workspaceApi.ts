@@ -1,4 +1,9 @@
-import { TcreatedWorkspaceDto, TpagedWorkspaceListResultDto } from '@/shared/types';
+import {
+  TcreatedWorkspaceDto,
+  TgetWorkspaceResponse,
+  TpagedWorkspaceListResultDto,
+  Tworkspace,
+} from '@/shared/types';
 
 import { Instance } from '@/shared/api';
 
@@ -32,8 +37,33 @@ export const WorkspaceApi = () => {
     throw new Error('Invalid response from server');
   };
 
+  const getWorkspace = async (userId: string, workspaceId: string) => {
+    const response = await Instance.get(`/workspace?workspaceId=${workspaceId}`, {
+      headers: { 'user-id': userId },
+    });
+    if (response) {
+      return response.data as TgetWorkspaceResponse;
+    }
+    throw new Error('Invalid response from server');
+  };
+
+  const updateWorkspaceName = async (userId: string, workspaceId: string, newName: string) => {
+    const response = await Instance.patch(
+      '/workspace/name',
+      { workspaceId, newName },
+      { headers: { 'user-id': userId } }
+    );
+
+    if (response) {
+      return response.data as Tworkspace;
+    }
+    throw new Error('Invalid response from server');
+  };
+
   return {
     createWorkspace,
     getWorkspaceList,
+    getWorkspace,
+    updateWorkspaceName,
   };
 };
