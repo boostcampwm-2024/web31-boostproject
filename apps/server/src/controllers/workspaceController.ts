@@ -70,5 +70,29 @@ export const WorkspaceController = () => {
     }
   };
 
-  return { createNewWorkspace, getWorkspaceListByPage, getWorkspaceInfo };
+  const editWorkspaceName = async (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const { workspaceId, newName } = req.body;
+      const updatedWorkspace = await workspaceService.updateWorkspaceName(
+        userId,
+        workspaceId,
+        newName
+      );
+
+      if (!updatedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      res.status(200).json(updatedWorkspace);
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
+  };
+  return { createNewWorkspace, getWorkspaceListByPage, getWorkspaceInfo, editWorkspaceName };
 };
