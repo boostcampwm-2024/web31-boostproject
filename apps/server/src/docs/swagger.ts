@@ -1,5 +1,5 @@
-import swaggerUi from 'swagger-ui-express';
 import swaggerJsdoc from 'swagger-jsdoc';
+import swaggerUi from 'swagger-ui-express';
 
 const options = {
   swaggerDefinition: {
@@ -49,6 +49,49 @@ const options = {
             },
           },
           required: ['workspace_id', 'name', 'updated_at'],
+        },
+        WorkspaceIdResponse: {
+          type: 'object',
+          properties: {
+            workspace_id: {
+              type: 'string',
+              example: 'b15eac31-3942-4192-9cbd-2e2cdd48da0a',
+            },
+          },
+          required: ['workspace_id'],
+        },
+        WorkspaceListDto: {
+          type: 'object',
+          properties: {
+            pagedWorkspaceListResult: {
+              type: 'object',
+              properties: {
+                workspaceList: {
+                  type: 'array',
+                  items: {
+                    $ref: '#/components/schemas/Workspace',
+                  },
+                },
+                nextCursor: {
+                  $ref: '#/components/schemas/NextCursor',
+                },
+              },
+            },
+          },
+        },
+        NextCursor: {
+          type: 'object',
+          properties: {
+            updated_at: {
+              type: 'string',
+              example: '2024-11-07T00:00:00.000Z',
+            },
+            workspace_id: {
+              type: 'string',
+              example: 'b15eac31-3942-4192-9cbd-2e2cdd48da0a',
+            },
+          },
+          required: ['updated_at', 'workspace_id'],
         },
       },
     },
