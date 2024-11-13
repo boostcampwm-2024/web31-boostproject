@@ -23,6 +23,7 @@
     "react-spinners": "^0.14.1",
     "react-youtube": "^10.1.0",
     "storybook": "^8.4.1",
+    "uuid": "^11.0.3",
     "zustand": "^5.0.1"
   },
   "devDependencies": {
