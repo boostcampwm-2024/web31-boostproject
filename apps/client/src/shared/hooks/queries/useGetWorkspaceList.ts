@@ -10,6 +10,7 @@ export const useGetWorkspaceList = () => {
     fetchNextPage,
     isPending,
     isFetchingNextPage,
+    isError,
     data: workspaceList,
   } = useInfiniteQuery({
     queryKey: ['getWorkspaceList'],
@@ -25,5 +26,5 @@ export const useGetWorkspaceList = () => {
     select: (data) =>
       (data.pages ?? []).flatMap((page) => page.pagedWorkspaceListResult.workspaceList),
   });
-  return { hasNextPage, fetchNextPage, isFetchingNextPage, isPending, workspaceList };
+  return { hasNextPage, fetchNextPage, isFetchingNextPage, isPending, isError, workspaceList };
 };
