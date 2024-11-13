@@ -139,7 +139,6 @@ Blockly.Blocks['css_style'] = {
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
-  const [styleName, setStyleName] = useState('');
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
 
   useEffect(() => {
@@ -183,7 +182,10 @@ export const WorkspaceContent = () => {
 
     // CSS 카테고리 열기를 감지하고 input 필드를 추가
     newWorkspace.addChangeListener((event) => {
-      if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT && event.newItemId === 'css_category') {
+      if (
+        event.type === Blockly.Events.TOOLBOX_ITEM_SELECT &&
+        (event as any).newItemId === 'css_category'
+      ) {
         addInputFieldToFlyout();
       }
     });

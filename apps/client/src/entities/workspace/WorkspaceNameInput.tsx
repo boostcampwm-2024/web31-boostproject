@@ -1,4 +1,4 @@
-import React, { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
+import { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
 
 import toast from 'react-hot-toast';
 
@@ -7,7 +7,6 @@ export const WorkspaceNameInput = () => {
 
   const [name, setName] = useState<string>('');
 
-  const [isNameChange, setIsNameChange] = useState<boolean>(false);
   const handleBlur: FocusEventHandler<HTMLInputElement> = (
     event: React.FocusEvent<HTMLInputElement>
   ) => {
