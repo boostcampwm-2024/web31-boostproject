@@ -122,7 +122,6 @@ Blockly.Blocks['css_style'] = {
   },
 };
 
-
 const contents = [
   {
     kind: 'block',
@@ -151,64 +150,52 @@ const contents = [
 ];
 
 const toolboxConfig = {
-        kind: 'categoryToolbox',
-        contents: [
-          {
-            kind: 'category',
-            name: '컨테이너',
-            categorystyle: 'containerCategory',
-            contents: contents,
-          },
-          {
-            kind: 'category',
-            name: '텍스트',
-            categorystyle: 'textCategory',
-            contents: contents,
-          },
-          {
-            kind: 'category',
-            name: '폼',
-            categorystyle: 'formCategory',
-            contents: [{ kind: 'block', type: 'css_style' }],
-          },
-          {
-            kind: 'category',
-            name: '표',
-            categorystyle: 'tableCategory',
-            contents: contents,
-          },
-          {
-            kind: 'category',
-            name: '리스트',
-            categorystyle: 'listCategory',
-            contents: contents,
-          },
-          {
-            kind: 'category',
-            name: '링크',
-            categorystyle: 'linkCategory',
-            contents: contents,
-          },
-          {
-            kind: 'category',
-            name: '기타',
-            categorystyle: 'etcCategory',
-            contents: contents,
-          },
-        ],
-      }
+  kind: 'categoryToolbox',
+  contents: [
     {
       kind: 'category',
-      name: 'css',
-      contents: [
-        { kind: 'button', text: '추가하기' },
-        { kind: 'block', type: 'css_style' },
-      ],
-      id: 'css_category',
+      name: '컨테이너',
+      categorystyle: 'containerCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '텍스트',
+      categorystyle: 'textCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '폼',
+      categorystyle: 'formCategory',
+      contents: [{ kind: 'block', type: 'css_style' }],
+    },
+    {
+      kind: 'category',
+      name: '표',
+      categorystyle: 'tableCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '리스트',
+      categorystyle: 'listCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '링크',
+      categorystyle: 'linkCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '기타',
+      categorystyle: 'etcCategory',
+      contents: contents,
     },
   ],
 };
-
 
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
