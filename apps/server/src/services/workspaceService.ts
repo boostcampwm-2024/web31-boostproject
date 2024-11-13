@@ -67,7 +67,7 @@ export const WorkspaceService = () => {
           user_id: userId,
           workspace_id: workspaceId,
         },
-        { workspace_id: 1, name: 1, _id: 0, user_id: 0, updated_at: 0 }
+        { workspace_id: 1, name: 1, _id: 0 }
       );
       return workspace;
     } catch (error) {
