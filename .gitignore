@@ -38,3 +38,6 @@ yarn-error.log*
 Thumbs.db
 
 *storybook.log
+
+# Ignore Storybook build folder
+storybook-static/
