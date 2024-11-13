@@ -93,6 +93,19 @@ const options = {
           },
           required: ['updated_at', 'workspace_id'],
         },
+        WorkspaceDto: {
+          type: 'object',
+          properties: {
+            workspace_id: {
+              type: 'string',
+              example: 'b15eac31-3942-4192-9cbd-2e2cdd48da0a',
+            },
+            name: {
+              type: 'string',
+              example: '워크스페이스 이름',
+            },
+          },
+        },
       },
     },
   },
