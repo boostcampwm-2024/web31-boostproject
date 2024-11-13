@@ -91,7 +91,7 @@ workspaceRouter.get(
       content : {
         "application/json" : {
           schema: {
-            $ref: '#/components/schemas/Workspace'
+            $ref: '#/components/schemas/WorkspaceDto'
           }
         }
       }
