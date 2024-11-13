@@ -59,8 +59,24 @@ export const WorkspaceService = () => {
     }
   };
 
+  const findWorkspaceByWorkspaceId = async (userId: string, workspaceId: string) => {
+    try {
+      const workspace = await Workspace.find({
+        user_id: userId,
+        workspace_id: workspaceId,
+      });
+      return workspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to get workspace : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while getting workspace`);
+    }
+  };
+
   return {
     createWorkspace,
     findWorkspaceListByPage,
+    findWorkspaceByWorkspaceId,
   };
 };
