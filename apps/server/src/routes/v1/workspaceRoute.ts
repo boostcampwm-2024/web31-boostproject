@@ -5,20 +5,30 @@ export const workspaceRouter = express.Router();
 
 const workspaceController = WorkspaceController();
 
-workspaceRouter.get('/list', workspaceController.getWorkspaceListByPage);
-workspaceRouter.post(
-  '/',
-  workspaceController.createNewWorkspace
+workspaceRouter.get(
+  '/list',
   /* 
-    #swagger.summary = '새로운 워크스페이스 생성'
-    #swagger.description = '새로운 워크스페이스를 생성합니다.'
+    #swagger.summary = '워크스페이스 목록 조회'
+    #swagger.description = '워크스페이스 목록을 조회합니다. 커서기반 페이지네이션으로 동작합니다.'
     #swagger.tags = ['Workspace']
-    #swagger.responses[201] = {
+    #swagger.parameters['user-id'] = {
+      in: 'header',
+      description: '유저 아이디 (UUID 형식)',
+      type: 'string',
+      required: true,
+    }
+    #swagger.parameters['cursor'] = {
+      in: 'query',
+      description: '커서 정보입니다. ex: {updatedAt: 2024-11-07T00:00:00.000Z, workspaceId: workspace-id}',
+      required: false,
+      type: 'string',
+    }
+    #swagger.responses[200] = {
       description: 'success',
-      content: {
-        "application/json": {
+      content : {
+        "application/json" : {
           schema: {
-            $ref: "#/components/schemas/Workspace"
+            $ref: '#/components/schemas/WorkspaceListDto'
           }
         }
       }
@@ -27,4 +37,33 @@ workspaceRouter.post(
       description: 'internal server error'
     }
   */
+  workspaceController.getWorkspaceListByPage
+);
+workspaceRouter.post(
+  '/',
+  /* 
+    #swagger.summary = '새로운 워크스페이스 생성'
+    #swagger.description = '새로운 워크스페이스를 생성합니다.'
+    #swagger.tags = ['Workspace']
+    #swagger.parameters['user-id'] = {
+      in: 'header',
+      description: '유저 아이디 (UUID 형식)',
+      type: 'string',
+      required: true,
+    }
+    #swagger.responses[201] = {
+      description: 'success',
+      content : {
+        "application/json" : {
+          schema: {
+            $ref: '#/components/schemas/WorkspaceIdResponse'
+          }
+        }
+      }
+    }
+    #swagger.responses[500] = {
+      description: 'internal server error'
+    }
+  */
+  workspaceController.createNewWorkspace
 );
