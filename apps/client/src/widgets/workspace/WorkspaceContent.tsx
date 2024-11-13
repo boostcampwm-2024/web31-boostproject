@@ -3,7 +3,6 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
 import CustomCategory from './customCategory';
-
 // 블록리에게 커스텀 카테고리를 등록하기
 
 Blockly.registry.register(
