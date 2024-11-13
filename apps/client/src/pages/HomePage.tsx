@@ -18,8 +18,6 @@ export const HomePage = () => {
         <HomeHeader isBlack={true} />
         <GuidesBox />
         <WorkspaceContainer />
-        <EmptyWorkspace />
-
         <WorkspaceModal />
       </div>
     </>

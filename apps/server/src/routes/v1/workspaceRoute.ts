@@ -5,6 +5,7 @@ export const workspaceRouter = express.Router();
 
 const workspaceController = WorkspaceController();
 
+workspaceRouter.get('/', workspaceController.getWorkspaceListByPage);
 workspaceRouter.post(
   '/',
   workspaceController.createNewWorkspace
