@@ -1,5 +1,5 @@
 import { ModalConfirm, SquareButton } from '@/shared/ui';
-import BooDuckFrontSVG from '@/shared/assets/booduck_front.svg?react';
+
 import { useModalStore } from '@/shared/store/useModalStore';
 
 type WorkspaceModalProps = {
@@ -29,7 +29,7 @@ export const WorkspaceModal = ({ workspaceName = '[워크스페이스 이름]' }
     <ModalConfirm isOpen={isOpen}>
       <div className="text-center">
         <div className="mb-10 flex flex-col items-center justify-center gap-3 text-center">
-          <BooDuckFrontSVG />
+          <img src="./images/booduck_modal.png" width={100} height={100} />
           <p className="text-semibold-lg whitespace-pre-line leading-tight text-gray-500">
             {`${workspaceName}을 
             삭제하시겠습니까?`}

@@ -1,12 +1,12 @@
-import React, { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
+
+import toast from 'react-hot-toast';
 
 export const WorkspaceNameInput = () => {
   // TODO: 워크스페이스 이름 변경 로직 필요
 
   const [name, setName] = useState<string>('');
 
-  const [isNameChange, setIsNameChange] = useState<boolean>(false);
   const handleBlur: FocusEventHandler<HTMLInputElement> = (
     event: React.FocusEvent<HTMLInputElement>
   ) => {
@@ -37,7 +37,6 @@ export const WorkspaceNameInput = () => {
   // TODO: 워크스페이스 이름 존재 시 placeholder가 그에 맞추어 변경되어야함
   return (
     <>
-      <Toaster position="bottom-center" reverseOrder={false} />
       <input
         placeholder={name === '' ? '워크스페이스 이름' : name}
         className="placeholder:text-semibold-rg w-[272px] rounded-md border border-green-500 px-3 py-1 placeholder:text-gray-100 focus:outline-none"

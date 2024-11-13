@@ -5,9 +5,13 @@ const htmlCodeGenerator = new Blockly.Generator('HTML');
 // 함수: 태그 블록(html, head, body, p, button) 정보를 코드로 변환
 const transferTagBlockToCode = (tagName: string) => {
   htmlCodeGenerator.forBlock[tagName] = function (block) {
-    const cssClass = '대 홍 감 자';
+    let cssClass = '';
+    const cssClassBlock = block.getInputTargetBlock('css class'); // 블록에서 직접 연결된 블록을 가져옴
+    if (cssClassBlock) {
+      cssClass = cssClassBlock.getFieldValue('CLASS') || ''; // 직접 연결된 블록의 필드 값을 가져옴
+    }
+
     const children = htmlCodeGenerator.statementToCode(block, 'children');
-    console.log(tagName, children);
     const code = `<${tagName} class="${cssClass}">\n${children}\n</${tagName}>`;
     return code;
   };
@@ -21,7 +25,7 @@ htmlCodeGenerator.forBlock['text'] = function (block) {
 
 // CSS 블록에 대한 코드 생성을 별도로 정의
 htmlCodeGenerator.forBlock['css_style'] = function (block) {
-  const classContent = block.getFieldValue('TEXT'); // 블록에서 텍스트 내용을 가져옴
+  const classContent = block.getFieldValue('CLASS'); // 블록에서 텍스트 내용을 가져옴
   return classContent;
 };
 
