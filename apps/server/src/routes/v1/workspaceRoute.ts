@@ -67,3 +67,41 @@ workspaceRouter.post(
   */
   workspaceController.createNewWorkspace
 );
+
+workspaceRouter.get(
+  '/',
+  /* 
+    #swagger.summary = '워크스페이스 조회'
+    #swagger.description = 'user id 와 workspace id로 워크스페이스를 조회합니다.'
+    #swagger.tags = ['Workspace']
+    #swagger.parameters['user-id'] = {
+      in: 'header',
+      description: '유저 아이디 (UUID 형식)',
+      type: 'string',
+      required: true,
+    }
+    #swagger.parameters['workspaceId'] = {
+      in: 'query',
+      description: '워크스페이스 아이디 (UUID 형식)',
+      type: 'string',
+      required: true,
+    }
+    #swagger.responses[200] = {
+      description: 'success',
+      content : {
+        "application/json" : {
+          schema: {
+            $ref: '#/components/schemas/Workspace'
+          }
+        }
+      }
+    }
+    #swagger.responses[404] = {
+      description: 'Not Found'
+    }
+    #swagger.responses[500] = {
+      description: 'internal server error'
+    }
+  */
+  workspaceController.getWorkspaceInfo
+);
