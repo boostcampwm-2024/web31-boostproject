@@ -44,9 +44,13 @@ jobs:
           cd apps/server
           pnpm run build
 
-      - name: Build the Docker image
+      - name: Build base image
         run: |
           docker build . --file Dockerfile.base --tag ${{ secrets.DOCKERHUB_USERNAME }}/boolock_base_test:1.0
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/boolock_base_test:1.0 base-image
+
+      - name: Build frontend and backend images
+        run: |
           docker build . --file apps/client/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/boolock_client_test:1.0
           docker build . --file apps/server/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/boolock_server_test:1.0
 
