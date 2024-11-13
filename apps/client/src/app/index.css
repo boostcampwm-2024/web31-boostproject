@@ -2,7 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer components {
+@layer base {
+  @font-face {
+    font-family: 'SUIT Variable';
+    font-weight: 100 900;
+    src: url('fonts/SUIT-Variable.woff2') format('woff2-variations');
+  }
+
+  body {
+    font-family: 'SUIT Variable', serif;
+  }
+}
+
+@layer utilities {
   .text-bold-xl {
     @apply text-2xl font-bold leading-5;
   }
@@ -46,16 +58,6 @@
   .text-medium-sm {
     @apply text-xs font-medium leading-4;
   }
-}
-
-@font-face {
-  font-family: 'SUIT Variable';
-  font-weight: 100 900;
-  src: url('fonts/SUIT-Variable.woff2') format('woff2-variations');
-}
-
-body {
-  font-family: 'SUIT Variable', serif;
 }
 
 .blocklyToolboxDiv blocklyNonSelectable {
