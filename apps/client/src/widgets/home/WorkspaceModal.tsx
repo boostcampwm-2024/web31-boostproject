@@ -1,6 +1,5 @@
 import { ModalConfirm, SquareButton } from '@/shared/ui';
 
-import { useDeleteWorkspace } from '@/shared/hooks';
 import { useModalStore } from '@/shared/store/useModalStore';
 
 type TbuttonContent = {
