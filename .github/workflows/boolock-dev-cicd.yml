@@ -89,8 +89,7 @@ jobs:
             echo "MONGO_URI=\"${{ secrets.MONGO_URI }}\"" > apps/server/.env
             echo "IS_LOCAL=false" >> apps/server/.env
 
-            sudo docker compose build base
             sudo docker compose pull
             sudo docker compose down
-            sudo docker compose up -d
+            sudo docker compose up -d --build
             sudo docker image prune -f

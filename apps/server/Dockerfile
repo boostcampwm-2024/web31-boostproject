@@ -6,6 +6,7 @@ COPY ./apps/server .
 COPY --from=base-image /app/packages /app/packages
 
 RUN pnpm install --offline --frozen-lockfile
+RUN pnpm swagger-auto
 RUN pnpm run build
 
 CMD ["pnpm", "run", "start"]
