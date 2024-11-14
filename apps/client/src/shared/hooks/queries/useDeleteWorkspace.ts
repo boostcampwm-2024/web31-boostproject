@@ -10,7 +10,8 @@ export const useDeleteWorkspace = () => {
   const workspaceApi = WorkspaceApi();
   const userId = getUserId();
   const { closeModal, setIsLoading } = useModalStore();
-  const { mutate, isPending, isError } = useMutation({
+
+  const { mutate } = useMutation({
     mutationFn: (workspaceId: string) => {
       setIsLoading(true);
       return workspaceApi.deleteWorkspace(userId, workspaceId);
@@ -28,5 +29,5 @@ export const useDeleteWorkspace = () => {
     },
   });
 
-  return { mutate, isPending, isError };
+  return { mutate };
 };
