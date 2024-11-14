@@ -1,4 +1,4 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
@@ -16,7 +16,7 @@ export const useGetWorkspace = (workspaceId: string) => {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isError) {
       toast.error('워크스페이스 정보 불러오기 실패');
       return;
