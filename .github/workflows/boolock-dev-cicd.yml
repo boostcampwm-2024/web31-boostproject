@@ -1,0 +1,95 @@
+name: ci/cd action
+
+on:
+  push:
+    branches: ['dev']
+  pull_request:
+    branches: ['dev']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Install Pnpm
+        run: npm install -g pnpm
+
+      - name: Package install with pnpm
+        run: pnpm install:all
+
+      - name: Set BE .env
+        run: |
+          echo "MONGO_URI=\"${{ secrets.MONGO_URI }}\"" > apps/server/.env
+          echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> apps/server/.env
+          echo "SSH_PORT=${{ secrets.SSH_PORT }}" >> apps/server/.env
+          echo "SSH_USER=${{ secrets.SSH_USER }}" >> apps/server/.env
+          echo "SSH_PASSWORD=${{ secrets.SSH_PASSWORD }}" >> apps/server/.env
+          echo "SSH_DATABASE_HOST=${{ secrets.SSH_DATABASE_HOST }}" >> apps/server/.env
+          echo "SSH_DATABASE_PORT=${{ secrets.SSH_DATABASE_PORT }}" >> apps/server/.env
+          echo "LOCAL_PORT=${{ secrets.LOCAL_PORT }}" >> apps/server/.env
+
+      - name: Buld Frontend
+        run: |
+          cd apps/client
+          pnpm run build
+
+      - name: Build Backend
+        run: |
+          cd apps/server
+          pnpm run build
+
+      - name: Build base image
+        run: |
+          docker build . --file Dockerfile.base --tag ${{ secrets.DOCKERHUB_USERNAME }}/boolock_base_test:1.0
+          docker tag ${{ secrets.DOCKERHUB_USERNAME }}/boolock_base_test:1.0 base-image
+
+      - name: Build frontend and backend images
+        run: |
+          docker build . --file apps/client/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/boolock_client_test:1.0
+          docker build . --file apps/server/Dockerfile --tag ${{ secrets.DOCKERHUB_USERNAME }}/boolock_server_test:1.0
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Docker Hub push
+        run: |
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/boolock_base_test:1.0
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/boolock_client_test:1.0
+          docker push ${{ secrets.DOCKERHUB_USERNAME }}/boolock_server_test:1.0
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Login to Docker Hub
+        run: sudo docker login -u ${{ secrets.DOCKERHUB_USERNAME }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Deploy with docker
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PASSWORD }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd boolock/web31-BooLock
+            git checkout dev
+            git pull
+
+            echo "MONGO_URI=\"${{ secrets.MONGO_URI }}\"" > apps/server/.env
+            echo "IS_LOCAL=false" >> apps/server/.env
+
+            sudo docker compose build base
+            sudo docker compose pull
+            sudo docker compose down
+            sudo docker compose up -d
+            sudo docker image prune -f

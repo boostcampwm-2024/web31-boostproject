@@ -39,4 +39,8 @@ Thumbs.db
 
 *storybook.log
 
+
 swagger-output.json
+
+# Ignore Storybook build folder
+storybook-static/
