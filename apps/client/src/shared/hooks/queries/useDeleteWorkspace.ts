@@ -1,0 +1,29 @@
+import { WorkspaceApi } from '@/shared/api';
+import { useModalStore } from '@/shared/store';
+import { getUserId } from '@/shared/utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import toast from 'react-hot-toast';
+
+export const useDeleteWorkspace = () => {
+  const queryClient = useQueryClient();
+  const workspaceApi = WorkspaceApi();
+  const userId = getUserId();
+  const { closeModal } = useModalStore();
+  const { mutate, isPending, isError } = useMutation({
+    mutationFn: (workspaceId: string) => {
+      return workspaceApi.deleteWorkspace(userId, workspaceId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['getWorkspaceList'] });
+      toast.success('워크스페이스 삭제 성공');
+    },
+    onError: () => {
+      toast.error('워크스페이스 삭제 실패');
+    },
+    onSettled: () => {
+      closeModal();
+    },
+  });
+
+  return { mutate, isPending, isError };
+};
