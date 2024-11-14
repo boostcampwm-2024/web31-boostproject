@@ -49,8 +49,8 @@ export const CssPropsSelectBox = () => {
   };
 
   return (
-    <section className="flex h-[392px] w-[504px]">
-      <nav className="border-r border-r-gray-100 p-2">
+    <section className="flex h-[392px] w-full">
+      <nav className="border-r border-r-gray-100 px-4 py-3">
         {Object.keys(cssCategoriesObj).map((cssCategory) => (
           <button
             key={cssCategory}
@@ -61,7 +61,7 @@ export const CssPropsSelectBox = () => {
           </button>
         ))}
       </nav>
-      <article className="space-y-2 overflow-y-auto p-3">
+      <article className="space-y-2 overflow-y-auto p-3 pr-1">
         {cssCategoriesObj[selectedCssCategory].items.map((cssName, index) => (
           <div
             key={index}

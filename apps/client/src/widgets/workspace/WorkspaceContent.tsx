@@ -2,52 +2,15 @@ import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
+import CustomCategory from './customCategory';
 import { CssPropsSelectBox } from '@/widgets/workspace/CssPropsSelectBox';
 
-const toolboxConfig = {
-  kind: 'categoryToolbox',
-  contents: [
-    {
-      kind: 'category',
-      name: 'html',
-      contents: [
-        {
-          kind: 'block',
-          type: 'html',
-        },
-        {
-          kind: 'block',
-          type: 'head',
-        },
-        {
-          kind: 'block',
-          type: 'body',
-        },
-        {
-          kind: 'block',
-          type: 'p',
-        },
-        {
-          kind: 'block',
-          type: 'button',
-        },
-        {
-          kind: 'block',
-          type: 'text',
-        },
-      ],
-    },
-    {
-      kind: 'category',
-      name: 'css',
-      contents: [
-        { kind: 'button', text: '추가하기' },
-        { kind: 'block', type: 'css_style' },
-      ],
-      id: 'css_category',
-    },
-  ],
-};
+Blockly.registry.register(
+  Blockly.registry.Type.TOOLBOX_ITEM,
+  Blockly.ToolboxCategory.registrationName,
+  CustomCategory,
+  true
+);
 
 const customTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',
@@ -63,6 +26,29 @@ const customTheme = Blockly.Theme.defineTheme('custom', {
     insertionMarkerOpacity: 0.3,
     scrollbarOpacity: 0.001,
     cursorColour: '#d0d0d0',
+  },
+  categoryStyles: {
+    containerCategory: {
+      colour: 'FF3A61',
+    },
+    textCategory: {
+      colour: 'FFD900',
+    },
+    formCategory: {
+      colour: 'FF9821',
+    },
+    tableCategory: {
+      colour: 'B223F5',
+    },
+    listCategory: {
+      colour: '3ED5FF',
+    },
+    linkCategory: {
+      colour: '3E84FF',
+    },
+    etcCategory: {
+      colour: '00AF6F',
+    },
   },
 });
 
@@ -136,14 +122,90 @@ Blockly.Blocks['css_style'] = {
   },
 };
 
+const contents = [
+  {
+    kind: 'block',
+    type: 'html',
+  },
+  {
+    kind: 'block',
+    type: 'head',
+  },
+  {
+    kind: 'block',
+    type: 'body',
+  },
+  {
+    kind: 'block',
+    type: 'p',
+  },
+  {
+    kind: 'block',
+    type: 'button',
+  },
+  {
+    kind: 'block',
+    type: 'text',
+  },
+];
+
+const toolboxConfig = {
+  kind: 'categoryToolbox',
+  contents: [
+    {
+      kind: 'category',
+      name: '컨테이너',
+      categorystyle: 'containerCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '텍스트',
+      categorystyle: 'textCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '폼',
+      categorystyle: 'formCategory',
+      contents: [{ kind: 'block', type: 'css_style' }],
+    },
+    {
+      kind: 'category',
+      name: '표',
+      categorystyle: 'tableCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '리스트',
+      categorystyle: 'listCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '링크',
+      categorystyle: 'linkCategory',
+      contents: contents,
+    },
+    {
+      kind: 'category',
+      name: '기타',
+      categorystyle: 'etcCategory',
+      contents: contents,
+    },
+  ],
+};
+
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
-  // const [styleName, setStyleName] = useState('');
+  const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       renderer: 'zelos',
+      toolboxPosition: 'end',
       toolbox: toolboxConfig,
       theme: customTheme, // 커스텀 테마 적용
       zoom: {
@@ -204,15 +266,43 @@ export const WorkspaceContent = () => {
 
   return (
     <div className="flex">
-      <CssPropsSelectBox />
-      <div>
-        <button className="h-[50px] w-[100px] bg-blue-400" onClick={generateHtmlCode}>
-          변환하기
-        </button>
-        <p className="h-[200px] w-[400px] bg-green-200">{htmlCode}</p>
-        <iframe srcDoc={htmlCode} className="h-[450px] w-[400px] bg-pink-200"></iframe>
+      <div className="h-[926px] w-[504px]">
+        <nav className="h-10 border-b border-gray-100">
+          <button
+            onClick={() => setActiveTab('preview')}
+            className={`${activeTab === 'preview' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full w-1/3 border-r border-gray-100 bg-green-500`}
+          >
+            미리보기
+          </button>
+          <button
+            onClick={() => setActiveTab('html')}
+            className={`${activeTab === 'html' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full w-1/3 border-r border-gray-100 bg-green-500`}
+          >
+            HTML
+          </button>
+          <button
+            onClick={() => setActiveTab('css')}
+            className={`${activeTab === 'css' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full w-1/3 border-gray-200 bg-green-500`}
+          >
+            CSS
+          </button>
+        </nav>
+        <div className="h-1/2 border-b border-gray-100">
+          {activeTab === 'preview' && (
+            <iframe srcDoc={htmlCode} className="h-full w-full p-5"></iframe>
+          )}
+          {activeTab === 'html' && (
+            <pre className="h-full w-full whitespace-pre-wrap p-5">{htmlCode}</pre>
+          )}
+          {activeTab === 'css' && <p>css 파싱 기능은 구현 중 입니다.</p>}
+        </div>
+        <CssPropsSelectBox />
       </div>
-      <div id="blocklyDiv" style={{ width: '600px', height: '700px' }}></div>
+
+      <div id="blocklyDiv" className="h-[926px] w-[600px]"></div>
+      <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
+        변환하기
+      </button>
     </div>
   );
 };

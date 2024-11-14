@@ -1,10 +1,4 @@
-import {
-  EmptyWorkspace,
-  GuidesBox,
-  HomeHeader,
-  WorkspaceContainer,
-  WorkspaceModal,
-} from '@/widgets';
+import { GuidesBox, HomeHeader, WorkspaceContainer, WorkspaceModal } from '@/widgets';
 
 import { Loading } from '@/shared/ui';
 import { useLoadingStore } from '@/shared/store';
