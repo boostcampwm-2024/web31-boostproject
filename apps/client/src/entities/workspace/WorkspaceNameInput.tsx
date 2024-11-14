@@ -1,21 +1,22 @@
-import { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
+import { FocusEventHandler, KeyboardEventHandler } from 'react';
 
-import toast from 'react-hot-toast';
+import Spinner from '@/shared/assets/spinner.svg?react';
+import { useParams } from 'react-router-dom';
+import { useUpdateWorkspaceName } from '@/shared/hooks';
+import { useWorkspaceStore } from '@/shared/store';
 
 export const WorkspaceNameInput = () => {
-  // TODO: 워크스페이스 이름 변경 로직 필요
-
-  const [name, setName] = useState<string>('');
+  const { workspaceId } = useParams() as { workspaceId: string };
+  const { name } = useWorkspaceStore();
+  const { mutate, isPending } = useUpdateWorkspaceName();
 
   const handleBlur: FocusEventHandler<HTMLInputElement> = (
     event: React.FocusEvent<HTMLInputElement>
   ) => {
-    // TODO: 이름 변경 로직 추가
-    if (event.target.value === name) {
+    if (event.target.value === name || event.target.value === '') {
       return;
     }
-    toast.error('이름 변경 실패');
-    setName(event.target.value);
+    mutate({ workspaceId, newName: event.target.value });
   };
 
   const handleEnter: KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -25,24 +26,29 @@ export const WorkspaceNameInput = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // TODO: 이름 변경 로직 추가
     e.currentTarget.blur();
-    if (name === e.currentTarget.value) {
+    if (name === e.currentTarget.value || e.currentTarget.value === '') {
       return;
     }
-    setName(e.currentTarget.value);
+    mutate({ workspaceId, newName: e.currentTarget.value });
     e.preventDefault();
   };
 
-  // TODO: 워크스페이스 이름 존재 시 placeholder가 그에 맞추어 변경되어야함
   return (
     <>
-      <input
-        placeholder={name === '' ? '워크스페이스 이름' : name}
-        className="placeholder:text-semibold-rg w-[272px] rounded-md border border-green-500 px-3 py-1 placeholder:text-gray-100 focus:outline-none"
-        onBlur={handleBlur}
-        onKeyDown={handleEnter}
-      />
+      <div className="relative flex items-center">
+        <input
+          placeholder={name === '' ? '워크스페이스 이름' : name}
+          className="placeholder:text-semibold-rg w-[272px] rounded-md border border-green-500 px-3 py-1 placeholder:text-gray-100 focus:outline-none"
+          onBlur={handleBlur}
+          onKeyDown={handleEnter}
+          maxLength={20}
+          disabled={isPending}
+        />
+        {isPending && (
+          <Spinner className="absolute right-5 inline h-4 w-4 animate-spin fill-green-500 text-gray-200" />
+        )}
+      </div>
     </>
   );
 };

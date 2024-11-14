@@ -6,12 +6,21 @@ export type TpagedWorkspaceListResultDto = {
   pagedWorkspaceListResult: TpagedWorkspaceListResult;
 };
 
-export type TpagedWorkspaceListResult = {
-  workspaceList: Array<TworkspaceDto>;
-  nextCursor: Tcursor | null;
+export type TgetWorkspaceResponse = {
+  workspaceDto: TworkspaceDto;
 };
 
 export type TworkspaceDto = {
+  workspace_id: string;
+  name: string;
+};
+
+export type TpagedWorkspaceListResult = {
+  workspaceList: Array<Tworkspace>;
+  nextCursor: Tcursor | null;
+};
+
+export type Tworkspace = {
   name: string;
   updated_at: string;
   user_id: string;

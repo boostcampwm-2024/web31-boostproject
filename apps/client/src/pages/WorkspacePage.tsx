@@ -1,9 +1,22 @@
-import { WorkspacePageHeader, WorkspaceContent } from '@/widgets';
+import { WorkspaceContent, WorkspacePageHeader } from '@/widgets';
 
-// TODO: useParams 훅을 통해 workspaceId 가져오기
+import { Loading } from '@/shared/ui';
+import { NotFound } from '@/pages/NotFound';
+import { useGetWorkspace } from '@/shared/hooks';
+import { useParams } from 'react-router-dom';
+
 export const WorkspacePage = () => {
+  const { workspaceId } = useParams();
+
+  const { isPending, isError } = useGetWorkspace(workspaceId as string);
+
+  if (isError) {
+    return <NotFound />;
+  }
+
   return (
     <>
+      {isPending && <Loading />}
       <WorkspacePageHeader />
       <WorkspaceContent />
     </>
