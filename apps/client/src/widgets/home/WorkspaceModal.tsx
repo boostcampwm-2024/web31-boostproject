@@ -1,19 +1,27 @@
 import { ModalConfirm, SquareButton } from '@/shared/ui';
 
+import { useDeleteWorkspace } from '@/shared/hooks';
 import { useModalStore } from '@/shared/store/useModalStore';
 
 type TbuttonContent = {
   name: string;
   func: () => void;
   type: 'neutral' | 'danger';
+  isDisabled?: boolean;
 };
 
 export const WorkspaceModal = () => {
-  const { isModalOpen: isOpen, closeModal: onClose, modalContent, modalAction } = useModalStore();
+  const {
+    isModalOpen: isOpen,
+    closeModal: onClose,
+    modalContent,
+    modalAction,
+    isLoading,
+  } = useModalStore();
 
   const buttonContents: TbuttonContent[] = [
     { name: '아차차~', func: onClose, type: 'neutral' },
-    { name: '지울래요', func: modalAction, type: 'danger' },
+    { name: '지울래요', func: modalAction, type: 'danger', isDisabled: isLoading },
   ];
 
   return (
@@ -28,7 +36,12 @@ export const WorkspaceModal = () => {
 
         <div className="flex gap-3">
           {buttonContents.map((content, index) => (
-            <SquareButton key={index} onClick={() => content.func()} variant={content.type}>
+            <SquareButton
+              key={index}
+              onClick={() => content.func()}
+              variant={content.type}
+              isDisabled={content.isDisabled}
+            >
               {content.name}
             </SquareButton>
           ))}
