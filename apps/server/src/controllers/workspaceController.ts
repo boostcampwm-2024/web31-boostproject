@@ -94,5 +94,32 @@ export const WorkspaceController = () => {
       }
     }
   };
-  return { createNewWorkspace, getWorkspaceListByPage, getWorkspaceInfo, editWorkspaceName };
+
+  const removeWorkspace = async (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.query.workspaceId as string;
+      const deletedWorkspace = await workspaceService.deleteWorkspace(userId, workspaceId);
+      if (!deletedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      return res.status(200).json({ message: 'success' });
+    } catch (error) {
+      console.error(error);
+      if (error instanceof Error) {
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
+  };
+
+  return {
+    createNewWorkspace,
+    getWorkspaceListByPage,
+    getWorkspaceInfo,
+    editWorkspaceName,
+    removeWorkspace,
+  };
 };
