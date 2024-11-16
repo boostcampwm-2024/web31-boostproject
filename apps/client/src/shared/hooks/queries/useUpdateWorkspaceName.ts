@@ -18,11 +18,6 @@ export const useUpdateWorkspaceName = () => {
     onSuccess: (data) => {
       toast.success('워크스페이스 이름이 변경되었습니다.');
       setName(data?.name!);
-      queryClient.setQueryData(['getWorkspace', data.workspace_id], (oldData: any) => {
-        return {
-          workspaceDto: { ...oldData.workspaceDto, name: data.name },
-        };
-      });
       queryClient.invalidateQueries({ queryKey: ['getWorkspaceList'] });
     },
     onError: () => {
