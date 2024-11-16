@@ -18,13 +18,13 @@ export const WorkspaceItem = ({
   lastEdited,
   onClick,
 }: WorkspaceItemProps) => {
-  const { openModal: onOpen, setModalContent, setModalAction } = useModalStore();
+  const { openModal: onOpen, setModalContent, setModalAction: handleClick } = useModalStore();
   const { mutate } = useDeleteWorkspace();
 
   const handleOnclick = () => {
     setModalContent(`${title}을(를)
       삭제하겠습니까?`);
-    setModalAction(() => {
+    handleClick(() => {
       mutate(workspaceId);
     });
     onOpen();
