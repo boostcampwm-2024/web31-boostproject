@@ -93,9 +93,9 @@ export const WorkspaceService = () => {
       return updatedWorkspace;
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`Failed to get workspace : ${error.message}`);
+        throw new Error(`Failed to update workspace : ${error.message}`);
       }
-      throw new Error(`Unknown Error ocurred while getting workspace`);
+      throw new Error(`Unknown Error ocurred while udating workspace`);
     }
   };
 
@@ -108,9 +108,9 @@ export const WorkspaceService = () => {
       return deletedWorkspace;
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`Failed to get workspace : ${error.message}`);
+        throw new Error(`Failed to delete workspace : ${error.message}`);
       }
-      throw new Error(`Unknown Error ocurred while getting workspace`);
+      throw new Error(`Unknown Error ocurred while deleting workspace`);
     }
   };
 
