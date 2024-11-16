@@ -1,5 +1,7 @@
+import { ReactNode } from 'react';
+
 type SquareButtonProps = {
-  children: string;
+  children: ReactNode;
   variant?: 'neutral' | 'danger';
   onClick: () => void;
   isDisabled?: boolean;
@@ -9,7 +11,7 @@ export const SquareButton = ({
   children,
   variant = 'neutral',
   onClick,
-  isDisabled,
+  isDisabled = false,
 }: SquareButtonProps) => {
   const colorClasses =
     variant === 'danger'
@@ -18,8 +20,8 @@ export const SquareButton = ({
   return (
     <button
       onClick={onClick}
-      className={`text-bold-md rounded-lg px-[72px] py-4 ${colorClasses}`}
-      disabled={isDisabled && true}
+      className={`text-bold-md rounded-lg px-[72px] py-4 ${colorClasses} w-[200px]`}
+      disabled={isDisabled}
     >
       {children}
     </button>
