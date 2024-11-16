@@ -13,6 +13,7 @@ export const WorkspaceList = ({ workspaceList }: workspaceListProps) => {
       {workspaceList.map((workspace) => (
         <WorkspaceItem
           key={workspace.workspace_id}
+          workspaceId={workspace.workspace_id}
           title={workspace.name}
           thumbnail={workspace.thumbnail || ''}
           lastEdited={workspace.updated_at}

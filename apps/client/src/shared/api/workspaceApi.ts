@@ -60,10 +60,21 @@ export const WorkspaceApi = () => {
     throw new Error('Invalid response from server');
   };
 
+  const deleteWorkspace = async (userId: string, workspaceId: string): Promise<void> => {
+    const response = await Instance.delete(`/workspace?workspaceId=${workspaceId}`, {
+      headers: { 'user-id': userId },
+    });
+
+    if (!response) {
+      throw new Error('Invalid response from server');
+    }
+  };
+
   return {
     createWorkspace,
     getWorkspaceList,
     getWorkspace,
     updateWorkspaceName,
+    deleteWorkspace,
   };
 };
