@@ -1,4 +1,4 @@
-import { ModalConfirm, SquareButton } from '@/shared/ui';
+import { ModalConfirm, Spinner, SquareButton } from '@/shared/ui';
 
 import { useModalStore } from '@/shared/store/useModalStore';
 
@@ -41,7 +41,18 @@ export const WorkspaceModal = () => {
               variant={content.type}
               isDisabled={content.isDisabled}
             >
-              {content.name}
+              <>
+                {content.isDisabled ? (
+                  <Spinner
+                    width={4}
+                    height={4}
+                    foregroundColor="gray-white"
+                    backgroundColor="gray-200"
+                  />
+                ) : (
+                  content.name
+                )}
+              </>
             </SquareButton>
           ))}
         </div>
