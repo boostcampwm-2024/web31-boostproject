@@ -12,10 +12,6 @@
   body {
     font-family: 'SUIT Variable', serif;
   }
-
-  * {
-    @apply box-border;
-  }
 }
 
 @layer utilities {
