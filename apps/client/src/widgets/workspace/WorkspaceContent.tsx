@@ -18,8 +18,7 @@ const customTheme = Blockly.Theme.defineTheme('custom', {
   componentStyles: {
     workspaceBackgroundColour: '#fafafa', // 워크스페이스 배경색
     toolboxBackgroundColour: 'blackBackground', // 툴박스 배경색
-    flyoutBackgroundColour: '#123213', // 툴박스 플라이아웃 배경색
-    flyoutForegroundColour: '#ccc', // 툴박스 플라이아웃 전경색
+    flyoutBackgroundColour: 'white', // 툴박스 플라이아웃 배경색
     flyoutOpacity: 1,
     scrollbarColour: '#000000',
     insertionMarkerColour: '#fff',
@@ -200,7 +199,7 @@ const toolboxConfig = {
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
-  // const [styleName, setStyleName] = useState('');
+  const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -219,6 +218,33 @@ export const WorkspaceContent = () => {
       },
     });
     setWorkspace(newWorkspace);
+
+    const customizeFlyoutSVG = () => {
+      const toolbox = newWorkspace.getToolbox();
+
+      // 새 div 요소 생성
+      const flexDiv = document.createElement('div');
+      flexDiv.className = 'flex w-96';
+
+      // 버튼1 생성
+      const button1 = document.createElement('button');
+      button1.className = 'text-semibold-md flex-1 bg-gray-50 py-3 rounded-t-lg text-gray-200';
+      button1.textContent = 'HTML';
+
+      // 버튼2 생성
+      const button2 = document.createElement('button');
+      button2.className = 'text-bold-md text-white flex-1 bg-blue-500 rounded-t-lg py-3';
+      button2.textContent = 'CSS';
+
+      // 버튼을 div에 추가
+      flexDiv.appendChild(button1);
+      flexDiv.appendChild(button2);
+
+      // flexDiv를 대상 요소 앞에 추가
+      toolbox.HtmlDiv.prepend(flexDiv);
+    };
+
+    customizeFlyoutSVG();
 
     // CSS 카테고리가 열릴 때 input 필드를 동적으로 추가하는 함수
     const addInputFieldToFlyout = () => {
@@ -250,6 +276,16 @@ export const WorkspaceContent = () => {
       ) {
         addInputFieldToFlyout();
       }
+
+      if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
+        if (event.newItem == undefined) {
+          const flyout = newWorkspace.getToolbox().getFlyout().svgGroup_;
+          console.log(flyout);
+          flyout.style = 'display: block; transform: translate(292px, 60px);';
+        }
+        // console.log(event);
+        // const clickedBlock = newWorkspace.getBlockById(event.blockId) as Blockly.BlockSvg;
+      }
     });
     return () => {
       newWorkspace.dispose();
@@ -266,15 +302,43 @@ export const WorkspaceContent = () => {
 
   return (
     <div className="flex">
-      <CssPropsSelectBox />
-      <div>
-        <button className="h-[50px] w-[100px] bg-blue-400" onClick={generateHtmlCode}>
-          변환하기
-        </button>
-        <p className="h-[200px] w-[400px] bg-green-200">{htmlCode}</p>
-        <iframe srcDoc={htmlCode} className="h-[450px] w-[400px] bg-pink-200"></iframe>
-      </div>
-      <div id="blocklyDiv" style={{ width: '600px', height: '700px' }}></div>
+      {/* <div className="h-[926px] w-[504px]">
+        <nav className="h-10 border-b border-gray-100">
+          <button
+            onClick={() => setActiveTab('preview')}
+            className={`${activeTab === 'preview' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full w-1/3 border-r border-gray-100 bg-green-500`}
+          >
+            미리보기
+          </button>
+          <button
+            onClick={() => setActiveTab('html')}
+            className={`${activeTab === 'html' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full w-1/3 border-r border-gray-100 bg-green-500`}
+          >
+            HTML
+          </button>
+          <button
+            onClick={() => setActiveTab('css')}
+            className={`${activeTab === 'css' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full w-1/3 border-gray-200 bg-green-500`}
+          >
+            CSS
+          </button>
+        </nav>
+        <div className="h-1/2 border-b border-gray-100">
+          {activeTab === 'preview' && (
+            <iframe srcDoc={htmlCode} className="h-full w-full p-5"></iframe>
+          )}
+          {activeTab === 'html' && (
+            <pre className="h-full w-full whitespace-pre-wrap p-5">{htmlCode}</pre>
+          )}
+          {activeTab === 'css' && <p>css 파싱 기능은 구현 중 입니다.</p>}
+        </div>
+        <CssPropsSelectBox />
+      </div> */}
+
+      <div id="blocklyDiv" className="h-[926px] w-[600px]"></div>
+      <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
+        변환하기
+      </button>
     </div>
   );
 };

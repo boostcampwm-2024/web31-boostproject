@@ -60,8 +60,18 @@
   }
 }
 
-.blocklyToolboxDiv blocklyNonSelectable {
+.blocklyToolboxDiv {
   padding: 0;
+  background-color: transparent;
+  margin: 1rem;
+  display: flex !important;
+  height: calc(100% - 2rem) !important;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  box-shadow: 0px 4px 4px rgba(118, 118, 118, 0.25);
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
 }
 
 .blocklyToolboxContents {
@@ -100,4 +110,13 @@
 
 .blocklyTreeLabel {
   @apply text-semibold-sm;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cdd9e4;
+  border-radius: 4px;
 }
