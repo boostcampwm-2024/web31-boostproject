@@ -3,6 +3,7 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
 import CustomCategory from './customCategory';
+import { CssPropsSelectBox } from './CssPropsSelectBox';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
@@ -204,7 +205,6 @@ export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
-  const selectedTab = '???';
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -224,8 +224,12 @@ export const WorkspaceContent = () => {
     });
     setWorkspace(newWorkspace);
 
+    interface IExtendedIToolbox extends Blockly.IToolbox {
+      HtmlDiv: HTMLElement;
+    }
+
     const customizeFlyoutSVG = () => {
-      const toolbox = newWorkspace.getToolbox();
+      const toolbox: IExtendedIToolbox = newWorkspace.getToolbox()! as IExtendedIToolbox;
 
       const tabs = document.createElement('div');
       tabs.className = 'flex w-96';
@@ -238,18 +242,18 @@ export const WorkspaceContent = () => {
       tab2.classList.add('tab');
       tab2.textContent = 'CSS';
 
-      tab1.addEventListener('click', (event) => {
+      tab1.addEventListener('click', () => {
         newWorkspace.updateToolbox(toolboxConfig);
         const toolboxContents = document.querySelector('.blocklyToolboxContents');
-        toolboxContents.classList.remove('hidden');
+        toolboxContents!.classList.remove('hidden');
         tab1.classList.add('tabSelected');
         tab2.classList.remove('tabSelected');
       });
 
-      tab2.addEventListener('click', (event) => {
+      tab2.addEventListener('click', () => {
         newWorkspace.updateToolbox(toolboxConfig2);
         const toolboxContents = document.querySelector('.blocklyToolboxContents');
-        toolboxContents.classList.add('hidden');
+        toolboxContents!.classList.add('hidden');
         tab2.classList.add('tabSelected');
         tab1.classList.remove('tabSelected');
       });
@@ -257,8 +261,8 @@ export const WorkspaceContent = () => {
       tabs.appendChild(tab1);
       tabs.appendChild(tab2);
 
-      toolbox.HtmlDiv.prepend(tabs);
-      const flyout = newWorkspace.getToolbox().getFlyout();
+      toolbox!.HtmlDiv.prepend(tabs);
+      const flyout = newWorkspace!.getToolbox()!.getFlyout();
       flyout!.hide = () => {};
     };
 
@@ -294,16 +298,6 @@ export const WorkspaceContent = () => {
       ) {
         addInputFieldToFlyout();
       }
-
-      if (event.type === Blockly.Events.TOOLBOX_ITEM_SELECT) {
-        if (event.newItem == undefined) {
-          const flyout = newWorkspace.getToolbox().getFlyout().svgGroup_;
-          console.log(flyout);
-          //flyout.style = 'display: block; transform: translate(292px, 60px);';
-        }
-        // console.log(event);
-        // const clickedBlock = newWorkspace.getBlockById(event.blockId) as Blockly.BlockSvg;
-      }
     });
     return () => {
       newWorkspace.dispose();
@@ -320,7 +314,7 @@ export const WorkspaceContent = () => {
 
   return (
     <div className="flex">
-      {/* <div className="h-[926px] w-[504px]">
+      <div className="h-[926px] w-[504px]">
         <nav className="h-10 border-b border-gray-100">
           <button
             onClick={() => setActiveTab('preview')}
@@ -351,7 +345,7 @@ export const WorkspaceContent = () => {
           {activeTab === 'css' && <p>css 파싱 기능은 구현 중 입니다.</p>}
         </div>
         <CssPropsSelectBox />
-      </div> */}
+      </div>
 
       <div id="blocklyDiv" className="h-[926px] w-[1200px]"></div>
       <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
