@@ -3,7 +3,7 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import CustomCategory from '@/widgets/workspace/blockly/CustomCategory';
+import CustomCategory from '@/widgets/workspace/blockly/customCategory';
 import {
   CssPropsSelectBox,
   defineBlocks,
