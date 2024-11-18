@@ -1,9 +1,12 @@
 import 'blockly/blocks';
+
 import * as Blockly from 'blockly/core';
+
 import { useEffect, useState } from 'react';
-import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
+
+import { CssPropsSelectBox } from '@/widgets/workspace/css';
 import CustomCategory from './customCategory';
-import { CssPropsSelectBox } from '@/widgets/workspace/CssPropsSelectBox';
+import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
