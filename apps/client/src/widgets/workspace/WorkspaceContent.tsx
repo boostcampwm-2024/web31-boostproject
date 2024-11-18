@@ -226,6 +226,8 @@ export const WorkspaceContent = () => {
 
     interface IExtendedIToolbox extends Blockly.IToolbox {
       HtmlDiv: HTMLElement;
+      getToolboxItems: () => Blockly.IToolboxItem[];
+      setSelectedItem: (newItem: Blockly.IToolboxItem | null) => void;
     }
 
     const customizeFlyoutSVG = () => {
@@ -241,6 +243,9 @@ export const WorkspaceContent = () => {
       const tab2 = document.createElement('button');
       tab2.classList.add('tab');
       tab2.textContent = 'CSS';
+
+      tab1.classList.add('tabSelected');
+      tab2.classList.remove('tabSelected');
 
       tab1.addEventListener('click', () => {
         newWorkspace.updateToolbox(toolboxConfig);
@@ -264,6 +269,8 @@ export const WorkspaceContent = () => {
       toolbox!.HtmlDiv.prepend(tabs);
       const flyout = newWorkspace!.getToolbox()!.getFlyout();
       flyout!.hide = () => {};
+
+      toolbox.setSelectedItem(toolbox.getToolboxItems()![0]);
     };
 
     customizeFlyoutSVG();
