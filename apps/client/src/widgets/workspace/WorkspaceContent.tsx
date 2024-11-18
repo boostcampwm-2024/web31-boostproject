@@ -64,7 +64,7 @@ export const WorkspaceContent = () => {
   return (
     <div className="flex flex-1">
       <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
-        <div className="flex-1 border-b border-gray-100">
+        <section className="flex-1 border-b border-gray-100">
           <nav className="flex h-10 border-b border-gray-100">
             <button
               onClick={() => setActiveTab('preview')}
@@ -86,11 +86,11 @@ export const WorkspaceContent = () => {
             </button>
           </nav>
           <div className="min-h-[20rem]">
-            {activeTab === 'preview' && <iframe srcDoc={htmlCode}></iframe>}
+            {activeTab === 'preview' && <iframe srcDoc={htmlCode} title="Preview"></iframe>}
             {activeTab === 'html' && <pre className="whitespace-pre-wrap">{htmlCode}</pre>}
             {activeTab === 'css' && <p>css 파싱 기능은 구현 중 입니다.</p>}
           </div>
-        </div>
+        </section>
         <CssPropsSelectBox />
       </div>
 
