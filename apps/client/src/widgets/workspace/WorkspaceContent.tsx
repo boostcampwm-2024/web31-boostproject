@@ -150,6 +150,48 @@ const contents = [
   },
 ];
 
+// alert창을 통한 동적 생성
+const openTypedVariableModal = (workspace: Blockly.WorkspaceSvg) => {
+  const blockName = prompt('새로운 css 블록 이름을 입력하세요.');
+
+  if (!Blockly.Blocks[blockName!]) {
+    Blockly.Blocks[blockName!] = {
+      init: function () {
+        this.appendDummyInput().appendField(
+          new Blockly.FieldTextInput(blockName || undefined),
+          'CLASS'
+        );
+        this.setOutput(true); // 이 블록을 다른 블록에 연결할 수 있도록 설정
+      },
+    };
+
+    // "폼" 카테고리를 찾아 새 블록 추가
+    const updatedToolboxContents = toolboxConfig.contents.map((category) => {
+      if (category.name === '폼') {
+        return {
+          ...category,
+          contents: [
+            ...(category.contents || []), // 기존 블록 유지
+            { kind: 'block', type: blockName }, // 새 블록 추가
+          ],
+        };
+      }
+      return category; // 다른 카테고리는 변경하지 않음
+    });
+
+    // 툴박스 갱신
+    const updatedToolboxConfig = {
+      kind: 'categoryToolbox',
+      contents: updatedToolboxContents,
+    };
+
+    workspace.updateToolbox(updatedToolboxConfig);
+    alert(`새 블록 "${blockName}"이(가) 성공적으로 추가되었습니다.`);
+  } else {
+    alert('이미 존재하는 블록 이름입니다. 다른 이름을 입력하세요.');
+  }
+};
+
 const toolboxConfig = {
   kind: 'categoryToolbox',
   contents: [
