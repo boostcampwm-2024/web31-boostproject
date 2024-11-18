@@ -1,9 +1,9 @@
 import { FocusEventHandler, KeyboardEventHandler } from 'react';
 
+import { Spinner } from '@/shared/ui';
 import { useParams } from 'react-router-dom';
 import { useUpdateWorkspaceName } from '@/shared/hooks';
 import { useWorkspaceStore } from '@/shared/store';
-import { Spinner } from '@/shared/ui';
 
 export const WorkspaceNameInput = () => {
   const { workspaceId } = useParams() as { workspaceId: string };
@@ -47,7 +47,7 @@ export const WorkspaceNameInput = () => {
         />
         {isPending && (
           <div className="absolute right-5">
-            <Spinner width={4} height={4} foregroundColor="green-500" backgroundColor="gray-200" />
+            <Spinner width={4} height={4} foregroundColor="green500" backgroundColor="gray200" />
           </div>
         )}
       </div>
