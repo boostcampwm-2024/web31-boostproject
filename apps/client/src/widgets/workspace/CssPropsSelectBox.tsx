@@ -49,37 +49,42 @@ export const CssPropsSelectBox = () => {
   };
 
   return (
-    <section className="flex h-[392px] w-full">
-      <nav className="border-r border-r-gray-100 px-4 py-3">
+    <section className="flex h-[26rem] w-full">
+      <nav className="flex flex-shrink-0 flex-col gap-1.5 overflow-y-scroll border-r border-r-gray-100 px-4 py-3">
         {Object.keys(cssCategoriesObj).map((cssCategory) => (
           <button
             key={cssCategory}
             onClick={() => setSelectedCssCategory(cssCategory)}
-            className={`mb-1.5 text-bold-sm flex h-[36px] w-[100px] cursor-pointer items-center rounded p-2 text-gray-200 ${selectedCssCategory === cssCategory && 'text-gray-black bg-yellow-500'}`}
+            className={`text-bold-sm flex cursor-pointer rounded p-3 text-gray-200 ${selectedCssCategory === cssCategory && 'text-gray-black bg-yellow-500'}`}
           >
             {cssCategory}
           </button>
         ))}
       </nav>
-      <article className="space-y-2 overflow-y-auto p-3 pr-1">
+      <article className="flex h-full w-full flex-col gap-4 overflow-y-scroll p-3">
         {cssCategoriesObj[selectedCssCategory].items.map((cssName, index) => (
           <div
             key={index}
-            className={`flex h-[66px] w-[344px] items-center rounded-lg px-4 ${
+            className={`flex h-[66px] w-full flex-shrink-0 items-center justify-between rounded-lg px-4 ${
               checkedProperties[cssName] ? 'bg-yellow-500' : 'bg-gray-50'
             }`}
           >
-            <input
-              type="checkbox"
-              checked={!!checkedProperties[cssName]}
-              onChange={() => handleCheckboxChange(cssName)}
-              title={cssName}
-              className="h-5 w-5 appearance-none rounded border border-gray-100 bg-center bg-no-repeat checked:bg-white checked:bg-[url('@/shared/assets/check.svg')]"
-            />
-            <span className="text-semibold-md text-gray-black border-gray-100 pl-5 pr-2">
-              {cssName}
-            </span>
-            <Question />
+            <div className="flex items-center gap-5">
+              <input
+                type="checkbox"
+                checked={!!checkedProperties[cssName]}
+                onChange={() => handleCheckboxChange(cssName)}
+                title={cssName}
+                className="h-5 w-5 appearance-none rounded border border-gray-100 bg-center bg-no-repeat checked:bg-white checked:bg-[url('@/shared/assets/check.svg')]"
+              />
+              <div className="flex items-center gap-2">
+                <span className="text-semibold-md text-gray-black max-w-32 truncate border-gray-100">
+                  {cssName}
+                </span>
+                <Question />
+              </div>
+            </div>
+            <div className="truncate">영재</div>
           </div>
         ))}
       </article>
