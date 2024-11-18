@@ -1,6 +1,6 @@
 import { FocusEventHandler, KeyboardEventHandler } from 'react';
 
-import Spinner from '@/shared/assets/spinner.svg?react';
+import { Spinner } from '@/shared/ui';
 import { useParams } from 'react-router-dom';
 import { useUpdateWorkspaceName } from '@/shared/hooks';
 import { useWorkspaceStore } from '@/shared/store';
@@ -46,7 +46,9 @@ export const WorkspaceNameInput = () => {
           disabled={isPending}
         />
         {isPending && (
-          <Spinner className="absolute right-5 inline h-4 w-4 animate-spin fill-green-500 text-gray-200" />
+          <div className="absolute right-5">
+            <Spinner width={4} height={4} foregroundColor="green500" backgroundColor="gray200" />
+          </div>
         )}
       </div>
     </>

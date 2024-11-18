@@ -17,7 +17,6 @@ export const WorkspaceContainer = () => {
       rootMargin: '0px',
       threshold: 0.5,
     };
-
     const fetchCallback: IntersectionObserverCallback = (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && hasNextPage) {
@@ -26,13 +25,10 @@ export const WorkspaceContainer = () => {
         }
       });
     };
-
     const observer = new IntersectionObserver(fetchCallback, options);
-
     if (nextFetchTargetRef.current) {
       observer.observe(nextFetchTargetRef.current);
     }
-
     return () => {
       if (nextFetchTargetRef.current) {
         observer.unobserve(nextFetchTargetRef.current);

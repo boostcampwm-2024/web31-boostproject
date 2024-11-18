@@ -30,7 +30,12 @@ export const WorkspaceService = () => {
     cursor: { updatedAt: string; workspaceId: string } | null
   ) => {
     try {
-      const query: any = { user_id: userId };
+      const query: {
+        user_id: string;
+        $or?: Array<
+          { updated_at: { $lt: string } } | { updated_at: string; workspace_id: { $gt: string } }
+        >;
+      } = { user_id: userId };
       if (cursor) {
         query.$or = [
           { updated_at: { $lt: cursor.updatedAt } },
@@ -88,9 +93,24 @@ export const WorkspaceService = () => {
       return updatedWorkspace;
     } catch (error) {
       if (error instanceof Error) {
-        throw new Error(`Failed to get workspace : ${error.message}`);
+        throw new Error(`Failed to update workspace : ${error.message}`);
       }
-      throw new Error(`Unknown Error ocurred while getting workspace`);
+      throw new Error(`Unknown Error ocurred while udating workspace`);
+    }
+  };
+
+  const deleteWorkspace = async (userId: string, workspaceId: string) => {
+    try {
+      const deletedWorkspace = await Workspace.findOneAndDelete({
+        user_id: userId,
+        workspace_id: workspaceId,
+      }).exec();
+      return deletedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to delete workspace : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while deleting workspace`);
     }
   };
 
@@ -99,5 +119,6 @@ export const WorkspaceService = () => {
     findWorkspaceListByPage,
     findWorkspaceByWorkspaceId,
     updateWorkspaceName,
+    deleteWorkspace,
   };
 };

@@ -1,28 +1,26 @@
-import { ModalConfirm, SquareButton } from '@/shared/ui';
+import { ModalConfirm, Spinner, SquareButton } from '@/shared/ui';
 
 import { useModalStore } from '@/shared/store/useModalStore';
-
-type WorkspaceModalProps = {
-  workspaceName?: string;
-};
 
 type TbuttonContent = {
   name: string;
   func: () => void;
   type: 'neutral' | 'danger';
+  isDisabled?: boolean;
 };
 
-export const WorkspaceModal = ({ workspaceName = '[워크스페이스 이름]' }: WorkspaceModalProps) => {
-  const { isModalOpen: isOpen, closeModal: onClose } = useModalStore();
-
-  const removeWorkspace = () => {
-    // TODO: 워크스페이스 삭제
-    onClose();
-  };
+export const WorkspaceModal = () => {
+  const {
+    isModalOpen: isOpen,
+    closeModal: onClose,
+    modalContent,
+    modalAction,
+    isLoading,
+  } = useModalStore();
 
   const buttonContents: TbuttonContent[] = [
     { name: '아차차~', func: onClose, type: 'neutral' },
-    { name: '지울래요', func: removeWorkspace, type: 'danger' },
+    { name: '지울래요', func: modalAction, type: 'danger', isDisabled: isLoading },
   ];
 
   return (
@@ -31,15 +29,30 @@ export const WorkspaceModal = ({ workspaceName = '[워크스페이스 이름]' }
         <div className="mb-10 flex flex-col items-center justify-center gap-3 text-center">
           <img src="./images/booduck_modal.png" width={100} height={100} />
           <p className="text-semibold-lg whitespace-pre-line leading-tight text-gray-500">
-            {`${workspaceName}을 
-            삭제하시겠습니까?`}
+            {modalContent}
           </p>
         </div>
 
         <div className="flex gap-3">
           {buttonContents.map((content, index) => (
-            <SquareButton key={index} onClick={() => content.func()} variant={content.type}>
-              {content.name}
+            <SquareButton
+              key={index}
+              onClick={() => content.func()}
+              variant={content.type}
+              isDisabled={content.isDisabled}
+            >
+              <>
+                {content.isDisabled ? (
+                  <Spinner
+                    width={4}
+                    height={4}
+                    foregroundColor="grayWhite"
+                    backgroundColor="gray200"
+                  />
+                ) : (
+                  content.name
+                )}
+              </>
             </SquareButton>
           ))}
         </div>

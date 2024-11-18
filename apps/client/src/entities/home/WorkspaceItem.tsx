@@ -1,19 +1,41 @@
 import TrashSVG from '@/shared/assets/trash.svg?react';
 import { formatRelativeOrAbsoluteDate } from '@/shared/utils';
 import { useModalStore } from '@/shared/store';
+import { useDeleteWorkspace } from '@/shared/hooks';
 
 type WorkspaceItemProps = {
+  workspaceId: string;
   title: string;
   thumbnail: string;
   lastEdited: string;
   onClick: () => void;
 };
 
-export const WorkspaceItem = ({ title, thumbnail, lastEdited, onClick }: WorkspaceItemProps) => {
-  const { openModal: onOpen } = useModalStore();
+export const WorkspaceItem = ({
+  workspaceId,
+  title,
+  thumbnail,
+  lastEdited,
+  onClick,
+}: WorkspaceItemProps) => {
+  const { openModal: onOpen, setModalContent, setModalAction: handleClick } = useModalStore();
+  const { mutate } = useDeleteWorkspace();
+
+  const handleOnclick = () => {
+    setModalContent(`${title}을(를)
+      삭제하겠습니까?`);
+    handleClick(() => {
+      mutate(workspaceId);
+    });
+    onOpen();
+  };
+
   return (
     <li className="shadow-drop relative rounded-lg">
-      <button className="absolute right-2 top-2 text-gray-300 hover:text-red-500" onClick={onOpen}>
+      <button
+        className="absolute right-2 top-2 text-gray-300 hover:text-red-500"
+        onClick={handleOnclick}
+      >
         <TrashSVG width={16} />
       </button>
       <div className="cursor-pointer" onClick={onClick}>
