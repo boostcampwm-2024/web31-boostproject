@@ -46,8 +46,8 @@ export const WorkspaceModal = () => {
                   <Spinner
                     width={4}
                     height={4}
-                    foregroundColor="gray-white"
-                    backgroundColor="gray-200"
+                    foregroundColor="grayWhite"
+                    backgroundColor="gray200"
                   />
                 ) : (
                   content.name
