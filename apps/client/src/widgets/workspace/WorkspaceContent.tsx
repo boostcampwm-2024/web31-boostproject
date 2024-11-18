@@ -27,6 +27,7 @@ const customTheme = Blockly.Theme.defineTheme('custom', {
     scrollbarOpacity: 0.001,
     cursorColour: '#d0d0d0',
   },
+
   categoryStyles: {
     containerCategory: {
       colour: 'FF3A61',
@@ -168,7 +169,14 @@ const toolboxConfig = {
       kind: 'category',
       name: '폼',
       categorystyle: 'formCategory',
-      contents: [{ kind: 'block', type: 'css_style' }],
+      contents: [
+        {
+          kind: 'button',
+          text: '추가하기',
+          callbackKey: 'openTypedVariableModal',
+        },
+        { kind: 'block', type: 'css_style' },
+      ],
     },
     {
       kind: 'category',
@@ -202,59 +210,29 @@ export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
 
-  useEffect(() => {
-    const newWorkspace = Blockly.inject('blocklyDiv', {
-      renderer: 'zelos',
-      toolboxPosition: 'end',
-      toolbox: toolboxConfig,
-      theme: customTheme, // 커스텀 테마 적용
-      zoom: {
-        // 확대 및 축소 버튼 설정
-        controls: true,
-        wheel: true,
-        startScale: 1.0,
-        maxScale: 3,
-        minScale: 0.3,
-        scaleSpeed: 1.2,
-      },
-    });
-    setWorkspace(newWorkspace);
+  const customToolbox = (newWorkspace: Blockly.WorkspaceSvg) => {
+    const toolbox = newWorkspace.getToolbox();
 
-    // CSS 카테고리가 열릴 때 input 필드를 동적으로 추가하는 함수
-    const addInputFieldToFlyout = () => {
-      const toolboxElement = document.querySelector('.blocklyFlyout');
+    const tagStyleTab = document.createElement('div');
+    tagStyleTab.className = 'flex justify-center';
 
-      if (toolboxElement) {
-        // 기존에 추가된 input 필드가 있는지 확인하고, 있으면 제거
-        let existingInputDiv = toolboxElement.querySelector('.custom-input');
-        if (existingInputDiv) {
-          existingInputDiv.remove();
-        }
+    const tagButton = document.createElement('button');
+    tagButton.textContent = '태그';
+    tagButton.className = 'bg-blue-300 w-1/2 py-2';
 
-        // 새로운 input 필드 생성
-        const inputDiv = document.createElement('div');
-        inputDiv.className = 'custom-input';
-        inputDiv.style.padding = '5px';
-        inputDiv.innerHTML = `<input type="text" placeholder="스타일을 정해주세요" style="width: 90%;" />`;
+    const styleButton = document.createElement('button');
+    styleButton.textContent = '스타일';
+    styleButton.className = 'bg-red-300 w-1/2 py-2';
 
-        // Flyout toolbox에 input 필드를 추가
-        toolboxElement.insertBefore(inputDiv, toolboxElement.firstChild);
-      }
-    };
+    tagStyleTab.appendChild(tagButton);
+    tagStyleTab.appendChild(styleButton);
 
-    // CSS 카테고리 열기를 감지하고 input 필드를 추가
-    newWorkspace.addChangeListener((event) => {
-      if (
-        event.type === Blockly.Events.TOOLBOX_ITEM_SELECT &&
-        (event as any).newItemId === 'css_category'
-      ) {
-        addInputFieldToFlyout();
-      }
-    });
-    return () => {
-      newWorkspace.dispose();
-    };
-  }, []);
+    const htmlDiv = (toolbox as any)?.HtmlDiv;
+    htmlDiv?.prepend(tagStyleTab);
+
+    const flyout = toolbox?.getFlyout();
+    flyout!.hide = () => {};
+  };
 
   const generateHtmlCode = () => {
     if (!workspace) {
@@ -263,6 +241,34 @@ export const WorkspaceContent = () => {
     const code = htmlCodeGenerator.workspaceToCode(workspace);
     setHtmlCode(code);
   };
+
+  useEffect(() => {
+    const newWorkspace = Blockly.inject('blocklyDiv', {
+      renderer: 'zelos',
+      toolboxPosition: 'end',
+      toolbox: toolboxConfig,
+      theme: customTheme,
+      zoom: {
+        controls: true,
+        wheel: true,
+        startScale: 1.0,
+        maxScale: 3,
+        minScale: 0.3,
+        scaleSpeed: 1.2,
+      },
+    });
+
+    newWorkspace.registerButtonCallback('openTypedVariableModal', () =>
+      openTypedVariableModal(newWorkspace)
+    );
+
+    setWorkspace(newWorkspace);
+    customToolbox(newWorkspace);
+
+    return () => {
+      newWorkspace.dispose();
+    };
+  }, []);
 
   return (
     <div className="flex">
