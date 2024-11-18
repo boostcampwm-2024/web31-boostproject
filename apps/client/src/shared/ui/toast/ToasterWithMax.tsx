@@ -12,5 +12,5 @@ export const ToasterWithMax = () => {
       .forEach((t) => toast.dismiss(t.id));
   }, [toasts, toastLimit]);
 
-  return <Toaster position="bottom-center" reverseOrder={false} />;
+  return <Toaster position="top-center" reverseOrder={false} />;
 };

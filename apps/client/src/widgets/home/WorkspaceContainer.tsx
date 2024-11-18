@@ -1,14 +1,12 @@
+import { EmptyWorkspace, WorkspaceGrid, WorkspaceHeader, WorkspaceList } from '@/widgets';
 import { useEffect, useRef } from 'react';
 
-import { EmptyWorkspace } from './EmptyWorkspace';
 import { SkeletonWorkspaceList } from '@/shared/ui';
-import { WorkspaceGrid } from '@/widgets';
-import { WorkspaceHeader } from './WorkspaceHeader';
-import { WorkspaceList } from './WorkspaceList';
+import { WorkspaceLoadError } from '@/entities';
 import { useGetWorkspaceList } from '@/shared/hooks';
 
 export const WorkspaceContainer = () => {
-  const { hasNextPage, fetchNextPage, isPending, isFetchingNextPage, workspaceList } =
+  const { hasNextPage, fetchNextPage, isPending, isFetchingNextPage, isError, workspaceList } =
     useGetWorkspaceList();
 
   const nextFetchTargetRef = useRef<HTMLDivElement | null>(null);
@@ -19,7 +17,6 @@ export const WorkspaceContainer = () => {
       rootMargin: '0px',
       threshold: 0.5,
     };
-
     const fetchCallback: IntersectionObserverCallback = (entries, observer) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting && hasNextPage) {
@@ -28,13 +25,10 @@ export const WorkspaceContainer = () => {
         }
       });
     };
-
     const observer = new IntersectionObserver(fetchCallback, options);
-
     if (nextFetchTargetRef.current) {
       observer.observe(nextFetchTargetRef.current);
     }
-
     return () => {
       if (nextFetchTargetRef.current) {
         observer.unobserve(nextFetchTargetRef.current);
@@ -45,16 +39,22 @@ export const WorkspaceContainer = () => {
   return (
     <section className="pb-48">
       <WorkspaceHeader />
-      <WorkspaceGrid>
-        {workspaceList &&
-          (workspaceList.length === 0 ? (
-            <EmptyWorkspace />
-          ) : (
+      {isError ? (
+        <WorkspaceLoadError />
+      ) : (
+        workspaceList &&
+        (workspaceList.length === 0 ? (
+          <EmptyWorkspace />
+        ) : (
+          <WorkspaceGrid>
             <WorkspaceList workspaceList={workspaceList} />
-          ))}
-        {(isPending || isFetchingNextPage) && <SkeletonWorkspaceList skeletonNum={8} />}
-      </WorkspaceGrid>
-      <div ref={nextFetchTargetRef} className="h-3 w-full"></div>
+            {(isPending || isFetchingNextPage) && <SkeletonWorkspaceList skeletonNum={8} />}
+          </WorkspaceGrid>
+        ))
+      )}
+      {!isPending && !isFetchingNextPage && hasNextPage && (
+        <div ref={nextFetchTargetRef} className="h-3 w-full"></div>
+      )}
     </section>
   );
 };

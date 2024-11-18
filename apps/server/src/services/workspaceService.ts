@@ -30,7 +30,12 @@ export const WorkspaceService = () => {
     cursor: { updatedAt: string; workspaceId: string } | null
   ) => {
     try {
-      const query: any = { user_id: userId };
+      const query: {
+        user_id: string;
+        $or?: Array<
+          { updated_at: { $lt: string } } | { updated_at: string; workspace_id: { $gt: string } }
+        >;
+      } = { user_id: userId };
       if (cursor) {
         query.$or = [
           { updated_at: { $lt: cursor.updatedAt } },
@@ -59,8 +64,61 @@ export const WorkspaceService = () => {
     }
   };
 
+  // TODO: 워크스페이스 상태도 불러와야 함
+  const findWorkspaceByWorkspaceId = async (userId: string, workspaceId: string) => {
+    try {
+      const workspace = await Workspace.findOne(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        { workspace_id: 1, name: 1, _id: 0 }
+      );
+      return workspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to get workspace : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while getting workspace`);
+    }
+  };
+
+  const updateWorkspaceName = async (userId: string, workspaceId: string, newName: string) => {
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        { user_id: userId, workspace_id: workspaceId },
+        { name: newName, updated_at: Date.now() },
+        { new: true }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while udating workspace`);
+    }
+  };
+
+  const deleteWorkspace = async (userId: string, workspaceId: string) => {
+    try {
+      const deletedWorkspace = await Workspace.findOneAndDelete({
+        user_id: userId,
+        workspace_id: workspaceId,
+      }).exec();
+      return deletedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to delete workspace : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while deleting workspace`);
+    }
+  };
+
   return {
     createWorkspace,
     findWorkspaceListByPage,
+    findWorkspaceByWorkspaceId,
+    updateWorkspaceName,
+    deleteWorkspace,
   };
 };

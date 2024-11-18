@@ -3,7 +3,6 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
 import CustomCategory from './customCategory';
-import { CssPropsSelectBox } from '@/widgets/workspace/CssPropsSelectBox';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
@@ -196,10 +195,16 @@ const toolboxConfig = {
   ],
 };
 
+const toolboxConfig2 = {
+  kind: 'categoryToolbox',
+  contents: [],
+};
+
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
+  const selectedTab = '???';
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -222,26 +227,39 @@ export const WorkspaceContent = () => {
     const customizeFlyoutSVG = () => {
       const toolbox = newWorkspace.getToolbox();
 
-      // 새 div 요소 생성
-      const flexDiv = document.createElement('div');
-      flexDiv.className = 'flex w-96';
+      const tabs = document.createElement('div');
+      tabs.className = 'flex w-96';
 
-      // 버튼1 생성
-      const button1 = document.createElement('button');
-      button1.className = 'text-semibold-md flex-1 bg-gray-50 py-3 rounded-t-lg text-gray-200';
-      button1.textContent = 'HTML';
+      const tab1 = document.createElement('button');
+      tab1.classList.add('tab');
+      tab1.textContent = 'HTML';
 
-      // 버튼2 생성
-      const button2 = document.createElement('button');
-      button2.className = 'text-bold-md text-white flex-1 bg-blue-500 rounded-t-lg py-3';
-      button2.textContent = 'CSS';
+      const tab2 = document.createElement('button');
+      tab2.classList.add('tab');
+      tab2.textContent = 'CSS';
 
-      // 버튼을 div에 추가
-      flexDiv.appendChild(button1);
-      flexDiv.appendChild(button2);
+      tab1.addEventListener('click', (event) => {
+        newWorkspace.updateToolbox(toolboxConfig);
+        const toolboxContents = document.querySelector('.blocklyToolboxContents');
+        toolboxContents.classList.remove('hidden');
+        tab1.classList.add('tabSelected');
+        tab2.classList.remove('tabSelected');
+      });
 
-      // flexDiv를 대상 요소 앞에 추가
-      toolbox.HtmlDiv.prepend(flexDiv);
+      tab2.addEventListener('click', (event) => {
+        newWorkspace.updateToolbox(toolboxConfig2);
+        const toolboxContents = document.querySelector('.blocklyToolboxContents');
+        toolboxContents.classList.add('hidden');
+        tab2.classList.add('tabSelected');
+        tab1.classList.remove('tabSelected');
+      });
+
+      tabs.appendChild(tab1);
+      tabs.appendChild(tab2);
+
+      toolbox.HtmlDiv.prepend(tabs);
+      const flyout = newWorkspace.getToolbox().getFlyout();
+      flyout!.hide = () => {};
     };
 
     customizeFlyoutSVG();
@@ -281,7 +299,7 @@ export const WorkspaceContent = () => {
         if (event.newItem == undefined) {
           const flyout = newWorkspace.getToolbox().getFlyout().svgGroup_;
           console.log(flyout);
-          flyout.style = 'display: block; transform: translate(292px, 60px);';
+          //flyout.style = 'display: block; transform: translate(292px, 60px);';
         }
         // console.log(event);
         // const clickedBlock = newWorkspace.getBlockById(event.blockId) as Blockly.BlockSvg;
@@ -335,7 +353,7 @@ export const WorkspaceContent = () => {
         <CssPropsSelectBox />
       </div> */}
 
-      <div id="blocklyDiv" className="h-[926px] w-[600px]"></div>
+      <div id="blocklyDiv" className="h-[926px] w-[1200px]"></div>
       <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
         변환하기
       </button>
