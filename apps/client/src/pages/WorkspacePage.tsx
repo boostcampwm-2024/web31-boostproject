@@ -15,10 +15,10 @@ export const WorkspacePage = () => {
   }
 
   return (
-    <>
+    <div className="flex h-screen flex-col">
       {isPending && <Loading />}
       <WorkspacePageHeader />
       <WorkspaceContent />
-    </>
+    </div>
   );
 };
