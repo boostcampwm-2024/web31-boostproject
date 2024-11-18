@@ -8,6 +8,7 @@ export { WorkspaceContainer } from './home/WorkspaceContainer';
 export { WorkspaceModal } from './home/WorkspaceModal';
 
 export { CssPropsSelectBox } from './workspace/CssPropsSelectBox';
+export { PreviewBox } from './workspace/PreviewBox';
 export { WorkspaceContent } from './workspace/WorkspaceContent';
 export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
 

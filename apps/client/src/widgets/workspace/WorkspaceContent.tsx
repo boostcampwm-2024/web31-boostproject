@@ -11,8 +11,8 @@ import {
   initTheme,
   customizeFlyoutSVG,
   classMakerPrompt,
+  PreviewBox,
 } from '@/widgets';
-import { PreviewBox } from './PreviewBox';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
