@@ -1,6 +1,7 @@
 import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
-import { categoryColours } from './categoryStyles';
+
+import { categoryColours } from '@/widgets';
 
 export const initTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',

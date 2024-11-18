@@ -7,5 +7,15 @@ export { WorkspaceGrid } from './home/WorkspaceGrid';
 export { WorkspaceContainer } from './home/WorkspaceContainer';
 export { WorkspaceModal } from './home/WorkspaceModal';
 
+export { CssPropsSelectBox } from './workspace/CssPropsSelectBox';
 export { WorkspaceContent } from './workspace/WorkspaceContent';
 export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
+
+export { categoryColours } from './workspace/blockly/categoryColours';
+export { classMakerPrompt } from './workspace/blockly/classMakerPrompt';
+export { customizeFlyoutSVG } from './workspace/blockly/customizeFlyoutSVG';
+export { defineBlocks } from './workspace/blockly/defineBlocks';
+export { htmBlockContents } from './workspace/blockly/htmBlockContents';
+export { initTheme } from './workspace/blockly/initTheme';
+export { toolboxConfig } from './workspace/blockly/toolboxConfig';
+export { toolboxConfig2 } from './workspace/blockly/toolboxConfig2';

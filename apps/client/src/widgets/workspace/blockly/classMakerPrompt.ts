@@ -1,6 +1,7 @@
 import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
-import { toolboxConfig } from './toolboxConfig';
+
+import { toolboxConfig } from '@/widgets';
 
 // prompt를 이용한 class 동적 생성
 export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
@@ -32,7 +33,9 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
     return;
   }
 
-  formCategory!.contents = [...existingBlocks, { kind: 'block', type: blockName }];
+  if (blockName) {
+    formCategory!.contents = [...existingBlocks, { kind: 'block', type: blockName }];
+  }
 
   // 기존 툴박스 갱신
   workspace.updateToolbox(toolboxConfig);

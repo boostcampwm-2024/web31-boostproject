@@ -1,4 +1,5 @@
 import { useState } from 'react';
+
 import Question from '@/shared/assets/question.svg?react';
 
 export const CssPropsSelectBox = () => {

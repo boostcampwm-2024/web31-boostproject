@@ -1,7 +1,7 @@
 import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
-import { toolboxConfig } from './toolboxConfig';
-import { toolboxConfig2 } from './toolboxConfig2';
+
+import { toolboxConfig, toolboxConfig2 } from '@/widgets';
 
 interface IExtendedIToolbox extends Blockly.IToolbox {
   HtmlDiv: HTMLElement;

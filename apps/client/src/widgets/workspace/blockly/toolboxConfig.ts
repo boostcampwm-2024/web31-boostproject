@@ -1,4 +1,4 @@
-import { htmBlockContents } from './htmBlockContents';
+import { htmBlockContents } from '@/widgets';
 
 export const toolboxConfig = {
   kind: 'categoryToolbox',

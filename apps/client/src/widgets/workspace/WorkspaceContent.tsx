@@ -1,14 +1,17 @@
 import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
+
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import CustomCategory from '@/widgets/workspace/blockly/customCategory';
-import { CssPropsSelectBox } from './CssPropsSelectBox';
-import { defineBlocks } from '@/widgets/workspace/blockly/defineBlocks';
-import { toolboxConfig } from '@/widgets/workspace/blockly/toolboxConfig';
-import { initTheme } from '@/widgets/workspace/blockly/initTheme';
-import { customizeFlyoutSVG } from '@/widgets/workspace/blockly/customizeFlyoutSVG';
-import { classMakerPrompt } from './blockly/classMakerPrompt';
+import CustomCategory from '@/widgets/workspace/blockly/CustomCategory';
+import {
+  CssPropsSelectBox,
+  defineBlocks,
+  toolboxConfig,
+  initTheme,
+  customizeFlyoutSVG,
+  classMakerPrompt,
+} from '@/widgets';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
