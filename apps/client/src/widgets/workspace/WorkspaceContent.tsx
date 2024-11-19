@@ -43,7 +43,7 @@ export const WorkspaceContent = () => {
       },
     });
 
-    newWorkspace.registerButtonCallback('classMakerPrompt', () => classMakerPrompt(newWorkspace));
+    // newWorkspace.registerButtonCallback('classMakerPrompt', () => classMakerPrompt(newWorkspace));
 
     setWorkspace(newWorkspace);
     customizeFlyoutSVG(newWorkspace);

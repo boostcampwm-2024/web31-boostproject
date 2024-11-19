@@ -1,7 +1,7 @@
 import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 
-import { toolboxConfig } from '@/widgets';
+import { toolboxConfig2 } from '@/widgets';
 
 // prompt를 이용한 class 동적 생성
 export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
@@ -21,11 +21,8 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
     };
   }
 
-  // "폼" 카테고리를 찾아 기존 블록 유지 및 새 블록 추가
-  const formCategory = toolboxConfig.contents.find((category) => category.name === '폼');
-
   // 기존 블록 유지 및 새 블록 추가
-  const existingBlocks = formCategory!.contents || [];
+  const existingBlocks = toolboxConfig2!.contents || [];
   const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === blockName);
 
   if (isBlockAlreadyAdded) {
@@ -34,11 +31,11 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
   }
 
   if (blockName) {
-    formCategory!.contents = [...existingBlocks, { kind: 'block', type: blockName }];
+    toolboxConfig2!.contents = [...existingBlocks, { kind: 'block', type: blockName }];
   }
 
   // 기존 툴박스 갱신
-  workspace.updateToolbox(toolboxConfig);
+  workspace.updateToolbox(toolboxConfig2);
 
   alert(`새 블록 "${blockName}"이(가) "폼" 카테고리에 성공적으로 추가되었습니다.`);
 };
