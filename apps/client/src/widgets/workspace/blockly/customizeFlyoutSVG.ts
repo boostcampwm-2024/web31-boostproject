@@ -14,23 +14,23 @@ export const customizeFlyoutSVG = (newWorkspace: any) => {
   const tabs = document.createElement('div');
   tabs.className = 'flex w-96';
 
-  const tab1 = document.createElement('button');
-  tab1.classList.add('tab');
-  tab1.textContent = 'HTML';
+  const tagTab = document.createElement('button');
+  tagTab.classList.add('tab');
+  tagTab.textContent = '태그';
 
-  const tab2 = document.createElement('button');
-  tab2.classList.add('tab');
-  tab2.textContent = 'CSS';
+  const styleTab = document.createElement('button');
+  styleTab.classList.add('tab');
+  styleTab.textContent = '스타일';
 
-  tab1.addEventListener('click', () => {
+  tagTab.addEventListener('click', () => {
     newWorkspace.updateToolbox(toolboxConfig);
     const toolboxContents = document.querySelector('.blocklyToolboxContents');
     toolboxContents!.classList.remove('hidden');
-    tab1.classList.add('tabSelected');
-    tab2.classList.remove('tabSelected');
+    tagTab.classList.add('tabSelected');
+    styleTab.classList.remove('tabSelected');
   });
 
-  tab2.addEventListener('click', () => {
+  styleTab.addEventListener('click', () => {
     newWorkspace.updateToolbox(toolboxConfig2);
     const toolboxContents = document.querySelector('.blocklyToolboxContents');
     toolboxContents!.classList.add('hidden');
@@ -39,12 +39,12 @@ export const customizeFlyoutSVG = (newWorkspace: any) => {
     newWorkspace.registerButtonCallback('classMakerPrompt', () => classMakerPrompt(newWorkspace));
     flyout.show(flyoutContents);
 
-    tab2.classList.add('tabSelected');
-    tab1.classList.remove('tabSelected');
+    styleTab.classList.add('tabSelected');
+    tagTab.classList.remove('tabSelected');
   });
 
-  tabs.appendChild(tab1);
-  tabs.appendChild(tab2);
+  tabs.appendChild(tagTab);
+  tabs.appendChild(styleTab);
 
   toolbox!.HtmlDiv.prepend(tabs);
 
