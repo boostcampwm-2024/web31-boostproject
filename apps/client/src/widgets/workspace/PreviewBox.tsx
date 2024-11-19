@@ -1,10 +1,12 @@
+import { useState } from 'react';
+
 type PreviewBoxProps = {
-  activeTab: 'preview' | 'html' | 'css';
-  setActiveTab: (tab: 'preview' | 'html' | 'css') => void;
   htmlCode: string;
 };
 
-export const PreviewBox = ({ activeTab, setActiveTab, htmlCode }: PreviewBoxProps) => {
+export const PreviewBox = ({ htmlCode }: PreviewBoxProps) => {
+  const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
+
   return (
     <section className="flex-1 border-b border-gray-100">
       <nav className="flex h-10 border-b border-gray-100">

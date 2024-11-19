@@ -24,7 +24,6 @@ Blockly.registry.register(
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
 
   defineBlocks();
 
@@ -65,7 +64,7 @@ export const WorkspaceContent = () => {
   return (
     <div className="flex flex-1">
       <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
-        <PreviewBox activeTab={activeTab} setActiveTab={setActiveTab} htmlCode={htmlCode} />
+        <PreviewBox htmlCode={htmlCode} />
         <CssPropsSelectBox />
       </div>
 
