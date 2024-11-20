@@ -1,20 +1,15 @@
-import { useEffect, useState } from 'react';
-
 import { useCssPropsStore } from '@/shared/store';
+import { useState } from 'react';
 
 export const CssPropsSelectBoxHeader = () => {
-  const { cssClassName, setCssClassName } = useCssPropsStore();
+  const { currentCssClassName, setCurrentCssClassName } = useCssPropsStore();
 
   // TODO: css class 동적으로 추가히기 (전역 상태 변수로 변경)
   const [cssClassList, setCssClassList] = useState<string[]>(['abc', 'def', '123']);
 
   const handleSelectClassName = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCssClassName(e.target.value);
+    setCurrentCssClassName(e.target.value);
   };
-
-  useEffect(() => {
-    console.log(cssClassName);
-  }, [cssClassName]);
 
   return (
     <header className="py-border flex h-12 items-center justify-between border-b-yellow-500 bg-yellow-200 px-4">
@@ -25,7 +20,7 @@ export const CssPropsSelectBoxHeader = () => {
       >
         <option selected>클래스를 선택해주세요</option>
         {cssClassList.map((cssClass) => (
-          <option>{cssClass}</option>
+          <option key={cssClass}>{cssClass}</option>
         ))}
       </select>
     </header>
