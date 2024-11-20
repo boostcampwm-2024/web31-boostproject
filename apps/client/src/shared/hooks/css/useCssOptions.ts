@@ -1,29 +1,28 @@
 import { debounce } from '@/shared/utils';
-import { useState } from 'react';
+import { useCallback } from 'react';
+import { useCssPropsStore } from '@/shared/store';
 
 export const useCssOptions = () => {
-  const [checkedCssPropertyObj, setCheckedCssPropertyObj] = useState<{ [key: string]: boolean }>(
-    {}
-  );
-  const [cssOptionObj, setCssOptionObj] = useState<{ [key: string]: string }>({});
+  const { checkedCssPropertyObj, cssOptionObj, setCheckedCssPropertyObj, setCssOptionObj } =
+    useCssPropsStore();
 
   const handleCssPropertyCheckboxChange = (property: string) => {
-    setCheckedCssPropertyObj((prev) => ({
-      ...prev,
-      [property]: !prev[property],
-    }));
+    setCheckedCssPropertyObj({
+      ...checkedCssPropertyObj,
+      [property]: !checkedCssPropertyObj[property],
+    });
   };
 
   const handleCssOptionChange = (property: string, value: string) => {
-    setCssOptionObj((prev) => ({
-      ...prev,
-      [property]: value,
-    }));
+    setCssOptionObj({ ...cssOptionObj, [property]: value });
   };
 
-  const handleColorChange = debounce((property: string, value: string) => {
-    handleCssOptionChange(property, value);
-  }, 200);
+  const handleColorChange = useCallback(
+    debounce((property: string, value: string) => {
+      handleCssOptionChange(property, value);
+    }, 200),
+    [handleCssOptionChange]
+  );
 
   return {
     checkedCssPropertyObj,

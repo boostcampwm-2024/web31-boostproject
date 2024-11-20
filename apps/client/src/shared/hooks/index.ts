@@ -5,5 +5,6 @@ export { useUpdateWorkspaceName } from './queries/useUpdateWorkspaceName';
 export { useDeleteWorkspace } from './queries/useDeleteWorkspace';
 
 export { useWindowSize } from './css/useWindowSize';
-export { useTooltip } from './css/useTooltip';
+export { useCssTooltip } from './css/useCssTooltip';
 export { useCssOptions } from './css/useCssOptions';
+export { useCssOptionItem } from './css/useCssOptionItem';
