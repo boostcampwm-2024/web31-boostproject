@@ -8,5 +8,5 @@ export type {
   Tcursor,
 } from './workspaceType';
 
-export type { IExtendedIToolbox, IExtendedOptions } from './extendedType';
+export type { IExtendedIToolbox } from './extendedType';
 export type { TTabConfig, TTabs, TTabToolboxConfig } from './tabType';

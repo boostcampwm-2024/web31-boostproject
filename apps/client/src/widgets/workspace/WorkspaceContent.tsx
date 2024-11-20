@@ -2,11 +2,9 @@ import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
-import CustomCategory from './customCategory';
+import CustomCategory from '../../core/customCategory';
 import { CssPropsSelectBox } from './CssPropsSelectBox';
-import { IExtendedIToolbox, IExtendedOptions, TTabToolboxConfig } from '@/shared/types';
-import CustomFlyout from '@/core/fixedFlyout';
-import TabToolbox from '@/core/tabbedToolbox';
+import { IExtendedIToolbox, TTabToolboxConfig } from '@/shared/types';
 import TabbedToolbox from '@/core/tabbedToolbox';
 
 const customTheme = Blockly.Theme.defineTheme('custom', {
