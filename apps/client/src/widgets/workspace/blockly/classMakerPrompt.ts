@@ -2,10 +2,12 @@ import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 
 import { toolboxConfig2 } from '@/widgets';
+import { useClassBlockStore } from '@/shared/store';
 
 // prompt를 이용한 class 동적 생성
 export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
   const blockName = prompt('새로운 class 블록 이름을 입력하세요.');
+  const { classBlockList, addClassBlock } = useClassBlockStore.getState();
 
   if (blockName?.trim() === '') {
     return alert('블록 이름을 입력해주세요.');
@@ -32,6 +34,8 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
 
   if (blockName) {
     toolboxConfig2!.contents = [...existingBlocks, { kind: 'block', type: blockName }];
+    addClassBlock(blockName)
+    console.log(classBlockList)
   }
 
   // 기존 툴박스 갱신

@@ -2,11 +2,6 @@ import * as Blockly from 'blockly/core';
 import { VerticalFlyout } from 'blockly/core';
 
 class CustomFlyout extends VerticalFlyout {
-  constructor(workspaceOptions: any) {
-    super(workspaceOptions);
-    console.log('CustomFlyout created!');
-  }
-
   protected layout_(contents: any[], gaps: number[]) {
     super.layout_(contents, gaps); // 기본 레이아웃 호출
 
