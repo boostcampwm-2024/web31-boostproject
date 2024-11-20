@@ -1,24 +1,74 @@
 import { create } from 'zustand';
 
 type TcssProps = {
-  cssClassName: string;
+  currentCssClassName: string;
   selectedCssCategory: string;
-  checkedCssPropertyObj: { [key: string]: boolean };
-  cssOptionObj: { [key: string]: string };
+  totalCssPropertyObj: {
+    [key: string]: {
+      checkedCssPropertyObj: { [key: string]: boolean };
+      cssOptionObj: { [key: string]: string };
+    };
+  };
 
-  setCssClassName: (cssClassName: string) => void;
+  setCurrentCssClassName: (currentCssClassName: string) => void;
   setSelectedCssCategory: (cssCategory: string) => void;
-  setCheckedCssPropertyObj: (checkedCssPropertyObj: { [key: string]: boolean }) => void;
-  setCssOptionObj: (cssOptionObj: { [key: string]: string }) => void;
+  setCheckedCssPropertyObj: (className: string, label: string, value: boolean) => void;
+  setCssOptionObj: (className: string, label: string, value: string) => void;
+  resetCssPropsStore: () => void;
 };
 
 export const useCssPropsStore = create<TcssProps>((set) => ({
-  cssClassName: '',
+  currentCssClassName: '',
   selectedCssCategory: '레이아웃',
-  checkedCssPropertyObj: {},
-  cssOptionObj: {},
-  setCssClassName: (cssClassName) => set({ cssClassName }),
-  setSelectedCssCategory: (cssCategory) => set({ selectedCssCategory: cssCategory }),
-  setCheckedCssPropertyObj: (checkedCssPropertyObj) => set({ checkedCssPropertyObj }),
-  setCssOptionObj: (cssOptionObj) => set({ cssOptionObj }),
+  totalCssPropertyObj: {},
+  setCurrentCssClassName: (currentCssClassName) =>
+    set((state) => {
+      if (
+        state.totalCssPropertyObj[currentCssClassName] === undefined &&
+        currentCssClassName !== '클래스를 선택해주세요'
+      ) {
+        return {
+          currentCssClassName,
+          totalCssPropertyObj: {
+            ...state.totalCssPropertyObj,
+            [currentCssClassName]: {
+              checkedCssPropertyObj: {},
+              cssOptionObj: {},
+            },
+          },
+        };
+      }
+      return { currentCssClassName, totalCssPropertyObj: state.totalCssPropertyObj };
+    }),
+  setSelectedCssCategory: (selectedCssCategory) => set({ selectedCssCategory }),
+  setCheckedCssPropertyObj: (className, label, value) =>
+    set((state) => {
+      const updatedObj = state.totalCssPropertyObj[className] || {
+        checkedCssPropertyObj: {},
+        cssOptionObh: {},
+      };
+      updatedObj.checkedCssPropertyObj[label] = value;
+      return {
+        totalCssPropertyObj: {
+          ...state.totalCssPropertyObj,
+          [className]: updatedObj,
+        },
+      };
+    }),
+  setCssOptionObj: (className, label, value) =>
+    set((state) => {
+      const updatedObj = state.totalCssPropertyObj[className] || {
+        checkedCssPropertyObj: {},
+        cssOptionObj: {},
+      };
+      updatedObj.cssOptionObj[label] = value;
+      return {
+        totalCssPropertyObj: {
+          ...state.totalCssPropertyObj,
+          [className]: updatedObj,
+        },
+      };
+    }),
+  resetCssPropsStore: () =>
+    set({ currentCssClassName: '', selectedCssCategory: '레이아웃', totalCssPropertyObj: {} }),
 }));
