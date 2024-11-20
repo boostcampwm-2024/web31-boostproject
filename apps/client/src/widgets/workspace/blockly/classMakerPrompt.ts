@@ -34,8 +34,7 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
 
   if (blockName) {
     toolboxConfig2!.contents = [...existingBlocks, { kind: 'block', type: blockName }];
-    addClassBlock(blockName)
-    console.log(classBlockList)
+    addClassBlock(blockName);
   }
 
   // 기존 툴박스 갱신

@@ -80,13 +80,6 @@ export const WorkspaceContent = () => {
       <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
         변환하기
       </button>
-      <div className="flex flex-col">
-        {classBlockList.map((blockName, index) => (
-          <div key={index} className="border-b bg-pink-300 p-2">
-            {blockName}
-          </div>
-        ))}
-      </div>
     </div>
   );
 };
