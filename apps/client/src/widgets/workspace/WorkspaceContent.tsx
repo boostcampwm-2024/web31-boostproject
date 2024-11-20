@@ -4,7 +4,7 @@ import * as Blockly from 'blockly/core';
 
 import { useEffect, useState } from 'react';
 
-import { CssPropsSelectBox } from '@/widgets/workspace/css';
+import { CssPropsSelectBox } from '@/widgets';
 import CustomCategory from './customCategory';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
 
