@@ -13,7 +13,6 @@ import {
   customToolbox,
   PreviewBox,
 } from '@/widgets';
-import { useClassBlockStore } from '@/shared/store';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
@@ -31,7 +30,6 @@ Blockly.registry.register(
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
-  const classBlockList = useClassBlockStore((state) => state.classBlockList);
 
   defineBlocks();
 
