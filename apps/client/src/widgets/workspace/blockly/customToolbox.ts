@@ -7,7 +7,7 @@ interface IExtendedIToolbox extends Blockly.IToolbox {
   HtmlDiv: HTMLElement;
 }
 
-export const customizeFlyoutSVG = (newWorkspace: any) => {
+export const customToolbox = (newWorkspace: any) => {
   const toolbox: IExtendedIToolbox = newWorkspace.getToolbox()! as IExtendedIToolbox;
   const flyout = newWorkspace!.getToolbox()!.getFlyout();
 
@@ -23,7 +23,7 @@ export const customizeFlyoutSVG = (newWorkspace: any) => {
   styleTab.textContent = '스타일';
 
   tagTab.addEventListener('click', () => {
-    newWorkspace.updateToolbox(toolboxConfig);
+    // newWorkspace.updateToolbox(toolboxConfig);
     const toolboxContents = document.querySelector('.blocklyToolboxContents');
     toolboxContents!.classList.remove('hidden');
     tagTab.classList.add('tabSelected');
@@ -31,12 +31,13 @@ export const customizeFlyoutSVG = (newWorkspace: any) => {
   });
 
   styleTab.addEventListener('click', () => {
-    newWorkspace.updateToolbox(toolboxConfig2);
+    // newWorkspace.updateToolbox(toolboxConfig2);
     const toolboxContents = document.querySelector('.blocklyToolboxContents');
     toolboxContents!.classList.add('hidden');
 
-    const flyoutContents = toolboxConfig2.contents;
+    // 추가하기 버튼에 prompt 이벤트 뜨게 콜백등록
     newWorkspace.registerButtonCallback('classMakerPrompt', () => classMakerPrompt(newWorkspace));
+    const flyoutContents = toolboxConfig2.contents;
     flyout.show(flyoutContents);
 
     styleTab.classList.add('tabSelected');

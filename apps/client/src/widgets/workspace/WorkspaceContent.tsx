@@ -4,13 +4,13 @@ import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
 import CustomCategory from '@/widgets/workspace/blockly/customCategory';
+import CustomFlyout from '@/widgets/workspace/blockly/customFlyout';
 import {
   CssPropsSelectBox,
   defineBlocks,
   toolboxConfig,
   initTheme,
-  customizeFlyoutSVG,
-  classMakerPrompt,
+  customToolbox,
   PreviewBox,
 } from '@/widgets';
 
@@ -19,6 +19,12 @@ Blockly.registry.register(
   Blockly.ToolboxCategory.registrationName,
   CustomCategory,
   true
+);
+
+Blockly.registry.register(
+  Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
+  'custom_flyout',
+  CustomFlyout
 );
 
 export const WorkspaceContent = () => {
@@ -41,10 +47,11 @@ export const WorkspaceContent = () => {
         minScale: 0.3,
         scaleSpeed: 1.2,
       },
-    });
+      flyout: 'custom_flyout',
+    } as any);
 
     setWorkspace(newWorkspace);
-    customizeFlyoutSVG(newWorkspace);
+    customToolbox(newWorkspace);
 
     return () => {
       newWorkspace.dispose();
