@@ -1,13 +1,44 @@
-import { useCssOptions } from '@/shared/hooks';
-import { useCssTooltipStore } from '@/shared/store';
-import { useState } from 'react';
+import { useCssPropsStore, useCssTooltipStore } from '@/shared/store';
+import { useEffect, useState } from 'react';
 
-export const useCssOptionItem = (initialValue: string) => {
+import { TcssCategoryItem } from '@/shared/types';
+import { useCssOptions } from '@/shared/hooks';
+
+export const useCssOptionItem = (cssItem: TcssCategoryItem) => {
   const { handleCssOptionChange } = useCssOptions();
   const { setOffsetX, setOffsetY } = useCssTooltipStore();
-  const [cssOptionValue, setCssOptionValue] = useState<string>(initialValue);
+  const { currentCssClassName, totalCssPropertyObj } = useCssPropsStore();
+
+  const [cssOptionValue, setCssOptionValue] = useState<string>('');
   const [isHover, setIsHover] = useState<boolean>(false);
   const [indexOfHover, setIndexOfHover] = useState<number>(-1);
+
+  const [isChecked, setIsChecked] = useState<boolean>(false);
+  const [cssOption, setCssOption] = useState<string>('');
+
+  useEffect(() => {
+    if (totalCssPropertyObj[currentCssClassName]) {
+      setCssOptionValue(totalCssPropertyObj[currentCssClassName].cssOptionObj[cssItem.label] || '');
+    }
+  }, [currentCssClassName, totalCssPropertyObj, cssItem.label]);
+
+  useEffect(() => {
+    if (!totalCssPropertyObj[currentCssClassName]) {
+      setIsChecked(false);
+      setCssOption(
+        cssItem.type === 'select' ? cssItem.option![0] : cssItem.type === 'color' ? '#000000' : ''
+      );
+      return;
+    }
+    setIsChecked(
+      totalCssPropertyObj[currentCssClassName].checkedCssPropertyObj[cssItem.label] ?? false
+    );
+    if (!totalCssPropertyObj[currentCssClassName].cssOptionObj[cssItem.label]) {
+      setCssOption(cssItem.type === 'select' ? cssItem.option![0] : '');
+      return;
+    }
+    setCssOption(totalCssPropertyObj[currentCssClassName].cssOptionObj[cssItem.label]);
+  }, [totalCssPropertyObj, currentCssClassName]);
 
   /**
    * @description 엔터키 입력시 스타일 프로퍼티 변경 이벤트 핸들러
@@ -43,6 +74,8 @@ export const useCssOptionItem = (initialValue: string) => {
     cssOptionValue,
     isHover,
     indexOfHover,
+    isChecked,
+    cssOption,
     handleEnterKey,
     handleMouseEnter,
     handleMouseLeave,
