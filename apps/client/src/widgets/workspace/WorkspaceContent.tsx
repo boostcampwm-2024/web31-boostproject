@@ -6,7 +6,9 @@ import { useEffect, useState } from 'react';
 
 import { CssPropsSelectBox } from '@/widgets';
 import CustomCategory from './customCategory';
+import { cssCodeGenerator } from '@/widgets/workspace/css/cssCodeGenerator';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
+import { useCssPropsStore } from '@/shared/store';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
@@ -208,7 +210,7 @@ export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
-
+  const { totalCssPropertyObj } = useCssPropsStore();
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       renderer: 'zelos',
@@ -349,7 +351,13 @@ export const WorkspaceContent = () => {
       </div>
 
       <div id="blocklyDiv" className="h-full w-full"></div>
-      <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
+      <button
+        className="h-10 w-20 bg-blue-400"
+        onClick={() => {
+          generateHtmlCode();
+          cssCodeGenerator(totalCssPropertyObj);
+        }}
+      >
         변환하기
       </button>
     </div>
