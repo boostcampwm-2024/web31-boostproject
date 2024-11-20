@@ -1,5 +1,6 @@
 import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
+import toast from 'react-hot-toast';
 
 import { toolboxConfig2 } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
@@ -7,7 +8,11 @@ import { useClassBlockStore } from '@/shared/store';
 // prompt를 이용한 class 동적 생성
 export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
   const blockName = prompt('새로운 class 블록 이름을 입력하세요.');
-  const { classBlockList, addClassBlock } = useClassBlockStore.getState();
+  const { addClassBlock } = useClassBlockStore.getState();
+
+  if (blockName === null) {
+    return;
+  }
 
   if (blockName?.trim() === '') {
     return alert('블록 이름을 입력해주세요.');
@@ -28,7 +33,7 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
   const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === blockName);
 
   if (isBlockAlreadyAdded) {
-    alert(`"${blockName}" 블록은 이미 "폼" 카테고리에 존재합니다.`);
+    toast.error(`"${blockName}" 스타일 블록은 이미 존재합니다.`);
     return;
   }
 
@@ -40,5 +45,5 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
   // 기존 툴박스 갱신
   workspace.updateToolbox(toolboxConfig2);
 
-  alert(`새 블록 "${blockName}"이(가) "폼" 카테고리에 성공적으로 추가되었습니다.`);
+  toast.success(`새 스타일 블록 "${blockName}"이(가) 추가되었습니다.`);
 };
