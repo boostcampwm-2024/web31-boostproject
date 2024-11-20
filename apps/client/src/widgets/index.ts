@@ -9,3 +9,7 @@ export { WorkspaceModal } from './home/WorkspaceModal';
 
 export { WorkspaceContent } from './workspace/WorkspaceContent';
 export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
+export { CssCategoryBar } from './workspace/css/CssCategoryBar';
+export { CssPropsSelectBox } from './workspace/css/CssPropsSelectBox';
+export { CssOptionItemList } from './workspace/css/CssOptionItemList';
+export { CssPropsSelectBoxHeader } from './workspace/css/CssPropsSelectBoxHeader';
