@@ -7,3 +7,5 @@ export type {
   TpagedWorkspaceListResult,
   Tcursor,
 } from './workspaceType';
+
+export type { IExtendedIToolbox } from './extendedType';

@@ -2,6 +2,7 @@ import * as Blockly from 'blockly/core';
 import { CategoryInfo } from 'blockly/core/utils/toolbox';
 import { IToolbox } from 'blockly';
 import { CATEGORY_ICONS } from '@/shared/utils';
+import { IExtendedIToolbox } from '@/shared/types';
 
 let selectedCategory: string = '';
 
@@ -19,29 +20,22 @@ export default class CustomCategory extends Blockly.ToolboxCategory {
   }
 
   setSelected(isSelected: boolean) {
-    console.log('얍', this.rowDiv_!.id, isSelected);
     if (isSelected) {
+      if (this.rowDiv_!.id !== selectedCategory) {
+        selectedCategory = this.rowDiv_!.id;
+        const parentToolbox = this.parentToolbox_ as IExtendedIToolbox;
+        const categories = Object.values(parentToolbox.contentMap_);
+        categories.forEach((category) => {
+          category.rowDiv_!.style.color = category.colour_;
+          category.rowDiv_!.style.backgroundColor = 'white';
+        });
+      }
       this.rowDiv_!.style.backgroundColor = this.colour_;
       this.rowDiv_!.style.color = 'white';
-      selectedCategory = this.rowDiv_!.id;
     } else {
+      if (this.rowDiv_!.id === selectedCategory) return;
       this.rowDiv_!.style.backgroundColor = 'white';
       this.rowDiv_!.style.color = this.colour_;
-    }
-  }
-
-  onClick(_e: Event): void {
-    console.log(this.parentToolbox_);
-
-    const previous = this.parentToolbox_.previouslySelectedItem_;
-    if (!previous) {
-      return;
-    }
-    if (selectedCategory == previous.id_) {
-      console.log('??????????');
-      console.log(previous);
-      previous.rowDiv_.style.backgroundColor = previous.colour_;
-      previous.rowDiv_.style.color = 'white';
     }
   }
 

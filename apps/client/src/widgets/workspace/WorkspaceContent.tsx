@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
 import CustomCategory from './customCategory';
 import { CssPropsSelectBox } from './CssPropsSelectBox';
+import { IExtendedIToolbox } from '@/shared/types';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
@@ -223,12 +224,6 @@ export const WorkspaceContent = () => {
       },
     });
     setWorkspace(newWorkspace);
-
-    interface IExtendedIToolbox extends Blockly.IToolbox {
-      HtmlDiv: HTMLElement;
-      getToolboxItems: () => Blockly.IToolboxItem[];
-      setSelectedItem: (newItem: Blockly.IToolboxItem | null) => void;
-    }
 
     const customizeFlyoutSVG = () => {
       const toolbox: IExtendedIToolbox = newWorkspace.getToolbox()! as IExtendedIToolbox;
