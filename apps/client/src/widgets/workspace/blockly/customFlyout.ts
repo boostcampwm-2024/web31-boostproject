@@ -62,9 +62,6 @@ class CustomFlyout extends VerticalFlyout {
     );
     submitText.textContent = '추가잉~';
 
-    console.log('Flyout workspace:', this.workspace_);
-    console.log('Input group:', inputGroup);
-
     // 버튼 클릭 이벤트
     Blockly.browserEvents.bind(submitButton, 'click', null, () => {
       const blockName = prompt('블록 이름을 입력하세요.');

@@ -21,11 +21,13 @@ Blockly.registry.register(
   true
 );
 
+// 커스텀 Flyout 등록 
 Blockly.registry.register(
   Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
   'custom_flyout',
   CustomFlyout
 );
+
 
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);

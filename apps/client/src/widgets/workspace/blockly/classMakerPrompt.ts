@@ -21,9 +21,12 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
   if (!Blockly.Blocks[blockName!]) {
     Blockly.Blocks[blockName!] = {
       init: function () {
-        this.appendDummyInput().appendField(new Blockly.FieldTextInput(blockName!), 'CLASS'); // 입력된 이름 반영
+        this.appendDummyInput().appendField(
+          new Blockly.FieldLabelSerializable(blockName!),
+          'CLASS'
+        ); // 입력된 이름 반영
         this.setOutput(true);
-        this.setColour(230);
+        this.setColour('#02D085');
       },
     };
   }
