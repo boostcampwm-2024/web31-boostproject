@@ -1,5 +1,5 @@
-import { forwardRef } from 'react';
 import { createPortal } from 'react-dom';
+import { forwardRef } from 'react';
 
 type CssTooltipProps = {
   description: string;
@@ -16,8 +16,8 @@ export const CssTooltip = forwardRef<HTMLDivElement, CssTooltipProps>(
 
     return createPortal(
       <div
-        className="text-gray-white fixed left-0 top-0 z-50 bg-gray-500 px-3 py-2"
-        style={{ left: `${leftX}px`, top: `${topY}px` }}
+        className={`text-gray-white fixed left-0 top-0 rounded-3xl ${topY >= 0 ? 'rounded-tl-none' : 'rounded-bl-none'} bg-green-500 px-3 py-2`}
+        style={{ left: `${leftX + 16}px`, top: topY >= 0 ? `${topY + 4}px` : `${-topY}px` }}
         ref={ref}
       >
         <p>{description}</p>
