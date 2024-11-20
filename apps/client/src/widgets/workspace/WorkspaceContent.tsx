@@ -4,14 +4,10 @@ import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/htmlCodeGenerator';
 import CustomCategory from './customCategory';
 import { CssPropsSelectBox } from './CssPropsSelectBox';
-import { IExtendedIToolbox } from '@/shared/types';
-
-Blockly.registry.register(
-  Blockly.registry.Type.TOOLBOX_ITEM,
-  Blockly.ToolboxCategory.registrationName,
-  CustomCategory,
-  true
-);
+import { IExtendedIToolbox, IExtendedOptions, TTabToolboxConfig } from '@/shared/types';
+import CustomFlyout from '@/core/fixedFlyout';
+import TabToolbox from '@/core/tabbedToolbox';
+import TabbedToolbox from '@/core/tabbedToolbox';
 
 const customTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',
@@ -202,73 +198,57 @@ const toolboxConfig2 = {
   contents: [],
 };
 
+const tabToolboxConfig: TTabToolboxConfig = {
+  tabs: {
+    html: {
+      label: 'HTML 태그',
+      toolboxConfig: toolboxConfig,
+    },
+    css: {
+      label: '스타일',
+      toolboxConfig: toolboxConfig2,
+    },
+  },
+  defaultSelectedTab: 'html',
+};
+
+const blocklyOptions = {
+  plugins: {
+    toolbox: TabbedToolbox,
+  },
+  renderer: 'zelos',
+  toolboxPosition: 'end',
+  theme: customTheme,
+  zoom: {
+    controls: true,
+    wheel: true,
+    startScale: 1.0,
+    maxScale: 3,
+    minScale: 0.3,
+    scaleSpeed: 1.2,
+  },
+  toolbox: toolboxConfig,
+};
+
 export const WorkspaceContent = () => {
   const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
 
   useEffect(() => {
-    const newWorkspace = Blockly.inject('blocklyDiv', {
-      renderer: 'zelos',
-      toolboxPosition: 'end',
-      toolbox: toolboxConfig,
-      theme: customTheme, // 커스텀 테마 적용
-      zoom: {
-        // 확대 및 축소 버튼 설정
-        controls: true,
-        wheel: true,
-        startScale: 1.0,
-        maxScale: 3,
-        minScale: 0.3,
-        scaleSpeed: 1.2,
-      },
-    });
+    Blockly.registry.register(
+      Blockly.registry.Type.TOOLBOX_ITEM,
+      Blockly.ToolboxCategory.registrationName,
+      CustomCategory,
+      true
+    );
+
+    const newWorkspace = Blockly.inject('blocklyDiv', blocklyOptions);
     setWorkspace(newWorkspace);
+    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
-    const customizeFlyoutSVG = () => {
-      const toolbox: IExtendedIToolbox = newWorkspace.getToolbox()! as IExtendedIToolbox;
-
-      const tabs = document.createElement('div');
-      tabs.className = 'flex w-96';
-
-      const tab1 = document.createElement('button');
-      tab1.classList.add('tab');
-      tab1.textContent = 'HTML';
-
-      const tab2 = document.createElement('button');
-      tab2.classList.add('tab');
-      tab2.textContent = 'CSS';
-
-      tab1.classList.add('tabSelected');
-      tab2.classList.remove('tabSelected');
-
-      tab1.addEventListener('click', () => {
-        newWorkspace.updateToolbox(toolboxConfig);
-        const toolboxContents = document.querySelector('.blocklyToolboxContents');
-        toolboxContents!.classList.remove('hidden');
-        tab1.classList.add('tabSelected');
-        tab2.classList.remove('tabSelected');
-      });
-
-      tab2.addEventListener('click', () => {
-        newWorkspace.updateToolbox(toolboxConfig2);
-        const toolboxContents = document.querySelector('.blocklyToolboxContents');
-        toolboxContents!.classList.add('hidden');
-        tab2.classList.add('tabSelected');
-        tab1.classList.remove('tabSelected');
-      });
-
-      tabs.appendChild(tab1);
-      tabs.appendChild(tab2);
-
-      toolbox!.HtmlDiv.prepend(tabs);
-      const flyout = newWorkspace!.getToolbox()!.getFlyout();
-      flyout!.hide = () => {};
-
-      toolbox.setSelectedItem(toolbox.getToolboxItems()![0]);
-    };
-
-    customizeFlyoutSVG();
+    const flyout = newWorkspace!.getToolbox()!.getFlyout();
+    flyout!.hide = () => {};
 
     // CSS 카테고리가 열릴 때 input 필드를 동적으로 추가하는 함수
     const addInputFieldToFlyout = () => {

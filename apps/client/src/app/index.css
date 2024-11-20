@@ -171,8 +171,11 @@
   display: none;
 }
 
-.tab {
-  @apply text-semibold-md flex-1 rounded-t-lg bg-gray-50 py-3 text-gray-200;
+.toolboxTabs {
+  @apply flex w-96;
+}
+.toolboxTab {
+  @apply text-semibold-md flex flex-1 cursor-pointer justify-center rounded-t-lg bg-gray-50 py-3 text-gray-200;
 }
 
 .tabSelected {
