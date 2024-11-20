@@ -1,6 +1,13 @@
 import * as Blockly from 'blockly/core';
 import { VerticalFlyout } from 'blockly/core';
 
+// // 커스텀 flyout 등록 -> Workspacecontent.tsx에 추가
+// Blockly.registry.register(
+//   Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
+//   'custom_flyout',
+//   CustomFlyout
+// );
+
 class CustomFlyout extends VerticalFlyout {
   protected layout_(contents: any[], gaps: number[]) {
     super.layout_(contents, gaps); // 기본 레이아웃 호출
@@ -86,3 +93,4 @@ class CustomFlyout extends VerticalFlyout {
 }
 
 export default CustomFlyout;
+

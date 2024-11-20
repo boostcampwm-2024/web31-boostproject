@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
 import CustomCategory from '@/widgets/workspace/blockly/customCategory';
-import CustomFlyout from '@/widgets/workspace/blockly/customFlyout';
 import {
   CssPropsSelectBox,
   defineBlocks,
@@ -21,16 +20,7 @@ Blockly.registry.register(
   true
 );
 
-// 커스텀 Flyout 등록 
-Blockly.registry.register(
-  Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
-  'custom_flyout',
-  CustomFlyout
-);
-
-
 export const WorkspaceContent = () => {
-  const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
 
   defineBlocks();
@@ -49,24 +39,30 @@ export const WorkspaceContent = () => {
         minScale: 0.3,
         scaleSpeed: 1.2,
       },
-      flyout: 'custom_flyout',
-    } as any);
+    });
 
-    setWorkspace(newWorkspace);
     customToolbox(newWorkspace);
 
+    // workspace 변화 감지해 자동 변환
+    const handleAutoConversion= (event: Blockly.Events.Abstract) => {
+      if (
+        event.type === Blockly.Events.BLOCK_CREATE ||
+        event.type === Blockly.Events.BLOCK_MOVE ||
+        event.type === Blockly.Events.BLOCK_CHANGE ||
+        event.type === Blockly.Events.BLOCK_DELETE
+      ) {
+        const code = htmlCodeGenerator.workspaceToCode(newWorkspace);
+        setHtmlCode(code);
+      }
+    };
+
+    newWorkspace.addChangeListener(handleAutoConversion);
+
     return () => {
+      newWorkspace.removeChangeListener(handleAutoConversion);
       newWorkspace.dispose();
     };
   }, []);
-
-  const generateHtmlCode = () => {
-    if (!workspace) {
-      return;
-    }
-    const code = htmlCodeGenerator.workspaceToCode(workspace);
-    setHtmlCode(code);
-  };
 
   return (
     <div className="flex flex-1">
@@ -76,10 +72,6 @@ export const WorkspaceContent = () => {
       </div>
 
       <div id="blocklyDiv" className="h-full w-full"></div>
-
-      <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
-        변환하기
-      </button>
     </div>
   );
 };
