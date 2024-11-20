@@ -3,18 +3,21 @@ import { useCallback } from 'react';
 import { useCssPropsStore } from '@/shared/store';
 
 export const useCssOptions = () => {
-  const { checkedCssPropertyObj, cssOptionObj, setCheckedCssPropertyObj, setCssOptionObj } =
-    useCssPropsStore();
+  const { setCheckedCssPropertyObj, setCssOptionObj, currentCssClassName } = useCssPropsStore();
 
-  const handleCssPropertyCheckboxChange = (property: string) => {
-    setCheckedCssPropertyObj({
-      ...checkedCssPropertyObj,
-      [property]: !checkedCssPropertyObj[property],
-    });
+  const handleCssPropertyCheckboxChange = (
+    property: string,
+    isChecked: boolean,
+    cssOption: string
+  ) => {
+    setCheckedCssPropertyObj(currentCssClassName, property, !isChecked);
+    if (!isChecked) {
+      setCssOptionObj(currentCssClassName, property, cssOption);
+    }
   };
 
   const handleCssOptionChange = (property: string, value: string) => {
-    setCssOptionObj({ ...cssOptionObj, [property]: value });
+    setCssOptionObj(currentCssClassName, property, value);
   };
 
   const handleColorChange = useCallback(
@@ -25,8 +28,6 @@ export const useCssOptions = () => {
   );
 
   return {
-    checkedCssPropertyObj,
-    cssOptionObj,
     handleCssPropertyCheckboxChange,
     handleCssOptionChange,
     handleColorChange,
