@@ -6,6 +6,7 @@ import CustomCategory from '../../core/customCategory';
 import { CssPropsSelectBox } from './CssPropsSelectBox';
 import { IExtendedIToolbox, TTabToolboxConfig } from '@/shared/types';
 import TabbedToolbox from '@/core/tabbedToolbox';
+import FixedFlyout from '@/core/fixedFlyout';
 
 const customTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',
@@ -212,6 +213,7 @@ const tabToolboxConfig: TTabToolboxConfig = {
 
 const blocklyOptions = {
   plugins: {
+    flyoutsVerticalToolbox: FixedFlyout,
     toolbox: TabbedToolbox,
   },
   renderer: 'zelos',
