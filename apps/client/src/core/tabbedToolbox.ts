@@ -2,12 +2,14 @@ import { TTabToolboxConfig, TTabs } from '@/shared/types';
 import * as Blockly from 'blockly/core';
 
 export default class TabbedToolbox extends Blockly.Toolbox {
+  private customFlyout_: HTMLDivElement | null;
   private tabContainer_: HTMLDivElement | null;
   private tabs_: TTabs | undefined;
   private currentTab_: string | undefined;
 
   constructor(workspace: Blockly.WorkspaceSvg) {
     super(workspace);
+    this.customFlyout_ = null;
     this.tabContainer_ = null;
   }
 
@@ -15,6 +17,54 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.tabs_ = config.tabs;
     this.currentTab_ = config.defaultSelectedTab;
     this.initTabs_();
+  }
+
+  init() {
+    const workspace = this.workspace_;
+    const svg = workspace.getParentSvg();
+
+    this.customFlyout_ = this.createFlyout_();
+
+    this.HtmlDiv = this.createDom_(this.workspace_);
+    Blockly.utils.dom.insertAfter(this.customFlyout_.createDom('svg'), svg);
+    this.setVisible(true);
+    this.flyout_.init(workspace);
+
+    this.render(this.toolboxDef_);
+    const themeManager = workspace.getThemeManager();
+    themeManager.subscribe(this.HtmlDiv, 'toolboxBackgroundColour', 'background-color');
+    themeManager.subscribe(this.HtmlDiv, 'toolboxForegroundColour', 'color');
+    this.workspace_.getComponentManager().addComponent({
+      component: this,
+      weight: ComponentManager.ComponentWeight.TOOLBOX_WEIGHT,
+      capabilities: [
+        ComponentManager.Capability.AUTOHIDEABLE,
+        ComponentManager.Capability.DELETE_AREA,
+        ComponentManager.Capability.DRAG_TARGET,
+      ],
+    });
+  }
+
+  createFlyout_(): HTMLDivElement {
+    let FlyoutClass = null;
+    FlyoutClass = Blockly.registry.getClassFromOptions(
+      Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
+      this.workspace_.options,
+      true
+    );
+    return new FlyoutClass!(
+      new Blockly.Options({
+        parentWorkspace: this.workspace_,
+        rtl: this.workspace_.RTL,
+        oneBasedIndex: this.workspace_.options.oneBasedIndex,
+        horizontalLayout: this.workspace_.horizontalLayout,
+        renderer: this.workspace_.options.renderer,
+        rendererOverrides: this.workspace_.options.rendererOverrides,
+        move: {
+          scrollbars: true,
+        },
+      } as Blockly.BlocklyOptions)
+    );
   }
 
   private initTabs_() {
@@ -97,3 +147,78 @@ Blockly.Css.register(`
   color: #ffffff; /* text-white */
 }
 `);
+
+const HTML_DIV_FLYOUT_NAME = 'htmlDivFlyout';
+
+enum FlyoutItemType {
+  BLOCK = 'block',
+  LABEL = 'label',
+  INPUT = 'input',
+  BUTTON = 'button',
+}
+
+export interface FlyoutItem {
+  type: FlyoutItemType;
+  item: Blockly.BlockSvg | HTMLElement | undefined;
+}
+
+export interface IHtmlDivFlyout extends Blockly.IRegistrable {
+  createDom(): HTMLDivElement;
+  init(targetToolbox: Blockly.Toolbox): void;
+  dispose(): void;
+  getToolbox(): Blockly.Toolbox;
+  getContents(): FlyoutItem[];
+  isScrollable(): boolean;
+  scrollToStart(): void;
+}
+
+export class HtmlDivFlyout implements IHtmlDivFlyout {
+  private htmlDiv_: HTMLDivElement | null;
+  private targetToolbox_: Blockly.Toolbox | null;
+
+  constructor() {
+    this.htmlDiv_ = null;
+    this.targetToolbox_ = null;
+  }
+
+  createDom(): HTMLDivElement {
+    this.htmlDiv_ = Dom.createElement<HTMLDivElement>('div', { class: 'htmlDivFlyout' });
+    return this.htmlDiv_;
+  }
+
+  init(targetToolbox: Blockly.Toolbox): void {
+    throw new Error('Method not implemented.');
+  }
+  dispose(): void {
+    throw new Error('Method not implemented.');
+  }
+  getToolbox(): Blockly.Toolbox {
+    throw new Error('Method not implemented.');
+  }
+  getContents(): FlyoutItem[] {
+    throw new Error('Method not implemented.');
+  }
+  isScrollable(): boolean {
+    throw new Error('Method not implemented.');
+  }
+  scrollToStart(): void {
+    throw new Error('Method not implemented.');
+  }
+}
+
+export class Dom {
+  static createElement<T extends HTMLElement>(
+    name: string,
+    attrs: { [key: string]: string | number },
+    parent?: Element | null
+  ): T {
+    const element = document.createElement(name) as T;
+    for (const key in attrs) {
+      element.setAttribute(key, `${attrs[key]}`);
+    }
+    if (parent) {
+      parent.appendChild(element);
+    }
+    return element;
+  }
+}

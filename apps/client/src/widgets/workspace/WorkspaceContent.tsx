@@ -7,6 +7,7 @@ import { CssPropsSelectBox } from './CssPropsSelectBox';
 import { IExtendedIToolbox, TTabToolboxConfig } from '@/shared/types';
 import TabbedToolbox from '@/core/tabbedToolbox';
 import FixedFlyout from '@/core/fixedFlyout';
+import wrapBlocklyBlocksInDiv from '@/core/wrapBlocklyBlocksInDiv';
 
 const customTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',
@@ -245,6 +246,7 @@ export const WorkspaceContent = () => {
 
     const newWorkspace = Blockly.inject('blocklyDiv', blocklyOptions);
     setWorkspace(newWorkspace);
+    //  const blockContainer = wrapBlocklyBlocksInDiv(newWorkspace);
     (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
     const flyout = newWorkspace!.getToolbox()!.getFlyout();
