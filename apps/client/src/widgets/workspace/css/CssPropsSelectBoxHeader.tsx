@@ -18,9 +18,11 @@ export const CssPropsSelectBoxHeader = () => {
         className="bg-gray-white focus:ring-gray-black text-semibold-md focus:border-gray-black truncate rounded-lg border border-gray-100 px-2 py-1 outline-none"
         onChange={handleSelectClassName}
       >
-        <option selected>클래스를 선택해주세요</option>
+        <option value="">클래스를 선택해주세요</option>
         {cssClassList.map((cssClass) => (
-          <option key={cssClass}>{cssClass}</option>
+          <option key={cssClass} value={cssClass}>
+            {cssClass}
+          </option>
         ))}
       </select>
     </header>
