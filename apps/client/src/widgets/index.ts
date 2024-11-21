@@ -14,6 +14,7 @@ export { CssCategoryBar } from './workspace/css/CssCategoryBar';
 export { CssPropsSelectBox } from './workspace/css/CssPropsSelectBox';
 export { CssOptionItemList } from './workspace/css/CssOptionItemList';
 export { CssPropsSelectBoxHeader } from './workspace/css/CssPropsSelectBoxHeader';
+export { cssCodeGenerator } from './workspace/css/cssCodeGenerator';
 
 export { categoryColours } from './workspace/blockly/categoryColours';
 export { classMakerPrompt } from './workspace/blockly/classMakerPrompt';
