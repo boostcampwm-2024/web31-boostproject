@@ -182,3 +182,11 @@
 .tabSelected {
   @apply text-bold-md flex-1 rounded-t-lg bg-blue-500 py-3 text-white;
 }
+
+input[type='color']::-webkit-color-swatch {
+  border-radius: 100%;
+  border: none;
+}
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}

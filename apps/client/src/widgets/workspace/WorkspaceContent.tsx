@@ -1,5 +1,7 @@
 import 'blockly/blocks';
+
 import * as Blockly from 'blockly/core';
+
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
@@ -44,7 +46,7 @@ export const WorkspaceContent = () => {
     customToolbox(newWorkspace);
 
     // workspace 변화 감지해 자동 변환
-    const handleAutoConversion= (event: Blockly.Events.Abstract) => {
+    const handleAutoConversion = (event: Blockly.Events.Abstract) => {
       if (
         event.type === Blockly.Events.BLOCK_CREATE ||
         event.type === Blockly.Events.BLOCK_MOVE ||
