@@ -1,5 +1,13 @@
-export const cssCodeGenerator = (totalCssPropertyObj: any) => {
+type cssCodeGeneratorProps = {
+  [key: string]: {
+    checkedCssPropertyObj: { [key: string]: boolean };
+    cssOptionObj: { [key: string]: string };
+  };
+};
+
+export const cssCodeGenerator = (totalCssPropertyObj: cssCodeGeneratorProps) => {
   let cssCode = '';
+
   Object.keys(totalCssPropertyObj)
     .filter((className) => className.length > 0)
     .forEach((className) => {
@@ -14,6 +22,6 @@ export const cssCodeGenerator = (totalCssPropertyObj: any) => {
       });
       cssCode += '}\n';
     });
-  console.log(cssCode);
+
   return cssCode;
 };
