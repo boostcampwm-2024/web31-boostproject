@@ -19,14 +19,7 @@ export const toolboxConfig = {
       kind: 'category',
       name: '폼',
       categorystyle: 'formCategory',
-      contents: [
-        {
-          kind: 'button',
-          text: '추가하기',
-          callbackKey: 'classMakerPrompt',
-        },
-        { kind: 'block', type: 'css_style' },
-      ],
+      contents: htmBlockContents,
     },
     {
       kind: 'category',

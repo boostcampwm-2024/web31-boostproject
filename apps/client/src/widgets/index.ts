@@ -14,7 +14,7 @@ export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
 
 export { categoryColours } from './workspace/blockly/categoryColours';
 export { classMakerPrompt } from './workspace/blockly/classMakerPrompt';
-export { customizeFlyoutSVG } from './workspace/blockly/customizeFlyoutSVG';
+export { customToolbox } from './workspace/blockly/customToolbox';
 export { defineBlocks } from './workspace/blockly/defineBlocks';
 export { htmBlockContents } from './workspace/blockly/htmBlockContents';
 export { initTheme } from './workspace/blockly/initTheme';

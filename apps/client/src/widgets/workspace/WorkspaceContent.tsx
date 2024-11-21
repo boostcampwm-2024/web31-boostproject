@@ -9,8 +9,7 @@ import {
   defineBlocks,
   toolboxConfig,
   initTheme,
-  customizeFlyoutSVG,
-  classMakerPrompt,
+  customToolbox,
   PreviewBox,
 } from '@/widgets';
 
@@ -22,9 +21,7 @@ Blockly.registry.register(
 );
 
 export const WorkspaceContent = () => {
-  const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
   const [htmlCode, setHtmlCode] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
 
   defineBlocks();
 
@@ -44,36 +41,37 @@ export const WorkspaceContent = () => {
       },
     });
 
-    newWorkspace.registerButtonCallback('classMakerPrompt', () => classMakerPrompt(newWorkspace));
+    customToolbox(newWorkspace);
 
-    setWorkspace(newWorkspace);
-    customizeFlyoutSVG(newWorkspace);
+    // workspace 변화 감지해 자동 변환
+    const handleAutoConversion= (event: Blockly.Events.Abstract) => {
+      if (
+        event.type === Blockly.Events.BLOCK_CREATE ||
+        event.type === Blockly.Events.BLOCK_MOVE ||
+        event.type === Blockly.Events.BLOCK_CHANGE ||
+        event.type === Blockly.Events.BLOCK_DELETE
+      ) {
+        const code = htmlCodeGenerator.workspaceToCode(newWorkspace);
+        setHtmlCode(code);
+      }
+    };
+
+    newWorkspace.addChangeListener(handleAutoConversion);
 
     return () => {
+      newWorkspace.removeChangeListener(handleAutoConversion);
       newWorkspace.dispose();
     };
   }, []);
 
-  const generateHtmlCode = () => {
-    if (!workspace) {
-      return;
-    }
-    const code = htmlCodeGenerator.workspaceToCode(workspace);
-    setHtmlCode(code);
-  };
-
   return (
     <div className="flex flex-1">
       <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
-        <PreviewBox activeTab={activeTab} setActiveTab={setActiveTab} htmlCode={htmlCode} />
+        <PreviewBox htmlCode={htmlCode} />
         <CssPropsSelectBox />
       </div>
 
       <div id="blocklyDiv" className="h-full w-full"></div>
-
-      <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
-        변환하기
-      </button>
     </div>
   );
 };
