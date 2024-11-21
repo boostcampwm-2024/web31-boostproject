@@ -1,16 +1,32 @@
-import { TTabToolboxConfig, TTabs } from '@/shared/types';
 import * as Blockly from 'blockly/core';
 
+import {
+  BlockInfo,
+  ButtonInfo,
+  DynamicCategoryInfo,
+  FlyoutItemInfo,
+  LabelInfo,
+  SeparatorInfo,
+  StaticCategoryInfo,
+} from 'blockly/core/utils/toolbox';
+import { TTabToolboxConfig, TTabs } from '@/shared/types';
+
+import Dom from './dom';
+
 export default class TabbedToolbox extends Blockly.Toolbox {
-  private customFlyout_: HTMLDivElement | null;
-  private tabContainer_: HTMLDivElement | null;
   private tabs_: TTabs | undefined;
   private currentTab_: string | undefined;
 
+  private tabContainer_: HTMLDivElement | null;
+  private contentsContainer_: HTMLDivElement | null;
+
+  private contentArea_: ContentArea | null;
+
   constructor(workspace: Blockly.WorkspaceSvg) {
     super(workspace);
-    this.customFlyout_ = null;
+    this.contentArea_ = null;
     this.tabContainer_ = null;
+    this.contentsContainer_ = null;
   }
 
   setConfig(config: TTabToolboxConfig) {
@@ -19,61 +35,76 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.initTabs_();
   }
 
-  // init() {
-  //   const workspace = this.workspace_;
-  //   const svg = workspace.getParentSvg();
+  init() {
+    super.init();
+    this.HtmlDiv = this.createDom_(this.workspace_);
 
-  //   this.customFlyout_ = this.createFlyout_();
+    this.contentArea_ = this.createContentArea_();
 
-  //   this.HtmlDiv = this.createDom_(this.workspace_);
-  //   Blockly.utils.dom.insertAfter(this.customFlyout_.createDom('svg'), svg);
-  //   this.setVisible(true);
-  //   this.flyout_.init(workspace);
-
-  //   this.render(this.toolboxDef_);
-  //   const themeManager = workspace.getThemeManager();
-  //   themeManager.subscribe(this.HtmlDiv, 'toolboxBackgroundColour', 'background-color');
-  //   themeManager.subscribe(this.HtmlDiv, 'toolboxForegroundColour', 'color');
-  //   this.workspace_.getComponentManager().addComponent({
-  //     component: this,
-  //     weight: ComponentManager.ComponentWeight.TOOLBOX_WEIGHT,
-  //     capabilities: [
-  //       ComponentManager.Capability.AUTOHIDEABLE,
-  //       ComponentManager.Capability.DELETE_AREA,
-  //       ComponentManager.Capability.DRAG_TARGET,
-  //     ],
-  //   });
-  // }
-
-  // createFlyout_(): HTMLDivElement {
-  //   let FlyoutClass = null;
-  //   FlyoutClass = Blockly.registry.getClassFromOptions(
-  //     Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
-  //     this.workspace_.options,
-  //     true
-  //   );
-  //   return new FlyoutClass!(
-  //     new Blockly.Options({
-  //       parentWorkspace: this.workspace_,
-  //       rtl: this.workspace_.RTL,
-  //       oneBasedIndex: this.workspace_.options.oneBasedIndex,
-  //       horizontalLayout: this.workspace_.horizontalLayout,
-  //       renderer: this.workspace_.options.renderer,
-  //       rendererOverrides: this.workspace_.options.rendererOverrides,
-  //       move: {
-  //         scrollbars: true,
-  //       },
-  //     } as Blockly.BlocklyOptions)
-  //   );
-  // }
-
-  private initTabs_() {
-    if (!this.HtmlDiv) {
-      return;
+    if (!this.contentsContainer_ || !this.contentArea_) {
+      throw new Error('contentsContainer_ or contentArea_ is null.');
     }
 
-    this.tabContainer_ = document.createElement('div');
-    this.tabContainer_.className = 'toolboxTabs';
+    this.contentsContainer_.prepend(this.contentArea_.createDom());
+    this.setVisible(true);
+    this.contentArea_.init(this);
+    this.render(this.toolboxDef_);
+  }
+
+  createDom_(workspace: Blockly.WorkspaceSvg): HTMLDivElement {
+    const svg = workspace.getParentSvg();
+    const container = this.createContainer_();
+
+    svg.parentNode!.insertBefore(container, svg);
+
+    this.tabContainer_ = this.initTabContainer_();
+    container.appendChild(this.tabContainer_);
+
+    this.contentsContainer_ = this.initContentContainer_();
+    container.appendChild(this.contentsContainer_);
+
+    this.contentsDiv_ = this.createContentsContainer_();
+    // this.contentsDiv_.tabIndex = 0;
+    this.contentsContainer_.appendChild(this.contentsDiv_);
+
+    this.attachEvents_(container, this.contentsDiv_);
+    return container;
+  }
+
+  updateContentArea_(
+    oldItem: Blockly.ISelectableToolboxItem | null,
+    newItem: Blockly.ISelectableToolboxItem | null
+  ) {
+    if (
+      newItem &&
+      (oldItem !== newItem || newItem.isCollapsible()) &&
+      newItem.getContents().length
+    ) {
+      //  this.contentArea_!.update(newItem.getContents());
+      this.contentArea_!.scrollToStart();
+    }
+  }
+
+  createContentArea_(): ContentArea {
+    return new ContentArea();
+  }
+
+  private initTabContainer_() {
+    return Dom.createElement<HTMLDivElement>('div', {
+      class: 'toolboxTabs',
+    });
+  }
+
+  private initContentContainer_() {
+    return Dom.createElement<HTMLDivElement>('div', {
+      class: 'contentContainer',
+    });
+  }
+
+  private initTabs_() {
+    if (!this.HtmlDiv || !this.tabContainer_) {
+      throw new Error('No HtmlDiv or tabContainer.');
+    }
 
     Object.entries(this.tabs_!).forEach(([id, tabConfig]) => {
       const tabElement = this.createTab_(tabConfig.label, id);
@@ -85,8 +116,6 @@ export default class TabbedToolbox extends Blockly.Toolbox {
       tabElement.addEventListener('click', () => this.selectTab_(id, tabElement));
       this.tabContainer_!.appendChild(tabElement);
     });
-
-    this.HtmlDiv.prepend(this.tabContainer_);
   }
 
   private createTab_(label: string, id: string) {
@@ -146,85 +175,157 @@ Blockly.Css.register(`
   padding: 0.75rem; /* py-3 */
   color: #ffffff; /* text-white */
 }
+
+.contentContainer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+
+.contentArea {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: white;
+}
 `);
 
-const HTML_DIV_FLYOUT_NAME = 'htmlDivFlyout';
-
-enum FlyoutItemType {
+enum ContentAreaItemType {
   BLOCK = 'block',
   LABEL = 'label',
   INPUT = 'input',
   BUTTON = 'button',
 }
 
-export interface FlyoutItem {
-  type: FlyoutItemType;
+export type ContentAreaItemInfo =
+  | BlockInfo
+  | SeparatorInfo
+  | ButtonInfo
+  | LabelInfo
+  | DynamicCategoryInfo;
+
+export type ToolboxItemInfo = FlyoutItemInfo | StaticCategoryInfo;
+
+export interface ToolboxInfo {
+  kind?: string;
+  contents: ToolboxItemInfo[];
+}
+
+export type FlyoutItemInfoArray = FlyoutItemInfo[];
+
+export type FlyoutDefinition = FlyoutItemInfoArray | NodeList | ToolboxInfo | Node[];
+
+export interface ContentAreaItem {
+  type: ContentAreaItemType;
   item: Blockly.BlockSvg | HTMLElement | undefined;
 }
 
-export interface IHtmlDivFlyout extends Blockly.IRegistrable {
+export interface IContentArea extends Blockly.IRegistrable {
   createDom(): HTMLDivElement;
-  init(targetToolbox: Blockly.Toolbox): void;
+  init(targetToolbox: TabbedToolbox): void;
   dispose(): void;
-  getToolbox(): Blockly.Toolbox | null;
-  getContents(): FlyoutItem[];
+  getToolbox(): TabbedToolbox | null;
+  getContents(): ContentAreaItem[];
+  setContents(contents: ContentAreaItem[]): void;
+  createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[];
   isScrollable(): boolean;
   scrollToStart(): void;
 }
 
-export class HtmlDivFlyout implements IHtmlDivFlyout {
+export class ContentArea implements IContentArea {
   private htmlDiv_: HTMLDivElement | null;
-  private targetToolbox_: Blockly.Toolbox | null;
+  private targetToolbox_: TabbedToolbox | null;
+  private contents_: ContentAreaItem[];
 
   constructor() {
     this.htmlDiv_ = null;
     this.targetToolbox_ = null;
+    this.contents_ = [];
+  }
+  createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[] {
+    console.log(contentAreaDef);
+    throw new Error('Method not implemented.');
   }
 
   createDom(): HTMLDivElement {
-    this.htmlDiv_ = Dom.createElement<HTMLDivElement>('div', { class: 'htmlDivFlyout' });
+    this.htmlDiv_ = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
     return this.htmlDiv_;
   }
 
-  init(targetToolbox: Blockly.Toolbox): void {
+  init(targetToolbox: TabbedToolbox): void {
     this.targetToolbox_ = targetToolbox;
   }
 
-  dispose(): void {
-    throw new Error('Method not implemented.');
-  }
-
-  getToolbox(): Blockly.Toolbox | null {
+  getToolbox(): TabbedToolbox | null {
     return this.targetToolbox_;
   }
 
-  getContents(): FlyoutItem[] {
-    throw new Error('Method not implemented.');
+  getContents(): ContentAreaItem[] {
+    return this.contents_;
   }
 
-  showContents(items: FlyoutItem[]) {}
+  setContents(contents: ContentAreaItem[]): void {
+    this.contents_ = contents;
+  }
+
+  update(contentAreaDef: FlyoutDefinition) {
+    console.log(contentAreaDef);
+    /**
+     * kind: "block"
+     * type: "html"
+     *
+     */
+    //this.clearOldBlocks();
+    if (!this.htmlDiv_) {
+      throw new Error('htmlDiv is null');
+    }
+
+    const block = Dom.createElement<HTMLDivElement>('div', { class: 'block' });
+    block.innerHTML = '<li>아이템</li><li>아이템</li><li>아이템</li>';
+    this.htmlDiv_.appendChild(block);
+    // if (typeof flyoutDef === 'string') {
+    //   flyoutDef = this.getDynamicCategoryContents(flyoutDef);
+    // }
+
+    /**
+     * { type : 'block', items: [] }
+     */
+
+    // for (const info in contentAreaDef) {
+    //   this.createFlyoutBlock(info as BlockInfo);
+    // }
+    // const flyoutInfo = this.createContentAreaInfo(contentAreaDef);
+
+    // this.setContents(flyoutInfo.contents);
+
+    // this.layout_(flyoutInfo.contents);
+
+    //this.emptyRecycledBlocks();
+  }
+
+  // createFlyoutBlock(blockInfo: BlockInfo) {
+  //   return blockInfo as Blockly.BlockSvg;
+  // }
+
+  // layout_(contents: ContentAreaItem[]) {}
+
+  // createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[] {
+  //   const contents: ContentAreaItem[] = [];
+  //   for (const info in contentAreaDef) {
+  //     this.createFlyoutBlock(info as BlockInfo);
+  //   }
+  //   return contents;
+  // }
 
   isScrollable(): boolean {
     throw new Error('Method not implemented.');
   }
-  scrollToStart(): void {
-    throw new Error('Method not implemented.');
-  }
-}
 
-export class Dom {
-  static createElement<T extends HTMLElement>(
-    name: string,
-    attrs: { [key: string]: string | number },
-    parent?: Element | null
-  ): T {
-    const element = document.createElement(name) as T;
-    for (const key in attrs) {
-      element.setAttribute(key, `${attrs[key]}`);
-    }
-    if (parent) {
-      parent.appendChild(element);
-    }
-    return element;
+  scrollToStart(): void {
+    console.log('Method not implemented.');
+  }
+
+  dispose(): void {
+    throw new Error('Method not implemented.');
   }
 }
