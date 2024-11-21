@@ -1,73 +1,76 @@
+import { addPreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
 
+const defineBlockWithDefaults = (
+  blockName: string,
+  blockColorNum: number,
+  blockDefinition: any = { init: function () {} },
+  isDefault: boolean = true
+) => {
+  const originalInit = blockDefinition.init;
+  blockDefinition.init = function () {
+    originalInit.call(this);
+
+    if (!this.styleName_) {
+      this.setStyle(`default_blocks${blockColorNum}`);
+    }
+
+    if (isDefault) {
+      this.setPreviousStatement(true);
+      this.setNextStatement(true);
+      this.appendValueInput('css class').setCheck('CSS-CLASS').appendField(blockName);
+      this.appendStatementInput('children').appendField();
+    }
+  };
+
+  Blockly.Blocks[addPreviousTypeName(blockName)] = blockDefinition;
+};
+
 export const defineBlocks = () => {
-  Blockly.Blocks['html'] = {
-    init: function () {
-      this.appendDummyInput().appendField('html');
-      this.appendValueInput('css class').setCheck('String').appendField('css class');
-      this.appendStatementInput('children').appendField('children');
-      this.setColour(230);
+  defineBlockWithDefaults(
+    'html',
+    1,
+    {
+      init: function () {
+        this.appendDummyInput().appendField('html');
+        this.appendStatementInput('children').appendField('');
+      },
     },
-  };
+    false
+  );
 
-  Blockly.Blocks['head'] = {
-    init: function () {
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.appendEndRowInput().appendField('head');
-      this.appendValueInput('css class').setCheck('CSS-CLASS').appendField('css class');
-      this.appendStatementInput('children').appendField();
-      this.setColour(120);
-    },
-  };
+  defineBlockWithDefaults('head', 2);
 
-  Blockly.Blocks['body'] = {
-    init: function () {
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.appendEndRowInput().appendField('body');
-      this.appendValueInput('css class').setCheck('CSS-CLASS').appendField('css class');
-      this.appendStatementInput('children').appendField();
-      this.setColour(300);
-    },
-  };
+  defineBlockWithDefaults('body', 3);
 
-  Blockly.Blocks['p'] = {
-    init: function () {
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.appendEndRowInput().appendField('p');
-      this.appendValueInput('css class').setCheck('CSS-CLASS').appendField('css class');
-      this.appendStatementInput('children').appendField();
-      this.setColour(180);
-    },
-  };
+  defineBlockWithDefaults('p', 1);
 
-  Blockly.Blocks['button'] = {
-    init: function () {
-      this.setPreviousStatement(true);
-      this.setNextStatement(true);
-      this.appendEndRowInput().appendField('button');
-      this.appendValueInput('css class').setCheck('CSS-CLASS').appendField('css class');
-      this.appendStatementInput('children').appendField();
-      this.setColour(280);
-    },
-  };
+  defineBlockWithDefaults('button', 2);
 
-  Blockly.Blocks['text'] = {
-    init: function () {
-      this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
-      this.setNextStatement(true); // 다른 블록 아래에 연결 가능
-      this.appendDummyInput().appendField('text').appendField(new Blockly.FieldTextInput(), 'TEXT');
-      this.setColour(40);
+  defineBlockWithDefaults(
+    'text',
+    3,
+    {
+      init: function () {
+        this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
+        this.setNextStatement(true); // 다른 블록 아래에 연결 가능
+        this.appendDummyInput()
+          .appendField('text')
+          .appendField(new Blockly.FieldTextInput(), 'TEXT');
+      },
     },
-  };
+    false
+  );
 
-  // css 블록
-  Blockly.Blocks['css_style'] = {
-    init: function () {
-      this.appendDummyInput().appendField(new Blockly.FieldTextInput('클래스명'), 'CLASS'); // "클래스명"은 초기값
-      this.setOutput(true); // 이 블록을 다른 블록에 연결할 수 있도록 설정
+  defineBlockWithDefaults(
+    'css_style',
+    1,
+    {
+      init: function () {
+        this.appendDummyInput().appendField(new Blockly.FieldTextInput('클래스명'), 'CLASS'); // "클래스명"은 초기값
+        this.setOutput(true); // 이 블록을 다른 블록에 연결할 수 있도록 설정
+      },
     },
-  };
+    false
+  );
 };

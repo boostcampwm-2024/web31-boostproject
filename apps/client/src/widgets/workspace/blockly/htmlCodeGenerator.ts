@@ -1,10 +1,11 @@
+import { addPreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
 
 const htmlCodeGenerator = new Blockly.Generator('HTML');
 
 // 함수: 태그 블록(html, head, body, p, button) 정보를 코드로 변환
 const transferTagBlockToCode = (tagName: string) => {
-  htmlCodeGenerator.forBlock[tagName] = function (block) {
+  htmlCodeGenerator.forBlock[addPreviousTypeName(tagName)] = function (block) {
     let cssClass = '';
     const cssClassBlock = block.getInputTargetBlock('css class'); // 블록에서 직접 연결된 블록을 가져옴
     if (cssClassBlock) {
@@ -18,13 +19,13 @@ const transferTagBlockToCode = (tagName: string) => {
 };
 
 // text 블록에 대한 코드 생성을 별도로 정의
-htmlCodeGenerator.forBlock['text'] = function (block) {
+htmlCodeGenerator.forBlock[addPreviousTypeName('text')] = function (block) {
   const textContent = block.getFieldValue('TEXT'); // 블록에서 텍스트 내용을 가져옴
   return textContent;
 };
 
 // CSS 블록에 대한 코드 생성을 별도로 정의
-htmlCodeGenerator.forBlock['css_style'] = function (block) {
+htmlCodeGenerator.forBlock[addPreviousTypeName('css_style')] = function (block) {
   const classContent = block.getFieldValue('CLASS'); // 블록에서 텍스트 내용을 가져옴
   return classContent;
 };

@@ -3,6 +3,27 @@ import * as Blockly from 'blockly/core';
 
 import { categoryColours } from '@/widgets';
 
+const defaultBlockStyles: {
+  [key: string]: Partial<Blockly.Theme.BlockStyle>;
+} = {
+  ...Blockly.Themes.Zelos.blockStyles,
+  default_blocks1: {
+    colourPrimary: '#B2DAFF',
+    colourSecondary: '#FFFFFF',
+    colourTertiary: '#2677C3',
+  },
+  default_blocks2: {
+    colourPrimary: '#67B6FF',
+    colourSecondary: '#FFFFFF',
+    colourTertiary: '#2677C3',
+  },
+  default_blocks3: {
+    colourPrimary: '#4195E4',
+    colourSecondary: '#FFFFFF',
+    colourTertiary: '#2677C3',
+  },
+};
+
 export const initTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',
   base: Blockly.Themes.Classic,
@@ -19,4 +40,5 @@ export const initTheme = Blockly.Theme.defineTheme('custom', {
   },
 
   categoryStyles: categoryColours,
+  blockStyles: defaultBlockStyles,
 });
