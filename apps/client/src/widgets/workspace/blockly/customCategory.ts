@@ -1,6 +1,7 @@
 import * as Blockly from 'blockly/core';
 import { CategoryInfo } from 'blockly/core/utils/toolbox';
 import { IToolbox } from 'blockly';
+
 import { CATEGORY_ICONS } from '@/shared/utils';
 
 export default class CustomCategory extends Blockly.ToolboxCategory {
