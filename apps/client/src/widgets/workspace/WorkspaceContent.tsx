@@ -4,26 +4,37 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import CustomCategory from '@/widgets/workspace/blockly/customCategory';
+import CustomCategory from '../../core/customCategory';
+import { TTabToolboxConfig } from '@/shared/types';
+import TabbedToolbox from '@/core/tabbedToolbox';
+// import FixedFlyout from '@/core/fixedFlyout';
 import {
   CssPropsSelectBox,
   defineBlocks,
   toolboxConfig,
   initTheme,
-  customToolbox,
   PreviewBox,
   cssCodeGenerator,
+  toolboxConfig2,
+  classMakerPrompt,
 } from '@/widgets';
 import { useCssPropsStore } from '@/shared/store';
 
-Blockly.registry.register(
-  Blockly.registry.Type.TOOLBOX_ITEM,
-  Blockly.ToolboxCategory.registrationName,
-  CustomCategory,
-  true
-);
-
 export const WorkspaceContent = () => {
+  const tabToolboxConfig: TTabToolboxConfig = {
+    tabs: {
+      html: {
+        label: 'HTML 태그',
+        toolboxConfig: toolboxConfig,
+      },
+      css: {
+        label: '스타일',
+        toolboxConfig: toolboxConfig2,
+      },
+    },
+    defaultSelectedTab: 'html',
+  };
+
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
@@ -31,12 +42,24 @@ export const WorkspaceContent = () => {
   defineBlocks();
 
   useEffect(() => {
+    Blockly.registry.register(
+      Blockly.registry.Type.TOOLBOX_ITEM,
+      Blockly.ToolboxCategory.registrationName,
+      CustomCategory,
+      true
+    );
+
     const newWorkspace = Blockly.inject('blocklyDiv', {
+      plugins: {
+        //flyoutsVerticalToolbox: FixedFlyout,
+        toolbox: TabbedToolbox,
+      },
       renderer: 'zelos',
       toolboxPosition: 'end',
       toolbox: toolboxConfig,
-      theme: initTheme,
+      theme: initTheme, // 커스텀 테마 적용
       zoom: {
+        // 확대 및 축소 버튼 설정
         controls: true,
         wheel: true,
         startScale: 1.0,
@@ -45,8 +68,17 @@ export const WorkspaceContent = () => {
         scaleSpeed: 1.2,
       },
     });
+    //  const blockContainer = wrapBlocklyBlocksInDiv(newWorkspace);
+    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
-    customToolbox(newWorkspace);
+    const flyout = newWorkspace!.getToolbox()!.getFlyout();
+    newWorkspace.registerButtonCallback('classMakerPrompt', () => {
+      classMakerPrompt(newWorkspace);
+      flyout!.show(toolboxConfig2.contents);
+    });
+    flyout!.show(toolboxConfig2.contents);
+
+    flyout!.hide = () => {};
 
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
