@@ -166,7 +166,7 @@ export interface IHtmlDivFlyout extends Blockly.IRegistrable {
   createDom(): HTMLDivElement;
   init(targetToolbox: Blockly.Toolbox): void;
   dispose(): void;
-  getToolbox(): Blockly.Toolbox;
+  getToolbox(): Blockly.Toolbox | null;
   getContents(): FlyoutItem[];
   isScrollable(): boolean;
   scrollToStart(): void;
@@ -187,14 +187,17 @@ export class HtmlDivFlyout implements IHtmlDivFlyout {
   }
 
   init(targetToolbox: Blockly.Toolbox): void {
-    throw new Error('Method not implemented.');
+    this.targetToolbox_ = targetToolbox;
   }
+
   dispose(): void {
     throw new Error('Method not implemented.');
   }
-  getToolbox(): Blockly.Toolbox {
-    throw new Error('Method not implemented.');
+
+  getToolbox(): Blockly.Toolbox | null {
+    return this.targetToolbox_;
   }
+
   getContents(): FlyoutItem[] {
     throw new Error('Method not implemented.');
   }
