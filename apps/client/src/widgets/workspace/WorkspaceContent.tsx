@@ -1,5 +1,4 @@
 import 'blockly/blocks';
-
 import * as Blockly from 'blockly/core';
 
 import { useEffect, useState } from 'react';
@@ -13,7 +12,9 @@ import {
   initTheme,
   customToolbox,
   PreviewBox,
+  cssCodeGenerator,
 } from '@/widgets';
+import { useCssPropsStore } from '@/shared/store';
 
 Blockly.registry.register(
   Blockly.registry.Type.TOOLBOX_ITEM,
@@ -24,6 +25,9 @@ Blockly.registry.register(
 
 export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
+  const [cssCode, setCssCode] = useState<string>('');
+  const [totalCss, setTotalCss] = useState<any>({});
+  const { totalCssPropertyObj } = useCssPropsStore();
 
   defineBlocks();
 
@@ -50,6 +54,7 @@ export const WorkspaceContent = () => {
       if (
         event.type === Blockly.Events.BLOCK_CREATE ||
         event.type === Blockly.Events.BLOCK_MOVE ||
+        event.type === Blockly.Events.BLOCK_DRAG ||
         event.type === Blockly.Events.BLOCK_CHANGE ||
         event.type === Blockly.Events.BLOCK_DELETE
       ) {
@@ -66,10 +71,14 @@ export const WorkspaceContent = () => {
     };
   }, []);
 
+  useEffect(() => {
+    setCssCode(cssCodeGenerator(totalCssPropertyObj));
+  }, [htmlCode, totalCssPropertyObj]);
+
   return (
     <div className="flex flex-1">
       <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
-        <PreviewBox htmlCode={htmlCode} />
+        <PreviewBox htmlCode={htmlCode} cssCode={cssCode} />
         <CssPropsSelectBox />
       </div>
 
