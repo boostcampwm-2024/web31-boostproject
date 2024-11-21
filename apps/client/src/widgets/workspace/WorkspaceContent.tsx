@@ -26,7 +26,6 @@ Blockly.registry.register(
 export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
-  const [totalCss, setTotalCss] = useState<any>({});
   const { totalCssPropertyObj } = useCssPropsStore();
 
   defineBlocks();
