@@ -2,10 +2,15 @@ import { useState } from 'react';
 
 type PreviewBoxProps = {
   htmlCode: string;
+  cssCode: string;
 };
 
-export const PreviewBox = ({ htmlCode }: PreviewBoxProps) => {
+export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
+
+  const styleCode = `<style>${cssCode}</style>`;
+  const indexOfHead = htmlCode.indexOf('</head>');
+  const totalCode = `${htmlCode.slice(0, indexOfHead)}${styleCode}${htmlCode.slice(indexOfHead)}`;
 
   return (
     <section className="flex-1 border-b border-gray-100">
@@ -30,9 +35,11 @@ export const PreviewBox = ({ htmlCode }: PreviewBoxProps) => {
         </button>
       </nav>
       <div className="min-h-[20rem]">
-        {activeTab === 'preview' && <iframe srcDoc={htmlCode} title="Preview"></iframe>}
+        {activeTab === 'preview' && (
+          <iframe srcDoc={totalCode} className="h-full w-full" title="Preview"></iframe>
+        )}
         {activeTab === 'html' && <pre className="whitespace-pre-wrap">{htmlCode}</pre>}
-        {activeTab === 'css' && <p>css 파싱 기능은 구현 중 입니다.</p>}
+        {activeTab === 'css' && <pre className="whitespace-pre-wrap">{cssCode}</pre>}
       </div>
     </section>
   );
