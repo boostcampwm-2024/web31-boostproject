@@ -19,53 +19,53 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.initTabs_();
   }
 
-  init() {
-    const workspace = this.workspace_;
-    const svg = workspace.getParentSvg();
+  // init() {
+  //   const workspace = this.workspace_;
+  //   const svg = workspace.getParentSvg();
 
-    this.customFlyout_ = this.createFlyout_();
+  //   this.customFlyout_ = this.createFlyout_();
 
-    this.HtmlDiv = this.createDom_(this.workspace_);
-    Blockly.utils.dom.insertAfter(this.customFlyout_.createDom('svg'), svg);
-    this.setVisible(true);
-    this.flyout_.init(workspace);
+  //   this.HtmlDiv = this.createDom_(this.workspace_);
+  //   Blockly.utils.dom.insertAfter(this.customFlyout_.createDom('svg'), svg);
+  //   this.setVisible(true);
+  //   this.flyout_.init(workspace);
 
-    this.render(this.toolboxDef_);
-    const themeManager = workspace.getThemeManager();
-    themeManager.subscribe(this.HtmlDiv, 'toolboxBackgroundColour', 'background-color');
-    themeManager.subscribe(this.HtmlDiv, 'toolboxForegroundColour', 'color');
-    this.workspace_.getComponentManager().addComponent({
-      component: this,
-      weight: ComponentManager.ComponentWeight.TOOLBOX_WEIGHT,
-      capabilities: [
-        ComponentManager.Capability.AUTOHIDEABLE,
-        ComponentManager.Capability.DELETE_AREA,
-        ComponentManager.Capability.DRAG_TARGET,
-      ],
-    });
-  }
+  //   this.render(this.toolboxDef_);
+  //   const themeManager = workspace.getThemeManager();
+  //   themeManager.subscribe(this.HtmlDiv, 'toolboxBackgroundColour', 'background-color');
+  //   themeManager.subscribe(this.HtmlDiv, 'toolboxForegroundColour', 'color');
+  //   this.workspace_.getComponentManager().addComponent({
+  //     component: this,
+  //     weight: ComponentManager.ComponentWeight.TOOLBOX_WEIGHT,
+  //     capabilities: [
+  //       ComponentManager.Capability.AUTOHIDEABLE,
+  //       ComponentManager.Capability.DELETE_AREA,
+  //       ComponentManager.Capability.DRAG_TARGET,
+  //     ],
+  //   });
+  // }
 
-  createFlyout_(): HTMLDivElement {
-    let FlyoutClass = null;
-    FlyoutClass = Blockly.registry.getClassFromOptions(
-      Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
-      this.workspace_.options,
-      true
-    );
-    return new FlyoutClass!(
-      new Blockly.Options({
-        parentWorkspace: this.workspace_,
-        rtl: this.workspace_.RTL,
-        oneBasedIndex: this.workspace_.options.oneBasedIndex,
-        horizontalLayout: this.workspace_.horizontalLayout,
-        renderer: this.workspace_.options.renderer,
-        rendererOverrides: this.workspace_.options.rendererOverrides,
-        move: {
-          scrollbars: true,
-        },
-      } as Blockly.BlocklyOptions)
-    );
-  }
+  // createFlyout_(): HTMLDivElement {
+  //   let FlyoutClass = null;
+  //   FlyoutClass = Blockly.registry.getClassFromOptions(
+  //     Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
+  //     this.workspace_.options,
+  //     true
+  //   );
+  //   return new FlyoutClass!(
+  //     new Blockly.Options({
+  //       parentWorkspace: this.workspace_,
+  //       rtl: this.workspace_.RTL,
+  //       oneBasedIndex: this.workspace_.options.oneBasedIndex,
+  //       horizontalLayout: this.workspace_.horizontalLayout,
+  //       renderer: this.workspace_.options.renderer,
+  //       rendererOverrides: this.workspace_.options.rendererOverrides,
+  //       move: {
+  //         scrollbars: true,
+  //       },
+  //     } as Blockly.BlocklyOptions)
+  //   );
+  // }
 
   private initTabs_() {
     if (!this.HtmlDiv) {
@@ -201,6 +201,9 @@ export class HtmlDivFlyout implements IHtmlDivFlyout {
   getContents(): FlyoutItem[] {
     throw new Error('Method not implemented.');
   }
+
+  showContents(items: FlyoutItem[]) {}
+
   isScrollable(): boolean {
     throw new Error('Method not implemented.');
   }

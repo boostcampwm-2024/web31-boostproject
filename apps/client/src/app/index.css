@@ -112,47 +112,6 @@
   @apply text-semibold-sm;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #cdd9e4;
-  border-radius: 4px;
-}
-
-.blocklyToolboxCategory {
-  padding: 0;
-  margin: 0;
-}
-
-.blocklyTreeRow {
-  width: 6rem;
-  height: auto;
-  background-color: white;
-  padding: 0.5rem 0;
-  margin: 0;
-  border-bottom: 1px #cdd9e4 solid;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.blocklyTreeRowContentContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.blocklyTreeRow:hover {
-  cursor: pointer;
-}
-
-.blocklyTreeLabel {
-  @apply text-semibold-sm;
-}
-
 .blocklyFlyout {
   z-index: 70;
   transform: translate(800px, 40px);
@@ -167,17 +126,10 @@
   border-radius: 4px;
 }
 
-.hidden {
-  display: none;
+input[type='color']::-webkit-color-swatch {
+  border-radius: 100%;
+  border: none;
 }
-
-.toolboxTabs {
-  @apply flex w-96;
-}
-.toolboxTab {
-  @apply text-semibold-md flex flex-1 cursor-pointer justify-center rounded-t-lg bg-gray-50 py-3 text-gray-200;
-}
-
-.tabSelected {
-  @apply text-bold-md flex-1 rounded-t-lg bg-blue-500 py-3 text-white;
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
 }
