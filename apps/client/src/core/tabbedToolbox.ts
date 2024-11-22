@@ -12,6 +12,7 @@ import {
 import { TTabToolboxConfig, TTabs } from '@/shared/types';
 
 import Dom from './dom';
+import { IFlyout, VerticalFlyout, WorkspaceSvg } from 'blockly/core';
 
 export default class TabbedToolbox extends Blockly.Toolbox {
   private tabs_: TTabs | undefined;
@@ -19,12 +20,13 @@ export default class TabbedToolbox extends Blockly.Toolbox {
 
   private tabContainer_: HTMLDivElement | null;
   private contentsContainer_: HTMLDivElement | null;
+  private flyout_: IFlyout | null = null;
 
-  private contentArea_: ContentArea | null;
+  //private contentArea_: ContentArea | null;
 
   constructor(workspace: Blockly.WorkspaceSvg) {
     super(workspace);
-    this.contentArea_ = null;
+    //this.contentArea_ = null;
     this.tabContainer_ = null;
     this.contentsContainer_ = null;
   }
@@ -39,15 +41,18 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     super.init();
     this.HtmlDiv = this.createDom_(this.workspace_);
 
-    this.contentArea_ = this.createContentArea_();
+    //this.contentArea_ = this.createContentArea_();
+    this.flyout_ = this.createFlyout_();
 
-    if (!this.contentsContainer_ || !this.contentArea_) {
+    if (!this.contentsContainer_) {
       throw new Error('contentsContainer_ or contentArea_ is null.');
     }
+    const container = Dom.createElement('div', { class: 'con' });
+    container.prepend(this.flyout_.createDom('svg'));
+    this.contentsContainer_.prepend(container);
 
-    this.contentsContainer_.prepend(this.contentArea_.createDom());
     this.setVisible(true);
-    this.contentArea_.init(this);
+    this.flyout_.init(this.workspace_);
     this.render(this.toolboxDef_);
   }
 
@@ -71,41 +76,56 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     return container;
   }
 
-  setSelectedItem(newItem: Blockly.ToolboxCategory | null): void {
-    const oldItem = this.selectedItem_;
+  // setSelectedItem(newItem: Blockly.ToolboxCategory | null): void {
+  //   const oldItem = this.selectedItem_;
 
-    if (!newItem && !oldItem) {
-      return;
-    }
+  //   if (!newItem && !oldItem) {
+  //     return;
+  //   }
 
-    if (this.shouldDeselectItem_(oldItem, newItem) && oldItem !== null) {
-      this.deselectItem_(oldItem);
-    }
+  //   if (this.shouldDeselectItem_(oldItem, newItem) && oldItem !== null) {
+  //     this.deselectItem_(oldItem);
+  //   }
 
-    if (this.shouldSelectItem_(oldItem, newItem) && newItem !== null) {
-      this.selectItem_(oldItem, newItem);
-    }
+  //   if (this.shouldSelectItem_(oldItem, newItem) && newItem !== null) {
+  //     this.selectItem_(oldItem, newItem);
+  //   }
 
-    this.updateContentArea_(oldItem, newItem);
-  }
+  //   this.updateContentArea_(oldItem, newItem);
+  // }
 
-  updateContentArea_(
-    oldItem: Blockly.ISelectableToolboxItem | null,
-    newItem: Blockly.ISelectableToolboxItem | null
-  ) {
-    if (
-      newItem &&
-      (oldItem !== newItem || newItem.isCollapsible()) &&
-      newItem.getContents().length
-    ) {
-      this.contentArea_!.update(newItem.getContents() as FlyoutItemInfoArray);
-      this.contentArea_!.scrollToStart();
-    }
-  }
+  // updateContentArea_(
+  //   oldItem: Blockly.ISelectableToolboxItem | null,
+  //   newItem: Blockly.ISelectableToolboxItem | null
+  // ) {
+  //   if (
+  //     newItem &&
+  //     (oldItem !== newItem || newItem.isCollapsible()) &&
+  //     newItem.getContents().length
+  //   ) {
+  //     this.contentArea_!.update(newItem.getContents() as FlyoutItemInfoArray);
+  //     this.contentArea_!.scrollToStart();
+  //   }
+  // }
 
-  createContentArea_(): ContentArea {
-    return new ContentArea();
-  }
+  // createContentArea_(): ContentArea {
+  //   const workspace = this.workspace_;
+
+  //   const workspaceOptions = new Blockly.Options({
+  //     parentWorkspace: workspace,
+  //     rtl: workspace.RTL,
+  //     oneBasedIndex: workspace.options.oneBasedIndex,
+  //     horizontalLayout: workspace.horizontalLayout,
+  //     renderer: workspace.options.renderer,
+  //     rendererOverrides: workspace.options.rendererOverrides,
+  //     move: {
+  //       scrollbars: true,
+  //     },
+  //   } as Blockly.BlocklyOptions);
+
+  //   workspaceOptions.toolboxPosition = workspace.options.toolboxPosition;
+  //   return new ContentArea!(workspaceOptions);
+  // }
 
   private initTabContainer_() {
     return Dom.createElement<HTMLDivElement>('div', {
@@ -206,6 +226,13 @@ Blockly.Css.register(`
   overflow-y: scroll;
   background-color: white;
 }
+
+.con {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  background-color: white;
+}
 `);
 
 enum ContentAreaItemType {
@@ -250,93 +277,128 @@ export interface IContentArea extends Blockly.IRegistrable {
   scrollToStart(): void;
 }
 
-export class ContentArea implements IContentArea {
-  private htmlDiv_: HTMLDivElement | null;
-  private targetToolbox_: TabbedToolbox | null;
-  private contents_: ContentAreaItem[];
+// export class ContentArea implements IContentArea {
+//   private workspace_: Blockly.WorkspaceSvg;
+//   private svgGroup_: SVGElement | null;
+//   private htmlDiv_: HTMLDivElement | null;
+//   private targetToolbox_: TabbedToolbox | null;
+//   private contents_: ContentAreaItem[];
 
-  constructor() {
-    this.htmlDiv_ = null;
-    this.targetToolbox_ = null;
-    this.contents_ = [];
-  }
-  createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[] {
-    console.log(contentAreaDef);
-    throw new Error('Method not implemented.');
-  }
+//   constructor(workspaceOptions: Blockly.Options) {
+//     this.workspace_ = new Blockly.WorkspaceSvg(workspaceOptions);
+//     this.svgGroup_ = null;
+//     this.htmlDiv_ = null;
+//     this.targetToolbox_ = null;
+//     this.contents_ = [];
+//   }
 
-  createDom(): HTMLDivElement {
-    this.htmlDiv_ = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
-    return this.htmlDiv_;
-  }
+//   createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[] {
+//     console.log(contentAreaDef);
+//     throw new Error('Method not implemented.');
+//   }
 
-  init(targetToolbox: TabbedToolbox): void {
-    this.targetToolbox_ = targetToolbox;
-  }
+//   createDom(): HTMLDivElement {
+//     this.htmlDiv_ = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
+//     this.svgGroup_ = Dom.createSvgElement('svg', {
+//       class: 'svgGroup',
+//     });
+//     this.svgGroup_.appendChild(this.workspace_.createDom());
+//     this.htmlDiv_.appendChild(this.svgGroup_);
+//     return this.htmlDiv_;
+//   }
 
-  getToolbox(): TabbedToolbox | null {
-    return this.targetToolbox_;
-  }
+//   init(targetToolbox: TabbedToolbox): void {
+//     this.targetToolbox_ = targetToolbox;
+//     this.workspace_.createPotentialVariableMap();
+//   }
 
-  getContents(): ContentAreaItem[] {
-    return this.contents_;
-  }
+//   getToolbox(): TabbedToolbox | null {
+//     return this.targetToolbox_;
+//   }
 
-  setContents(contents: ContentAreaItem[]): void {
-    this.contents_ = contents;
-  }
+//   getContents(): ContentAreaItem[] {
+//     return this.contents_;
+//   }
 
-  update(contentAreaDef: FlyoutDefinition) {
-    console.log(contentAreaDef);
+//   setContents(contents: ContentAreaItem[]): void {
+//     this.contents_ = contents;
+//   }
 
-    //this.clearOldBlocks();
-    if (!this.htmlDiv_) {
-      throw new Error('htmlDiv is null');
-    }
+//   update(contentAreaDef: FlyoutDefinition) {
+//     if (!this.htmlDiv_) {
+//       throw new Error('htmlDiv is null');
+//     }
 
-    const block = Dom.createElement<HTMLDivElement>('div', { class: 'block' });
-    block.innerHTML = '<li>아이템</li><li>아이템</li><li>아이템</li>';
-    this.htmlDiv_.appendChild(block);
+//     this.htmlDiv_.innerHTML += '초기화';
+//     this.workspace_.setResizesEnabled(false);
 
-    /**
-     * { type : 'block', items: [] }
-     */
+//     let cursorY = 20; // 시작 y 위치
+//     const GAP = 20; // 블록 간 간격
 
-    for (const info in contentAreaDef) {
-      this.createFlyoutBlock(info as BlockInfo);
-    }
-    // const flyoutInfo = this.createContentAreaInfo(contentAreaDef);
+//     for (const item of contentAreaDef as FlyoutItemInfoArray) {
+//       if (item.kind === 'block') {
+//         const blockInfo = item as BlockInfo;
 
-    // this.setContents(flyoutInfo.contents);
+//         let block: Blockly.BlockSvg;
+//         block = Blockly.serialization.blocks.append(
+//           blockInfo as Blockly.serialization.blocks.State,
+//           this.workspace_
+//         ) as Blockly.BlockSvg;
 
-    // this.layout_(flyoutInfo.contents);
+//         const root = block.getSvgRoot();
+//         const blockHW = block.getHeightWidth();
 
-    //this.emptyRecycledBlocks();
-  }
+//         block.moveBy(20, cursorY);
 
-  // createFlyoutBlock(blockInfo: BlockInfo) {
-  //   return blockInfo as Blockly.BlockSvg;
-  // }
+//         const rect = Dom.createSvgElement('rect', {
+//           x: '20',
+//           y: cursorY.toString(),
+//           width: blockHW.width.toString(),
+//           height: blockHW.height.toString(),
+//           class: 'blockly-block-hit-area',
+//           fill: 'transparent',
+//         });
 
-  // layout_(contents: ContentAreaItem[]) {}
+//         rect.classList.add('내가');
 
-  // createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[] {
-  //   const contents: ContentAreaItem[] = [];
-  //   for (const info in contentAreaDef) {
-  //     this.createFlyoutBlock(info as BlockInfo);
-  //   }
-  //   return contents;
-  // }
+//         rect.addEventListener('click', () => {
+//           const targetWorkspace = this.workspace_;
+//           if (targetWorkspace) {
+//             const state = Blockly.serialization.blocks.save(block);
+//             Blockly.serialization.blocks.append(state!, targetWorkspace);
+//           }
+//         });
 
-  isScrollable(): boolean {
-    throw new Error('Method not implemented.');
-  }
+//         this.svgGroup_?.appendChild(root!);
 
-  scrollToStart(): void {
-    console.log('Method not implemented.');
-  }
+//         cursorY += blockHW.height + GAP;
+//       }
+//     }
+//   }
 
-  dispose(): void {
-    throw new Error('Method not implemented.');
-  }
-}
+//   // createFlyoutBlock(blockInfo: BlockInfo) {
+//   //   return blockInfo as Blockly.BlockSvg;
+//   // }
+
+//   // layout_(contents: ContentAreaItem[]) {}
+
+//   // createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[] {
+//   //   const contents: ContentAreaItem[] = [];
+//   //   for (const info in contentAreaDef) {
+//   //     this.createFlyoutBlock(info as BlockInfo);
+//   //   }
+//   //   return contents;
+//   // }
+
+//   isScrollable(): boolean {
+//     throw new Error('Method not implemented.');
+//   }
+
+//   scrollToStart(): void {
+//     console.log('Method not implemented.');
+//   }
+
+//   dispose(): void {
+//     throw new Error('Method not implemented.');
+//   }
+// }
