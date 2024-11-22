@@ -4,7 +4,7 @@ import { TTabToolboxConfig, TTabs } from '@/shared/types';
 import Dom from './dom';
 import { IFlyout } from 'blockly/core';
 
-export interface ContentAreaMetrics {
+export interface IContentAreaMetrics {
   width: number;
   height: number;
 }
@@ -87,7 +87,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.initTabs_();
   }
 
-  public getContentAreaMetrics(): ContentAreaMetrics {
+  public getContentAreaMetrics(): IContentAreaMetrics {
     if (!this.contentArea_) {
       throw new Error('No contentArea_');
     }

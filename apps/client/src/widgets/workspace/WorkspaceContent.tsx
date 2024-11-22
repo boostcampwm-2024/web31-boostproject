@@ -26,10 +26,12 @@ export const WorkspaceContent = () => {
       html: {
         label: 'HTML 태그',
         toolboxConfig: toolboxConfig,
+        // flyout: "flyout_id"
       },
       css: {
         label: '스타일',
         toolboxConfig: toolboxConfig2,
+        // flyout: "flyout_id"
       },
     },
     defaultSelectedTab: 'html',
@@ -68,7 +70,7 @@ export const WorkspaceContent = () => {
         scaleSpeed: 1.2,
       },
     });
-    //  const blockContainer = wrapBlocklyBlocksInDiv(newWorkspace);
+
     (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
     const flyout = newWorkspace!.getToolbox()!.getFlyout();
