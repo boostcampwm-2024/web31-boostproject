@@ -2,6 +2,12 @@
 ## 🍀 서비스
 ![image](https://github.com/user-attachments/assets/28d77d78-d74f-4ad0-819c-a0f30479ba27)
 
+<p align="center"> 
+  ✏️ <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">깃허브 위키</a> /  
+  📖 <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">BooLock 위키</a> /  
+  <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">배포사이트</a>
+</p>
+
 <br/>
 
 ## 🍀 전체적 시스템 아키텍처
