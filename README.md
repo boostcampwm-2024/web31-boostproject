@@ -4,8 +4,8 @@
 
 <p align="center"> 
   ✏️ <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">깃허브 위키</a> /  
-  📖 <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">BooLock 위키</a> /  
-  <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">배포사이트</a>
+  📖 <a href="https://laced-riverbed-47c.notion.site/12d77ba9a1b681a5927ef7561f25af5e?v=31f16944c187499cbcf75c2c90f0b98d&pvs=74" target="_blank">BooLock 위키</a> /  
+  <a href="http://223.130.163.180/" target="_blank">배포사이트</a>
 </p>
 
 <br/>
