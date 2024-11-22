@@ -1,4 +1,3 @@
-import * as Blockly from 'blockly/core';
 import { Svg } from 'blockly/core/utils';
 
 export default class Dom {

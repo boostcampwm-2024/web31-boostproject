@@ -19,6 +19,8 @@ import {
 import { useCssPropsStore } from '@/shared/store';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
+import { registerCustomComponents } from '@/core/register';
+import CssFlyout from '@/core/cssFlyout';
 
 export const WorkspaceContent = () => {
   const tabToolboxConfig: TTabToolboxConfig = {
@@ -26,12 +28,12 @@ export const WorkspaceContent = () => {
       html: {
         label: 'HTML 태그',
         toolboxConfig: toolboxConfig,
-        // flyout: "flyout_id"
+        flyoutRegistryName: FixedFlyout.registryName,
       },
       css: {
         label: '스타일',
         toolboxConfig: toolboxConfig2,
-        // flyout: "flyout_id"
+        flyoutRegistryName: CssFlyout.registryName,
       },
     },
     defaultSelectedTab: 'html',
@@ -44,12 +46,7 @@ export const WorkspaceContent = () => {
   defineBlocks();
 
   useEffect(() => {
-    Blockly.registry.register(
-      Blockly.registry.Type.TOOLBOX_ITEM,
-      Blockly.ToolboxCategory.registrationName,
-      CustomCategory,
-      true
-    );
+    registerCustomComponents();
 
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
@@ -71,7 +68,7 @@ export const WorkspaceContent = () => {
       },
     });
 
-    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
+    (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
 
     const flyout = newWorkspace!.getToolbox()!.getFlyout();
     newWorkspace.registerButtonCallback('classMakerPrompt', () => {

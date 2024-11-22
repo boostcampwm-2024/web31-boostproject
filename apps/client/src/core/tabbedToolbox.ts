@@ -1,8 +1,10 @@
 import * as Blockly from 'blockly/core';
-import { TTabToolboxConfig, TTabs } from '@/shared/types';
+import { TTabConfig, TTabToolboxConfig, TTabs } from '@/shared/types';
 
 import Dom from './dom';
 import { IFlyout } from 'blockly/core';
+import FixedFlyout from './fixedFlyout';
+import CssFlyout from './cssFlyout';
 
 export interface IContentAreaMetrics {
   width: number;
@@ -173,14 +175,61 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     if (!this.workspace_ || !this.tabs_) {
       return;
     }
+
     this.currentTab_ = id;
-    this.workspace_.updateToolbox(this.tabs_[id].toolboxConfig);
+    const tabConfig = this.tabs_[id];
+
+    if (this.flyout_) {
+      this.flyout_.dispose();
+    }
+
+    this.flyout_ = this.createFlyoutByRegistry(
+      tabConfig.flyoutRegistryName || FixedFlyout.registryName
+    );
+
+    if (!this.contentArea_) {
+      throw new Error('contentArea_ is null');
+    }
+
+    this.contentArea_.prepend(this.flyout_.createDom('svg'));
+    this.flyout_.init(this.workspace_);
+
+    this.workspace_.updateToolbox(tabConfig.toolboxConfig);
+
     Array.from(this.tabContainer_!.children).forEach((child) => {
       child.classList.remove('tabSelected');
     });
 
     tabElement.classList.add('tabSelected');
-    this.setSelectedItem(this.getToolboxItems()![0]);
+
+    if (tabConfig.toolboxConfig.kind === 'categoryToolbox' && this.getToolboxItems().length !== 0) {
+      this.setSelectedItem(this.getToolboxItems()![0]);
+    }
+  }
+
+  private createFlyoutByRegistry(flyoutRegistryName: string): IFlyout {
+    const workspace = this.workspace_;
+
+    const workspaceOptions = new Blockly.Options({
+      parentWorkspace: workspace,
+      rtl: workspace.RTL,
+      oneBasedIndex: workspace.options.oneBasedIndex,
+      horizontalLayout: workspace.horizontalLayout,
+      renderer: workspace.options.renderer,
+      rendererOverrides: workspace.options.rendererOverrides,
+      move: {
+        scrollbars: true,
+      },
+    } as Blockly.BlocklyOptions);
+
+    workspaceOptions.toolboxPosition = workspace.options.toolboxPosition;
+
+    const FlyoutClass = Blockly.registry.getClass(
+      Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
+      flyoutRegistryName
+    );
+
+    return new FlyoutClass!(workspaceOptions);
   }
 }
 
