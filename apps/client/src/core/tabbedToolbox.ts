@@ -125,6 +125,13 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.contentArea_.appendChild(element);
   }
 
+  public clearContentArea() {
+    if (!this.contentArea_) {
+      throw new Error('contentArea is null');
+    }
+    this.contentArea_.innerHTML = '';
+  }
+
   private initTabContainer_() {
     return Dom.createElement<HTMLDivElement>('div', {
       class: 'toolboxTabs',
@@ -183,13 +190,15 @@ export default class TabbedToolbox extends Blockly.Toolbox {
       this.flyout_.dispose();
     }
 
-    this.flyout_ = this.createFlyoutByRegistry(
+    this.flyout_ = this.createFlyoutByRegistry_(
       tabConfig.flyoutRegistryName || FixedFlyout.registryName
     );
 
     if (!this.contentArea_) {
       throw new Error('contentArea_ is null');
     }
+
+    this.clearContentArea();
 
     this.contentArea_.prepend(this.flyout_.createDom('svg'));
     this.flyout_.init(this.workspace_);
@@ -207,7 +216,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     }
   }
 
-  private createFlyoutByRegistry(flyoutRegistryName: string): IFlyout {
+  private createFlyoutByRegistry_(flyoutRegistryName: string): IFlyout {
     const workspace = this.workspace_;
 
     const workspaceOptions = new Blockly.Options({
