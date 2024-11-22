@@ -1,6 +1,6 @@
 import { htmBlockContents } from '@/widgets';
 
-export const toolboxConfig = {
+export const htmlTagToolboxConfig = {
   kind: 'categoryToolbox',
   contents: [
     {
@@ -44,6 +44,13 @@ export const toolboxConfig = {
       name: '기타',
       categorystyle: 'etcCategory',
       contents: htmBlockContents,
+    },
+    // 테스트
+    {
+      kind: 'category',
+      name: 'CSS',
+      categorystyle: 'etcCategory',
+      custom: 'CSS',
     },
   ],
 };

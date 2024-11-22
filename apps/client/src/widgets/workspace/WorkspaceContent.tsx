@@ -4,36 +4,34 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import CustomCategory from '../../core/customCategory';
 import { TTabToolboxConfig } from '@/shared/types';
 import {
   CssPropsSelectBox,
   defineBlocks,
-  toolboxConfig,
+  htmlTagToolboxConfig,
   initTheme,
   PreviewBox,
   cssCodeGenerator,
-  toolboxConfig2,
-  classMakerPrompt,
+  cssStyleToolboxConfig,
 } from '@/widgets';
 import { useCssPropsStore } from '@/shared/store';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
 import { registerCustomComponents } from '@/core/register';
-import CssFlyout from '@/core/cssFlyout';
+import StyleFlyout from '@/core/styleFlyout';
 
 export const WorkspaceContent = () => {
   const tabToolboxConfig: TTabToolboxConfig = {
     tabs: {
       html: {
         label: 'HTML 태그',
-        toolboxConfig: toolboxConfig,
+        toolboxConfig: htmlTagToolboxConfig,
         flyoutRegistryName: FixedFlyout.registryName,
       },
       css: {
-        label: '스타일',
-        toolboxConfig: toolboxConfig2,
-        flyoutRegistryName: CssFlyout.registryName,
+        label: 'CSS 스타일',
+        toolboxConfig: cssStyleToolboxConfig,
+        flyoutRegistryName: StyleFlyout.registryName,
       },
     },
     defaultSelectedTab: 'html',
@@ -55,7 +53,7 @@ export const WorkspaceContent = () => {
       },
       renderer: 'zelos',
       toolboxPosition: 'end',
-      toolbox: toolboxConfig,
+      toolbox: htmlTagToolboxConfig,
       theme: initTheme, // 커스텀 테마 적용
       zoom: {
         // 확대 및 축소 버튼 설정
@@ -69,15 +67,6 @@ export const WorkspaceContent = () => {
     });
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
-
-    const flyout = newWorkspace!.getToolbox()!.getFlyout();
-    newWorkspace.registerButtonCallback('classMakerPrompt', () => {
-      classMakerPrompt(newWorkspace);
-      flyout!.show(toolboxConfig2.contents);
-    });
-    flyout!.show(toolboxConfig2.contents);
-
-    flyout!.hide = () => {};
 
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
@@ -107,10 +96,10 @@ export const WorkspaceContent = () => {
 
   return (
     <div className="flex flex-1">
-      {/* <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
+      <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
         <PreviewBox htmlCode={htmlCode} cssCode={cssCode} />
         <CssPropsSelectBox />
-      </div> */}
+      </div>
 
       <div id="blocklyDiv" className="h-full w-full"></div>
     </div>

@@ -10,10 +10,11 @@ export default class FixedFlyout extends Blockly.VerticalFlyout {
     }
     const metricsManager = this.targetWorkspace!.getMetricsManager();
     const targetWorkspaceViewMetrics = metricsManager.getViewMetrics();
+    console.log(targetWorkspaceViewMetrics);
     this.height_ = targetWorkspaceViewMetrics.height;
 
     const x = 0;
-    const y = 0;
+    const y = 30;
 
     const toolbox = this.targetWorkspace.getToolbox() as TabbedToolbox;
 

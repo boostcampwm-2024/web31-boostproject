@@ -1,7 +1,7 @@
 import * as Blockly from 'blockly/core';
 import CustomCategory from './customCategory';
 import FixedFlyout from './fixedFlyout';
-import CssFlyout from './cssFlyout';
+import StyleFlyout from './styleFlyout';
 
 export const registerCustomComponents = () => {
   Blockly.registry.register(
@@ -20,8 +20,8 @@ export const registerCustomComponents = () => {
 
   Blockly.registry.register(
     Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
-    CssFlyout.registryName,
-    CssFlyout,
+    StyleFlyout.registryName,
+    StyleFlyout,
     true
   );
 };
