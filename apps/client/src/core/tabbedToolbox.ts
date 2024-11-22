@@ -71,6 +71,24 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     return container;
   }
 
+  setSelectedItem(newItem: Blockly.ToolboxCategory | null): void {
+    const oldItem = this.selectedItem_;
+
+    if (!newItem && !oldItem) {
+      return;
+    }
+
+    if (this.shouldDeselectItem_(oldItem, newItem) && oldItem !== null) {
+      this.deselectItem_(oldItem);
+    }
+
+    if (this.shouldSelectItem_(oldItem, newItem) && newItem !== null) {
+      this.selectItem_(oldItem, newItem);
+    }
+
+    this.updateContentArea_(oldItem, newItem);
+  }
+
   updateContentArea_(
     oldItem: Blockly.ISelectableToolboxItem | null,
     newItem: Blockly.ISelectableToolboxItem | null
@@ -80,7 +98,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
       (oldItem !== newItem || newItem.isCollapsible()) &&
       newItem.getContents().length
     ) {
-      //  this.contentArea_!.update(newItem.getContents());
+      this.contentArea_!.update(newItem.getContents() as FlyoutItemInfoArray);
       this.contentArea_!.scrollToStart();
     }
   }
@@ -270,11 +288,7 @@ export class ContentArea implements IContentArea {
 
   update(contentAreaDef: FlyoutDefinition) {
     console.log(contentAreaDef);
-    /**
-     * kind: "block"
-     * type: "html"
-     *
-     */
+
     //this.clearOldBlocks();
     if (!this.htmlDiv_) {
       throw new Error('htmlDiv is null');
@@ -283,17 +297,14 @@ export class ContentArea implements IContentArea {
     const block = Dom.createElement<HTMLDivElement>('div', { class: 'block' });
     block.innerHTML = '<li>아이템</li><li>아이템</li><li>아이템</li>';
     this.htmlDiv_.appendChild(block);
-    // if (typeof flyoutDef === 'string') {
-    //   flyoutDef = this.getDynamicCategoryContents(flyoutDef);
-    // }
 
     /**
      * { type : 'block', items: [] }
      */
 
-    // for (const info in contentAreaDef) {
-    //   this.createFlyoutBlock(info as BlockInfo);
-    // }
+    for (const info in contentAreaDef) {
+      this.createFlyoutBlock(info as BlockInfo);
+    }
     // const flyoutInfo = this.createContentAreaInfo(contentAreaDef);
 
     // this.setContents(flyoutInfo.contents);
