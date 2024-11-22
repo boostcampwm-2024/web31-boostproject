@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react';
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
 import CustomCategory from '../../core/customCategory';
 import { TTabToolboxConfig } from '@/shared/types';
-import TabbedToolbox from '@/core/tabbedToolbox';
-// import FixedFlyout from '@/core/fixedFlyout';
 import {
   CssPropsSelectBox,
   defineBlocks,
@@ -19,6 +17,8 @@ import {
   classMakerPrompt,
 } from '@/widgets';
 import { useCssPropsStore } from '@/shared/store';
+import FixedFlyout from '@/core/fixedFlyout';
+import TabbedToolbox from '@/core/tabbedToolbox';
 
 export const WorkspaceContent = () => {
   const tabToolboxConfig: TTabToolboxConfig = {
@@ -51,7 +51,7 @@ export const WorkspaceContent = () => {
 
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
-        //flyoutsVerticalToolbox: FixedFlyout,
+        flyoutsVerticalToolbox: FixedFlyout,
         toolbox: TabbedToolbox,
       },
       renderer: 'zelos',
