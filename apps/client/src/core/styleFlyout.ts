@@ -6,6 +6,8 @@ import FixedFlyout from './fixedFlyout';
 import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
+import FieldClickableImage from './fieldClickableImage';
+import xIcon from '@/shared/assets/x_icon.svg';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -57,10 +59,10 @@ export default class StyleFlyout extends FixedFlyout {
     buttonElement.textContent = '+';
     buttonElement.addEventListener('click', () => this.createStyleBlock());
 
-    [pElement, this.inputElement, buttonElement].forEach((element ) =>
+    [pElement, this.inputElement, buttonElement].forEach((element) =>
       styleTop.appendChild(element)
     );
-    
+
     toolbox.addElementToContentArea(styleTop);
     // TODO: toolbox 중복 호출 논의
     this.show(cssStyleToolboxConfig.contents);
@@ -75,12 +77,22 @@ export default class StyleFlyout extends FixedFlyout {
     }
 
     if (!Blockly.Blocks[inputValue!]) {
+      const flyoutInstance = this;
       Blockly.Blocks[inputValue!] = {
         init: function () {
-          this.appendDummyInput().appendField(
-            new Blockly.FieldLabelSerializable(inputValue!),
-            'CLASS'
-          ); // 입력된 이름 반영
+          const input = this.appendDummyInput();
+          input.appendField(new Blockly.FieldLabelSerializable(inputValue!), 'CLASS');
+
+          input.appendField(
+            new FieldClickableImage(
+              xIcon,
+              16,
+              16,
+              '삭제',
+              flyoutInstance.deleteStyleBlock.bind(flyoutInstance, inputValue!)
+            )
+          );
+
           this.setOutput(true);
           this.setColour('#02D085');
         },
@@ -103,5 +115,37 @@ export default class StyleFlyout extends FixedFlyout {
     if (this.inputElement) {
       this.inputElement.value = '';
     }
+  }
+
+  deleteStyleBlock(blockType: string) {
+    Blockly.Flyout.prototype.deleteBlockByType = function (type) {
+      const flyoutWorkspace = this.workspace_;
+      const blocks = flyoutWorkspace.getTopBlocks(false);
+
+      // 블록 삭제
+      blocks.forEach((block) => {
+        if (block.type === type) {
+          block.dispose(false, true);
+        }
+      });
+
+      cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
+        (block) => block.type !== type
+      );
+
+      this.show(cssStyleToolboxConfig.contents);
+    };
+
+    const flyout = this.targetWorkspace?.getToolbox()?.getFlyout();
+    (flyout as any)?.deleteBlockByType(blockType);
+
+    cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
+      (block) => block.type !== blockType
+    );
+
+    const { removeClassBlock } = useClassBlockStore.getState();
+    removeClassBlock(blockType);
+    flyout?.show(cssStyleToolboxConfig.contents);
+    toast.success(`"${blockType}" 스타일 블록이 삭제되었습니다.`);
   }
 }
