@@ -4,7 +4,6 @@ import { TTabConfig, TTabToolboxConfig, TTabs } from '@/shared/types';
 import Dom from './dom';
 import { IFlyout } from 'blockly/core';
 import FixedFlyout from './fixedFlyout';
-import CssFlyout from './cssFlyout';
 
 export interface IContentAreaMetrics {
   width: number;
@@ -27,13 +26,15 @@ export default class TabbedToolbox extends Blockly.Toolbox {
   }
 
   init() {
-    super.init();
+    const workspace = this.workspace_;
+
     this.HtmlDiv = this.createDom_(this.workspace_);
     this.flyout_ = this.createFlyout_();
 
     if (!this.contentsContainer_) {
       throw new Error('contentsContainer_ or contentArea_ is null.');
     }
+
     const contentArea = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
     contentArea.prepend(this.flyout_.createDom('svg'));
 
@@ -41,8 +42,21 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.contentsContainer_.prepend(contentArea);
 
     this.setVisible(true);
-    this.flyout_.init(this.workspace_);
+    this.flyout_.init(workspace);
+
     this.render(this.toolboxDef_);
+    const themeManager = workspace.getThemeManager();
+    themeManager.subscribe(this.HtmlDiv, 'toolboxBackgroundColour', 'background-color');
+    themeManager.subscribe(this.HtmlDiv, 'toolboxForegroundColour', 'color');
+    // this.workspace_.getComponentManager().addComponent({
+    //   component: this,
+    //   weight: Blockly.ComponentManager.ComponentWeight.TOOLBOX_WEIGHT,
+    //   capabilities: [
+    //     ComponentManager.Capability.AUTOHIDEABLE,
+    //     ComponentManager.Capability.DELETE_AREA,
+    //     ComponentManager.Capability.DRAG_TARGET,
+    //   ],
+    // });
   }
 
   createDom_(workspace: Blockly.WorkspaceSvg): HTMLDivElement {
@@ -87,6 +101,10 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.tabs_ = config.tabs;
     this.currentTab_ = config.defaultSelectedTab;
     this.initTabs_();
+
+    if (this.flyout_) {
+      this.flyout_.position();
+    }
   }
 
   public getContentAreaMetrics(): IContentAreaMetrics {
@@ -218,7 +236,6 @@ export default class TabbedToolbox extends Blockly.Toolbox {
 
   private createFlyoutByRegistry_(flyoutRegistryName: string): IFlyout {
     const workspace = this.workspace_;
-
     const workspaceOptions = new Blockly.Options({
       parentWorkspace: workspace,
       rtl: workspace.RTL,
