@@ -107,16 +107,45 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     }
   }
 
+  public getContentAreaHeightExceptFlyout(): number {
+    if (!this.contentArea_) {
+      throw new Error('no Contentarea');
+    }
+
+    const parentRect = this.contentArea_.getBoundingClientRect();
+    const children = this.contentArea_.children;
+
+    let maxBottom = 0;
+
+    for (const child of children) {
+      console.log(child);
+      if (child.classList.contains('blocklyFlyout')) {
+        break;
+      }
+
+      const rect = child.getBoundingClientRect();
+      const bottom = rect.bottom - parentRect.top;
+
+      const computedStyle = window.getComputedStyle(child);
+      const marginBottom = parseFloat(computedStyle.marginBottom);
+
+      maxBottom = Math.max(maxBottom, bottom + marginBottom);
+      console.log(rect, parentRect, computedStyle);
+    }
+
+    return maxBottom;
+  }
+
   public getContentAreaMetrics(): IContentAreaMetrics {
     if (!this.contentArea_) {
       throw new Error('No contentArea_');
     }
 
-    const contentArea = this.contentArea_.getBoundingClientRect();
+    const contentAreaClientRect = this.contentArea_.getBoundingClientRect();
 
     return {
-      width: contentArea.width,
-      height: contentArea.height,
+      width: contentAreaClientRect.width,
+      height: contentAreaClientRect.height,
     };
   }
 
@@ -136,11 +165,15 @@ export default class TabbedToolbox extends Blockly.Toolbox {
    * ```
    */
 
-  public addElementToContentArea(element: HTMLElement): void {
+  public addElementToContentArea(element: HTMLElement, prepend: boolean = false): void {
     if (!this.contentArea_) {
       throw new Error('contentArea_ is null');
     }
-    this.contentArea_.appendChild(element);
+    if (prepend) {
+      this.contentArea_.prepend(element);
+    } else {
+      this.contentArea_.appendChild(element);
+    }
   }
 
   public clearContentArea() {
@@ -292,12 +325,12 @@ Blockly.Css.register(`
   display: flex;
   width: 100%;
   height: 100%;
+  background-color: white;
 }
 
 .contentArea {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  background-color: white;
 }
 `);
