@@ -1,3 +1,5 @@
+// TODO: 위치 논의 필요 (shared or core)
+
 export const container = ['div', 'span', 'header', 'section', 'nav', 'main', 'article', 'footer'];
 export const text = [
   'p',
