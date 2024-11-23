@@ -57,7 +57,7 @@ export default class StyleFlyout extends FixedFlyout {
     buttonElement.textContent = '+';
     buttonElement.addEventListener('click', () => this.createStyleBlock());
 
-    [this.pElement, this.inputElement, buttonElement].forEach((element: ) =>
+    [pElement, this.inputElement, buttonElement].forEach((element ) =>
       styleTop.appendChild(element)
     );
     
