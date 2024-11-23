@@ -1,10 +1,11 @@
 import * as Blockly from 'blockly/core';
+import toast from 'react-hot-toast';
+
 import TabbedToolbox from './tabbedToolbox';
 import FixedFlyout from './fixedFlyout';
 import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
-import toast from 'react-hot-toast';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -18,10 +19,10 @@ export default class StyleFlyout extends FixedFlyout {
       style: 'display: flex; flex-direction: column; padding: 18px 16px;',
     });
 
-    const textElement = Dom.createElement<HTMLDivElement>('div', {
-      style: 'color: #1E2722 font-size: 14px; margin-bottom: 12px;',
+    const pElement = Dom.createElement<HTMLDivElement>('p', {
+      style: 'color: #1E2722; margin-bottom: 12px;',
     });
-    textElement.textContent = '스타일명';
+    pElement.textContent = '스타일명';
 
     const inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
@@ -53,13 +54,8 @@ export default class StyleFlyout extends FixedFlyout {
       const inputValue = inputElement.value.trim();
       const { addClassBlock } = useClassBlockStore.getState();
 
-      if (inputValue === null) {
-        return;
-      }
-
-      if (inputValue?.trim() === '') {
-        toast.error('블록 이름을 입력해주세요.');
-        return;
+      if (!inputValue) {
+        return toast.error('블록 이름을 입력해주세요.');
       }
 
       if (!Blockly.Blocks[inputValue!]) {
@@ -75,28 +71,22 @@ export default class StyleFlyout extends FixedFlyout {
         };
       }
 
-      // 기존 블록 유지 및 새 블록 추가
+      // 기존 블록에 새 블록 추가
       const existingBlocks = cssStyleToolboxConfig!.contents || [];
-      const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
 
-      if (isBlockAlreadyAdded) {
-        toast.error(`"${inputValue}" 스타일 블록은 이미 존재합니다.`);
-        return;
+      if (existingBlocks.some((block) => block.type === inputValue)) {
+        return toast.error(`"${inputValue}" 스타일 블록은 이미 존재합니다.`);
       }
 
-      if (inputValue) {
-        cssStyleToolboxConfig!.contents = [...existingBlocks, { kind: 'block', type: inputValue }];
-        addClassBlock(inputValue);
-      }
+      cssStyleToolboxConfig!.contents = [...existingBlocks, { kind: 'block', type: inputValue }];
+      addClassBlock(inputValue);
+
       this.show(cssStyleToolboxConfig.contents);
       toast.success(`새 스타일 블록 "${inputValue}"이(가) 추가되었습니다.`);
       inputElement.value = '';
     });
 
-    styleTop.appendChild(textElement);
-    styleTop.appendChild(inputElement);
-    styleTop.appendChild(buttonElement);
-
+    [pElement, inputElement, buttonElement].forEach((element) => styleTop.appendChild(element));
     toolbox.addElementToContentArea(styleTop);
     this.show(cssStyleToolboxConfig.contents);
   }
