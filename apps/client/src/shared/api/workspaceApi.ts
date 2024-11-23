@@ -18,10 +18,7 @@ export const WorkspaceApi = () => {
         },
       }
     );
-    if (response) {
-      return response.data as TcreatedWorkspaceDto;
-    }
-    throw new Error('Invalid response from server');
+    return response.data as TcreatedWorkspaceDto;
   };
 
   const getWorkspaceList = async (userId: string, cursor: string) => {
@@ -31,20 +28,14 @@ export const WorkspaceApi = () => {
         headers: { 'user-id': userId },
       }
     );
-    if (response) {
-      return response.data as TpagedWorkspaceListResultDto;
-    }
-    throw new Error('Invalid response from server');
+    return response.data as TpagedWorkspaceListResultDto;
   };
 
   const getWorkspace = async (userId: string, workspaceId: string) => {
     const response = await Instance.get(`/workspace?workspaceId=${workspaceId}`, {
       headers: { 'user-id': userId },
     });
-    if (response) {
-      return response.data as TgetWorkspaceResponse;
-    }
-    throw new Error('Invalid response from server');
+    return response.data as TgetWorkspaceResponse;
   };
 
   const updateWorkspaceName = async (userId: string, workspaceId: string, newName: string) => {
@@ -53,21 +44,13 @@ export const WorkspaceApi = () => {
       { workspaceId, newName },
       { headers: { 'user-id': userId } }
     );
-
-    if (response) {
-      return response.data as Tworkspace;
-    }
-    throw new Error('Invalid response from server');
+    return response.data as Tworkspace;
   };
 
   const deleteWorkspace = async (userId: string, workspaceId: string): Promise<void> => {
-    const response = await Instance.delete(`/workspace?workspaceId=${workspaceId}`, {
+    await Instance.delete(`/workspace?workspaceId=${workspaceId}`, {
       headers: { 'user-id': userId },
     });
-
-    if (!response) {
-      throw new Error('Invalid response from server');
-    }
   };
 
   return {
