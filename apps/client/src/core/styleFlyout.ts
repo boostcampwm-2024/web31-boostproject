@@ -58,7 +58,8 @@ export default class StyleFlyout extends FixedFlyout {
       }
 
       if (inputValue?.trim() === '') {
-        return alert('블록 이름을 입력해주세요.');
+        toast.error('블록 이름을 입력해주세요.');
+        return;
       }
 
       if (!Blockly.Blocks[inputValue!]) {
@@ -89,6 +90,7 @@ export default class StyleFlyout extends FixedFlyout {
       }
       this.show(cssStyleToolboxConfig.contents);
       toast.success(`새 스타일 블록 "${inputValue}"이(가) 추가되었습니다.`);
+      inputElement.value = '';
     });
 
     styleTop.appendChild(textElement);
