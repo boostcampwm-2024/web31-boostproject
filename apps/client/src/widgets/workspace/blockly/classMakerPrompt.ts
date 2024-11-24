@@ -2,8 +2,9 @@ import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 import toast from 'react-hot-toast';
 
-import { CustomFieldTextInput, toolboxConfig2 } from '@/widgets';
+import { toolboxConfig2 } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
+import { CustomFieldLabelSerializable } from '../WorkspaceContent';
 
 // prompt를 이용한 class 동적 생성
 export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
@@ -21,9 +22,9 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
   if (!Blockly.Blocks[blockName!]) {
     Blockly.Blocks[blockName!] = {
       init: function () {
-        this.appendDummyInput().appendField(new CustomFieldTextInput(blockName!), 'CLASS'); // 입력된 이름 반영
+        this.appendDummyInput().appendField(new CustomFieldLabelSerializable(blockName!), 'CLASS'); // 입력된 이름 반영
         this.setOutput(true);
-        this.setStyle(`default_blocks1`);
+        this.setStyle(`default_block_css`);
       },
     };
   }

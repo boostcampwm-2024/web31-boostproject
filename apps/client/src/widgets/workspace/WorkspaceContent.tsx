@@ -23,7 +23,7 @@ import {
 const svgPaths = Blockly.utils.svgPaths;
 type Shape = Blockly.blockRendering.BaseShape | Blockly.blockRendering.DynamicShape;
 
-class BoolockConstantProvider extends Blockly.zelos.ConstantProvider {
+class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
   constructor() {
     super();
 
@@ -177,6 +177,19 @@ export class CustomFieldTextInput extends Blockly.FieldTextInput {
 
     this.positionTextElement_(xOffset, contentWidth);
     this.positionBorderRect_();
+  }
+}
+
+export class CustomFieldLabelSerializable extends Blockly.FieldLabelSerializable {
+  constructor(value?: string, textClass?: string, config?: Blockly.FieldLabelConfig) {
+    super(String(value ?? ''), textClass, config);
+  }
+
+  override initView(): void {
+    super.initView();
+    if (this.textElement_) {
+      this.textElement_.style.fill = `#41505B`;
+    }
   }
 }
 
@@ -338,8 +351,8 @@ class CustomRenderer extends Blockly.zelos.Renderer {
     super(name);
   }
 
-  protected override makeConstants_(): BoolockConstantProvider {
-    return new BoolockConstantProvider();
+  protected override makeConstants_(): CustomConstantProvider {
+    return new CustomConstantProvider();
   }
 
   protected override makeRenderInfo_(block: Blockly.BlockSvg): Blockly.zelos.RenderInfo {

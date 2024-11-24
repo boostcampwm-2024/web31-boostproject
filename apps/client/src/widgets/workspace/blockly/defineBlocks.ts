@@ -1,10 +1,10 @@
 import { addPreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
-import { CustomFieldTextInput } from '../WorkspaceContent';
+import { CustomFieldLabelSerializable, CustomFieldTextInput } from '../WorkspaceContent';
 
 const defineBlockWithDefaults = (
   blockName: string,
-  blockColorNum: number,
+  blockColorNum: number | string,
   blockDefinition: any = { init: function () {} },
   isDefault: boolean = true
 ) => {
@@ -13,7 +13,7 @@ const defineBlockWithDefaults = (
     originalInit.call(this);
 
     if (!this.styleName_) {
-      this.setStyle(`default_blocks${blockColorNum}`);
+      this.setStyle(`default_block${blockColorNum}`);
     }
 
     if (isDefault) {
@@ -74,10 +74,10 @@ export const defineBlocks = () => {
 
   defineBlockWithDefaults(
     'css_style',
-    1,
+    '_css',
     {
       init: function () {
-        this.appendDummyInput().appendField(new CustomFieldTextInput('클래스명'), 'CLASS'); // "클래스명"은 초기값
+        this.appendDummyInput().appendField(new CustomFieldLabelSerializable('클래스명'), 'CLASS'); // "클래스명"은 초기값
         this.setOutput(true); // 이 블록을 다른 블록에 연결할 수 있도록 설정
       },
     },

@@ -47,7 +47,6 @@ htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
 
 transferTagBlockToCode('html');
 transferTagBlockToCode('body');
-// transferTagBlockToCode('head');
 transferTagBlockToCode('p');
 transferTagBlockToCode('button');
 
