@@ -1,6 +1,5 @@
 import * as Blockly from 'blockly/core';
 import toast from 'react-hot-toast';
-
 import TabbedToolbox from './tabbedToolbox';
 import FixedFlyout from './fixedFlyout';
 import Dom from './dom';
@@ -8,6 +7,7 @@ import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
 import FieldClickableImage from './fieldClickableImage';
 import xIcon from '@/shared/assets/x_icon.svg';
+import { Tblock } from '@/shared/types';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -35,7 +35,6 @@ export default class StyleFlyout extends FixedFlyout {
 
     const styleTop = Dom.createElement<HTMLDivElement>('div', {
       class: 'contentCreatingBlock',
-      style: 'display: flex; flex-direction: column; padding: 18px 16px;',
     });
 
     const pElement = Dom.createElement<HTMLDivElement>('p', {
@@ -46,18 +45,15 @@ export default class StyleFlyout extends FixedFlyout {
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
       placeholder: '스타일명을 정해주세요',
-      class: 'flyout-input',
-      style:
-        'background-color: #F4F8FA; border: 1px solid #CDD9E4; border-radius: 8px; padding: 8px 20px; width: 100%; height: 40px;',
+      class: 'creatingBlockInput',
     });
 
     const buttonElement = Dom.createElement<HTMLButtonElement>('button', {
-      class: 'flyout-button',
-      style:
-        'background-color: #3E84FF; margin-top: 8px; font-size: 20px; color: white; border-radius: 8px; width: 100%; height: 40px; ',
+      class: 'creatingBlockButton',
     });
     buttonElement.textContent = '+';
     buttonElement.addEventListener('click', () => this.createStyleBlock());
+    // TODO: input 입력값 존재 && focus된 경우 Enter 클릭하면 스타일 블록 생성
 
     [pElement, this.inputElement, buttonElement].forEach((element) =>
       styleTop.appendChild(element)
@@ -74,6 +70,13 @@ export default class StyleFlyout extends FixedFlyout {
 
     if (!inputValue) {
       return toast.error('블록 이름을 입력해주세요.');
+    }
+
+    const existingBlocks: Tblock[] = cssStyleToolboxConfig!.contents || [];
+    const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
+
+    if (isBlockAlreadyAdded) {
+      return toast.error(`"${inputValue}" 스타일 블록은 이미 존재합니다.`);
     }
 
     if (!Blockly.Blocks[inputValue!]) {
@@ -100,12 +103,6 @@ export default class StyleFlyout extends FixedFlyout {
     }
 
     // 기존 블록에 새 블록 추가
-    const existingBlocks = cssStyleToolboxConfig!.contents || [];
-
-    if (existingBlocks.some((block) => block.type === inputValue)) {
-      return toast.error(`"${inputValue}" 스타일 블록은 이미 존재합니다.`);
-    }
-
     cssStyleToolboxConfig!.contents = [...existingBlocks, { kind: 'block', type: inputValue }];
     addClassBlock(inputValue);
 
