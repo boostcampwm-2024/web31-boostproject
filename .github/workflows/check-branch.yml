@@ -1,0 +1,37 @@
+name: Check Branch Name and Prevent Main Merge
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-branch-name:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push'
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Check branch name
+        run: |
+          branch_name=$(git rev-parse --abbrev-ref HEAD)
+          if [[ ! $branch_name =~ ^(feat/[0-9]+|bug/[0-9]+|hotfix|chore|gh-pages)$ ]]; then
+            echo "Error: Branch name must follow the pattern 'feat/[number]', 'bug/[number]', 'hotfix', or 'chore'. or 'gh-pages'."
+            exit 1
+          fi
+
+  prevent-main-merge:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - name: Prevent merge to main
+        run: |
+          base_branch=$(jq -r .pull_request.base.ref "$GITHUB_EVENT_PATH")
+          if [[ $base_branch == "main" ]]; then
+            echo "Error: Pull requests to the main branch are not allowed."
+            exit 1
+          fi
