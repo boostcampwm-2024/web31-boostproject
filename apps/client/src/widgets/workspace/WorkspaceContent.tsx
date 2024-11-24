@@ -1,17 +1,23 @@
 import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
+
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import CustomCategory from '@/widgets/workspace/blockly/customCategory';
+import CustomCategory from '../../core/customCategory';
+import { TTabToolboxConfig } from '@/shared/types';
+import TabbedToolbox from '@/core/tabbedToolbox';
+import { useCssPropsStore } from '@/shared/store';
+
 import {
   CssPropsSelectBox,
   defineBlocks,
   toolboxConfig,
   initTheme,
-  customizeFlyoutSVG,
-  classMakerPrompt,
   PreviewBox,
+  cssCodeGenerator,
+  toolboxConfig2,
+  classMakerPrompt,
 } from '@/widgets';
 
 const svgPaths = Blockly.utils.svgPaths;
@@ -343,27 +349,46 @@ class CustomRenderer extends Blockly.zelos.Renderer {
 
 Blockly.blockRendering.register('boolock', CustomRenderer);
 
-Blockly.registry.register(
-  Blockly.registry.Type.TOOLBOX_ITEM,
-  Blockly.ToolboxCategory.registrationName,
-  CustomCategory,
-  true
-);
-
 export const WorkspaceContent = () => {
-  const [workspace, setWorkspace] = useState<Blockly.WorkspaceSvg | null>(null);
+  const tabToolboxConfig: TTabToolboxConfig = {
+    tabs: {
+      html: {
+        label: 'HTML 태그',
+        toolboxConfig: toolboxConfig,
+      },
+      css: {
+        label: '스타일',
+        toolboxConfig: toolboxConfig2,
+      },
+    },
+    defaultSelectedTab: 'html',
+  };
+
   const [htmlCode, setHtmlCode] = useState<string>('');
-  const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
+  const [cssCode, setCssCode] = useState<string>('');
+  const { totalCssPropertyObj } = useCssPropsStore();
 
   defineBlocks();
 
   useEffect(() => {
+    Blockly.registry.register(
+      Blockly.registry.Type.TOOLBOX_ITEM,
+      Blockly.ToolboxCategory.registrationName,
+      CustomCategory,
+      true
+    );
+
     const newWorkspace = Blockly.inject('blocklyDiv', {
+      plugins: {
+        //flyoutsVerticalToolbox: FixedFlyout,
+        toolbox: TabbedToolbox,
+      },
       renderer: 'boolock',
       toolboxPosition: 'end',
       toolbox: toolboxConfig,
-      theme: initTheme,
+      theme: initTheme, // 커스텀 테마 적용
       zoom: {
+        // 확대 및 축소 버튼 설정
         controls: true,
         wheel: true,
         startScale: 1.0,
@@ -372,37 +397,52 @@ export const WorkspaceContent = () => {
         scaleSpeed: 1.2,
       },
     });
+    //  const blockContainer = wrapBlocklyBlocksInDiv(newWorkspace);
+    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
-    newWorkspace.registerButtonCallback('classMakerPrompt', () => classMakerPrompt(newWorkspace));
+    const flyout = newWorkspace!.getToolbox()!.getFlyout();
+    newWorkspace.registerButtonCallback('classMakerPrompt', () => {
+      classMakerPrompt(newWorkspace);
+      flyout!.show(toolboxConfig2.contents);
+    });
+    flyout!.show(toolboxConfig2.contents);
 
-    setWorkspace(newWorkspace);
-    customizeFlyoutSVG(newWorkspace);
+    flyout!.hide = () => {};
+
+    // workspace 변화 감지해 자동 변환
+    const handleAutoConversion = (event: Blockly.Events.Abstract) => {
+      if (
+        event.type === Blockly.Events.BLOCK_CREATE ||
+        event.type === Blockly.Events.BLOCK_MOVE ||
+        event.type === Blockly.Events.BLOCK_DRAG ||
+        event.type === Blockly.Events.BLOCK_CHANGE ||
+        event.type === Blockly.Events.BLOCK_DELETE
+      ) {
+        const code = htmlCodeGenerator.workspaceToCode(newWorkspace);
+        setHtmlCode(code);
+      }
+    };
+
+    newWorkspace.addChangeListener(handleAutoConversion);
 
     return () => {
+      newWorkspace.removeChangeListener(handleAutoConversion);
       newWorkspace.dispose();
     };
   }, []);
 
-  const generateHtmlCode = () => {
-    if (!workspace) {
-      return;
-    }
-    const code = htmlCodeGenerator.workspaceToCode(workspace);
-    setHtmlCode(code);
-  };
+  useEffect(() => {
+    setCssCode(cssCodeGenerator(totalCssPropertyObj));
+  }, [htmlCode, totalCssPropertyObj]);
 
   return (
     <div className="flex flex-1">
       <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
-        <PreviewBox activeTab={activeTab} setActiveTab={setActiveTab} htmlCode={htmlCode} />
+        <PreviewBox htmlCode={htmlCode} cssCode={cssCode} />
         <CssPropsSelectBox />
       </div>
 
       <div id="blocklyDiv" className="h-full w-full"></div>
-
-      <button className="h-10 w-20 bg-blue-400" onClick={generateHtmlCode}>
-        변환하기
-      </button>
     </div>
   );
 };

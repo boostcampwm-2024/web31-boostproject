@@ -2,6 +2,12 @@
 ## 🍀 서비스
 ![image](https://github.com/user-attachments/assets/28d77d78-d74f-4ad0-819c-a0f30479ba27)
 
+<p align="center"> 
+  ✏️ <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">깃허브 위키</a> /  
+  📖 <a href="https://laced-riverbed-47c.notion.site/12d77ba9a1b681a5927ef7561f25af5e?v=31f16944c187499cbcf75c2c90f0b98d&pvs=74" target="_blank">BooLock 위키</a> /  
+  <a href="http://223.130.163.180/" target="_blank">배포사이트</a>
+</p>
+
 <br/>
 
 ## 🍀 전체적 시스템 아키텍처
@@ -9,17 +15,39 @@
 
 <br />
 
-## 🛹 메인 예상 디자인
+## 🛹 홈 page
 
-![image](https://github.com/user-attachments/assets/bdf41054-7d7a-448b-ab4a-0e8a01374c5e)
+- CRUD + 잘못된 접근 처리
+
+  ![crud](https://github.com/user-attachments/assets/1b0af216-763b-4e1d-adb2-b70c5589d3a2)
+
+<br />
+
+- 무한스크롤
+
+  ![BooLock-Chrome2024-11-1422-48-34-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/236a8f09-7b89-4761-8449-d36e3fc7d677)
+
+<br />
+
+## 🛹 워크스페이스 page
+
+- html 블록 조립
+
+  ![블록 조립](https://github.com/user-attachments/assets/a94d5e28-7cf1-430f-bfbc-6a18d5afb893)
+
+<br />
+
+- css 적용
+
+  ![스타일 적용](https://github.com/user-attachments/assets/5aa82de9-a52e-40a7-816e-df300230ba3a)
+
+<br />
+
+- 완성 예시: 정적인 페이지
+  
+  ![111](https://github.com/user-attachments/assets/5a35dbdf-370c-4a7b-bdc3-c036bb3776da)
 
 
-## 현재 진행 사항
-![storybook2](https://github.com/user-attachments/assets/e8abc931-673c-49a4-821b-f368f9e7b094)
-
-![BooLock-Chrome2024-11-1422-48-34-ezgif com-video-to-gif-converter (1)](https://github.com/user-attachments/assets/b5473beb-b819-4100-a805-d7159537fbd9)
-
-![BooLock-Chrome2024-11-1422-48-34-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/236a8f09-7b89-4761-8449-d36e3fc7d677)
 
 
 <br />
@@ -33,7 +61,8 @@
 ## 🎨 기획/디자인 [[Detail Link]](https://www.figma.com/design/nv2pP4yUPGkdoaie2SHsfR/%EB%94%94%EC%9E%90%EC%9D%B8%EB%B3%B4%EB%93%9C?node-id=187-749&node-type=section&t=LUI7l6jpqnPLsfTc-0)
 
 
-![image](https://github.com/user-attachments/assets/d94c33aa-04be-45d2-adae-00b715e901f5)
+![image](https://github.com/user-attachments/assets/264262fd-8246-4f31-b594-831342f48e6d)
+
 
 
 <br />
@@ -93,3 +122,13 @@
    * 월 1회 이상 팀 회식/문화 활동 진행
    * 프로젝트 종료 시 1박 2일 글램핑 달성 🏕️
   
+
+
+<br/> <br />
+
+
+## Outro
+
+> 저희 서비스 리드미의 가장 아래까지 봐주셔서 정말 감사합니다😊  
+> 제가 좋아하는 말이 있는데요! 이 말을 꼭 전하고 싶네요!  
+> 당신을 사랑하고, 당신을 사랑하는 모든 이들의 안녕을 기원합니다 🤗

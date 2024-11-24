@@ -83,4 +83,6 @@ export const defineBlocks = () => {
     },
     false
   );
+
+  // this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable('클래스명'), 'CLASS');
 };

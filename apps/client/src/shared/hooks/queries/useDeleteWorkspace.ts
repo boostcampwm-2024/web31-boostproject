@@ -4,6 +4,7 @@ import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
 import { useModalStore } from '@/shared/store';
+import { workspaceKeys } from '@/shared/hooks';
 
 export const useDeleteWorkspace = () => {
   const queryClient = useQueryClient();
@@ -17,7 +18,7 @@ export const useDeleteWorkspace = () => {
       return workspaceApi.deleteWorkspace(userId, workspaceId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['getWorkspaceList'] });
+      queryClient.invalidateQueries({ queryKey: workspaceKeys.list() });
       toast.success('워크스페이스 삭제 성공');
     },
     onError: () => {

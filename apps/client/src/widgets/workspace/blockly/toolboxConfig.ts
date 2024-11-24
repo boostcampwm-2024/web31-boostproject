@@ -1,4 +1,3 @@
-import { addPreviousTypeName } from '@/shared/utils';
 import { htmBlockContents } from '@/widgets';
 
 export const toolboxConfig = {
@@ -20,14 +19,7 @@ export const toolboxConfig = {
       kind: 'category',
       name: '폼',
       categorystyle: 'formCategory',
-      contents: [
-        {
-          kind: 'button',
-          text: '추가하기',
-          callbackKey: 'classMakerPrompt',
-        },
-        { kind: 'block', type: addPreviousTypeName('css_style') },
-      ],
+      contents: htmBlockContents,
     },
     {
       kind: 'category',

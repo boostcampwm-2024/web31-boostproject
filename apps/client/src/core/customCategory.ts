@@ -1,8 +1,10 @@
 import * as Blockly from 'blockly/core';
 import { CategoryInfo } from 'blockly/core/utils/toolbox';
 import { IToolbox } from 'blockly';
-
 import { CATEGORY_ICONS } from '@/shared/utils';
+import { IExtendedIToolbox } from '@/shared/types';
+
+let selectedCategory: string = '';
 
 export default class CustomCategory extends Blockly.ToolboxCategory {
   constructor(
@@ -19,9 +21,19 @@ export default class CustomCategory extends Blockly.ToolboxCategory {
 
   setSelected(isSelected: boolean) {
     if (isSelected) {
+      if (this.rowDiv_!.id !== selectedCategory) {
+        selectedCategory = this.rowDiv_!.id;
+        const parentToolbox = this.parentToolbox_ as IExtendedIToolbox;
+        const categories = Object.values(parentToolbox.contentMap_);
+        categories.forEach((category) => {
+          category.rowDiv_!.style.color = category.colour_;
+          category.rowDiv_!.style.backgroundColor = 'white';
+        });
+      }
       this.rowDiv_!.style.backgroundColor = this.colour_;
       this.rowDiv_!.style.color = 'white';
     } else {
+      if (this.rowDiv_!.id === selectedCategory) return;
       this.rowDiv_!.style.backgroundColor = 'white';
       this.rowDiv_!.style.color = this.colour_;
     }
