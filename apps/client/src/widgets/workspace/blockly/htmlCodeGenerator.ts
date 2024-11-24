@@ -30,7 +30,7 @@ htmlCodeGenerator.forBlock[addPreviousTypeName('css_style')] = function (block) 
   return classContent;
 };
 
-htmlCodeGenerator.forBlock[addPreviousTypeName('head')] = function (block) {
+htmlCodeGenerator.forBlock[addPreviousTypeName('head')] = function () {
   return '<head> </head>';
 };
 
