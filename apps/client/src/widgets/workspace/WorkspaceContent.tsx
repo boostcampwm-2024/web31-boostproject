@@ -234,6 +234,7 @@ class CustomRenderInfo extends Blockly.zelos.RenderInfo {
     super.finalize_();
 
     let finalizeMaxWidth = this.topRow.width;
+    let isProcessedBetween = false;
 
     this.rows.forEach((row) => {
       if (row.hasInlineInput && row.elements.length === 5) {
@@ -262,6 +263,7 @@ class CustomRenderInfo extends Blockly.zelos.RenderInfo {
         row.width += difference > 40 ? 40 : difference;
         this.block_.width += difference > 40 ? 40 : difference;
         finalizeMaxWidth = Math.max(finalizeMaxWidth, row.width);
+        isProcessedBetween = true;
       } else {
         let isInlineCustomInput = false;
         row.elements.forEach((elem) => {
@@ -303,6 +305,9 @@ class CustomRenderInfo extends Blockly.zelos.RenderInfo {
           row.width = difference > 40 ? totalRowWidth - (difference / 2 + 20 - 40) : totalRowWidth;
           this.block_.width += difference > 40 ? 40 : difference;
           finalizeMaxWidth = Math.max(finalizeMaxWidth, row.width);
+          isProcessedBetween = true;
+        } else {
+          finalizeMaxWidth = Math.max(finalizeMaxWidth, 150);
         }
       }
     });
@@ -310,12 +315,12 @@ class CustomRenderInfo extends Blockly.zelos.RenderInfo {
     if (finalizeMaxWidth > this.topRow.width) {
       const difference = finalizeMaxWidth - this.topRow.width;
       this.topRow.elements[this.topRow.elements.length - 2].width +=
-        difference > 40 ? difference / 2 + 20 : difference;
+        difference > 40 && isProcessedBetween ? difference / 2 + 20 : difference;
       this.bottomRow.elements[this.bottomRow.elements.length - 2].width +=
-        difference > 40 ? difference / 2 + 20 : difference;
+        difference > 40 && isProcessedBetween ? difference / 2 + 20 : difference;
       this.rows.forEach((row) => {
         if (row.hasStatement) {
-          row.width += difference > 40 ? difference / 2 + 20 : difference;
+          row.width += difference > 40 && isProcessedBetween ? difference / 2 + 20 : difference;
         }
       });
     }

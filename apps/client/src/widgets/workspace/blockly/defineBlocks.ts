@@ -40,7 +40,18 @@ export const defineBlocks = () => {
     false
   );
 
-  defineBlockWithDefaults('head', 2);
+  defineBlockWithDefaults(
+    'head',
+    2,
+    {
+      init: function () {
+        this.setPreviousStatement(true);
+        this.setNextStatement(true);
+        this.appendDummyInput().appendField('head');
+      },
+    },
+    false
+  );
 
   defineBlockWithDefaults('body', 3);
 
