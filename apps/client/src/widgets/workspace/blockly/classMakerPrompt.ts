@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 
 import { toolboxConfig2 } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
-import { CustomFieldLabelSerializable } from '../WorkspaceContent';
+import { CustomFieldLabelSerializable } from '@/core/customFieldLabelSerializable';
 
 // prompt를 이용한 class 동적 생성
 export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {

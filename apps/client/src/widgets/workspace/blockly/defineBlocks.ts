@@ -1,6 +1,7 @@
+import { CustomFieldLabelSerializable } from '@/core/customFieldLabelSerializable';
+import { CustomFieldTextInput } from '@/core/customFieldTextInput';
 import { addPreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
-import { CustomFieldLabelSerializable, CustomFieldTextInput } from '../WorkspaceContent';
 
 const defineBlockWithDefaults = (
   blockName: string,
@@ -83,6 +84,4 @@ export const defineBlocks = () => {
     },
     false
   );
-
-  // this.appendDummyInput().appendField(new Blockly.FieldLabelSerializable('클래스명'), 'CLASS');
 };

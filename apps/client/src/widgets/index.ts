@@ -8,7 +8,7 @@ export { WorkspaceContainer } from './home/WorkspaceContainer';
 export { WorkspaceModal } from './home/WorkspaceModal';
 
 export { PreviewBox } from './workspace/PreviewBox';
-export { WorkspaceContent, CustomFieldTextInput } from './workspace/WorkspaceContent';
+export { WorkspaceContent } from './workspace/WorkspaceContent';
 export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
 export { CssCategoryBar } from './workspace/css/CssCategoryBar';
 export { CssPropsSelectBox } from './workspace/css/CssPropsSelectBox';
