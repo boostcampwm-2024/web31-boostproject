@@ -20,8 +20,10 @@
     "react-dom": "^18.3.1",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^6.27.0",
+    "react-spinners": "^0.14.1",
     "react-youtube": "^10.1.0",
     "storybook": "^8.4.1",
+    "uuid": "^11.0.3",
     "zustand": "^5.0.1"
   },
   "devDependencies": {

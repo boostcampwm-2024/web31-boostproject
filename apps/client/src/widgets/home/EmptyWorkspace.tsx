@@ -11,7 +11,7 @@ export const EmptyWorkspace = () => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      <div className="w-[1128px]">
+      <div className="w-full">
         {isHovered ? <HoveredEmptyWorkspace /> : <NotHoveredEmptyWorkspace />}
       </div>
     </div>

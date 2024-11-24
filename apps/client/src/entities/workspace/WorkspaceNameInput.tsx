@@ -1,21 +1,27 @@
-import React, { FocusEventHandler, KeyboardEventHandler, useState } from 'react';
-import toast, { Toaster } from 'react-hot-toast';
+import { FocusEventHandler, KeyboardEventHandler } from 'react';
+
+import { Spinner } from '@/shared/ui';
+import { useParams } from 'react-router-dom';
+import { useUpdateWorkspaceName, workspaceKeys } from '@/shared/hooks';
+import { useQueryClient } from '@tanstack/react-query';
+import { TgetWorkspaceResponse } from '@/shared/types';
 
 export const WorkspaceNameInput = () => {
-  // TODO: 워크스페이스 이름 변경 로직 필요
+  const { workspaceId } = useParams() as { workspaceId: string };
+  const { mutate, isPending } = useUpdateWorkspaceName();
+  const queryClient = useQueryClient();
+  const workspaceData = queryClient.getQueryData<TgetWorkspaceResponse>(
+    workspaceKeys.detail(workspaceId)
+  );
+  const name = workspaceData?.workspaceDto.name || '워크스페이스 이름';
 
-  const [name, setName] = useState<string>('');
-
-  const [isNameChange, setIsNameChange] = useState<boolean>(false);
   const handleBlur: FocusEventHandler<HTMLInputElement> = (
     event: React.FocusEvent<HTMLInputElement>
   ) => {
-    // TODO: 이름 변경 로직 추가
-    if (event.target.value === name) {
+    if (event.target.value === name || event.target.value === '') {
       return;
     }
-    toast.error('이름 변경 실패');
-    setName(event.target.value);
+    mutate({ workspaceId, newName: event.target.value });
   };
 
   const handleEnter: KeyboardEventHandler<HTMLInputElement> = (e) => {
@@ -25,25 +31,31 @@ export const WorkspaceNameInput = () => {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    // TODO: 이름 변경 로직 추가
     e.currentTarget.blur();
-    if (name === e.currentTarget.value) {
+    if (name === e.currentTarget.value || e.currentTarget.value === '') {
       return;
     }
-    setName(e.currentTarget.value);
+    mutate({ workspaceId, newName: e.currentTarget.value });
     e.preventDefault();
   };
 
-  // TODO: 워크스페이스 이름 존재 시 placeholder가 그에 맞추어 변경되어야함
   return (
     <>
-      <Toaster position="bottom-center" reverseOrder={false} />
-      <input
-        placeholder={name === '' ? '워크스페이스 이름' : name}
-        className="placeholder:text-semibold-rg w-[272px] rounded-md border border-green-500 px-3 py-1 placeholder:text-gray-100 focus:outline-none"
-        onBlur={handleBlur}
-        onKeyDown={handleEnter}
-      />
+      <div className="relative flex items-center">
+        <input
+          placeholder={name === '' ? '워크스페이스 이름' : name}
+          className="placeholder:text-semibold-rg w-[272px] rounded-md border border-green-500 px-3 py-1 placeholder:text-gray-100 focus:outline-none"
+          onBlur={handleBlur}
+          onKeyDown={handleEnter}
+          maxLength={20}
+          disabled={isPending}
+        />
+        {isPending && (
+          <div className="absolute right-5">
+            <Spinner width={4} height={4} foregroundColor="green500" backgroundColor="gray200" />
+          </div>
+        )}
+      </div>
     </>
   );
 };

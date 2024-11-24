@@ -1,21 +1,25 @@
+import { Tworkspace } from '@/shared/types';
 import { WorkspaceItem } from '@/entities';
+import { useNavigate } from 'react-router-dom';
 
-export const WorkspaceList = () => {
-  const mockData = [
-    { room_id: 1, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-    { room_id: 2, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-    { room_id: 3, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-    { room_id: 4, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-    { room_id: 5, name: '워크스페이스 이름', thumbnail: '', updated_at: '2024.10.30 last edited' },
-  ];
+type workspaceListProps = {
+  workspaceList: Array<Tworkspace>;
+};
+
+export const WorkspaceList = ({ workspaceList }: workspaceListProps) => {
+  const navigate = useNavigate();
   return (
     <ul className="grid-cols-list grid w-[1128px] justify-start gap-x-6 gap-y-8">
-      {mockData.map((data) => (
+      {workspaceList.map((workspace) => (
         <WorkspaceItem
-          key={data.room_id}
-          title={data.name}
-          thumbnail={data.thumbnail}
-          lastEdited={data.updated_at}
+          key={workspace.workspace_id}
+          workspaceId={workspace.workspace_id}
+          title={workspace.name}
+          thumbnail={workspace.thumbnail || ''}
+          lastEdited={workspace.updated_at}
+          onClick={() => {
+            navigate(`/workspace/${workspace.workspace_id}`);
+          }}
         />
       ))}
     </ul>
