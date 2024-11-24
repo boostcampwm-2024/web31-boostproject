@@ -25,8 +25,7 @@ export default class FixedFlyout extends Blockly.VerticalFlyout {
 
     this.positionAt_(
       metrics.width,
-      metrics.height,
-      //metrics.height - toolbox.getContentAreaHeightExceptFlyout(),
+      metrics.height - toolbox.getContentAreaHeightExceptFlyout(),
       x,
       y
     );

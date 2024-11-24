@@ -130,7 +130,6 @@ export default class TabbedToolbox extends Blockly.Toolbox {
       const marginBottom = parseFloat(computedStyle.marginBottom);
 
       maxBottom = Math.max(maxBottom, bottom + marginBottom);
-      console.log(rect, parentRect, computedStyle);
     }
 
     return maxBottom;
