@@ -1,5 +1,6 @@
 import { addPreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
+import { CustomFieldTextInput } from '../WorkspaceContent';
 
 const defineBlockWithDefaults = (
   blockName: string,
@@ -54,9 +55,7 @@ export const defineBlocks = () => {
       init: function () {
         this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
         this.setNextStatement(true); // 다른 블록 아래에 연결 가능
-        this.appendDummyInput()
-          .appendField('text')
-          .appendField(new Blockly.FieldTextInput(), 'TEXT');
+        this.appendDummyInput().appendField('text').appendField(new CustomFieldTextInput(), 'TEXT');
       },
     },
     false
@@ -67,7 +66,7 @@ export const defineBlocks = () => {
     1,
     {
       init: function () {
-        this.appendDummyInput().appendField(new Blockly.FieldTextInput('클래스명'), 'CLASS'); // "클래스명"은 초기값
+        this.appendDummyInput().appendField(new CustomFieldTextInput('클래스명'), 'CLASS'); // "클래스명"은 초기값
         this.setOutput(true); // 이 블록을 다른 블록에 연결할 수 있도록 설정
       },
     },

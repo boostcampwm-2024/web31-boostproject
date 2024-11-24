@@ -9,17 +9,17 @@ const defaultBlockStyles: {
   ...Blockly.Themes.Zelos.blockStyles,
   default_blocks1: {
     colourPrimary: '#B2DAFF',
-    colourSecondary: '#FFFFFF',
+    colourSecondary: '#F4F8FA',
     colourTertiary: '#2677C3',
   },
   default_blocks2: {
     colourPrimary: '#67B6FF',
-    colourSecondary: '#FFFFFF',
+    colourSecondary: 'F4F8FA',
     colourTertiary: '#2677C3',
   },
   default_blocks3: {
     colourPrimary: '#4195E4',
-    colourSecondary: '#FFFFFF',
+    colourSecondary: '#F4F8FA',
     colourTertiary: '#2677C3',
   },
 };

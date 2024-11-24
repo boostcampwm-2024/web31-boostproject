@@ -9,7 +9,7 @@ export { WorkspaceModal } from './home/WorkspaceModal';
 
 export { CssPropsSelectBox } from './workspace/CssPropsSelectBox';
 export { PreviewBox } from './workspace/PreviewBox';
-export { WorkspaceContent } from './workspace/WorkspaceContent';
+export { WorkspaceContent, CustomFieldTextInput } from './workspace/WorkspaceContent';
 export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
 
 export { categoryColours } from './workspace/blockly/categoryColours';
