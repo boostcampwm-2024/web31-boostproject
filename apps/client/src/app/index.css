@@ -1,0 +1,135 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'SUIT Variable';
+    font-weight: 100 900;
+    src: url('fonts/SUIT-Variable.woff2') format('woff2-variations');
+  }
+
+  body {
+    font-family: 'SUIT Variable', serif;
+  }
+}
+
+@layer utilities {
+  .text-bold-xl {
+    @apply text-2xl font-bold leading-5;
+  }
+  .text-bold-lg {
+    @apply text-xl font-bold leading-4;
+  }
+  .text-bold-md {
+    @apply text-base font-bold leading-5;
+  }
+  .text-bold-rg {
+    @apply text-sm font-bold leading-4;
+  }
+  .text-bold-sm {
+    @apply text-xs font-bold leading-4;
+  }
+
+  .text-semibold-lg {
+    @apply text-xl font-semibold leading-5;
+  }
+
+  .text-semibold-md {
+    @apply text-base font-semibold leading-5;
+  }
+
+  .text-semibold-rg {
+    @apply text-sm font-semibold leading-4;
+  }
+
+  .text-semibold-sm {
+    @apply text-xs font-semibold leading-4;
+  }
+
+  .text-medium-md {
+    @apply text-base font-medium leading-6;
+  }
+
+  .text-medium-rg {
+    @apply text-sm font-medium leading-6;
+  }
+
+  .text-medium-sm {
+    @apply text-xs font-medium leading-4;
+  }
+}
+
+.blocklyToolboxDiv {
+  padding: 0;
+  background-color: transparent;
+  margin: 1rem;
+  display: flex !important;
+  height: calc(100% - 2rem) !important;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  box-shadow: 0px 4px 4px rgba(118, 118, 118, 0.25);
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+}
+
+.blocklyToolboxContents {
+  background-color: white;
+  height: 100%;
+  border-left: 1px #cdd9e4 solid;
+}
+
+.blocklyToolboxCategory {
+  padding: 0;
+  margin: 0;
+}
+
+.blocklyTreeRow {
+  width: 6rem;
+  height: auto;
+  background-color: white;
+  padding: 0.5rem 0;
+  margin: 0;
+  border-bottom: 1px #cdd9e4 solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blocklyTreeRowContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.blocklyTreeRow:hover {
+  cursor: pointer;
+}
+
+.blocklyTreeLabel {
+  @apply text-semibold-sm;
+}
+
+.blocklyFlyout {
+  z-index: 70;
+  transform: translate(800px, 40px);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cdd9e4;
+  border-radius: 4px;
+}
+
+input[type='color']::-webkit-color-swatch {
+  border-radius: 100%;
+  border: none;
+}
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
