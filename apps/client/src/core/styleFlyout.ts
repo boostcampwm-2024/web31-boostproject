@@ -86,8 +86,8 @@ export default class StyleFlyout extends FixedFlyout {
           input.appendField(
             new FieldClickableImage(
               xIcon,
-              16,
-              16,
+              12,
+              12,
               '삭제',
               flyoutInstance.deleteStyleBlock.bind(flyoutInstance, inputValue!)
             )
@@ -118,16 +118,18 @@ export default class StyleFlyout extends FixedFlyout {
   }
 
   deleteStyleBlock(blockType: string) {
+    // 커스텀 블록 삭제 함수
     Blockly.Flyout.prototype.deleteBlockByType = function (type) {
-      const flyoutWorkspace = this.workspace_;
-      const blocks = flyoutWorkspace.getTopBlocks(false);
+      const blocks = this.workspace_.getAllBlocks();
 
       // 블록 삭제
-      blocks.forEach((block) => {
+      for (let i = 0; i < blocks.length; i++) {
+        const block = blocks[i];
         if (block.type === type) {
           block.dispose(false, true);
+          break;
         }
-      });
+      }
 
       cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
         (block) => block.type !== type
