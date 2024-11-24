@@ -3,6 +3,13 @@ import { CustomFieldTextInput } from '@/core/customFieldTextInput';
 import { addPreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
 
+/**
+ * html 태그 블록을 생성할 때 좀 더 편리하게 생성하기 위해 만든 헬퍼함수입니다.
+ * @param blockName blockName은 html 태그 블록의 타입 및 이름을 정의할 때 사용되는 변수
+ * @param blockColorNum blockTheme를 지정할 때 몇번 default block 및 css blockTheme를 사용할 것인지 설정할 때 사용되는 변수
+ * @param blockDefinition 기본 html태그 블록 설정을 사용하는 것이 아닌 사용자 정의 속성을 위한 옵션 변수
+ * @param isDefault 기본 html태그 블록 설정을 사용할 것인지, 사용자 정의 속성을 사용할 것인지 정하는 변수
+ */
 const defineBlockWithDefaults = (
   blockName: string,
   blockColorNum: number | string,
