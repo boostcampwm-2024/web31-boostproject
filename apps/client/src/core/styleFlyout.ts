@@ -35,7 +35,6 @@ export default class StyleFlyout extends FixedFlyout {
 
     const styleTop = Dom.createElement<HTMLDivElement>('div', {
       class: 'contentCreatingBlock',
-      style: 'display: flex; flex-direction: column; padding: 18px 16px;',
     });
 
     const pElement = Dom.createElement<HTMLDivElement>('p', {
@@ -46,15 +45,11 @@ export default class StyleFlyout extends FixedFlyout {
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
       placeholder: '스타일명을 정해주세요',
-      class: 'flyout-input',
-      style:
-        'background-color: #F4F8FA; border: 1px solid #CDD9E4; border-radius: 8px; padding: 8px 20px; width: 100%; height: 40px;',
+      class: 'creatingBlockInput',
     });
 
     const buttonElement = Dom.createElement<HTMLButtonElement>('button', {
-      class: 'flyout-button',
-      style:
-        'background-color: #3E84FF; margin-top: 8px; font-size: 20px; color: white; border-radius: 8px; width: 100%; height: 40px; ',
+      class: 'creatingBlockButton',
     });
     buttonElement.textContent = '+';
     buttonElement.addEventListener('click', () => this.createStyleBlock());
