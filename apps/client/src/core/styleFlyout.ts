@@ -118,28 +118,15 @@ export default class StyleFlyout extends FixedFlyout {
 
   // TODO: 워크스페이스에 존재하는 CSS 스타일 블록 삭제 논의 필요
   deleteStyleBlock(blockType: string) {
-    // 커스텀 블록 삭제 함수
-    Blockly.Flyout.prototype.deleteBlockByType = function (type) {
-      const blocks = this.workspace_.getAllBlocks();
+    const blocks = this.workspace_.getAllBlocks();
 
-      // 블록 삭제
-      for (let i = 0; i < blocks.length; i++) {
-        const block = blocks[i];
-        if (block.type === type) {
-          block.dispose(false, true);
-          break;
-        }
+    // 블록 삭제
+    for (let i = 0; i < blocks.length; i++) {
+      if (blocks[i].type === blockType) {
+        blocks[i].dispose(false, true);
+        break;
       }
-
-      cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
-        (block) => block.type !== type
-      );
-
-      this.show(cssStyleToolboxConfig.contents);
-    };
-
-    const flyout = this.targetWorkspace?.getToolbox()?.getFlyout();
-    (flyout as any)?.deleteBlockByType(blockType);
+    }
 
     cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
       (block) => block.type !== blockType
@@ -147,7 +134,8 @@ export default class StyleFlyout extends FixedFlyout {
 
     const { removeClassBlock } = useClassBlockStore.getState();
     removeClassBlock(blockType);
-    flyout?.show(cssStyleToolboxConfig.contents);
+
+    this.show(cssStyleToolboxConfig.contents);
     toast.success(`"${blockType}" 스타일 블록이 삭제되었습니다.`);
   }
 }
