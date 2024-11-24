@@ -1,6 +1,7 @@
 import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
 import { useInfiniteQuery } from '@tanstack/react-query';
+import { workspaceKeys } from '@/shared/hooks';
 
 export const useGetWorkspaceList = () => {
   const workspaceApi = WorkspaceApi();
@@ -13,7 +14,7 @@ export const useGetWorkspaceList = () => {
     isError,
     data: workspaceList,
   } = useInfiniteQuery({
-    queryKey: ['getWorkspaceList'],
+    queryKey: workspaceKeys.list(),
     queryFn: ({ pageParam }) => {
       return workspaceApi.getWorkspaceList(userId, pageParam);
     },
