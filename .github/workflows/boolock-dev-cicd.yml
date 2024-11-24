@@ -25,7 +25,7 @@ jobs:
 
       - name: Set BE .env
         run: |
-          echo "MONGO_URI=\"${{ secrets.MONGO_URI }}\"" > apps/server/.env
+          echo "MONGO_URI=${{ secrets.MONGO_URI }}" > apps/server/.env
           echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> apps/server/.env
           echo "SSH_PORT=${{ secrets.SSH_PORT }}" >> apps/server/.env
           echo "SSH_USER=${{ secrets.SSH_USER }}" >> apps/server/.env
@@ -33,6 +33,12 @@ jobs:
           echo "SSH_DATABASE_HOST=${{ secrets.SSH_DATABASE_HOST }}" >> apps/server/.env
           echo "SSH_DATABASE_PORT=${{ secrets.SSH_DATABASE_PORT }}" >> apps/server/.env
           echo "LOCAL_PORT=${{ secrets.LOCAL_PORT }}" >> apps/server/.env
+          echo "IS_LOCAL=true" >> apps/server/.env
+          echo "SERVER_CORS_ACCEPT=http://localhost:5173" >> apps/server/.env
+
+      - name: Set FE .env
+        run: |
+          echo "VITE_SERVER_URL=http://localhost:3000" > apps/client/.env
 
       - name: Buld Frontend
         run: |
@@ -86,8 +92,11 @@ jobs:
             git checkout dev
             git pull
 
-            echo "MONGO_URI=\"${{ secrets.MONGO_URI }}\"" > apps/server/.env
+            echo "MONGO_URI=${{ secrets.DEPLOY_MONGO_URI }}"  > apps/server/.env
             echo "IS_LOCAL=false" >> apps/server/.env
+            echo "${{ secrets.DEPLOY_SERVER_CORS_ACCEPT }}" >> apps/server/.env
+
+            echo "VITE_SERVER_URL=${{ secrets.DEPLOY_VITE_SERVER_URL }}" > apps/client/.env
 
             sudo docker compose pull
             sudo docker compose down
