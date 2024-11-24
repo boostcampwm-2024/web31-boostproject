@@ -33,19 +33,21 @@ export default class StyleFlyout extends FixedFlyout {
     super.init(targetWorkspace);
     const toolbox = this.targetWorkspace.getToolbox() as TabbedToolbox;
 
-    const styleTop = Dom.createElement<HTMLDivElement>('div', {
+    const cssStyleToolboxDivElement = Dom.createElement<HTMLDivElement>('div', {
       class: 'contentCreatingBlock',
     });
 
-    const pElement = Dom.createElement<HTMLDivElement>('p', {
-      style: 'color: #1E2722; margin-bottom: 12px;',
+    const labelElement = Dom.createElement<HTMLLabelElement>('label', {
+      for: 'creatingBlockInput',
+      class: 'creatingBlockLabel',
     });
-    pElement.textContent = '스타일명';
+    labelElement.textContent = '스타일명';
 
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
       placeholder: '스타일명을 정해주세요',
       class: 'creatingBlockInput',
+      id: 'creatingBlockInput',
     });
 
     const buttonElement = Dom.createElement<HTMLButtonElement>('button', {
@@ -55,26 +57,23 @@ export default class StyleFlyout extends FixedFlyout {
     buttonElement.addEventListener('click', () => this.createStyleBlock());
     // TODO: input 입력값 존재 && focus된 경우 Enter 클릭하면 스타일 블록 생성
 
-    [pElement, this.inputElement, buttonElement].forEach((element) =>
-      styleTop.appendChild(element)
+    [labelElement, this.inputElement, buttonElement].forEach((element) =>
+      cssStyleToolboxDivElement.appendChild(element)
     );
 
-    toolbox.addElementToContentArea(styleTop);
+    toolbox.addElementToContentArea(cssStyleToolboxDivElement);
     // TODO: toolbox 중복 호출 논의
     this.show(cssStyleToolboxConfig.contents);
   }
 
   createStyleBlock() {
     const inputValue = this.inputElement?.value;
-    const { addClassBlock } = useClassBlockStore.getState();
-
     if (!inputValue) {
       return toast.error('블록 이름을 입력해주세요.');
     }
 
     const existingBlocks: Tblock[] = cssStyleToolboxConfig!.contents || [];
     const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
-
     if (isBlockAlreadyAdded) {
       return toast.error(`"${inputValue}" 스타일 블록은 이미 존재합니다.`);
     }
@@ -86,6 +85,7 @@ export default class StyleFlyout extends FixedFlyout {
           const input = this.appendDummyInput();
           input.appendField(new Blockly.FieldLabelSerializable(inputValue!), 'CLASS');
 
+          // TODO: CSS 스타일 블록 색상 변경
           input.appendField(
             new FieldClickableImage(
               xIcon,
@@ -98,12 +98,14 @@ export default class StyleFlyout extends FixedFlyout {
 
           this.setOutput(true);
           this.setColour('#02D085');
+          // this.setColour('#F4F8FA');
         },
       };
     }
 
     // 기존 블록에 새 블록 추가
     cssStyleToolboxConfig!.contents = [...existingBlocks, { kind: 'block', type: inputValue }];
+    const { addClassBlock } = useClassBlockStore.getState();
     addClassBlock(inputValue);
 
     this.show(cssStyleToolboxConfig.contents);
@@ -114,6 +116,7 @@ export default class StyleFlyout extends FixedFlyout {
     }
   }
 
+  // TODO: 워크스페이스에 존재하는 CSS 스타일 블록 삭제 논의 필요
   deleteStyleBlock(blockType: string) {
     // 커스텀 블록 삭제 함수
     Blockly.Flyout.prototype.deleteBlockByType = function (type) {

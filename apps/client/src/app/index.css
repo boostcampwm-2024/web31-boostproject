@@ -140,6 +140,11 @@ input[type='color']::-webkit-color-swatch-wrapper {
   padding: 18px 16px;
 }
 
+.creatingBlockLabel {
+  color: #1e2722;
+  margin-bottom: 12px;
+}
+
 .creatingBlockInput {
   background-color: #f4f8fa;
   border: 1px solid #cdd9e4;
