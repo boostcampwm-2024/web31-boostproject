@@ -30,6 +30,10 @@ htmlCodeGenerator.forBlock[addPreviousTypeName('css_style')] = function (block) 
   return classContent;
 };
 
+htmlCodeGenerator.forBlock[addPreviousTypeName('head')] = function (block) {
+  return '<head> </head>';
+};
+
 // 연속적인 코드 블록을 생성하기 위해 블록 연결을 처리하도록 코드 생성을 커스터마이즈
 htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
   // 다음 블록 찾기
@@ -43,7 +47,7 @@ htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
 
 transferTagBlockToCode('html');
 transferTagBlockToCode('body');
-transferTagBlockToCode('head');
+// transferTagBlockToCode('head');
 transferTagBlockToCode('p');
 transferTagBlockToCode('button');
 
