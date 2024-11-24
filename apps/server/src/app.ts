@@ -5,18 +5,18 @@ import express from 'express';
 import routes from './routes/v1/index';
 import swaggerDocument from './docs/swagger-output.json';
 import { swaggerUi } from './docs/swagger';
+import 'dotenv/config';
 
 const app = express();
 
-// 미들웨어 설정
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: process.env.SERVER_CORS_ACCEPT,
   })
 );
 app.use(express.json());
 
-app.use('/', routes);
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api', routes);
+app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 export default app;

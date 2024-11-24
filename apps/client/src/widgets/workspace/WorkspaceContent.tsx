@@ -4,6 +4,7 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
+
 import { TTabToolboxConfig } from '@/shared/types';
 import {
   CssPropsSelectBox,
@@ -65,6 +66,15 @@ export const WorkspaceContent = () => {
         scaleSpeed: 1.2,
       },
     });
+    //  const blockContainer = wrapBlocklyBlocksInDiv(newWorkspace);
+    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
+
+    const flyout = newWorkspace!.getToolbox()!.getFlyout();
+    newWorkspace.registerButtonCallback('classMakerPrompt', () => {
+      classMakerPrompt(newWorkspace);
+      flyout!.show(toolboxConfig2.contents);
+    });
+    flyout!.show(toolboxConfig2.contents);
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
 

@@ -13,6 +13,7 @@ export interface IContentAreaMetrics {
 
 // TODO: prevent wheel action (scale up)
 
+
 export default class TabbedToolbox extends Blockly.Toolbox {
   private tabs_: TTabs | undefined;
   private currentTab_: string | undefined;
@@ -29,6 +30,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
   init() {
     super.init();
     this.HtmlDiv = this.createDom_(this.workspace_);
+
     this.flyout_ = this.createFlyout_();
 
     if (!this.contentsContainer_) {
@@ -165,12 +167,14 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     const tab = Dom.createElement<HTMLDivElement>('div', {
       class: 'toolboxTab',
     });
+
     tab.dataset.id = id.toString();
     tab.appendChild(this.createLabel_(label));
     return tab;
   }
 
   private createLabel_(label: string) {
+
     const labelSpan = Dom.createElement<HTMLDivElement>('span', {
       class: 'toolboxTabLabel',
     });
@@ -182,7 +186,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     if (!this.workspace_ || !this.tabs_) {
       return;
     }
-
+    
     this.currentTab_ = id;
     const tabConfig = this.tabs_[id];
 
@@ -239,6 +243,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     );
 
     return new FlyoutClass!(workspaceOptions);
+
   }
 }
 
