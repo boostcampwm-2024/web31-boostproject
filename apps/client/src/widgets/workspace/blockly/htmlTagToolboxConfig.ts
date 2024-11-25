@@ -45,12 +45,5 @@ export const htmlTagToolboxConfig = {
       categorystyle: 'etcCategory',
       contents: htmBlockContents,
     },
-    // 테스트
-    {
-      kind: 'category',
-      name: 'CSS',
-      categorystyle: 'etcCategory',
-      custom: 'CSS',
-    },
   ],
 };
