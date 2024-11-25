@@ -55,20 +55,20 @@ export default class StyleFlyout extends FixedFlyout {
       }
 
       // 기존 블록 유지 및 새 블록 추가
-      const existingBlocks = cssStyleToolboxConfig!.contents || [];
-      const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
+      // const existingBlocks = cssStyleToolboxConfig!.contents || [];
+      // const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
 
-      if (isBlockAlreadyAdded) {
-        toast.error(`"${inputValue}" 스타일 블록은 이미 존재합니다.`);
-        return;
-      }
+      // if (isBlockAlreadyAdded) {
+      //   toast.error(`"${inputValue}" 스타일 블록은 이미 존재합니다.`);
+      //   return;
+      // }
 
-      if (inputValue) {
-        cssStyleToolboxConfig!.contents = [...existingBlocks, { kind: 'block', type: inputValue }];
-        addClassBlock(inputValue);
-      }
-      this.show(cssStyleToolboxConfig.contents);
-      toast.success(`새 스타일 블록 "${inputValue}"이(가) 추가되었습니다.`);
+      // if (inputValue) {
+      //   cssStyleToolboxConfig!.contents = [...existingBlocks, { kind: 'block', type: inputValue }];
+      //   addClassBlock(inputValue);
+      // }
+      // this.show(cssStyleToolboxConfig.contents);
+      // toast.success(`새 스타일 블록 "${inputValue}"이(가) 추가되었습니다.`);
     });
 
     styleTop.appendChild(inputElement);
