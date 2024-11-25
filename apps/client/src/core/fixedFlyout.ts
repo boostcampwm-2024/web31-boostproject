@@ -9,6 +9,8 @@ import TabbedToolbox from './tabbedToolbox';
  * Flyout의 위치가 동적으로 계산됩니다. 이 클래스는 position 함수를 오버라이드하여 Flyout의 위치를
  * 고정된 위치에 표시할 수 있게 합니다.
  */
+
+// @ts-expect-error Private field inheritance
 export default class FixedFlyout extends Blockly.VerticalFlyout {
   static registryName = 'FixedFlyout';
 
@@ -45,6 +47,39 @@ export default class FixedFlyout extends Blockly.VerticalFlyout {
     const metrics = toolbox.getContentAreaMetrics();
 
     this.positionAt_(metrics.width, metrics.height - toolbox.getContentHeight(), x, y);
+  }
+
+  /**
+   * 새로운 블록이 추가될 때 위치를 지정합니다.
+   *
+   * @description
+   * 이 메서드는 원래 private이라 접근하면 안 되지만 flyout을 contentArea 내부로 이동하며 처음 블록을 생성할 때 정확한 위치에 생성하지 않는 문제가 있어 수정하게 되었습니다.
+   * workspace의
+   *
+   * @throws {Error} 워크스페이스가 초기화되지 않았거나 보이지 않는 경우
+   * @throws {Error} Toolbox가 없거나 초기화되지 않은 경우
+   * @override
+   */
+  override positionNewBlock(oldBlock: Blockly.BlockSvg, block: Blockly.BlockSvg) {
+    const targetWorkspace = this.targetWorkspace;
+
+    const mainOffsetPixels = targetWorkspace.getOriginOffsetInPixels();
+
+    const toolboxClientRec = document.querySelector('.blocklyFlyout')?.getBoundingClientRect();
+    const workspace = document.querySelector('.blocklyMainBackground')?.getBoundingClientRect();
+
+    const flyoutOffsetPixels = this.workspace_.getOriginOffsetInPixels();
+    flyoutOffsetPixels.x = toolboxClientRec!.x - workspace!.x;
+    flyoutOffsetPixels.y = toolboxClientRec!.y - workspace!.y;
+
+    const oldBlockPos = oldBlock.getRelativeToSurfaceXY();
+    oldBlockPos.scale(this.workspace_.scale);
+
+    const oldBlockOffsetPixels = Blockly.utils.Coordinate.sum(flyoutOffsetPixels, oldBlockPos);
+    const finalOffset = Blockly.utils.Coordinate.difference(oldBlockOffsetPixels, mainOffsetPixels);
+    finalOffset.scale(1 / targetWorkspace.scale);
+
+    block.moveTo(new Blockly.utils.Coordinate(finalOffset.x, finalOffset.y));
   }
 
   /**
