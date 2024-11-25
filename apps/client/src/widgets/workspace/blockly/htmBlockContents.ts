@@ -1,26 +1,28 @@
+import { addPreviousTypeName } from '@/shared/utils';
+
 export const htmBlockContents = [
   {
     kind: 'block',
-    type: 'html',
+    type: addPreviousTypeName('html'),
   },
   {
     kind: 'block',
-    type: 'head',
+    type: addPreviousTypeName('head'),
   },
   {
     kind: 'block',
-    type: 'body',
+    type: addPreviousTypeName('body'),
   },
   {
     kind: 'block',
-    type: 'p',
+    type: addPreviousTypeName('p'),
   },
   {
     kind: 'block',
-    type: 'button',
+    type: addPreviousTypeName('button'),
   },
   {
     kind: 'block',
-    type: 'text',
+    type: addPreviousTypeName('text'),
   },
 ];

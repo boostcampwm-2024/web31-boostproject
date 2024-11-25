@@ -10,34 +10,37 @@ export interface IContentAreaMetrics {
   height: number;
 }
 
-// TODO: prevent wheel action (scale up)
-
 // @ts-expect-error Private field inheritance
 export default class TabbedToolbox extends Blockly.Toolbox {
   private tabsConfig_: TTabsConfig | undefined;
-  private currentTab_: string | undefined;
+  private currentTabId_: string | undefined;
 
   private tabContainer_: HTMLDivElement | null = null;
   private contentsContainer_: HTMLDivElement | null = null;
   private contentArea_: HTMLDivElement | null = null;
-
   private flyout_: Blockly.IFlyout | null = null;
 
   constructor(workspace: Blockly.WorkspaceSvg) {
     super(workspace);
   }
 
+  /**
+   * Toolbox를 초기화하고 initInternal_에서 Flyout과 ContentArea를 추가합니다.
+   * @throws {Error} flyout이 초기화되지 않았을 경우
+   * @throws {Error} ContentsContainer가 초기화되지 않았을 경우
+   * @override
+   */
   override init() {
     super.init();
 
     const flyout = this.getFlyout();
 
     if (!flyout) {
-      throw new Error('flyout is null.');
+      throw new Error('Flyout이 초기화되지 않았습니다. Toolbox 생성 시 Flyout 설정이 필요합니다.');
     }
 
     if (!this.contentsContainer_) {
-      throw new Error('contentsContainer_  is null.');
+      throw new Error('contentsContainer가 초기화되지 않았습니다. DOM 요소 생성이 필요합니다.');
     }
 
     const contentArea = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
@@ -47,6 +50,12 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.contentsContainer_.prepend(contentArea);
   }
 
+  /**
+   * Toolbox의 DOM 요소들을 생성합니다.
+   * @param workspace - 이 Toolbox가 속한 Blockly workspace
+   * @returns Toolbox의 메인 Container Div
+   * @override
+   */
   override createDom_(workspace: Blockly.WorkspaceSvg): HTMLDivElement {
     const svg = workspace.getParentSvg();
     const container = this.createContainer_();
@@ -67,27 +76,43 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     return container;
   }
 
-  public setConfig(config: TTabToolboxConfig) {
+  /**
+   * TabbedToolbox에 Tab과 관련된 설정을 추가하고 Tab을 초기화합니다.
+   * @param config - Tab에 대한 정보
+   * @throws {Error} Flyout이 초기화되지 않았을 경우
+   */
+
+  public setConfig(tabToolboxConfig: TTabToolboxConfig) {
     const flyout = this.getFlyout();
 
     if (!flyout) {
-      throw new Error('flyout 없음');
+      throw new Error(
+        'Flyout이 초기화되지 않았습니다. tab을 생성한 이후 Flyout의 위치를 변경하기 위해 Flyout이 초기화되어 있어야 합니다.'
+      );
     }
 
-    this.tabsConfig_ = config.tabs;
-    this.currentTab_ = config.defaultSelectedTab;
+    this.tabsConfig_ = tabToolboxConfig.tabs;
+    this.currentTabId_ = tabToolboxConfig.defaultSelectedTab;
     this.initTabs_();
     flyout.position();
   }
 
   /**
-   * flyout보다 이전에 삽입된 콘텐츠의 높이를 계산해서 반환한다.
-   * @returns
+   * Flyout보다 먼저 삽입된 콘텐츠들의 총 높이를 계산하여 반환합니다.
+   *
+   * @description
+   * Flyout은 기본적으로 ContentArea의 전체 높이를 차지하지만, ContentArea에 다른 요소들이 추가되면, Flyout은 그만큼 높이가 줄어들어야 합니다.
+   * 이 함수는 ContentArea에 추가된 요소들의 높이를 측정하여 Flyout의 높이를 적절히 조절하는데 사용됩니다.
+   *
+   * @returns 콘텐츠의 총 높이
+   * @throws {Error} ContentArea가 초기화되지 않았을 경우
    */
 
   public getContentHeight(): number {
     if (!this.contentArea_) {
-      throw new Error('no Contentarea');
+      throw new Error(
+        'ContentArea가 초기화되지 않았습니다. 높이 계산을 위해서는 ContentArea가 초기화되어야 합니다.'
+      );
     }
 
     const parentRect = this.contentArea_.getBoundingClientRect();
@@ -112,9 +137,22 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     return maxBottom;
   }
 
+  /**
+   * ContentArea의 너비와 높이를 객체로 반환합니다.
+   *
+   * @description
+   * Flyout은 기본적으로 ContentArea의 전체 높이를 차지합니다.
+   * Flyout의 크기를 ContentArea에 맞춰 계산할 때 필요합니다.
+   *
+   * @returns ContentArea의 너비와 높이를 포함하는 IContentAreaMetrics 객체.
+   * @throws {Error} ContentArea가 초기화되지 않았을 경우
+   */
+
   public getContentAreaMetrics(): IContentAreaMetrics {
     if (!this.contentArea_) {
-      throw new Error('No contentArea_');
+      throw new Error(
+        'ContentArea가 초기화되지 않았습니다. ContentArea의 width와 height를 계산하기 위해 ContentArea가 초기화되어야 합니다.'
+      );
     }
 
     const contentAreaClientRect = this.contentArea_.getBoundingClientRect();
@@ -126,37 +164,39 @@ export default class TabbedToolbox extends Blockly.Toolbox {
   }
 
   /**
-   * ContentArea is a div that wraps the flyout element.
-   * Adds an HTML element to ContentArea using the appendChild function.
+   * ContentArea에 HTML 요소를 추가합니다.
    *
-   * @param element - HTML element to be added to ContentArea
+   * @description
+   * ContentArea는 flyout 요소를 감싸는 div입니다.
+   * 이 함수는 기본적으로 appendChild를 사용하여 ContentArea에 새로운 HTML 요소를 추가합니다.
    *
-   * @throws {Error} Throws an error if contentArea_ is null
+   * @param element - ContentArea에 추가할 HTML 요소
+   * @param prepend - true일 경우 요소를 ContentArea의 맨 앞에 추가합니다. 기본값은 false입니다.
+   *
+   * @throws {Error} contentArea가 초기화되지 않았을 경우
    *
    * @example
    * ```typescript
    * const element = document.createElement('div');
-   * element.textContent = 'text';
+   * element.textContent = '텍스트';
+   *
+   * // ContentArea 끝에 요소 추가
    * toolbox.addElementToContentArea(element);
+   *
+   * // ContentArea 맨 앞에 요소 추가
+   * toolbox.addElementToContentArea(element, true);
    * ```
    */
 
   public addElementToContentArea(element: HTMLElement, prepend: boolean = false): void {
     if (!this.contentArea_) {
-      throw new Error('contentArea_ is null');
+      throw new Error('ContentArea가 초기화되지 않았습니다.');
     }
     if (prepend) {
       this.contentArea_.prepend(element);
     } else {
       this.contentArea_.appendChild(element);
     }
-  }
-
-  public clearContentArea() {
-    if (!this.contentArea_) {
-      throw new Error('contentArea is null');
-    }
-    this.contentArea_.innerHTML = '';
   }
 
   private initTabContainer_() {
@@ -173,13 +213,13 @@ export default class TabbedToolbox extends Blockly.Toolbox {
 
   private initTabs_() {
     if (!this.HtmlDiv || !this.tabContainer_) {
-      throw new Error('No HtmlDiv or tabContainer.');
+      throw new Error('HtmlDiv나 ContentArea가 초기화되지 않았습니다.');
     }
 
     Object.entries(this.tabsConfig_!).forEach(([id, tabConfig]) => {
       const tabElement = this.createTab_(tabConfig.label, id);
 
-      if (this.currentTab_ && this.currentTab_ === id) {
+      if (this.currentTabId_ && this.currentTabId_ === id) {
         this.selectTab_(id, tabElement);
       }
 
@@ -210,7 +250,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
       return;
     }
 
-    this.currentTab_ = id;
+    this.currentTabId_ = id;
     const tabConfig = this.tabsConfig_[id];
 
     if (this.flyout_) {
@@ -222,10 +262,10 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     );
 
     if (!this.contentArea_) {
-      throw new Error('contentArea_ is null');
+      throw new Error('ContentArea가 초기화되지 않았습니다.');
     }
 
-    this.clearContentArea();
+    this.clearContentArea_();
 
     this.contentArea_.prepend(this.flyout_.createDom('svg'));
     this.flyout_.init(this.workspace_);
@@ -265,6 +305,13 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     );
 
     return new FlyoutClass!(workspaceOptions);
+  }
+
+  private clearContentArea_() {
+    if (!this.contentArea_) {
+      throw new Error('ContentArea가 초기화되지 않았습니다.');
+    }
+    this.contentArea_.innerHTML = '';
   }
 }
 

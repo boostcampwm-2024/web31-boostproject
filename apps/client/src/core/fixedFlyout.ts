@@ -5,9 +5,9 @@ export default class FixedFlyout extends Blockly.VerticalFlyout {
   static registryName = 'FixedFlyout';
 
   /**
-   * position 함수는 flyout의 위치를 계산하는 함수다.
-   * flyout이 원래는 svg이기 때문에 flyout show함수가 호출될 때 position함수도 같이 호출되면서 flyout의 위치를 계산하게 된다.
-   * flyout의 위치를 고정하기 위해 Blockly.VerticalFlyout의 position 함수를 override 한다.
+   * position 함수는 flyout의 위치를 계산하는 함수입니다.
+   * flyout이 원래는 svg이기 때문에 flyout show함수가 호출될 때 position함수도 같이 호출되면서 flyout의 위치를 계산하게 됩니다.
+   * flyout의 위치를 고정하기 위해 position 함수를 override 합니다.
    */
 
   override position(): void {
@@ -26,9 +26,6 @@ export default class FixedFlyout extends Blockly.VerticalFlyout {
     if (!toolbox) {
       throw new Error('no toolbox');
     }
-
-    // flyout은 기본적으로 contentArea만큼의 크기를 차지하지만,
-    // contentArea에 element를 추가했다면 flyout의 높이는 element만큼 줄어든다.
 
     const metrics = toolbox.getContentAreaMetrics();
 

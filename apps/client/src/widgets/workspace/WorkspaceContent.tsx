@@ -4,7 +4,7 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import { TTabToolboxConfig } from '@/shared/types';
+
 import {
   CssPropsSelectBox,
   defineBlocks,
@@ -12,31 +12,16 @@ import {
   initTheme,
   PreviewBox,
   cssCodeGenerator,
-  cssStyleToolboxConfig,
 } from '@/widgets';
 import { useCssPropsStore } from '@/shared/store';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
 import { registerCustomComponents } from '@/core/register';
-import StyleFlyout from '@/core/styleFlyout';
+import { tabToolboxConfig } from './blockly/tabConfig';
+
+registerCustomComponents();
 
 export const WorkspaceContent = () => {
-  const tabToolboxConfig: TTabToolboxConfig = {
-    tabs: {
-      html: {
-        label: 'HTML 태그',
-        toolboxConfig: htmlTagToolboxConfig,
-        flyoutRegistryName: FixedFlyout.registryName,
-      },
-      css: {
-        label: 'CSS 스타일',
-        toolboxConfig: cssStyleToolboxConfig,
-        flyoutRegistryName: StyleFlyout.registryName,
-      },
-    },
-    defaultSelectedTab: 'html',
-  };
-
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
@@ -44,14 +29,12 @@ export const WorkspaceContent = () => {
   defineBlocks();
 
   useEffect(() => {
-    registerCustomComponents();
-
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
         flyoutsVerticalToolbox: FixedFlyout,
         toolbox: TabbedToolbox,
       },
-      renderer: 'zelos',
+      renderer: 'boolock',
       toolboxPosition: 'end',
       toolbox: htmlTagToolboxConfig,
       theme: initTheme, // 커스텀 테마 적용
@@ -65,6 +48,8 @@ export const WorkspaceContent = () => {
         scaleSpeed: 1.2,
       },
     });
+
+    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
 
