@@ -5,8 +5,6 @@ import FixedFlyout from './fixedFlyout';
 import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
-import FieldClickableImage from './fieldClickableImage';
-import cssClassDeleteIcon from '@/shared/assets/css_class_delete_icon.svg';
 import { Tblock } from '@/shared/types';
 
 export default class StyleFlyout extends FixedFlyout {
@@ -62,8 +60,54 @@ export default class StyleFlyout extends FixedFlyout {
     );
 
     toolbox.addElementToContentArea(cssStyleToolboxDivElement);
+
+    this.registerCustomContextMenu();
+
     // TODO: toolbox 중복 호출 논의
     this.show(cssStyleToolboxConfig.contents);
+  }
+
+  registerCustomContextMenu() {
+    const menuId = 'deleteBlock';
+
+    // 중복 등록 방지: 이미 등록된 ID는 다시 등록하지 않음
+    if (Blockly.ContextMenuRegistry.registry.getItem(menuId)) {
+      return;
+    }
+
+    const deleteOption = {
+      id: menuId,
+      scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK, // 블록에만 적용
+      displayText: '블록 삭제',
+      weight: 100,
+      preconditionFn: (scope: any) => {
+        const blockType = scope.block.type;
+        const isInCssStyleToolboxConfig = cssStyleToolboxConfig.contents.some(
+          (item) => item.type === blockType
+        );
+
+        return isInCssStyleToolboxConfig && scope.block.isDeletable() ? 'enabled' : 'hidden';
+      },
+      callback: (scope: any, _e: PointerEvent) => {
+        const block = scope.block;
+        const blockType = block.type;
+
+        block.dispose(false, true);
+
+        cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
+          (item) => item.type !== blockType
+        );
+
+        const { removeClassBlock } = useClassBlockStore.getState();
+        removeClassBlock(blockType);
+
+        const flyout = (Blockly.getMainWorkspace() as any).getToolbox().getFlyout();
+        flyout.show(cssStyleToolboxConfig.contents);
+        toast.success(`"${blockType}" 스타일 블록이 삭제되었습니다.`);
+      },
+    };
+
+    Blockly.ContextMenuRegistry.registry.register(deleteOption);
   }
 
   createStyleBlock() {
@@ -79,23 +123,10 @@ export default class StyleFlyout extends FixedFlyout {
     }
 
     if (!Blockly.Blocks[inputValue!]) {
-      const flyoutInstance = this;
       Blockly.Blocks[inputValue!] = {
         init: function () {
           const input = this.appendDummyInput();
           input.appendField(new Blockly.FieldLabelSerializable(inputValue!), 'CLASS');
-
-          // TODO: CSS 클래스명 블록 색상 변경
-          input.appendField(
-            new FieldClickableImage(
-              cssClassDeleteIcon,
-              12,
-              12,
-              '삭제',
-              flyoutInstance.deleteStyleBlock.bind(flyoutInstance, inputValue!)
-            )
-          );
-
           this.setOutput(true);
           this.setColour('#02D085');
           // this.setColour('#F4F8FA');
@@ -114,28 +145,5 @@ export default class StyleFlyout extends FixedFlyout {
     if (this.inputElement) {
       this.inputElement.value = '';
     }
-  }
-
-  // TODO: 워크스페이스에 존재하는 CSS 클래스명 블록 삭제 논의 필요
-  deleteStyleBlock(blockType: string) {
-    const blocks = this.workspace_.getAllBlocks();
-
-    // CSS 클래스명 블록 삭제
-    for (let i = 0; i < blocks.length; i++) {
-      if (blocks[i].type === blockType) {
-        blocks[i].dispose(false, true);
-        break;
-      }
-    }
-
-    cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
-      (block) => block.type !== blockType
-    );
-
-    const { removeClassBlock } = useClassBlockStore.getState();
-    removeClassBlock(blockType);
-
-    this.show(cssStyleToolboxConfig.contents);
-    toast.success(`"${blockType}" 클래스명 블록이 삭제되었습니다.`);
   }
 }
