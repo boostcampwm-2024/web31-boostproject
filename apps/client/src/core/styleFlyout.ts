@@ -14,19 +14,6 @@ export default class StyleFlyout extends FixedFlyout {
   inputElement: HTMLInputElement | null = null;
   buttonElement: HTMLButtonElement | null = null;
 
-  // flyout 위치 오버라이딩
-  position(): void {
-    super.position(); // FixedFlyout의 기본 배치 호출
-    const toolbox = this.targetWorkspace!.getToolbox();
-
-    if (!toolbox) {
-      throw new Error('no toolbox');
-    }
-
-    const metrics = (toolbox as TabbedToolbox).getContentAreaMetrics();
-    this.positionAt_(metrics.width - 10, metrics.height - 150, 10, 150);
-  }
-
   init(targetWorkspace: Blockly.WorkspaceSvg): void {
     super.init(targetWorkspace);
     const toolbox = this.targetWorkspace.getToolbox() as TabbedToolbox;
@@ -59,7 +46,7 @@ export default class StyleFlyout extends FixedFlyout {
       cssStyleToolboxDivElement.appendChild(element)
     );
 
-    toolbox.addElementToContentArea(cssStyleToolboxDivElement);
+    toolbox.addElementToContentArea(cssStyleToolboxDivElement, true);
 
     this.registerCustomContextMenu();
 
