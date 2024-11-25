@@ -15,11 +15,11 @@ export default class CustomCategory extends Blockly.ToolboxCategory {
     super(categoryDef, toolbox, optParent);
   }
 
-  addColourBorder_(colour: string) {
+  override addColourBorder_(colour: string) {
     this.rowDiv_!.style.color = colour;
   }
 
-  setSelected(isSelected: boolean) {
+  override setSelected(isSelected: boolean) {
     if (isSelected) {
       if (this.rowDiv_!.id !== selectedCategory) {
         selectedCategory = this.rowDiv_!.id;
@@ -39,7 +39,7 @@ export default class CustomCategory extends Blockly.ToolboxCategory {
     }
   }
 
-  createIconDom_() {
+  override createIconDom_() {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
 
     svg.setAttribute('width', '24');
@@ -48,7 +48,12 @@ export default class CustomCategory extends Blockly.ToolboxCategory {
 
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
 
-    path.setAttribute('d', CATEGORY_ICONS[this.name_]);
+    const d = CATEGORY_ICONS[this.name_];
+
+    if (d) {
+      path.setAttribute('d', CATEGORY_ICONS[this.name_]);
+    }
+
     path.setAttribute('fill', 'currentColor');
     svg.appendChild(path);
     return svg;
