@@ -19,9 +19,10 @@ import TabbedToolbox from '@/core/tabbedToolbox';
 import { registerCustomComponents } from '@/core/register';
 import { tabToolboxConfig } from './blockly/tabConfig';
 import { defineBlocks } from './blockly/defineBlocks';
+import { blockContents } from './blockly/htmlBlockContents';
 
 registerCustomComponents();
-defineBlocks();
+defineBlocks(blockContents);
 
 export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');

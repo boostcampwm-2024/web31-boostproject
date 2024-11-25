@@ -1,6 +1,7 @@
 import { CustomFieldLabelSerializable } from '@/core/customFieldLabelSerializable';
 import { CustomFieldTextInput } from '@/core/customFieldTextInput';
-import { addPreviousTypeName } from '@/shared/utils';
+import { TBlockContents } from '@/shared/types';
+import { removePreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
 
 /**
@@ -27,15 +28,17 @@ const defineBlockWithDefaults = (
     if (isDefault) {
       this.setPreviousStatement(true);
       this.setNextStatement(true);
-      this.appendValueInput('css class').setCheck('CSS-CLASS').appendField(blockName);
+      this.appendValueInput('css class')
+        .setCheck('CSS-CLASS')
+        .appendField(removePreviousTypeName(blockName));
       this.appendStatementInput('children').appendField();
     }
   };
 
-  Blockly.Blocks[addPreviousTypeName(blockName)] = blockDefinition;
+  Blockly.Blocks[blockName] = blockDefinition;
 };
 
-export const defineBlocks = () => {
+export const defineBlocks = (blockContents: TBlockContents) => {
   defineBlockWithDefaults(
     'html',
     1,
@@ -63,22 +66,34 @@ export const defineBlocks = () => {
 
   defineBlockWithDefaults('body', 3);
 
-  defineBlockWithDefaults('p', 1);
-
-  defineBlockWithDefaults('button', 2);
-
-  defineBlockWithDefaults(
-    'text',
-    3,
-    {
-      init: function () {
-        this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
-        this.setNextStatement(true); // 다른 블록 아래에 연결 가능
-        this.appendDummyInput().appendField('text').appendField(new CustomFieldTextInput(), 'TEXT');
-      },
-    },
-    false
-  );
+  //   {
+  //   kind: 'block',
+  //   type: 'span',
+  //   description: '설명 작성',
+  // },
+  Object.values(blockContents).forEach((blockInfoList) => {
+    blockInfoList.forEach((blockInfo, index) => {
+      console.log(blockInfo.type, (index % 3) + 1);
+      if (blockInfo.type === ' text') {
+        defineBlockWithDefaults(
+          'text',
+          3,
+          {
+            init: function () {
+              this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
+              this.setNextStatement(true); // 다른 블록 아래에 연결 가능
+              this.appendDummyInput()
+                .appendField('text')
+                .appendField(new CustomFieldTextInput(), 'TEXT');
+            },
+          },
+          false
+        );
+      } else {
+        defineBlockWithDefaults(blockInfo.type, (index % 3) + 1);
+      }
+    });
+  });
 
   defineBlockWithDefaults(
     'css_style',
