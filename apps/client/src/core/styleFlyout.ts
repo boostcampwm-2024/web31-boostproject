@@ -6,7 +6,7 @@ import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
 import FieldClickableImage from './fieldClickableImage';
-import xIcon from '@/shared/assets/x_icon.svg';
+import cssClassDeleteIcon from '@/shared/assets/css_class_delete_icon.svg';
 import { Tblock } from '@/shared/types';
 
 export default class StyleFlyout extends FixedFlyout {
@@ -41,11 +41,11 @@ export default class StyleFlyout extends FixedFlyout {
       for: 'creatingBlockInput',
       class: 'creatingBlockLabel',
     });
-    labelElement.textContent = '스타일명';
+    labelElement.textContent = '클래스명';
 
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
-      placeholder: '스타일명을 정해주세요',
+      placeholder: '클래스명을 정해주세요',
       class: 'creatingBlockInput',
       id: 'creatingBlockInput',
     });
@@ -55,7 +55,7 @@ export default class StyleFlyout extends FixedFlyout {
     });
     buttonElement.textContent = '+';
     buttonElement.addEventListener('click', () => this.createStyleBlock());
-    // TODO: input 입력값 존재 && focus된 경우 Enter 클릭하면 스타일 블록 생성
+    // TODO: input 입력값 존재 && focus된 경우 Enter 클릭하면 CSS 클래스명 블록 생성
 
     [labelElement, this.inputElement, buttonElement].forEach((element) =>
       cssStyleToolboxDivElement.appendChild(element)
@@ -69,13 +69,13 @@ export default class StyleFlyout extends FixedFlyout {
   createStyleBlock() {
     const inputValue = this.inputElement?.value;
     if (!inputValue) {
-      return toast.error('블록 이름을 입력해주세요.');
+      return toast.error('클래스명을 입력해주세요.');
     }
 
     const existingBlocks: Tblock[] = cssStyleToolboxConfig!.contents || [];
     const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
     if (isBlockAlreadyAdded) {
-      return toast.error(`"${inputValue}" 스타일 블록은 이미 존재합니다.`);
+      return toast.error(`"${inputValue}" 입력한 클래스명 블록은 이미 존재합니다.`);
     }
 
     if (!Blockly.Blocks[inputValue!]) {
@@ -85,10 +85,10 @@ export default class StyleFlyout extends FixedFlyout {
           const input = this.appendDummyInput();
           input.appendField(new Blockly.FieldLabelSerializable(inputValue!), 'CLASS');
 
-          // TODO: CSS 스타일 블록 색상 변경
+          // TODO: CSS 클래스명 블록 색상 변경
           input.appendField(
             new FieldClickableImage(
-              xIcon,
+              cssClassDeleteIcon,
               12,
               12,
               '삭제',
@@ -109,18 +109,18 @@ export default class StyleFlyout extends FixedFlyout {
     addClassBlock(inputValue);
 
     this.show(cssStyleToolboxConfig.contents);
-    toast.success(`새 스타일 블록 "${inputValue}"이(가) 추가되었습니다.`);
+    toast.success(`입력한 클래스명 블록 "${inputValue}"이(가) 추가되었습니다.`);
 
     if (this.inputElement) {
       this.inputElement.value = '';
     }
   }
 
-  // TODO: 워크스페이스에 존재하는 CSS 스타일 블록 삭제 논의 필요
+  // TODO: 워크스페이스에 존재하는 CSS 클래스명 블록 삭제 논의 필요
   deleteStyleBlock(blockType: string) {
     const blocks = this.workspace_.getAllBlocks();
 
-    // 블록 삭제
+    // CSS 클래스명 블록 삭제
     for (let i = 0; i < blocks.length; i++) {
       if (blocks[i].type === blockType) {
         blocks[i].dispose(false, true);
@@ -136,6 +136,6 @@ export default class StyleFlyout extends FixedFlyout {
     removeClassBlock(blockType);
 
     this.show(cssStyleToolboxConfig.contents);
-    toast.success(`"${blockType}" 스타일 블록이 삭제되었습니다.`);
+    toast.success(`"${blockType}" 클래스명 블록이 삭제되었습니다.`);
   }
 }
