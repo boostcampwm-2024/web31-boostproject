@@ -4,63 +4,39 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import CustomCategory from '@/core/customCategory';
-import { TTabToolboxConfig } from '@/shared/types';
-import TabbedToolbox from '@/core/tabbedToolbox';
-import { useCssPropsStore } from '@/shared/store';
-import { CustomRenderer } from '@/core/customRenderer';
-import '@/core/customFieldLabel';
 
 import {
   CssPropsSelectBox,
-  defineBlocks,
-  toolboxConfig,
+  htmlTagToolboxConfig,
   initTheme,
   PreviewBox,
   cssCodeGenerator,
-  toolboxConfig2,
-  classMakerPrompt,
 } from '@/widgets';
 
-Blockly.blockRendering.register('boolock', CustomRenderer);
+import { useCssPropsStore } from '@/shared/store';
+import FixedFlyout from '@/core/fixedFlyout';
+import TabbedToolbox from '@/core/tabbedToolbox';
+import { registerCustomComponents } from '@/core/register';
+import { tabToolboxConfig } from './blockly/tabConfig';
+import { defineBlocks } from './blockly/defineBlocks';
+
+registerCustomComponents();
+defineBlocks();
 
 export const WorkspaceContent = () => {
-  const tabToolboxConfig: TTabToolboxConfig = {
-    tabs: {
-      html: {
-        label: 'HTML 태그',
-        toolboxConfig: toolboxConfig,
-      },
-      css: {
-        label: '스타일',
-        toolboxConfig: toolboxConfig2,
-      },
-    },
-    defaultSelectedTab: 'html',
-  };
-
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
 
-  defineBlocks();
-
   useEffect(() => {
-    Blockly.registry.register(
-      Blockly.registry.Type.TOOLBOX_ITEM,
-      Blockly.ToolboxCategory.registrationName,
-      CustomCategory,
-      true
-    );
-
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
-        //flyoutsVerticalToolbox: FixedFlyout,
+        flyoutsVerticalToolbox: FixedFlyout,
         toolbox: TabbedToolbox,
       },
       renderer: 'boolock',
       toolboxPosition: 'end',
-      toolbox: toolboxConfig,
+      toolbox: htmlTagToolboxConfig,
       theme: initTheme, // 커스텀 테마 적용
       zoom: {
         // 확대 및 축소 버튼 설정
@@ -72,17 +48,8 @@ export const WorkspaceContent = () => {
         scaleSpeed: 1.2,
       },
     });
-    //  const blockContainer = wrapBlocklyBlocksInDiv(newWorkspace);
-    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
-    const flyout = newWorkspace!.getToolbox()!.getFlyout();
-    newWorkspace.registerButtonCallback('classMakerPrompt', () => {
-      classMakerPrompt(newWorkspace);
-      flyout!.show(toolboxConfig2.contents);
-    });
-    flyout!.show(toolboxConfig2.contents);
-
-    flyout!.hide = () => {};
+    (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
 
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
