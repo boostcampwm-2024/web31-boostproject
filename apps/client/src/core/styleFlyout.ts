@@ -4,7 +4,7 @@ import FixedFlyout from './fixedFlyout';
 import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
-import toast from 'react-hot-toast';
+//import toast from 'react-hot-toast';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -31,7 +31,7 @@ export default class StyleFlyout extends FixedFlyout {
 
     buttonElement.addEventListener('click', () => {
       const inputValue = inputElement.value.trim();
-      const { addClassBlock } = useClassBlockStore.getState();
+      // const { addClassBlock } = useClassBlockStore.getState();
 
       if (inputValue === null) {
         return;
