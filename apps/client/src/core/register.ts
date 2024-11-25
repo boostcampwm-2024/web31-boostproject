@@ -3,9 +3,14 @@ import CustomCategory from './customCategory';
 import FixedFlyout from './fixedFlyout';
 import StyleFlyout from './styleFlyout';
 import { CustomRenderer } from './customRenderer';
+import { CustomFieldLabel } from './customFieldLabel';
 
 export const registerCustomComponents = () => {
   Blockly.blockRendering.register('boolock', CustomRenderer);
+
+  // 이 fieldLabel을 다른 곳에서 계속 부르면서 사용하기에 불편함도 있고, 실제 field_label에 등록시켜두어도 무리 없이 동작하여 레지스터로 등록해두었습니다.
+  Blockly.fieldRegistry.unregister('field_label');
+  Blockly.fieldRegistry.register('field_label', CustomFieldLabel);
 
   Blockly.registry.register(
     Blockly.registry.Type.TOOLBOX_ITEM,

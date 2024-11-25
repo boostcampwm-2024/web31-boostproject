@@ -7,26 +7,26 @@ import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
 
 import {
   CssPropsSelectBox,
-  defineBlocks,
   htmlTagToolboxConfig,
   initTheme,
   PreviewBox,
   cssCodeGenerator,
 } from '@/widgets';
+
 import { useCssPropsStore } from '@/shared/store';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
 import { registerCustomComponents } from '@/core/register';
 import { tabToolboxConfig } from './blockly/tabConfig';
+import { defineBlocks } from './blockly/defineBlocks';
 
 registerCustomComponents();
+defineBlocks();
 
 export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
-
-  defineBlocks();
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -48,8 +48,6 @@ export const WorkspaceContent = () => {
         scaleSpeed: 1.2,
       },
     });
-
-    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
 

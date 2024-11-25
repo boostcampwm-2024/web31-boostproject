@@ -1,6 +1,6 @@
 import { addPreviousTypeName } from '@/shared/utils';
 
-export const htmBlockContents = [
+export const htmlBlockContents = [
   {
     kind: 'block',
     type: addPreviousTypeName('html'),
