@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { useWorkspaceChangeStatusStore } from '@/shared/store';
 
 type TcssProps = {
   currentCssClassName: string;
@@ -43,6 +44,8 @@ export const useCssPropsStore = create<TcssProps>((set) => ({
   setSelectedCssCategory: (selectedCssCategory) => set({ selectedCssCategory }),
   setCheckedCssPropertyObj: (className, label, value) =>
     set((state) => {
+      const { setIsCssChanged } = useWorkspaceChangeStatusStore();
+      setIsCssChanged(true);
       const updatedObj = state.totalCssPropertyObj[className] || {
         checkedCssPropertyObj: {},
         cssOptionObh: {},
@@ -57,6 +60,8 @@ export const useCssPropsStore = create<TcssProps>((set) => ({
     }),
   setCssOptionObj: (className, label, value) =>
     set((state) => {
+      const { setIsCssChanged } = useWorkspaceChangeStatusStore();
+      setIsCssChanged(true);
       const updatedObj = state.totalCssPropertyObj[className] || {
         checkedCssPropertyObj: {},
         cssOptionObj: {},

@@ -13,7 +13,7 @@ import {
   cssCodeGenerator,
 } from '@/widgets';
 
-import { useCssPropsStore } from '@/shared/store';
+import { useCssPropsStore, useWorkspaceChangeStatusStore } from '@/shared/store';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
 import { registerCustomComponents } from '@/core/register';
@@ -27,6 +27,7 @@ export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
+  const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -62,6 +63,7 @@ export const WorkspaceContent = () => {
       ) {
         const code = htmlCodeGenerator.workspaceToCode(newWorkspace);
         setHtmlCode(code);
+        setIsBlockChanged(true);
       }
     };
 
