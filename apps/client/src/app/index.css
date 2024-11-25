@@ -134,3 +134,41 @@ input[type='color']::-webkit-color-swatch {
 input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0;
 }
+
+.contentCreatingBlock {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1rem;
+}
+
+.creatingBlockLabel {
+  @apply text-bold-rg text-gray-black;
+  margin-bottom: 0.75rem;
+}
+
+/* TODO: placeholder와 색상 차이 (논의 필요) */
+.creatingBlockInput {
+  @apply text-semibold-rg bg-gray-50 text-gray-400;
+  border: 1px solid #cdd9e4;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  width: 100%;
+  height: 2.5rem;
+}
+
+.creatingBlockInput::placeholder {
+  @apply text-gray-200;
+}
+
+.creatingBlockButton {
+  @apply text-gray-white bg-blue-500;
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 2.5rem;
+}
+
+.creatingBlockButton:hover {
+  @apply bg-blue-300;
+}
