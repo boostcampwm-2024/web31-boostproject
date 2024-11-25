@@ -1,8 +1,8 @@
 import * as Blockly from 'blockly/core';
-import { TTabConfig, TTabToolboxConfig, TTabs } from '@/shared/types';
+
+import { TTabToolboxConfig, TTabsConfig } from '@/shared/types';
 
 import Dom from './dom';
-import { IFlyout } from 'blockly/core';
 import FixedFlyout from './fixedFlyout';
 
 export interface IContentAreaMetrics {
@@ -12,54 +12,42 @@ export interface IContentAreaMetrics {
 
 // TODO: prevent wheel action (scale up)
 
+// @ts-expect-error Private field inheritance
 export default class TabbedToolbox extends Blockly.Toolbox {
-  private tabs_: TTabs | undefined;
+  private tabsConfig_: TTabsConfig | undefined;
   private currentTab_: string | undefined;
 
   private tabContainer_: HTMLDivElement | null = null;
   private contentsContainer_: HTMLDivElement | null = null;
   private contentArea_: HTMLDivElement | null = null;
-  private flyout_: IFlyout | null = null; // TODO: separate declarations of a private property 'flyout_'
+
+  private flyout_: Blockly.IFlyout | null = null;
 
   constructor(workspace: Blockly.WorkspaceSvg) {
     super(workspace);
   }
 
-  init() {
-    const workspace = this.workspace_;
+  override init() {
+    super.init();
 
-    this.HtmlDiv = this.createDom_(this.workspace_);
-    this.flyout_ = this.createFlyout_();
+    const flyout = this.getFlyout();
+
+    if (!flyout) {
+      throw new Error('flyout is null.');
+    }
 
     if (!this.contentsContainer_) {
-      throw new Error('contentsContainer_ or contentArea_ is null.');
+      throw new Error('contentsContainer_  is null.');
     }
 
     const contentArea = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
-    contentArea.prepend(this.flyout_.createDom('svg'));
+    contentArea.prepend(flyout.createDom('svg'));
 
     this.contentArea_ = contentArea;
     this.contentsContainer_.prepend(contentArea);
-
-    this.setVisible(true);
-    this.flyout_.init(workspace);
-
-    this.render(this.toolboxDef_);
-    const themeManager = workspace.getThemeManager();
-    themeManager.subscribe(this.HtmlDiv, 'toolboxBackgroundColour', 'background-color');
-    themeManager.subscribe(this.HtmlDiv, 'toolboxForegroundColour', 'color');
-    // this.workspace_.getComponentManager().addComponent({
-    //   component: this,
-    //   weight: Blockly.ComponentManager.ComponentWeight.TOOLBOX_WEIGHT,
-    //   capabilities: [
-    //     ComponentManager.Capability.AUTOHIDEABLE,
-    //     ComponentManager.Capability.DELETE_AREA,
-    //     ComponentManager.Capability.DRAG_TARGET,
-    //   ],
-    // });
   }
 
-  createDom_(workspace: Blockly.WorkspaceSvg): HTMLDivElement {
+  override createDom_(workspace: Blockly.WorkspaceSvg): HTMLDivElement {
     const svg = workspace.getParentSvg();
     const container = this.createContainer_();
 
@@ -72,42 +60,32 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     container.appendChild(this.contentsContainer_);
 
     this.contentsDiv_ = this.createContentsContainer_();
-    // TODO: have to understand "this.contentsDiv_.tabIndex = 0;"
+    this.contentsDiv_.tabIndex = 0; // 기존 createDom_에 있는 코드 그대로 유지
     this.contentsContainer_.appendChild(this.contentsDiv_);
 
     this.attachEvents_(container, this.contentsDiv_);
     return container;
   }
 
-  // setSelectedItem(newItem: Blockly.ToolboxCategory | null): void {
-  //   const oldItem = this.selectedItem_;
-
-  //   if (!newItem && !oldItem) {
-  //     return;
-  //   }
-
-  //   if (this.shouldDeselectItem_(oldItem, newItem) && oldItem !== null) {
-  //     this.deselectItem_(oldItem);
-  //   }
-
-  //   if (this.shouldSelectItem_(oldItem, newItem) && newItem !== null) {
-  //     this.selectItem_(oldItem, newItem);
-  //   }
-
-  //   this.updateContentArea_(oldItem, newItem);
-  // }
-
   public setConfig(config: TTabToolboxConfig) {
-    this.tabs_ = config.tabs;
+    const flyout = this.getFlyout();
+
+    if (!flyout) {
+      throw new Error('flyout 없음');
+    }
+
+    this.tabsConfig_ = config.tabs;
     this.currentTab_ = config.defaultSelectedTab;
     this.initTabs_();
-
-    if (this.flyout_) {
-      this.flyout_.position();
-    }
+    flyout.position();
   }
 
-  public getContentAreaHeightExceptFlyout(): number {
+  /**
+   * flyout보다 이전에 삽입된 콘텐츠의 높이를 계산해서 반환한다.
+   * @returns
+   */
+
+  public getContentHeight(): number {
     if (!this.contentArea_) {
       throw new Error('no Contentarea');
     }
@@ -118,7 +96,6 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     let maxBottom = 0;
 
     for (const child of children) {
-      console.log(child);
       if (child.classList.contains('blocklyFlyout')) {
         break;
       }
@@ -199,7 +176,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
       throw new Error('No HtmlDiv or tabContainer.');
     }
 
-    Object.entries(this.tabs_!).forEach(([id, tabConfig]) => {
+    Object.entries(this.tabsConfig_!).forEach(([id, tabConfig]) => {
       const tabElement = this.createTab_(tabConfig.label, id);
 
       if (this.currentTab_ && this.currentTab_ === id) {
@@ -229,12 +206,12 @@ export default class TabbedToolbox extends Blockly.Toolbox {
   }
 
   private selectTab_(id: string, tabElement: HTMLDivElement) {
-    if (!this.workspace_ || !this.tabs_) {
+    if (!this.workspace_ || !this.tabsConfig_) {
       return;
     }
 
     this.currentTab_ = id;
-    const tabConfig = this.tabs_[id];
+    const tabConfig = this.tabsConfig_[id];
 
     if (this.flyout_) {
       this.flyout_.dispose();
@@ -266,7 +243,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     }
   }
 
-  private createFlyoutByRegistry_(flyoutRegistryName: string): IFlyout {
+  private createFlyoutByRegistry_(flyoutRegistryName: string): Blockly.IFlyout {
     const workspace = this.workspace_;
     const workspaceOptions = new Blockly.Options({
       parentWorkspace: workspace,
