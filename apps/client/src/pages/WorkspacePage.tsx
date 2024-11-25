@@ -1,20 +1,23 @@
-import { WorkspaceContent, WorkspacePageHeader } from '@/widgets';
+import { ConfirmBackNavigationModal, WorkspaceContent, WorkspacePageHeader } from '@/widgets';
+import { useCssPropsStore, useWorkspaceChangeStatusStore } from '@/shared/store';
+import { useGetWorkspace, usePreventLeaveWorkspacePage } from '@/shared/hooks';
 
 import { Loading } from '@/shared/ui';
 import { NotFound } from '@/pages/NotFound';
-import { useCssPropsStore } from '@/shared/store';
 import { useEffect } from 'react';
-import { useGetWorkspace, usePreventLeave } from '@/shared/hooks';
 import { useParams } from 'react-router-dom';
 
 export const WorkspacePage = () => {
   const { workspaceId } = useParams();
   const { resetCssPropsStore } = useCssPropsStore();
   const { isPending, isError } = useGetWorkspace(workspaceId as string);
-  usePreventLeave();
+  const { setIsBlockChanged, setIsCssChanged } = useWorkspaceChangeStatusStore();
+  const { handleClickLogo } = usePreventLeaveWorkspacePage();
   useEffect(() => {
     // TODO : cssPropStore 서버에 저장된 값으로 덮어쓰기
     resetCssPropsStore();
+    setIsBlockChanged(false);
+    setIsCssChanged(false);
   }, []);
 
   if (isError) {
@@ -24,8 +27,9 @@ export const WorkspacePage = () => {
   return (
     <div className="flex h-screen flex-col">
       {isPending && <Loading />}
-      <WorkspacePageHeader />
+      <WorkspacePageHeader onClickLogo={handleClickLogo} />
       <WorkspaceContent />
+      <ConfirmBackNavigationModal />
     </div>
   );
 };

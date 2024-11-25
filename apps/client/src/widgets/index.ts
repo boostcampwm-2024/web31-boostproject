@@ -10,6 +10,7 @@ export { WorkspaceModal } from './home/WorkspaceModal';
 export { PreviewBox } from './workspace/PreviewBox';
 export { WorkspaceContent } from './workspace/WorkspaceContent';
 export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
+export { ConfirmBackNavigationModal } from './workspace/ConfirmBackNavigationModal';
 export { CssCategoryBar } from './workspace/css/CssCategoryBar';
 export { CssPropsSelectBox } from './workspace/css/CssPropsSelectBox';
 export { CssOptionItemList } from './workspace/css/CssOptionItemList';
