@@ -33,6 +33,12 @@ export default class StyleFlyout extends FixedFlyout {
       placeholder: '클래스명을 정해주세요',
       class: 'creatingBlockInput',
       id: 'creatingBlockInput',
+      maxlength: '30',
+    });
+    this.inputElement.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        this.createStyleBlock();
+      }
     });
 
     const buttonElement = Dom.createElement<HTMLButtonElement>('button', {
