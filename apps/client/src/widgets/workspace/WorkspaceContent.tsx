@@ -5,15 +5,12 @@ import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
 
-import { TTabToolboxConfig } from '@/shared/types';
 import {
   CssPropsSelectBox,
   htmlTagToolboxConfig,
   initTheme,
   PreviewBox,
   cssCodeGenerator,
-  toolboxConfig2,
-  classMakerPrompt,
 } from '@/widgets';
 
 import { useCssPropsStore } from '@/shared/store';
@@ -27,32 +24,11 @@ registerCustomComponents();
 defineBlocks();
 
 export const WorkspaceContent = () => {
-  const tabToolboxConfig: TTabToolboxConfig = {
-    tabs: {
-      html: {
-        label: 'HTML 태그',
-        toolboxConfig: toolboxConfig,
-      },
-      css: {
-        label: '스타일',
-        toolboxConfig: toolboxConfig2,
-      },
-    },
-    defaultSelectedTab: 'html',
-  };
-
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
 
   useEffect(() => {
-    Blockly.registry.register(
-      Blockly.registry.Type.TOOLBOX_ITEM,
-      Blockly.ToolboxCategory.registrationName,
-      CustomCategory,
-      true
-    );
-
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
         flyoutsVerticalToolbox: FixedFlyout,
