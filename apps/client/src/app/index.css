@@ -32,7 +32,7 @@
   }
 
   .text-semibold-lg {
-    @apply text-xl font-semibold leading-5;
+    @apply text-xl font-semibold leading-7;
   }
 
   .text-semibold-md {
