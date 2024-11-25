@@ -3,6 +3,33 @@ import * as Blockly from 'blockly/core';
 
 import { categoryColours } from '@/widgets';
 
+// 디자인에 맞춰 블록에 따라 블록 색상이 다르게 적용되도록 커스텀 theme를 만들어두었습니다.
+const defaultBlockStyles: {
+  [key: string]: Partial<Blockly.Theme.BlockStyle>;
+} = {
+  ...Blockly.Themes.Zelos.blockStyles,
+  default_block1: {
+    colourPrimary: '#B2DAFF',
+    colourSecondary: '#F4F8FA',
+    colourTertiary: '#2677C3',
+  },
+  default_block2: {
+    colourPrimary: '#67B6FF',
+    colourSecondary: 'F4F8FA',
+    colourTertiary: '#2677C3',
+  },
+  default_block3: {
+    colourPrimary: '#4195E4',
+    colourSecondary: '#F4F8FA',
+    colourTertiary: '#2677C3',
+  },
+  default_block_css: {
+    colourPrimary: '#FFFFFF',
+    colourSecondary: '#41505B',
+    colourTertiary: '#2677C3',
+  },
+};
+
 export const initTheme = Blockly.Theme.defineTheme('custom', {
   name: 'custom',
   base: Blockly.Themes.Classic,
@@ -19,4 +46,5 @@ export const initTheme = Blockly.Theme.defineTheme('custom', {
   },
 
   categoryStyles: categoryColours,
+  blockStyles: defaultBlockStyles,
 });

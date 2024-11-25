@@ -11,6 +11,5 @@ export type {
 export type { TcssCategory, TcssCategoryItem, TcssCategoryList } from './cssCategoryType';
 
 export type { IExtendedIToolbox } from './extendedType';
-export type { TTabConfig, TTabs, TTabToolboxConfig } from './tabType';
+export type { TTabConfig, TTabsConfig, TTabToolboxConfig } from './tabType';
 export type { Tblock, TtoolboxConfig } from './styleToolboxType';
-
