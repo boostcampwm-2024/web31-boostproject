@@ -14,20 +14,6 @@ export class CustomFieldTextInput extends Blockly.FieldTextInput {
   protected backgroundRect_!: SVGRectElement;
   protected isFixed: boolean = false;
 
-  protected override widgetCreate_(): HTMLInputElement | HTMLTextAreaElement {
-    const htmlInput = super.widgetCreate_();
-
-    const div = Blockly.WidgetDiv.getDiv();
-    const scale = this.workspace_!.getScale();
-
-    const borderRadius = 5 * scale + 'px';
-
-    div!.style.borderRadius = 5 * scale + 'px';
-    htmlInput.style.borderRadius = borderRadius;
-
-    return htmlInput;
-  }
-
   protected override updateSize_(margin?: number): void {
     const constants = this.getConstants();
     const xOffset =
