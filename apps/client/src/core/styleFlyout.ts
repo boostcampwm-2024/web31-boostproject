@@ -3,7 +3,7 @@ import TabbedToolbox from './tabbedToolbox';
 import FixedFlyout from './fixedFlyout';
 import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
-import { useClassBlockStore } from '@/shared/store';
+//import { useClassBlockStore } from '@/shared/store';
 //import toast from 'react-hot-toast';
 
 export default class StyleFlyout extends FixedFlyout {
