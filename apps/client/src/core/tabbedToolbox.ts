@@ -42,11 +42,6 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     if (!this.contentsContainer_) {
       throw new Error('contentsContainer가 초기화되지 않았습니다. DOM 요소 생성이 필요합니다.');
     }
-    const contentArea = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
-    contentArea.prepend(this.flyout_.createDom('svg'));
-
-    this.contentArea_ = contentArea;
-    this.contentsContainer_.prepend(contentArea);
 
     const contentArea = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
     contentArea.prepend(flyout.createDom('svg'));
