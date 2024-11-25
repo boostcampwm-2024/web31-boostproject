@@ -4,6 +4,7 @@ import toast from 'react-hot-toast';
 
 import { toolboxConfig2 } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
+import { CustomFieldLabelSerializable } from '@/core/customFieldLabelSerializable';
 
 // prompt를 이용한 class 동적 생성
 export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
@@ -21,12 +22,9 @@ export const classMakerPrompt = (workspace: Blockly.WorkspaceSvg) => {
   if (!Blockly.Blocks[blockName!]) {
     Blockly.Blocks[blockName!] = {
       init: function () {
-        this.appendDummyInput().appendField(
-          new Blockly.FieldLabelSerializable(blockName!),
-          'CLASS'
-        ); // 입력된 이름 반영
+        this.appendDummyInput().appendField(new CustomFieldLabelSerializable(blockName!), 'CLASS'); // 입력된 이름 반영
         this.setOutput(true);
-        this.setColour('#02D085');
+        this.setStyle(`default_block_css`);
       },
     };
   }

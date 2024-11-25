@@ -4,10 +4,13 @@ import * as Blockly from 'blockly/core';
 import { useEffect, useState } from 'react';
 
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import CustomCategory from '../../core/customCategory';
+import CustomCategory from '@/core/customCategory';
 import { TTabToolboxConfig } from '@/shared/types';
 import TabbedToolbox from '@/core/tabbedToolbox';
-// import FixedFlyout from '@/core/fixedFlyout';
+import { useCssPropsStore } from '@/shared/store';
+import { CustomRenderer } from '@/core/customRenderer';
+import '@/core/customFieldLabel';
+
 import {
   CssPropsSelectBox,
   defineBlocks,
@@ -18,7 +21,8 @@ import {
   toolboxConfig2,
   classMakerPrompt,
 } from '@/widgets';
-import { useCssPropsStore } from '@/shared/store';
+
+Blockly.blockRendering.register('boolock', CustomRenderer);
 
 export const WorkspaceContent = () => {
   const tabToolboxConfig: TTabToolboxConfig = {
@@ -54,7 +58,7 @@ export const WorkspaceContent = () => {
         //flyoutsVerticalToolbox: FixedFlyout,
         toolbox: TabbedToolbox,
       },
-      renderer: 'zelos',
+      renderer: 'boolock',
       toolboxPosition: 'end',
       toolbox: toolboxConfig,
       theme: initTheme, // 커스텀 테마 적용

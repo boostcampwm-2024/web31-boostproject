@@ -1,3 +1,5 @@
+import { addPreviousTypeName } from '@/shared/utils';
+
 export const toolboxConfig2 = {
   kind: 'categoryToolbox',
   contents: [
@@ -6,6 +8,6 @@ export const toolboxConfig2 = {
       text: '추가하기',
       callbackKey: 'classMakerPrompt',
     },
-    { kind: 'block', type: 'css_style' },
+    { kind: 'block', type: addPreviousTypeName('css_style') },
   ],
 };
