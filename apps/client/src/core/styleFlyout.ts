@@ -6,6 +6,7 @@ import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
 import { Tblock } from '@/shared/types';
+import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -118,11 +119,12 @@ export default class StyleFlyout extends FixedFlyout {
     if (!Blockly.Blocks[inputValue!]) {
       Blockly.Blocks[inputValue!] = {
         init: function () {
-          const input = this.appendDummyInput();
-          input.appendField(new Blockly.FieldLabelSerializable(inputValue!), 'CLASS');
+          this.appendDummyInput().appendField(
+            new CustomFieldLabelSerializable(inputValue!),
+            'CLASS'
+          ); // 입력된 이름 반영
           this.setOutput(true);
-          this.setColour('#02D085');
-          // this.setColour('#F4F8FA');
+          this.setStyle(`default_block_css`);
         },
       };
     }
