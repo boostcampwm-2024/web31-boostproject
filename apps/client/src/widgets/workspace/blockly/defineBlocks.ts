@@ -88,6 +88,22 @@ export const defineBlocks = (blockContents: TBlockContents) => {
           },
           false
         );
+      } else if (
+        blockInfo.type === addPreviousTypeName('hr') ||
+        blockInfo.type === addPreviousTypeName('br')
+      ) {
+        defineBlockWithDefaults(
+          blockInfo.type,
+          (index % 3) + 1,
+          {
+            init: function () {
+              this.setPreviousStatement(true);
+              this.setNextStatement(true);
+              this.appendDummyInput().appendField(removePreviousTypeName(blockInfo.type));
+            },
+          },
+          false
+        );
       } else {
         defineBlockWithDefaults(blockInfo.type, (index % 3) + 1);
       }
