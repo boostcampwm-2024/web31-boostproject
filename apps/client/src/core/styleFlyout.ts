@@ -30,11 +30,11 @@ export default class StyleFlyout extends FixedFlyout {
       for: 'creatingBlockInput',
       class: 'creatingBlockLabel',
     });
-    createLabelElement.textContent = '스타일 생성하기';
+    createLabelElement.textContent = '클래스 생성하기';
 
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
-      placeholder: '스타일명을 정해주세요',
+      placeholder: '클래스명을 정해주세요',
       class: 'creatingBlockInput',
       id: 'creatingBlockInput',
       maxlength: '30',
@@ -54,7 +54,7 @@ export default class StyleFlyout extends FixedFlyout {
     const listLabelElement = Dom.createElement<HTMLLabelElement>('label', {
       class: 'listBlockLabel',
     });
-    listLabelElement.textContent = '스타일 블록 목록';
+    listLabelElement.textContent = '클래스 블록 목록';
 
     // reset CSS 부분
     const resetCssDivElement = Dom.createElement<HTMLDivElement>('div', {
@@ -172,7 +172,7 @@ export default class StyleFlyout extends FixedFlyout {
 
         const flyout = (Blockly.getMainWorkspace() as any).getToolbox().getFlyout();
         flyout.show(cssStyleToolboxConfig.contents);
-        toast.success(`"${blockType}" 스타일 블록이 삭제되었습니다.`);
+        toast.success(`"${blockType}" 클래스 블록이 삭제되었습니다.`);
       },
     };
 
