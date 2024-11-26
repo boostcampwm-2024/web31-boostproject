@@ -1,4 +1,5 @@
 import {
+  Tcanvas,
   TcreatedWorkspaceDto,
   TgetWorkspaceResponse,
   TpagedWorkspaceListResultDto,
@@ -66,6 +67,16 @@ export const WorkspaceApi = () => {
     );
   };
 
+  const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: any) => {
+    console.log(`userId: ${userId}, workspaceId: ${workspaceId}`);
+    console.log(canvas.blocks);
+    await Instance.put(
+      `/workspace/canvas`,
+      { workspaceId, canvas: JSON.stringify(canvas) },
+      { headers: { 'user-id': userId } }
+    );
+  };
+
   return {
     createWorkspace,
     getWorkspaceList,
@@ -73,5 +84,6 @@ export const WorkspaceApi = () => {
     updateWorkspaceName,
     deleteWorkspace,
     saveWorkspaceCssProperty,
+    saveWorkspaceCanvas,
   };
 };
