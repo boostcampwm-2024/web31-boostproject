@@ -11,7 +11,7 @@ type TcssProps = {
   setSelectedCssCategory: (cssCategory: string) => void;
   setCheckedCssPropertyObj: (className: string, label: string, value: boolean) => void;
   setCssOptionObj: (className: string, label: string, value: string) => void;
-  resetCssPropsStore: () => void;
+  initCssPropertyObj: (totalCssPropertyObj: TtotalCssPropertyObj) => void;
 };
 
 export const useCssPropsStore = create<TcssProps>((set) => {
@@ -64,7 +64,8 @@ export const useCssPropsStore = create<TcssProps>((set) => {
           },
         };
       }),
-    resetCssPropsStore: () =>
-      set({ currentCssClassName: '', selectedCssCategory: '레이아웃', totalCssPropertyObj: {} }),
+
+    initCssPropertyObj: (totalCssPropertyObj) =>
+      set({ totalCssPropertyObj, currentCssClassName: '', selectedCssCategory: '레이아웃' }),
   };
 });
