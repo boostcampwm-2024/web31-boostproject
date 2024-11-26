@@ -186,14 +186,6 @@ const listBlockContents: TBlockInfo[] = [
   },
 ];
 
-const linkBlockContents: TBlockInfo[] = [
-  {
-    kind: 'block',
-    type: addPreviousTypeName('a'),
-    description: '다른 페이지로 이동할 수 있는 링크를 만들어요. 클릭하면 새로운 페이지로 이동해요.',
-  },
-];
-
 const etcBlockContents: TBlockInfo[] = [
   {
     kind: 'block',
@@ -208,6 +200,5 @@ export const blockContents: TBlockContents = {
   form: formBlockContents,
   table: tableBlockContents,
   list: listBlockContents,
-  link: linkBlockContents,
   etc: etcBlockContents,
 };
