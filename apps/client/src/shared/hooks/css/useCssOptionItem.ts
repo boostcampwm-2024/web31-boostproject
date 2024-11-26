@@ -34,7 +34,9 @@ export const useCssOptionItem = (cssItem: TcssCategoryItem) => {
       totalCssPropertyObj[currentCssClassName].checkedCssPropertyObj[cssItem.label] ?? false
     );
     if (!totalCssPropertyObj[currentCssClassName].cssOptionObj[cssItem.label]) {
-      setCssOption(cssItem.type === 'select' ? cssItem.option![0] : '');
+      setCssOption(
+        cssItem.type === 'select' ? cssItem.option![0] : cssItem.type === 'color' ? '#000000' : ''
+      );
       return;
     }
     setCssOption(totalCssPropertyObj[currentCssClassName].cssOptionObj[cssItem.label]);
