@@ -19,9 +19,16 @@ import TabbedToolbox from '@/core/tabbedToolbox';
 import { registerCustomComponents } from '@/core/register';
 import { tabToolboxConfig } from './blockly/tabConfig';
 import { defineBlocks } from './blockly/defineBlocks';
+import CustomZoomControls from '@/core/customZoomControls';
 
 registerCustomComponents();
 defineBlocks();
+
+Blockly.WorkspaceSvg.prototype.addZoomControls = function () {
+  this.zoomControls_ = new CustomZoomControls(this);
+  const svgZoomControls = this.zoomControls_.createDom();
+  this.svgGroup_.appendChild(svgZoomControls);
+};
 
 export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
