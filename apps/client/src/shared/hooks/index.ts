@@ -3,6 +3,7 @@ export { useGetWorkspaceList } from './queries/useGetWorkspaceList';
 export { useGetWorkspace } from './queries/useGetWorkspace';
 export { useUpdateWorkspaceName } from './queries/useUpdateWorkspaceName';
 export { useDeleteWorkspace } from './queries/useDeleteWorkspace';
+export { useSaveWorkspaceCssProperty } from './queries/useSaveWorkspaceCssProperty';
 
 export { useWindowSize } from './css/useWindowSize';
 export { useCssTooltip } from './css/useCssTooltip';

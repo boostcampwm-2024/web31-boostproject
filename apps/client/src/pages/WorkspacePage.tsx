@@ -11,13 +11,12 @@ export const WorkspacePage = () => {
   const { workspaceId } = useParams();
   const { resetCssPropsStore } = useCssPropsStore();
   const { isPending, isError } = useGetWorkspace(workspaceId as string);
-  const { setIsBlockChanged, setIsCssChanged } = useWorkspaceChangeStatusStore();
-  const { handleClickLogo } = usePreventLeaveWorkspacePage();
+  const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
+  usePreventLeaveWorkspacePage();
   useEffect(() => {
     // TODO : cssPropStore 서버에 저장된 값으로 덮어쓰기
     resetCssPropsStore();
-    setIsBlockChanged(false);
-    setIsCssChanged(false);
+    resetChangedStatusState;
   }, []);
 
   if (isError) {
@@ -27,7 +26,7 @@ export const WorkspacePage = () => {
   return (
     <div className="flex h-screen flex-col">
       {isPending && <Loading />}
-      <WorkspacePageHeader onClickLogo={handleClickLogo} />
+      <WorkspacePageHeader onClickLogo={() => {}} />
       <WorkspaceContent />
       <ConfirmBackNavigationModal />
     </div>

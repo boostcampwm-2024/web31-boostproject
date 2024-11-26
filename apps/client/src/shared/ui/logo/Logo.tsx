@@ -8,14 +8,14 @@ type LogoProps = {
 };
 
 export const Logo = ({ isBlack, onClick }: LogoProps) => {
-  const handleClick = (e: React.MouseEvent) => {
-    if (onClick) {
-      e.preventDefault();
-      onClick();
-    }
-  };
+  // const handleClick = (e: React.MouseEvent) => {
+  //   if (onClick) {
+  //     e.preventDefault();
+  //     onClick();
+  //   }
+  // };
   return (
-    <Link to="/" onClick={handleClick}>
+    <Link to="/" onClick={() => {}}>
       <div className="flex items-center gap-3">
         <img src="/images/boolock_logo.png" width={32} height={32} />
         {isBlack ? <WhiteLogoText className="w-28" /> : <BlackLogoText className="w-28" />}
