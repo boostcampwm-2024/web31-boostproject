@@ -1,7 +1,7 @@
 import { CustomFieldLabelSerializable } from '@/core/customFieldLabelSerializable';
 import { CustomFieldTextInput } from '@/core/customFieldTextInput';
 import { TBlockContents } from '@/shared/types';
-import { removePreviousTypeName } from '@/shared/utils';
+import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
 
 /**
@@ -73,17 +73,16 @@ export const defineBlocks = (blockContents: TBlockContents) => {
   // },
   Object.values(blockContents).forEach((blockInfoList) => {
     blockInfoList.forEach((blockInfo, index) => {
-      console.log(blockInfo.type, (index % 3) + 1);
-      if (blockInfo.type === ' text') {
+      if (blockInfo.type === addPreviousTypeName('text')) {
         defineBlockWithDefaults(
-          'text',
-          3,
+          blockInfo.type,
+          (index % 3) + 1,
           {
             init: function () {
               this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
               this.setNextStatement(true); // 다른 블록 아래에 연결 가능
               this.appendDummyInput()
-                .appendField('text')
+                .appendField(removePreviousTypeName(blockInfo.type))
                 .appendField(new CustomFieldTextInput(), 'TEXT');
             },
           },

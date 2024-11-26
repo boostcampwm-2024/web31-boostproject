@@ -39,5 +39,11 @@ export const htmlTagToolboxConfig = {
       categorystyle: 'linkCategory',
       contents: blockContents.link,
     },
+    {
+      kind: 'category',
+      name: '기타',
+      categorystyle: 'etcCategory',
+      contents: blockContents.etc,
+    },
   ],
 };
