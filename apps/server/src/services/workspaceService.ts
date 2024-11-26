@@ -1,6 +1,8 @@
-import { Tcss, TcssList, TtotalCssPropertyObj } from '@/types/workspaceType';
+import { TcssList, TtotalCssPropertyObj, Tworkspace } from '@/types/workspaceType';
 
 import { Workspace } from '@/models/workspaceModel';
+import { generateCssList } from '@/services/utils/generateCssList';
+import { generateTotalCssPropertyObj } from '@/services/utils/generateTotalCssPropertyObj';
 
 export const WorkspaceService = () => {
   const createWorkspace = async (userId: string) => {
@@ -68,21 +70,7 @@ export const WorkspaceService = () => {
       if (!workspace) {
         return workspace;
       }
-      const totalCssPropertyObj = {
-        ...workspace.css_list.reduce((acc, css) => {
-          return {
-            ...acc,
-            [css.class_name as string]: {
-              checkedCssPropertyObj: css.option_list.reduce((acc, option) => {
-                return { ...acc, [option.property as string]: option.is_checked };
-              }, {}),
-              cssOptionObj: css.option_list.reduce((acc, option) => {
-                return { ...acc, [option.property as string]: option.value };
-              }, {}),
-            },
-          };
-        }, {}),
-      };
+      const totalCssPropertyObj = generateTotalCssPropertyObj(workspace as Tworkspace);
       return {
         workspace_id: workspace.workspace_id,
         name: workspace.name,
@@ -107,21 +95,8 @@ export const WorkspaceService = () => {
       if (!updatedWorkspace) {
         return updatedWorkspace;
       }
-      const totalCssPropertyObj = {
-        ...updatedWorkspace.css_list.reduce((acc, css) => {
-          return {
-            ...acc,
-            [css.class_name as string]: {
-              checkedCssPropertyObj: css.option_list.reduce((acc, option) => {
-                return { ...acc, [option.property as string]: option.is_checked };
-              }, {}),
-              cssOptionObj: css.option_list.reduce((acc, option) => {
-                return { ...acc, [option.property as string]: option.value };
-              }, {}),
-            },
-          };
-        }, {}),
-      };
+
+      const totalCssPropertyObj = generateTotalCssPropertyObj(updatedWorkspace as Tworkspace);
       return {
         name: updatedWorkspace.name,
         workspaceId: updatedWorkspace.workspace_id,
@@ -157,36 +132,7 @@ export const WorkspaceService = () => {
     totalCssPropertyObj: TtotalCssPropertyObj
   ) => {
     try {
-      const cssList: TcssList = [];
-      Object.keys(totalCssPropertyObj).forEach((className) => {
-        const css: Tcss = { class_name: className, option_list: [] };
-
-        /**
-         * checkedCssPropertyObj와 cssOptionObj의 길이를 비교
-         * checkedCssPropertyObj의 길이가 더 길면 cssOptionObj보다 더 많은 css property를 저장하고 있는 것임
-         * 그러므로 checkedCssPropertyObj를 기준으로 optionList에 값을 저장함
-         * 그렇지 않다면 cssOptionObj를 기준으로 optionList에 값을 저장
-         */
-        Object.keys(totalCssPropertyObj[className].checkedCssPropertyObj).length >=
-        Object.keys(totalCssPropertyObj[className].cssOptionObj).length
-          ? Object.keys(totalCssPropertyObj[className].checkedCssPropertyObj).forEach(
-              (property: string) => {
-                css.option_list.push({
-                  property,
-                  value: totalCssPropertyObj[className].cssOptionObj[property],
-                  is_checked: totalCssPropertyObj[className].checkedCssPropertyObj[property],
-                });
-              }
-            )
-          : Object.keys(totalCssPropertyObj[className].cssOptionObj).forEach((property: string) => {
-              css.option_list.push({
-                property,
-                value: totalCssPropertyObj[className].cssOptionObj[property],
-                is_checked: totalCssPropertyObj[className].checkedCssPropertyObj[property] || false,
-              });
-            });
-        cssList.push(css);
-      });
+      const cssList: TcssList = generateCssList(totalCssPropertyObj);
       const updatedWorkspace = await Workspace.findOneAndUpdate(
         {
           user_id: userId,
