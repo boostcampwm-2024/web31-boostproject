@@ -1,19 +1,49 @@
 
-## 🍀 서비스
-![image](https://github.com/user-attachments/assets/28d77d78-d74f-4ad0-819c-a0f30479ba27)
+<div align="center">
+  <h1>BooLock</h1>
+  
+<img width="1704" alt="Frame 2016" src="https://github.com/user-attachments/assets/74cc69d6-7d6f-48ed-9e06-1d6d5f6a5c43">
+
+</div>
+
+<br/>
 
 <p align="center"> 
-  ✏️ <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">깃허브 위키</a> /  
-  📖 <a href="https://laced-riverbed-47c.notion.site/12d77ba9a1b681a5927ef7561f25af5e?v=31f16944c187499cbcf75c2c90f0b98d&pvs=74" target="_blank">BooLock 위키</a> /  
-  <a href="http://223.130.163.180/" target="_blank">배포사이트</a>
+  <strong>👇 배포 사이트</strong> <br />
+  http://www.boolock.site/
 </p>
 
 <br/>
 
-## 🍀 전체적 시스템 아키텍처
+<p align=center>
+  <a href="https://www.notion.so/Web31_BooLock-12d77ba9a1b680119356e8842118c455" target="_blank">📝 팀노션</a> /  
+  <a href="https://github.com/boostcampwm-2024/web31-BooLock/wiki" target="_blank">✏️ 깃허브 위키</a> /  
+  <a href="https://laced-riverbed-47c.notion.site/12d77ba9a1b681a5927ef7561f25af5e?v=31f16944c187499cbcf75c2c90f0b98d&pvs=74" target="_blank">📖 BooLock 위키</a> /  
+  <a href="https://github.com/orgs/boostcampwm-2024/projects/170">🎯 백로그</a>
+</p>
+
+<div align=center>
+    <a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fboostcampwm-2024%2Fweb31-BooLock&count_bg=%2300D78B&title_bg=%231E272E&icon=&icon_color=%23E7E7E7&title=HITS&edge_flat=false"/></a>
+</div>
+
+<br/>
+
+## 🍀 시스템 아키텍처
 ![Group 1764](https://github.com/user-attachments/assets/123c2511-491a-4c77-9dc5-0da877908307)
 
 <br />
+
+## ⚒️ 기술 스택 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D)
+
+|분류|기술 스택|
+|------|---|
+|공통|![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)|
+|프론트엔드|<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Tanstack Query](https://img.shields.io/badge/-Tanstack%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white) ![Zustand](https://img.shields.io/badge/zustand-946038?style=for-the-badge)|
+|백엔드|![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![Mongoose](https://img.shields.io/badge/Mongoose-%234ea94.svg?style=for-the-badge)|
+|배포|![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white) ![Naver Cloud Platform](https://img.shields.io/badge/NAVER%20CLOUD%20PLATFORM-2DB400?style=for-the-badge)|
+|협업|![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)|
+
+<br/>
 
 ## 🛹 홈 page
 
@@ -66,18 +96,6 @@
 
 
 <br />
-
-## ⚒️ 기술 스택 [[Detail Link]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%EA%B8%B0%EC%88%A0%EC%8A%A4%ED%83%9D)
-
-|분류|기술 스택|
-|------|---|
-|공통|![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)|
-|프론트엔드|<img src="https://img.shields.io/badge/react-61DAFB?style=for-the-badge&logo=react&logoColor=black"> ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Tanstack Query](https://img.shields.io/badge/-Tanstack%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white) ![Zustand](https://img.shields.io/badge/zustand-946038?style=for-the-badge)|
-|백엔드|![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB) ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white) ![Mongoose](https://img.shields.io/badge/Mongoose-%234ea94.svg?style=for-the-badge)|
-|배포|![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white) ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white) ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white) ![Naver Cloud Platform](https://img.shields.io/badge/NAVER%20CLOUD%20PLATFORM-2DB400?style=for-the-badge)|
-|협업|![Notion](https://img.shields.io/badge/Notion-%23000000.svg?style=for-the-badge&logo=notion&logoColor=white) ![Figma](https://img.shields.io/badge/figma-%23F24E1E.svg?style=for-the-badge&logo=figma&logoColor=white)|
-
-<br/>
 
 
 ## 🍀 네부캠 방범대
