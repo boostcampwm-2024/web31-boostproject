@@ -10,3 +10,4 @@ export { WorkspaceNameInput } from './workspace/WorkspaceNameInput';
 export { CssTooltip } from './workspace/CssTooltip';
 export { CssOptionItem } from './workspace/CssOptionItem';
 export { CssCategoryButton } from './workspace/CssCategoryButton';
+export { RenderResetCssTooltip } from './workspace/RenderResetCssTooltip';
