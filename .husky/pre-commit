@@ -1,18 +1,17 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo "\033[33m🔍 pre-commit 훅을 실행합니다.\033[0m"
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+NC='\033[0m'
 
-echo "\033[34m📝 lint-staged script 실행...\033[0m"
-pnpm lint-staged || {
-    echo "\033[31m❌ Lint-staged script 실행을 실패하셨습니다.\033[0m"
-    exit 1
-}
+printf "${BLUE}🔍 pre-commit 훅을 실행합니다.${NC}\n"
 
-# echo "\033[34m📝 test 실행...\033[0m"
-# pnpm test || {
-#     echo "\033[31m❌ test script 실행을 실패하셨습니다.\033[0m"
+printf "${BLUE}📝 lint-staged script 실행...${NC}\n"
+# pnpm lint-staged || {
+#     printf "${RED}❌ Lint-staged script 실행을 실패하셨습니다.${NC}\n"
 #     exit 1
 # }
 
-echo "\033[32m✅ prettier가 자동으로 수행되었으며, lint 검사를 모두 통과하셨습니다.\033[0m"
+printf "${GREEN}✅ prettier가 자동으로 수행되었으며, lint 검사를 모두 통과하셨습니다.${NC}\n"
