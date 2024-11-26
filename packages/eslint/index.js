@@ -8,16 +8,7 @@ export default {
   jsCommended: js.configs.recommended,
   base: {
     files: ['**/*.{js,ts}'],
-    ignores: [
-      '**/node_modules/**',
-      '**/dist/**',
-      '**/build/**',
-      '**/next-env.d.ts',
-      '**/vite-env.d.ts',
-      '**/*.config.js',
-      '**/*.config.ts',
-      '**/.storybook/**',
-    ],
+    ignores: ['**/node_modules/**/*', '**/dist/**/*', '**/*.config.js', '**/*.config.ts'],
     languageOptions: {
       globals: {
         ...globals.browser,

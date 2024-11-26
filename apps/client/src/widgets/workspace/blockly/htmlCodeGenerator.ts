@@ -35,10 +35,10 @@ htmlCodeGenerator.forBlock[addPreviousTypeName('css_style')] = function (block) 
 
 // head 블록에 대한 코드 생성을 별도로 정의
 htmlCodeGenerator.forBlock[addPreviousTypeName('head')] = function () {
-  /* 
-    head에는 다른 속성 블록을 적용시키기 애매하기 때문에 statementInput속성(children 블록 연결)을 추가하지 않고 한줄 블록으로 생성하였습니다. 
-    이에 따라 다른 html 태그 블록처럼 제너레이터가 동작하면 안 되기때문에 수정해주었습니다.
-  */
+  /**
+   * head에는 다른 속성 블록을 적용시키기 애매하기 때문에 statementInput속성(children 블록 연결)을 추가하지 않고 한줄 블록으로 생성하였습니다.
+   * 이에 따라 다른 html 태그 블록처럼 제너레이터가 동작하면 안 되기때문에 수정해주었습니다.
+   */
   return '<head> </head>';
 };
 

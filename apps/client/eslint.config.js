@@ -7,6 +7,7 @@ import storybookPlugin from 'eslint-plugin-storybook';
 export default [
   defaultConfig.jsCommended,
   defaultConfig.base,
+
   {
     files: [...defaultConfig.base.files, '**/*.{jsx,tsx}'],
     plugins: {
@@ -35,6 +36,14 @@ export default [
         },
       },
     },
+  },
+  {
+    ignores: [
+      ...defaultConfig.base.ignores,
+      '**/dist/**/*',
+      '**/vite-env.d.ts',
+      '**/.storybook/**',
+    ],
   },
   defaultConfig.ignorePrettier,
 ];
