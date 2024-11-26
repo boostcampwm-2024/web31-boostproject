@@ -142,6 +142,14 @@ export default class StyleFlyout extends FixedFlyout {
     };
 
     Blockly.ContextMenuRegistry.registry.register(deleteOption);
+
+    // 툴팁 닫기 이벤트 추가
+    document.addEventListener('click', (event) => {
+      const contextMenu = document.querySelector('.blocklyContextMenu');
+      if (contextMenu && !contextMenu.contains(event.target as Node)) {
+        (contextMenu as HTMLElement).style.display = 'none';
+      }
+    });
   }
 
   createStyleBlock() {
