@@ -126,7 +126,7 @@ export const WorkspaceService = () => {
     }
   };
 
-  const updateWorkspaceCssProperty = async (
+  const saveWorkspaceCssProperty = async (
     userId: string,
     workspaceId: string,
     totalCssPropertyObj: TtotalCssPropertyObj
@@ -154,12 +154,29 @@ export const WorkspaceService = () => {
     }
   };
 
+  const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: any) => {
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            canvas,
+            updated_at,
+          },
+        }
+      );
+    } catch (error) {}
+  };
+
   return {
     createWorkspace,
     findWorkspaceListByPage,
     findWorkspaceByWorkspaceId,
     updateWorkspaceName,
     deleteWorkspace,
-    updateWorkspaceCssProperty,
+    saveWorkspaceCssProperty,
   };
 };

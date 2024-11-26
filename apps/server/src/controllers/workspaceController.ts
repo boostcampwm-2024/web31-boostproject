@@ -121,7 +121,7 @@ export const WorkspaceController = () => {
       const userId = req.get('user-id') as string;
       const workspaceId = req.body.workspaceId as string;
       const totalCssPropertyObj = req.body.totalCssPropertyObj as TtotalCssPropertyObj;
-      const savedWorkspace = await workspaceService.updateWorkspaceCssProperty(
+      const savedWorkspace = await workspaceService.saveWorkspaceCssProperty(
         userId,
         workspaceId,
         totalCssPropertyObj
@@ -140,6 +140,14 @@ export const WorkspaceController = () => {
     }
   };
 
+  const storeWorkspaceCanvas = async (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.body.workspaceId as string;
+      const canvas = req.body.canvas;
+    } catch (error) {}
+  };
+
   return {
     createNewWorkspace,
     getWorkspaceListByPage,
@@ -147,5 +155,6 @@ export const WorkspaceController = () => {
     editWorkspaceName,
     removeWorkspace,
     storeWorkspaceCssProperty,
+    storeWorkspaceCanvas,
   };
 };

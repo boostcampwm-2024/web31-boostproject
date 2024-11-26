@@ -257,3 +257,5 @@ workspaceRouter.put(
   */
   workspaceController.storeWorkspaceCssProperty
 );
+
+workspaceRouter.put('/canvas', workspaceController.storeWorkspaceCanvas);

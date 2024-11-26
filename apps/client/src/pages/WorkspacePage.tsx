@@ -1,5 +1,9 @@
-import { WorkspaceContent, WorkspacePageHeader } from '@/widgets';
-import { useCssPropsStore, useWorkspaceChangeStatusStore } from '@/shared/store';
+import { WorkspaceContent, WorkspacePageHeader, cssStyleToolboxConfig } from '@/widgets';
+import {
+  useClassBlockStore,
+  useCssPropsStore,
+  useWorkspaceChangeStatusStore,
+} from '@/shared/store';
 import { useGetWorkspace, usePreventLeaveWorkspacePage } from '@/shared/hooks';
 
 import { Loading } from '@/shared/ui';
@@ -11,9 +15,12 @@ export const WorkspacePage = () => {
   const { workspaceId } = useParams();
   const { isPending, isError } = useGetWorkspace(workspaceId as string);
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
+  const { classBlockList } = useClassBlockStore();
   usePreventLeaveWorkspacePage();
   useEffect(() => {
     resetChangedStatusState();
+    console.log(classBlockList);
+    cssStyleToolboxConfig.contents = [];
   }, []);
 
   if (isError) {

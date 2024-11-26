@@ -1,26 +1,29 @@
 import 'blockly/blocks';
+
 import * as Blockly from 'blockly/core';
-
-import { useEffect, useState } from 'react';
-
-import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
 
 import {
   CssPropsSelectBox,
-  htmlTagToolboxConfig,
-  initTheme,
   PreviewBox,
   cssCodeGenerator,
+  htmlTagToolboxConfig,
+  initTheme,
 } from '@/widgets';
+import {
+  useBlocklyWorkspaceStore,
+  useCssPropsStore,
+  useWorkspaceChangeStatusStore,
+} from '@/shared/store';
+import { useEffect, useState } from 'react';
 
-import { useCssPropsStore, useWorkspaceChangeStatusStore } from '@/shared/store';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
+import { blockContents } from './blockly/htmlBlockContents';
+import { defineBlocks } from './blockly/defineBlocks';
+import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
+import { initializeBlocks } from './blockly/initBlocks';
 import { registerCustomComponents } from '@/core/register';
 import { tabToolboxConfig } from './blockly/tabConfig';
-import { defineBlocks } from './blockly/defineBlocks';
-import { blockContents } from './blockly/htmlBlockContents';
-import { initializeBlocks } from './blockly/initBlocks';
 
 registerCustomComponents();
 defineBlocks(blockContents);
@@ -30,7 +33,7 @@ export const WorkspaceContent = () => {
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
   const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
-
+  const { setWorkspace } = useBlocklyWorkspaceStore();
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
@@ -55,7 +58,7 @@ export const WorkspaceContent = () => {
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
 
     initializeBlocks(newWorkspace);
-
+    setWorkspace(newWorkspace);
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
       if (

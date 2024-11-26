@@ -1,5 +1,7 @@
-import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
+
+import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
+
 import { blockContents } from './htmlBlockContents';
 
 const htmlCodeGenerator = new Blockly.Generator('HTML');
@@ -24,7 +26,7 @@ const transferTagBlockToCode = (tagName: string) => {
 // text 블록에 대한 코드 생성을 별도로 정의
 htmlCodeGenerator.forBlock[addPreviousTypeName('text')] = function (block) {
   const textContent = block.getFieldValue('TEXT'); // 블록에서 텍스트 내용을 가져옴
-  return textContent;
+  return textContent.replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;'); // 특수문자 치환
 };
 
 // CSS 블록에 대한 코드 생성을 별도로 정의

@@ -1,14 +1,21 @@
+import * as Blockly from 'blockly/core';
+
+import { useBlocklyWorkspaceStore, useCssPropsStore } from '@/shared/store';
+
 import { Spinner } from '@/shared/ui';
-import { useCssPropsStore } from '@/shared/store';
 import { useParams } from 'react-router-dom';
 import { useSaveWorkspace } from '@/shared/hooks';
 
 // TODO: 블록 상태 저장 로직 추가
 export const SaveButton = () => {
+  const workspaceId = useParams().workspaceId as string;
   const { mutate: saveWorkspace, isPending } = useSaveWorkspace();
   const { totalCssPropertyObj } = useCssPropsStore();
-  const workspaceId = useParams().workspaceId as string;
+  const { workspace } = useBlocklyWorkspaceStore();
   const handleClick = () => {
+    if (workspace === null) return;
+    const workspaceInfo = Blockly.serialization.workspaces.save(workspace);
+    console.log(JSON.stringify(workspaceInfo, null, 2));
     saveWorkspace({ workspaceId, totalCssPropertyObj });
   };
 
