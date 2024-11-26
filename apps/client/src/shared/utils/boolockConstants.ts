@@ -9,4 +9,11 @@ export const addPreviousTypeName = (type: string) => {
   return `${PREVIOUS_TYPE_NAME}${type}`;
 };
 
+export const removePreviousTypeName = (type: string): string => {
+  if (type.startsWith(PREVIOUS_TYPE_NAME)) {
+    return type.slice(PREVIOUS_TYPE_NAME.length);
+  }
+  return type;
+};
+
 // TODO: css 클래스명 만들때 해당 previousTypeName으로 시작할 경우 블록 생성이 안 되도록 막는 로직도 추가해주시길 바랍니다.

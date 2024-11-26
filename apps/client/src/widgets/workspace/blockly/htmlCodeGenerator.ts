@@ -1,5 +1,6 @@
-import { addPreviousTypeName } from '@/shared/utils';
+import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
+import { blockContents } from './htmlBlockContents';
 
 const htmlCodeGenerator = new Blockly.Generator('HTML');
 
@@ -7,7 +8,7 @@ const htmlCodeGenerator = new Blockly.Generator('HTML');
 
 // 함수: 태그 블록(html, head, body, p, button) 정보를 코드로 변환
 const transferTagBlockToCode = (tagName: string) => {
-  htmlCodeGenerator.forBlock[addPreviousTypeName(tagName)] = function (block) {
+  htmlCodeGenerator.forBlock[tagName] = function (block) {
     let cssClass = '';
     const cssClassBlock = block.getInputTargetBlock('css class'); // 블록에서 직접 연결된 블록을 가져옴
     if (cssClassBlock) {
@@ -15,7 +16,7 @@ const transferTagBlockToCode = (tagName: string) => {
     }
 
     const children = htmlCodeGenerator.statementToCode(block, 'children');
-    const code = `<${tagName} class="${cssClass}">\n${children}\n</${tagName}>`;
+    const code = `<${removePreviousTypeName(tagName)} class="${cssClass}">\n${children}\n</${removePreviousTypeName(tagName)}>`;
     return code;
   };
 };
@@ -52,9 +53,15 @@ htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
   return code;
 };
 
-transferTagBlockToCode('html');
-transferTagBlockToCode('body');
-transferTagBlockToCode('p');
-transferTagBlockToCode('button');
+transferTagBlockToCode(addPreviousTypeName('html'));
+transferTagBlockToCode(addPreviousTypeName('body'));
+
+Object.values(blockContents).forEach((blockInfoList) => {
+  blockInfoList.forEach((blockInfo) => {
+    if (blockInfo.type !== addPreviousTypeName('text')) {
+      transferTagBlockToCode(blockInfo.type);
+    }
+  });
+});
 
 export default htmlCodeGenerator;
