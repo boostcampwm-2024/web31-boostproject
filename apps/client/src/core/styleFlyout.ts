@@ -9,6 +9,7 @@ import questionSvgPath from '@/shared/assets/question.svg';
 import { Tblock } from '@/shared/types';
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
 import { useResetCssStore } from '@/shared/store';
+import { RenderResetCssTooltip } from '@/entities';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -79,6 +80,44 @@ export default class StyleFlyout extends FixedFlyout {
       alt: 'reset CSS Info',
       class: 'questionImage',
     });
+
+    // Tooltip Root를 저장할 변수
+    const tooltipDivElement = document.createElement('div');
+    document.body.appendChild(tooltipDivElement);
+    let isTooltipOpen: boolean = false;
+
+    // Tooltip 표시
+    const showTooltip = () => {
+      const { left, top } = questionImageElement.getBoundingClientRect();
+      RenderResetCssTooltip(
+        {
+          description:
+            '브라우저마다 다른 기본 스타일을 일관되게 만들기 위해, 모든 요소의 기본 스타일을 초기화하는 CSS입니다.',
+          isOpen: true,
+          leftX: left,
+          topY: top,
+        },
+        tooltipDivElement
+      );
+      isTooltipOpen = true;
+    };
+
+    // Tooltip 숨기기
+    const hideTooltip = () => {
+      RenderResetCssTooltip(
+        {
+          description: '',
+          isOpen: false,
+          leftX: 0,
+          topY: 0,
+        },
+        tooltipDivElement
+      );
+      isTooltipOpen = false;
+    };
+
+    questionImageElement.addEventListener('mouseenter', showTooltip);
+    questionImageElement.addEventListener('mouseleave', hideTooltip);
 
     resetCssDivElement.appendChild(resetCssCheckboxElement);
     resetCssDivElement.appendChild(resetCssTextElement);
