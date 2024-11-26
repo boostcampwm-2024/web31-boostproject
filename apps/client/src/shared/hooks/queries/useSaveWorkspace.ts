@@ -1,4 +1,5 @@
-import { TtotalCssPropertyObj } from '@/shared/types/workspaceType';
+import { Tcanvas, TtotalCssPropertyObj } from '@/shared/types/workspaceType';
+
 import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
@@ -15,11 +16,16 @@ export const useSaveWorkspace = () => {
     mutationFn: ({
       workspaceId,
       totalCssPropertyObj,
+      canvas,
     }: {
       workspaceId: string;
       totalCssPropertyObj: TtotalCssPropertyObj;
+      canvas: any;
     }) => {
-      return workspaceApi.saveWorkspaceCssProperty(userId, workspaceId, totalCssPropertyObj);
+      return Promise.all([
+        workspaceApi.saveWorkspaceCssProperty(userId, workspaceId, totalCssPropertyObj),
+        workspaceApi.saveWorkspaceCanvas(userId, workspaceId, canvas),
+      ]);
     },
     onSuccess: () => {
       resetChangedStatusState();
