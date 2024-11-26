@@ -12,9 +12,6 @@ export const categoryColours = {
     colour: 'B223F5',
   },
   listCategory: {
-    colour: '3ED5FF',
-  },
-  linkCategory: {
     colour: '3E84FF',
   },
   etcCategory: {

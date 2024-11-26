@@ -5,6 +5,6 @@ export type TBlockInfo = {
 };
 
 export type TBlockContents = Record<
-  'container' | 'text' | 'form' | 'table' | 'list' | 'link' | 'etc',
+  'container' | 'text' | 'form' | 'table' | 'list' | 'etc',
   TBlockInfo[]
 >;
