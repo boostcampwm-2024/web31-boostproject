@@ -7,7 +7,7 @@ import { useCssOptions } from '@/shared/hooks';
 export const useCssOptionItem = (cssItem: TcssCategoryItem) => {
   const { handleCssOptionChange } = useCssOptions();
   const { setOffsetX, setOffsetY } = useCssTooltipStore();
-  const { currentCssClassName, totalCssPropertyObj } = useCssPropsStore();
+  const { currentCssClassName, totalCssPropertyObj, selectedCssCategory } = useCssPropsStore();
 
   const [cssOptionValue, setCssOptionValue] = useState<string>('');
   const [isHover, setIsHover] = useState<boolean>(false);
@@ -38,7 +38,7 @@ export const useCssOptionItem = (cssItem: TcssCategoryItem) => {
       return;
     }
     setCssOption(totalCssPropertyObj[currentCssClassName].cssOptionObj[cssItem.label]);
-  }, [totalCssPropertyObj, currentCssClassName]);
+  }, [totalCssPropertyObj, currentCssClassName, cssItem, selectedCssCategory]);
 
   /**
    * @description 엔터키 입력시 스타일 프로퍼티 변경 이벤트 핸들러
