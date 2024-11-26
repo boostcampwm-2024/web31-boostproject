@@ -5,8 +5,10 @@ import FixedFlyout from './fixedFlyout';
 import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
+import questionSvgPath from '@/shared/assets/question.svg';
 import { Tblock } from '@/shared/types';
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
+import { CssTooltip } from '@/entities';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -23,15 +25,15 @@ export default class StyleFlyout extends FixedFlyout {
       class: 'contentCreatingBlock',
     });
 
-    const labelElement = Dom.createElement<HTMLLabelElement>('label', {
+    const createLabelElement = Dom.createElement<HTMLLabelElement>('label', {
       for: 'creatingBlockInput',
       class: 'creatingBlockLabel',
     });
-    labelElement.textContent = '클래스명';
+    createLabelElement.textContent = '스타일 생성하기';
 
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
-      placeholder: '클래스명을 정해주세요',
+      placeholder: '스타일명을 정해주세요',
       class: 'creatingBlockInput',
       id: 'creatingBlockInput',
       maxlength: '30',
@@ -47,11 +49,41 @@ export default class StyleFlyout extends FixedFlyout {
     });
     buttonElement.textContent = '+';
     buttonElement.addEventListener('click', () => this.createStyleBlock());
-    // TODO: input 입력값 존재 && focus된 경우 Enter 클릭하면 CSS 클래스명 블록 생성
 
-    [labelElement, this.inputElement, buttonElement].forEach((element) =>
-      cssStyleToolboxDivElement.appendChild(element)
-    );
+    const listLabelElement = Dom.createElement<HTMLLabelElement>('label', {
+      class: 'listBlockLabel',
+    });
+    listLabelElement.textContent = '스타일 블록 목록';
+
+    // reset CSS 부분
+    const resetCssDivElement = Dom.createElement<HTMLDivElement>('div', {
+      class: 'resetCssDiv',
+    });
+    const resetCssCheckboxElement = Dom.createElement<HTMLInputElement>('input', {
+      type: 'checkbox',
+      class: 'resetCssCheckbox',
+    });
+    const resetCssTextElement = Dom.createElement<HTMLSpanElement>('span', {
+      class: 'resetCssText',
+    });
+    resetCssTextElement.textContent = 'reset CSS 적용하기';
+    const questionImageElement = Dom.createElement<HTMLImageElement>('img', {
+      src: questionSvgPath,
+      alt: 'reset CSS Info',
+      class: 'questionImage',
+    });
+
+    resetCssDivElement.appendChild(resetCssCheckboxElement);
+    resetCssDivElement.appendChild(resetCssTextElement);
+    resetCssDivElement.appendChild(questionImageElement);
+
+    [
+      createLabelElement,
+      this.inputElement,
+      buttonElement,
+      resetCssDivElement,
+      listLabelElement,
+    ].forEach((element) => cssStyleToolboxDivElement.appendChild(element));
 
     toolbox.addElementToContentArea(cssStyleToolboxDivElement, true);
 
