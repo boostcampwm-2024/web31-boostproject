@@ -17,15 +17,20 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
   const indexOfHead = htmlCode.indexOf('</head>');
   const totalCode = `${htmlCode.slice(0, indexOfHead)}${styleCode}${htmlCode.slice(indexOfHead)}`;
 
-  const handleCopy = async () => {
-    const codeToCopy = activeTab === 'html' ? htmlCode : cssCode;
-
+  // TODO: 상수 분리한 후 재사용성 높이기
+  const copyToClipboard = async (copyText: string, label: string) => {
     try {
-      await navigator.clipboard.writeText(codeToCopy);
-      toast.success(`${activeTab.toUpperCase()} 코드가 복사되었습니다.`);
+      await navigator.clipboard.writeText(copyText);
+      toast.success(`${label} 코드가 복사되었습니다.`);
     } catch (err) {
-      toast.error(`${activeTab.toUpperCase()} 코드 복사에 실패했습니다.`);
+      toast.error(`${label} 코드 복사에 실패했습니다.`);
     }
+  };
+
+  const handleCopy = () => {
+    const codeToCopy = activeTab === 'html' ? htmlCode : cssCode;
+    const label = activeTab.toUpperCase();
+    copyToClipboard(codeToCopy, label);
   };
 
   return (
