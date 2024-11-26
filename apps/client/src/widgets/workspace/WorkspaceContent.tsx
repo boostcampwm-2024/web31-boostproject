@@ -21,9 +21,11 @@ import { tabToolboxConfig } from './blockly/tabConfig';
 import { defineBlocks } from './blockly/defineBlocks';
 import CustomZoomControls from '@/core/customZoomControls';
 import CustomTrashcan from '@/core/customTrashcan';
+import { blockContents } from './blockly/htmlBlockContents';
+import { initializeBlocks } from './blockly/initBlocks';
 
 registerCustomComponents();
-defineBlocks();
+defineBlocks(blockContents);
 
 Blockly.WorkspaceSvg.prototype.addZoomControls = function () {
   this.zoomControls_ = new CustomZoomControls(this);
@@ -69,6 +71,8 @@ export const WorkspaceContent = () => {
     });
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
+
+    initializeBlocks(newWorkspace);
 
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
