@@ -40,7 +40,7 @@ const defineBlockWithDefaults = (
 
 export const defineBlocks = (blockContents: TBlockContents) => {
   defineBlockWithDefaults(
-    'html',
+    addPreviousTypeName('html'),
     1,
     {
       init: function () {
@@ -52,7 +52,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
   );
 
   defineBlockWithDefaults(
-    'head',
+    addPreviousTypeName('head'),
     2,
     {
       init: function () {
@@ -64,7 +64,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
     false
   );
 
-  defineBlockWithDefaults('body', 3);
+  defineBlockWithDefaults(addPreviousTypeName('body'), 3);
 
   //   {
   //   kind: 'block',

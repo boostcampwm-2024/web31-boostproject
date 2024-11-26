@@ -53,12 +53,14 @@ htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
   return code;
 };
 
-transferTagBlockToCode('html');
-transferTagBlockToCode('body');
+transferTagBlockToCode(addPreviousTypeName('html'));
+transferTagBlockToCode(addPreviousTypeName('body'));
 
 Object.values(blockContents).forEach((blockInfoList) => {
   blockInfoList.forEach((blockInfo) => {
-    transferTagBlockToCode(blockInfo.type);
+    if (blockInfo.type !== addPreviousTypeName('text')) {
+      transferTagBlockToCode(blockInfo.type);
+    }
   });
 });
 

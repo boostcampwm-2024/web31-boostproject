@@ -20,6 +20,7 @@ import { registerCustomComponents } from '@/core/register';
 import { tabToolboxConfig } from './blockly/tabConfig';
 import { defineBlocks } from './blockly/defineBlocks';
 import { blockContents } from './blockly/htmlBlockContents';
+import { initializeBlocks } from './blockly/initBlocks';
 
 registerCustomComponents();
 defineBlocks(blockContents);
@@ -51,6 +52,8 @@ export const WorkspaceContent = () => {
     });
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
+
+    initializeBlocks(newWorkspace);
 
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
