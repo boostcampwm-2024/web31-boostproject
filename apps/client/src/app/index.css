@@ -195,5 +195,8 @@ input[type='color']::-webkit-color-swatch-wrapper {
 }
 
 .blocklyContextMenu {
-  padding: 0px;
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
 }

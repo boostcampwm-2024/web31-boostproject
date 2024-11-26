@@ -109,11 +109,13 @@ export default class StyleFlyout extends FixedFlyout {
       return;
     }
 
+    Blockly.ContextMenuRegistry.registry.reset();
+
     const deleteOption = {
       id: menuId,
-      scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK, // 블록에만 적용
+      scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
       displayText: `삭제하기`,
-      weight: 100,
+      weight: 10,
       preconditionFn: (scope: any) => {
         const blockType = scope.block.type;
         const isInCssStyleToolboxConfig = cssStyleToolboxConfig.contents.some(
