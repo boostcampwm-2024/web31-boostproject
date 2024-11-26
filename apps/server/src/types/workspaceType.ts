@@ -21,3 +21,11 @@ export type Toption = {
   value: string;
   is_checked: boolean;
 };
+
+export type Tworkspace = {
+  user_id: string;
+  workspace_id: string;
+  css_list: TcssList;
+  updated_at: Date;
+  is_css_reset: boolean;
+};
