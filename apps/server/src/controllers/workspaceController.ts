@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { ERROR_MESSAGE } from '@/utils/error_message';
+import { TtotalCssPropertyObj } from '@/types/workspaceType';
 import { WorkspaceService } from '@/services/workspaceService';
 
 export const WorkspaceController = () => {
@@ -25,7 +26,7 @@ export const WorkspaceController = () => {
   };
 
   /**
-   * @desciption
+   * @description
    * 워크스페이스 조회 api입니다.
    * 커서 기반 페이지네이션을 적용해서 20개씩 보냅니다.
    * @method GET
@@ -115,11 +116,21 @@ export const WorkspaceController = () => {
     }
   };
 
+  const storeWorkspaceCssProperty = async (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.body.workspaceId as string;
+      const totalCssPropertyObj = req.body.totalCssPropertyObj as TtotalCssPropertyObj;
+      await workspaceService.updateWorkspaceCssProperty(userId, workspaceId, totalCssPropertyObj);
+    } catch (error) {}
+  };
+
   return {
     createNewWorkspace,
     getWorkspaceListByPage,
     getWorkspaceInfo,
     editWorkspaceName,
     removeWorkspace,
+    storeWorkspaceCssProperty,
   };
 };
