@@ -4,18 +4,11 @@ import WhiteLogoText from '@/shared/assets/boolock_logo_white.svg?react';
 
 type LogoProps = {
   isBlack: boolean;
-  onClick?: () => void;
 };
 
-export const Logo = ({ isBlack, onClick }: LogoProps) => {
-  // const handleClick = (e: React.MouseEvent) => {
-  //   if (onClick) {
-  //     e.preventDefault();
-  //     onClick();
-  //   }
-  // };
+export const Logo = ({ isBlack }: LogoProps) => {
   return (
-    <Link to="/" onClick={() => {}}>
+    <Link to="/">
       <div className="flex items-center gap-3">
         <img src="/images/boolock_logo.png" width={32} height={32} />
         {isBlack ? <WhiteLogoText className="w-28" /> : <BlackLogoText className="w-28" />}
