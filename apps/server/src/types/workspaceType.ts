@@ -12,12 +12,12 @@ export type TtotalCssPropertyObj = {
 export type TcssList = Tcss[];
 
 export type Tcss = {
-  className: string;
-  optionList: Toption[];
+  class_name: string;
+  option_list: Toption[];
 };
 
 export type Toption = {
   property: string;
   value: string;
-  isChecked: boolean;
+  is_checked: boolean;
 };
