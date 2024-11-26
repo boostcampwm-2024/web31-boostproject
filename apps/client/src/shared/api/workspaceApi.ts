@@ -2,6 +2,7 @@ import {
   TcreatedWorkspaceDto,
   TgetWorkspaceResponse,
   TpagedWorkspaceListResultDto,
+  TtotalCssPropertyObj,
   Tworkspace,
 } from '@/shared/types';
 
@@ -53,11 +54,24 @@ export const WorkspaceApi = () => {
     });
   };
 
+  const saveWorkspaceCssProperty = async (
+    userId: string,
+    workspaceId: string,
+    totalCssPropertyObj: TtotalCssPropertyObj
+  ) => {
+    await Instance.put(
+      `/workspace/css`,
+      { workspaceId, totalCssPropertyObj },
+      { headers: { 'user-id': userId } }
+    );
+  };
+
   return {
     createWorkspace,
     getWorkspaceList,
     getWorkspace,
     updateWorkspaceName,
     deleteWorkspace,
+    saveWorkspaceCssProperty,
   };
 };
