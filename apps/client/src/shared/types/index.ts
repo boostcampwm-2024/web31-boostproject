@@ -6,6 +6,9 @@ export type {
   TpagedWorkspaceListResultDto,
   TpagedWorkspaceListResult,
   Tcursor,
+  TtotalCssPropertyObj,
+  TcheckedCssPropertyObj,
+  TcssOptionObj,
 } from './workspaceType';
 
 export type { TcssCategory, TcssCategoryItem, TcssCategoryList } from './cssCategoryType';

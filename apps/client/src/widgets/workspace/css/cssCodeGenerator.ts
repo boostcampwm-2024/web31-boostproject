@@ -1,11 +1,6 @@
-type cssCodeGeneratorProps = {
-  [key: string]: {
-    checkedCssPropertyObj: { [key: string]: boolean };
-    cssOptionObj: { [key: string]: string };
-  };
-};
+import { TtotalCssPropertyObj } from '@/shared/types';
 
-export const cssCodeGenerator = (totalCssPropertyObj: cssCodeGeneratorProps) => {
+export const cssCodeGenerator = (totalCssPropertyObj: TtotalCssPropertyObj) => {
   let cssCode = '';
 
   Object.keys(totalCssPropertyObj)

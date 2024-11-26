@@ -32,3 +32,18 @@ export type Tcursor = {
   updatedAt: string;
   workspaceId: string;
 };
+
+export type TtotalCssPropertyObj = {
+  [key: string]: {
+    checkedCssPropertyObj: TcheckedCssPropertyObj;
+    cssOptionObj: TcssOptionObj;
+  };
+};
+
+export type TcheckedCssPropertyObj = {
+  [key: string]: boolean;
+};
+
+export type TcssOptionObj = {
+  [key: string]: string;
+};
