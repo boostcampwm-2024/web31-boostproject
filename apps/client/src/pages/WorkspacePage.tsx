@@ -16,7 +16,7 @@ export const WorkspacePage = () => {
   useEffect(() => {
     // TODO : cssPropStore 서버에 저장된 값으로 덮어쓰기
     resetCssPropsStore();
-    resetChangedStatusState;
+    resetChangedStatusState();
   }, []);
 
   if (isError) {
@@ -26,7 +26,7 @@ export const WorkspacePage = () => {
   return (
     <div className="flex h-screen flex-col">
       {isPending && <Loading />}
-      <WorkspacePageHeader onClickLogo={() => {}} />
+      <WorkspacePageHeader />
       <WorkspaceContent />
       <ConfirmBackNavigationModal />
     </div>
