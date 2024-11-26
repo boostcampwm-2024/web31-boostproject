@@ -1,13 +1,15 @@
 import * as Blockly from 'blockly/core';
-import toast from 'react-hot-toast';
-import TabbedToolbox from './tabbedToolbox';
-import FixedFlyout from './fixedFlyout';
+
+import { useClassBlockStore, useCssPropsStore } from '@/shared/store';
+
 import Dom from './dom';
-import { cssStyleToolboxConfig } from '@/widgets';
-import { useClassBlockStore } from '@/shared/store';
 import FieldClickableImage from './fieldClickableImage';
-import cssClassDeleteIcon from '@/shared/assets/css_class_delete_icon.svg';
+import FixedFlyout from './fixedFlyout';
+import TabbedToolbox from './tabbedToolbox';
 import { Tblock } from '@/shared/types';
+import cssClassDeleteIcon from '@/shared/assets/css_class_delete_icon.svg';
+import { cssStyleToolboxConfig } from '@/widgets';
+import toast from 'react-hot-toast';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -80,6 +82,7 @@ export default class StyleFlyout extends FixedFlyout {
 
     if (!Blockly.Blocks[inputValue!]) {
       const flyoutInstance = this;
+      useCssPropsStore.getState().addNewCssClass(inputValue);
       Blockly.Blocks[inputValue!] = {
         init: function () {
           const input = this.appendDummyInput();
