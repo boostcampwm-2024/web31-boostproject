@@ -5,8 +5,6 @@ const WIDTH = '72';
 const BODY_HEIGHT = '53';
 const LID_HEIGHT = '47';
 const TOTAL_HEIGHT = '100';
-const MARGIN_HORIZONTAL = 36;
-const MARGIN_VERTICAL = 20;
 
 export default class CustomTrashcan extends Blockly.Trashcan {
   customWorkspace: Blockly.WorkspaceSvg;
