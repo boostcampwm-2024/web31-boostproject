@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
 
 const optionScheme = new mongoose.Schema({
-  property: { type: String, required: true },
-  value: { type: String, required: true },
-  is_checked: { type: Boolean, required: true },
+  property: { type: String },
+  value: { type: String },
+  is_checked: { type: Boolean },
 });
 
 const cssListScheme = new mongoose.Schema({
-  class_name: { type: String, required: true },
+  class_name: { type: String },
   option_list: [optionScheme],
 });
 
