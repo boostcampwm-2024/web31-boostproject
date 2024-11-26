@@ -151,7 +151,6 @@ export const WorkspaceService = () => {
             });
         cssList.push(css);
       });
-      console.log(`cssList :`, JSON.stringify(cssList, null, 2));
       const updatedWorkspace = await Workspace.findOneAndUpdate(
         {
           user_id: userId,
