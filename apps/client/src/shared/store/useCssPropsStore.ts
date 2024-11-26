@@ -6,6 +6,7 @@ type TcssProps = {
   selectedCssCategory: string;
   totalCssPropertyObj: TtotalCssPropertyObj;
 
+  addNewCssClass: (newCssClass: string) => void;
   setCurrentCssClassName: (currentCssClassName: string) => void;
   setSelectedCssCategory: (cssCategory: string) => void;
   setCheckedCssPropertyObj: (className: string, label: string, value: boolean) => void;
@@ -18,22 +19,22 @@ export const useCssPropsStore = create<TcssProps>((set) => {
     currentCssClassName: '',
     selectedCssCategory: '레이아웃',
     totalCssPropertyObj: {},
-    setCurrentCssClassName: (currentCssClassName) =>
+    addNewCssClass: (newCssClass) =>
       set((state) => {
-        if (state.totalCssPropertyObj[currentCssClassName] === undefined) {
+        if (!state.totalCssPropertyObj[newCssClass]) {
           return {
-            currentCssClassName,
             totalCssPropertyObj: {
               ...state.totalCssPropertyObj,
-              [currentCssClassName]: {
+              [newCssClass]: {
                 checkedCssPropertyObj: {},
                 cssOptionObj: {},
               },
             },
           };
         }
-        return { currentCssClassName, totalCssPropertyObj: state.totalCssPropertyObj };
+        return {};
       }),
+    setCurrentCssClassName: (currentCssClassName) => set({ currentCssClassName }),
     setSelectedCssCategory: (selectedCssCategory) => set({ selectedCssCategory }),
     setCheckedCssPropertyObj: (className, label, value) =>
       set((state) => {
