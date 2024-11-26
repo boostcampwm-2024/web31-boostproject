@@ -1,4 +1,4 @@
-import { ConfirmBackNavigationModal, WorkspaceContent, WorkspacePageHeader } from '@/widgets';
+import { WorkspaceContent, WorkspacePageHeader } from '@/widgets';
 import { useCssPropsStore, useWorkspaceChangeStatusStore } from '@/shared/store';
 import { useGetWorkspace, usePreventLeaveWorkspacePage } from '@/shared/hooks';
 
@@ -28,7 +28,6 @@ export const WorkspacePage = () => {
       {isPending && <Loading />}
       <WorkspacePageHeader />
       <WorkspaceContent />
-      <ConfirmBackNavigationModal />
     </div>
   );
 };
