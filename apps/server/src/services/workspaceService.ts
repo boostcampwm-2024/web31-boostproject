@@ -1,3 +1,5 @@
+import { Tcss, TcssList, TtotalCssPropertyObj } from '@/types/workspaceType';
+
 import { Workspace } from '@/models/workspaceModel';
 
 export const WorkspaceService = () => {
@@ -64,7 +66,6 @@ export const WorkspaceService = () => {
     }
   };
 
-  // TODO: 워크스페이스 상태도 불러와야 함
   const findWorkspaceByWorkspaceId = async (userId: string, workspaceId: string) => {
     try {
       const workspace = await Workspace.findOne(
@@ -72,7 +73,7 @@ export const WorkspaceService = () => {
           user_id: userId,
           workspace_id: workspaceId,
         },
-        { workspace_id: 1, name: 1, _id: 0 }
+        { workspace_id: 1, name: 1, _id: 0, css_list: 1 }
       );
       return workspace;
     } catch (error) {
@@ -114,11 +115,70 @@ export const WorkspaceService = () => {
     }
   };
 
+  const updateWorkspaceCssProperty = async (
+    userId: string,
+    workspaceId: string,
+    totalCssPropertyObj: TtotalCssPropertyObj
+  ) => {
+    try {
+      const cssList: TcssList = [];
+      Object.keys(totalCssPropertyObj).forEach((className) => {
+        const css: Tcss = { class_name: className, option_list: [] };
+
+        /**
+         * checkedCssPropertyObj와 cssOptionObj의 길이를 비교
+         * checkedCssPropertyObj의 길이가 더 길면 cssOptionObj보다 더 많은 css property를 저장하고 있는 것임
+         * 그러므로 checkedCssPropertyObj를 기준으로 optionList에 값을 저장함
+         * 그렇지 않다면 cssOptionObj를 기준으로 optionList에 값을 저장
+         */
+        Object.keys(totalCssPropertyObj[className].checkedCssPropertyObj).length >=
+        Object.keys(totalCssPropertyObj[className].cssOptionObj).length
+          ? Object.keys(totalCssPropertyObj[className].checkedCssPropertyObj).forEach(
+              (property: string) => {
+                css.option_list.push({
+                  property,
+                  value: totalCssPropertyObj[className].cssOptionObj[property],
+                  is_checked: totalCssPropertyObj[className].checkedCssPropertyObj[property],
+                });
+              }
+            )
+          : Object.keys(totalCssPropertyObj[className].cssOptionObj).forEach((property: string) => {
+              css.option_list.push({
+                property,
+                value: totalCssPropertyObj[className].cssOptionObj[property],
+                is_checked: totalCssPropertyObj[className].checkedCssPropertyObj[property] || false,
+              });
+            });
+        cssList.push(css);
+      });
+      console.log(`cssList :`, JSON.stringify(cssList, null, 2));
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            css_list: cssList,
+            updated_at: Date.now(),
+          },
+        }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace css property : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while updating workspace cssList`);
+    }
+  };
+
   return {
     createWorkspace,
     findWorkspaceListByPage,
     findWorkspaceByWorkspaceId,
     updateWorkspaceName,
     deleteWorkspace,
+    updateWorkspaceCssProperty,
   };
 };
