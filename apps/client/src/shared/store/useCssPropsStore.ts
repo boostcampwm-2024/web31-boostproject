@@ -20,10 +20,7 @@ export const useCssPropsStore = create<TcssProps>((set) => {
     totalCssPropertyObj: {},
     setCurrentCssClassName: (currentCssClassName) =>
       set((state) => {
-        if (
-          state.totalCssPropertyObj[currentCssClassName] === undefined &&
-          currentCssClassName !== '클래스를 선택해주세요'
-        ) {
+        if (state.totalCssPropertyObj[currentCssClassName] === undefined) {
           return {
             currentCssClassName,
             totalCssPropertyObj: {
