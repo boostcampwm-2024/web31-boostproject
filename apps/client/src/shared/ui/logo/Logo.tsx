@@ -1,18 +1,18 @@
-import BlackLogoText from '@/shared/assets/boolock_logo_black.svg?react';
 import { Link } from 'react-router-dom';
-import LogoIcon from '@/shared/assets/boolock_icon.svg?react';
+
+import BlackLogoText from '@/shared/assets/boolock_logo_black.svg?react';
 import WhiteLogoText from '@/shared/assets/boolock_logo_white.svg?react';
 
 type LogoProps = {
-  isDark: boolean;
+  isBlack: boolean;
 };
 
-export const Logo = ({ isDark }: LogoProps) => {
+export const Logo = ({ isBlack }: LogoProps) => {
   return (
     <Link to="/">
       <div className="flex items-center gap-3">
-        <LogoIcon className="h-8 w-8" />
-        {isDark ? <WhiteLogoText className="w-28" /> : <BlackLogoText className="w-28" />}
+        <img src="/images/boolock_logo.png" width={32} height={32} />
+        {isBlack ? <WhiteLogoText className="w-28" /> : <BlackLogoText className="w-28" />}
       </div>
     </Link>
   );

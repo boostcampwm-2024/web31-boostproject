@@ -1,0 +1,10 @@
+FROM node:20-alpine AS base
+
+WORKDIR /app
+
+COPY pnpm-lock.yaml pnpm-workspace.yaml package.json ./
+
+RUN npm install -g pnpm
+RUN pnpm fetch
+
+COPY packages ./packages
