@@ -51,3 +51,38 @@ export type TcheckedCssPropertyObj = {
 export type TcssOptionObj = {
   [key: string]: string;
 };
+
+export type Tcanvas = {
+  blocks: {
+    languageVersion: number;
+    blocks: Tstate[];
+  };
+};
+
+export type Tstate = {
+  type: string;
+  id?: string;
+  x?: number;
+  y?: number;
+  inputs?: {
+    children: {
+      block?: Tstate;
+      shadow?: Tstate;
+    };
+  };
+  next?: {
+    block?: Tstate;
+    shadow?: Tstate;
+  };
+  movable?: boolean;
+  inline?: boolean;
+  enabled?: boolean;
+  extraState?: any;
+  editable?: boolean;
+  disabledReasons?: string[];
+  deletable?: boolean;
+  data?: string;
+  collapsed?: boolean;
+  icons?: Map<string, any>;
+  fields?: Map<string, any>;
+};

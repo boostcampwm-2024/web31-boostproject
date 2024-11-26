@@ -9,6 +9,8 @@ export type {
   TtotalCssPropertyObj,
   TcheckedCssPropertyObj,
   TcssOptionObj,
+  Tcanvas,
+  Tstate,
 } from './workspaceType';
 
 export type { TcssCategory, TcssCategoryItem, TcssCategoryList } from './cssCategoryType';
