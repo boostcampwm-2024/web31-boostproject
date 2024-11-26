@@ -17,16 +17,6 @@ export const WorkspaceService = () => {
     }
   };
 
-  /**
-   * @description
-   * workspace 커서 기반 페이지네이션 메소드
-   * @param userId
-   * @param cursor
-   * @return {workspaceList , nextCursor}
-   * workspaceList : 현재 페이지의 워크스페이스
-   * nextCursor : 다음 페이지네이션 시작 커서
-   */
-
   const findWorkspaceListByPage = async (
     userId: string,
     cursor: { updatedAt: string; workspaceId: string } | null
@@ -73,9 +63,32 @@ export const WorkspaceService = () => {
           user_id: userId,
           workspace_id: workspaceId,
         },
-        { workspace_id: 1, name: 1, _id: 0, css_list: 1 }
+        { _id: 0 }
       );
-      return workspace;
+      if (!workspace) {
+        return workspace;
+      }
+      const totalCssPropertyObj = {
+        ...workspace.css_list.reduce((acc, css) => {
+          return {
+            ...acc,
+            [css.class_name as string]: {
+              checkedCssPropertyObj: css.option_list.reduce((acc, option) => {
+                return { ...acc, [option.property as string]: option.is_checked };
+              }, {}),
+              cssOptionObj: css.option_list.reduce((acc, option) => {
+                return { ...acc, [option.property as string]: option.value };
+              }, {}),
+            },
+          };
+        }, {}),
+      };
+      return {
+        workspace_id: workspace.workspace_id,
+        name: workspace.name,
+        isCssReset: workspace.is_css_reset,
+        totalCssPropertyObj,
+      };
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Failed to get workspace : ${error.message}`);
@@ -91,7 +104,30 @@ export const WorkspaceService = () => {
         { name: newName, updated_at: Date.now() },
         { new: true }
       );
-      return updatedWorkspace;
+      if (!updatedWorkspace) {
+        return updatedWorkspace;
+      }
+      const totalCssPropertyObj = {
+        ...updatedWorkspace.css_list.reduce((acc, css) => {
+          return {
+            ...acc,
+            [css.class_name as string]: {
+              checkedCssPropertyObj: css.option_list.reduce((acc, option) => {
+                return { ...acc, [option.property as string]: option.is_checked };
+              }, {}),
+              cssOptionObj: css.option_list.reduce((acc, option) => {
+                return { ...acc, [option.property as string]: option.value };
+              }, {}),
+            },
+          };
+        }, {}),
+      };
+      return {
+        name: updatedWorkspace.name,
+        workspaceId: updatedWorkspace.workspace_id,
+        isResetCss: updatedWorkspace.is_css_reset,
+        totalCssPropertyObj,
+      };
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Failed to update workspace : ${error.message}`);
