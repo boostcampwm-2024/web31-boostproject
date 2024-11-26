@@ -59,38 +59,20 @@ export default class CustomTrashcan extends Blockly.Trashcan {
   }
 
   override position(metrics: UiMetrics, savedPositions: Blockly.utils.Rect[]): void {
+    super.position(metrics, savedPositions);
+
     const svgGroup = document.querySelector('.blocklyTrash');
-    if (!svgGroup) {
-      return;
+    if (svgGroup) {
+      const transform = svgGroup.getAttribute('transform');
+      if (transform) {
+        const translate = transform.match(/translate\(([^,]+),\s*([^)]+)\)/);
+        if (translate) {
+          const x = parseFloat(translate[1]);
+          let y = parseFloat(translate[2]);
+          y -= 20;
+          svgGroup.setAttribute('transform', `translate(${x}, ${y})`);
+        }
+      }
     }
-
-    const uiPosition = Blockly.uiPosition;
-    const height = BODY_HEIGHT + LID_HEIGHT;
-    const cornerPosition = { horizontal: 1, vertical: 1 };
-    const startRect = uiPosition.getStartPositionRect(
-      cornerPosition,
-      new Blockly.utils.Size(parseInt(WIDTH), parseInt(height)),
-      MARGIN_HORIZONTAL,
-      MARGIN_VERTICAL,
-      metrics,
-      this.customWorkspace
-    );
-
-    const verticalPosition = cornerPosition.vertical;
-    const bumpDirection =
-      verticalPosition === uiPosition.verticalPosition.TOP
-        ? uiPosition.bumpDirection.DOWN
-        : uiPosition.bumpDirection.UP;
-    const positionRect = uiPosition.bumpPositionRect(
-      startRect,
-      MARGIN_VERTICAL,
-      bumpDirection,
-      savedPositions
-    );
-
-    const left = positionRect.left;
-    const top = positionRect.top;
-
-    svgGroup.setAttribute('transform', `translate(${left}, ${top})`);
   }
 }
