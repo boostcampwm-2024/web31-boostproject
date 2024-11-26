@@ -12,7 +12,7 @@ export const tabToolboxConfig: TTabToolboxConfig = {
       flyoutRegistryName: FixedFlyout.registryName,
     },
     css: {
-      label: 'CSS 스타일',
+      label: 'CSS 클래스',
       toolboxConfig: cssStyleToolboxConfig,
       flyoutRegistryName: StyleFlyout.registryName,
     },
