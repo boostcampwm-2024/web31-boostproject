@@ -9,13 +9,10 @@ import { useParams } from 'react-router-dom';
 
 export const WorkspacePage = () => {
   const { workspaceId } = useParams();
-  const { resetCssPropsStore } = useCssPropsStore();
   const { isPending, isError } = useGetWorkspace(workspaceId as string);
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   usePreventLeaveWorkspacePage();
   useEffect(() => {
-    // TODO : cssPropStore 서버에 저장된 값으로 덮어쓰기
-    resetCssPropsStore();
     resetChangedStatusState();
   }, []);
 
