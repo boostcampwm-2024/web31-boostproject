@@ -18,7 +18,7 @@ export { cssCodeGenerator } from './workspace/css/cssCodeGenerator';
 
 export { categoryColours } from './workspace/blockly/categoryColours';
 export { defineBlocks } from './workspace/blockly/defineBlocks';
-export { htmlBlockContents } from './workspace/blockly/htmlBlockContents';
+export { blockContents } from './workspace/blockly/htmlBlockContents';
 export { initTheme } from './workspace/blockly/initTheme';
 export { htmlTagToolboxConfig } from './workspace/blockly/htmlTagToolboxConfig';
 export { cssStyleToolboxConfig } from './workspace/blockly/cssStyleToolboxConfig';
