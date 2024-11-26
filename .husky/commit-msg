@@ -1,7 +1,35 @@
 #!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
 
-commit_msg=$(cat "$1")
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+NC='\033[0m'
 
-echo commit_msg
+commit_msg=$(head -n1 "$1")
 
-echo "✅ 대 헌 지님이 정해주신 커밋 양식을 지키셨군요?"
+# 허용된 커밋 메시지 접두사 패턴
+allowed_patterns="^(✨ feat: |🐛 fix: |💄 design: |🎨 style: |🔨 refactor: |☔️ test: |📝 docs: |🙀 chore: |💬 comment: |🚚 rename: |🔥 remove: |🚨 !HOTFIX!: |🎸 etc: )"
+if ! echo "$commit_msg" | grep -qE "$allowed_patterns"; then
+    printf "${RED}❌ 잘못된 커밋 메시지 형식입니다.${NC}\n"
+    printf "${BLUE}커밋 메시지는 다음 중 하나로 시작해야 합니다:${NC}\n"
+    printf "${BLUE}✨ feat: - 새로운 기능 추가${NC}\n"
+    printf "${BLUE}🐛 fix: - 버그 수정${NC}\n"
+    printf "${BLUE}💄 design: - ui/ux 디자인 변경(css)${NC}\n"
+    printf "${BLUE}🎨 style: - 코드의 형식 및 스타일 개선${NC}\n"
+    printf "${BLUE}🔨 refactor: - 코드 리팩토링${NC}\n"
+    printf "${BLUE}☔️ test: - 테스트 추가 및 테스트 리팩토링${NC}\n"
+    printf "${BLUE}📝 docs: - 문서 수정${NC}\n"
+    printf "${BLUE}🙀 chore: - 빌딩 및 패키지 매니저 설정 및 자잘한 스크립트 수정${NC}\n"
+    printf "${BLUE}💬 comment: - 주석 추가${NC}\n"
+    printf "${BLUE}🚚 rename: - 파일 혹은 폴더명 수정 및 구조 변경${NC}\n"
+    printf "${BLUE}🔥 remove: - 파일 삭제하는 작업만 수행${NC}\n"
+    printf "${BLUE}🚨 !HOTFIX!: - 긴급 수정${NC}\n"
+    printf "${BLUE}🎸 etc: - 기타${NC}\n"
+    printf "${RED}커밋이 취소되었습니다. 위의 형식 중 하나를 사용해 주세요.${NC}\n"
+    exit 1
+fi
+
+printf "${GREEN}✅ 올바른 커밋 메시지 형식입니다. ✅ 대 헌 지님이 정해주신 커밋 양식을 지키셨군요?${NC}\n"
+exit 0
+
