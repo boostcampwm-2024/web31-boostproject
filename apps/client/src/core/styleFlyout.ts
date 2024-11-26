@@ -84,7 +84,6 @@ export default class StyleFlyout extends FixedFlyout {
     // Tooltip Root를 저장할 변수
     const tooltipDivElement = document.createElement('div');
     document.body.appendChild(tooltipDivElement);
-    let isTooltipOpen: boolean = false;
 
     // Tooltip 표시
     const showTooltip = () => {
@@ -99,7 +98,6 @@ export default class StyleFlyout extends FixedFlyout {
         },
         tooltipDivElement
       );
-      isTooltipOpen = true;
     };
 
     // Tooltip 숨기기
@@ -113,7 +111,6 @@ export default class StyleFlyout extends FixedFlyout {
         },
         tooltipDivElement
       );
-      isTooltipOpen = false;
     };
 
     questionImageElement.addEventListener('mouseenter', showTooltip);
