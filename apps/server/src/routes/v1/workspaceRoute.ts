@@ -188,3 +188,5 @@ workspaceRouter.delete(
   */
   workspaceController.removeWorkspace
 );
+
+workspaceRouter.put('/css', workspaceController.storeWorkspaceCssProperty);
