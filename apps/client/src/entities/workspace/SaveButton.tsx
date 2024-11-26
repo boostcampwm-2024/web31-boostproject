@@ -14,9 +14,8 @@ export const SaveButton = () => {
   const { workspace } = useBlocklyWorkspaceStore();
   const handleClick = () => {
     if (workspace === null) return;
-    const workspaceInfo = Blockly.serialization.workspaces.save(workspace);
-    console.log(JSON.stringify(workspaceInfo, null, 2));
-    saveWorkspace({ workspaceId, totalCssPropertyObj });
+    const canvas = Blockly.serialization.workspaces.save(workspace);
+    saveWorkspace({ workspaceId, totalCssPropertyObj, canvas });
   };
 
   return (
