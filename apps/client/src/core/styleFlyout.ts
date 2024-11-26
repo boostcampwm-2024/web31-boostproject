@@ -8,7 +8,7 @@ import { useClassBlockStore } from '@/shared/store';
 import questionSvgPath from '@/shared/assets/question.svg';
 import { Tblock } from '@/shared/types';
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
-import { CssTooltip } from '@/entities';
+import { useResetCssStore } from '@/shared/store';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -59,14 +59,21 @@ export default class StyleFlyout extends FixedFlyout {
     const resetCssDivElement = Dom.createElement<HTMLDivElement>('div', {
       class: 'resetCssDiv',
     });
+
     const resetCssCheckboxElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'checkbox',
       class: 'resetCssCheckbox',
     });
+    resetCssCheckboxElement.checked = useResetCssStore.getState().isResetCssChecked;
+    resetCssCheckboxElement.addEventListener('change', () => {
+      useResetCssStore.getState().toggleResetCss();
+    });
+
     const resetCssTextElement = Dom.createElement<HTMLSpanElement>('span', {
       class: 'resetCssText',
     });
     resetCssTextElement.textContent = 'reset CSS 적용하기';
+
     const questionImageElement = Dom.createElement<HTMLImageElement>('img', {
       src: questionSvgPath,
       alt: 'reset CSS Info',
