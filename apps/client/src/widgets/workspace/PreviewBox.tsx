@@ -1,7 +1,11 @@
 import { useState } from 'react';
+
 import { useResetCssStore } from '@/shared/store';
 import { resetCss } from '@/shared/utils/resetCss';
-
+import CodeMirror from '@uiw/react-codemirror';
+import { html } from '@codemirror/lang-html';
+import { css } from '@codemirror/lang-css';
+        
 type PreviewBoxProps = {
   htmlCode: string;
   cssCode: string;
@@ -42,8 +46,12 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
         {activeTab === 'preview' && (
           <iframe srcDoc={totalCode} className="h-full w-full" title="Preview"></iframe>
         )}
-        {activeTab === 'html' && <pre className="whitespace-pre-wrap">{htmlCode}</pre>}
-        {activeTab === 'css' && <pre className="whitespace-pre-wrap">{cssCode}</pre>}
+        {activeTab === 'html' && (
+          <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />
+        )}
+        {activeTab === 'css' && (
+          <CodeMirror value={cssCode} height="100%" extensions={[css()]} theme="light" />
+        )}
       </div>
     </section>
   );
