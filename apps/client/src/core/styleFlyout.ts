@@ -7,6 +7,7 @@ import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
 import { Tblock } from '@/shared/types';
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
+import { validateClassNameBody, validateClassNameStart } from '@/shared/utils/cssClassName';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -72,16 +73,16 @@ export default class StyleFlyout extends FixedFlyout {
     const deleteOption = {
       id: menuId,
       scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK, // 블록에만 적용
-      displayText: '블록 삭제',
+      displayText: `삭제하기`,
       weight: 100,
       preconditionFn: (scope: any) => {
         const blockType = scope.block.type;
         const isInCssStyleToolboxConfig = cssStyleToolboxConfig.contents.some(
           (item) => item.type === blockType
         );
-
         return isInCssStyleToolboxConfig && scope.block.isDeletable() ? 'enabled' : 'hidden';
       },
+
       callback: (scope: any, _e: PointerEvent) => {
         const block = scope.block;
         const blockType = block.type;
@@ -108,6 +109,12 @@ export default class StyleFlyout extends FixedFlyout {
     const inputValue = this.inputElement?.value;
     if (!inputValue) {
       return toast.error('클래스명을 입력해주세요.');
+    }
+
+    if (!validateClassNameStart(inputValue)) {
+      return toast.error('클래스명 첫 글자는 영문자, 밑줄(_), 하이픈(-)만 가능해요');
+    } else if (!validateClassNameBody(inputValue)) {
+      return toast.error('클래스명은 영문자, 밑줄(_), 하이픈(-), 숫자만 포함해주세요');
     }
 
     const existingBlocks: Tblock[] = cssStyleToolboxConfig!.contents || [];
