@@ -3,6 +3,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
 import CopyIcon from '@/shared/assets/code_copy.svg?react';
+import toast from 'react-hot-toast';
 
 type PreviewBoxProps = {
   htmlCode: string;
@@ -15,6 +16,17 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
   const styleCode = `<style>${cssCode}</style>`;
   const indexOfHead = htmlCode.indexOf('</head>');
   const totalCode = `${htmlCode.slice(0, indexOfHead)}${styleCode}${htmlCode.slice(indexOfHead)}`;
+
+  const handleCopy = async () => {
+    const codeToCopy = activeTab === 'html' ? htmlCode : cssCode;
+
+    try {
+      await navigator.clipboard.writeText(codeToCopy);
+      toast.success(`${activeTab.toUpperCase()} 코드가 복사되었습니다.`);
+    } catch (err) {
+      toast.error(`${activeTab.toUpperCase()} 코드 복사에 실패했습니다.`);
+    }
+  };
 
   return (
     <section className="flex-1 border-b border-gray-100">
@@ -41,10 +53,14 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
       <div className="relative min-h-[20rem]">
         {(activeTab === 'html' || activeTab === 'css') && (
           <div className="absolute right-4 top-5 z-50">
-            <CopyIcon className="h-6 w-6 cursor-pointer text-gray-300 hover:text-green-500" />
+            <CopyIcon
+              className="h-6 w-6 cursor-pointer text-gray-300 hover:text-green-500"
+              onClick={handleCopy}
+            />
           </div>
         )}
 
+        {/* TODO: 코드 수정 금지 [논의 필요] */}
         {activeTab === 'preview' && (
           <iframe srcDoc={totalCode} className="h-full w-full" title="Preview"></iframe>
         )}
