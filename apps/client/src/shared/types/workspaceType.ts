@@ -11,8 +11,10 @@ export type TgetWorkspaceResponse = {
 };
 
 export type TworkspaceDto = {
-  workspace_id: string;
+  workspaceId: string;
   name: string;
+  isCssReset: boolean;
+  totalCssPropertyObj: TtotalCssPropertyObj;
 };
 
 export type TpagedWorkspaceListResult = {
@@ -26,6 +28,8 @@ export type Tworkspace = {
   user_id: string;
   workspace_id: string;
   thumbnail: string | undefined;
+  isCssReset: boolean;
+  totalTotalCssPropertyObj: TtotalCssPropertyObj;
 };
 
 export type Tcursor = {
