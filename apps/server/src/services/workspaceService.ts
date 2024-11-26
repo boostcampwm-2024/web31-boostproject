@@ -164,11 +164,20 @@ export const WorkspaceService = () => {
         {
           $set: {
             canvas,
-            updated_at,
+            updated_at: Date.now(),
           },
+        },
+        {
+          new: true,
         }
       );
-    } catch (error) {}
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace canvas : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while updating workspace canvas`);
+    }
   };
 
   return {
@@ -178,5 +187,6 @@ export const WorkspaceService = () => {
     updateWorkspaceName,
     deleteWorkspace,
     saveWorkspaceCssProperty,
+    saveWorkspaceCanvas,
   };
 };

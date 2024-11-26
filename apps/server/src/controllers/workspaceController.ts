@@ -145,7 +145,24 @@ export const WorkspaceController = () => {
       const userId = req.get('user-id') as string;
       const workspaceId = req.body.workspaceId as string;
       const canvas = req.body.canvas;
-    } catch (error) {}
+      const savedWorkspace = await workspaceService.saveWorkspaceCanvas(
+        userId,
+        workspaceId,
+        canvas
+      );
+      if (!savedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      res.status(200).json({ message: 'success' });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
   };
 
   return {
