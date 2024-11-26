@@ -42,6 +42,16 @@ htmlCodeGenerator.forBlock[addPreviousTypeName('head')] = function () {
   return '<head> </head>';
 };
 
+// hr 블록에 대한 코드 생성을 별도로 정의
+htmlCodeGenerator.forBlock[addPreviousTypeName('hr')] = function () {
+  return '<hr/>';
+};
+
+// br 블록에 대한 코드 생성을 별도로 정의
+htmlCodeGenerator.forBlock[addPreviousTypeName('br')] = function () {
+  return '<br/>';
+};
+
 // 연속적인 코드 블록을 생성하기 위해 블록 연결을 처리하도록 코드 생성을 커스터마이즈
 htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
   // 다음 블록 찾기
@@ -58,7 +68,11 @@ transferTagBlockToCode(addPreviousTypeName('body'));
 
 Object.values(blockContents).forEach((blockInfoList) => {
   blockInfoList.forEach((blockInfo) => {
-    if (blockInfo.type !== addPreviousTypeName('text')) {
+    if (
+      blockInfo.type !== addPreviousTypeName('text') &&
+      blockInfo.type !== addPreviousTypeName('hr') &&
+      blockInfo.type !== addPreviousTypeName('br')
+    ) {
       transferTagBlockToCode(blockInfo.type);
     }
   });
