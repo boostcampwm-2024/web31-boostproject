@@ -1,7 +1,7 @@
-import { useState } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
-import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
+import { html } from '@codemirror/lang-html';
+import { useState } from 'react';
 
 type PreviewBoxProps = {
   htmlCode: string;
@@ -39,7 +39,7 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
       </nav>
       <div className="min-h-[20rem]">
         {activeTab === 'preview' && (
-          <iframe srcDoc={totalCode} className="h-full w-full" title="Preview"></iframe>
+          <iframe srcDoc={totalCode} className="h-full w-full" title="Preview" sandbox=""></iframe>
         )}
         {activeTab === 'html' && (
           <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />
