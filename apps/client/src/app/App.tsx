@@ -1,11 +1,5 @@
-import {
-  BrowserRouter,
-  Route,
-  RouterProvider,
-  Routes,
-  createBrowserRouter,
-} from 'react-router-dom';
 import { HomePage, NotFound, WorkspacePage } from '@/pages';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { ToasterWithMax } from '@/shared/ui';
 
