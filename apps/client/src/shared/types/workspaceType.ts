@@ -28,9 +28,9 @@ export type TPagedWorkspaceListResult = {
 
 export type TWorkspace = {
   name: string;
-  updatedAt: string;
-  userId: string;
-  workspaceId: string;
+  updated_at: string;
+  user_id: string;
+  workspace_id: string;
   thumbnail: string | undefined;
   isCssReset: boolean;
   totalTotalCssPropertyObj: TTotalCssPropertyObj;

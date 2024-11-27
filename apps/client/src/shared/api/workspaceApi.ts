@@ -5,7 +5,7 @@ import {
   TGetWorkspaceResponse,
   TPagedWorkspaceListResultDto,
   TTotalCssPropertyObj,
-  TWorkspace,
+  TWorkspaceDto,
 } from '@/shared/types';
 
 import { Instance } from '@/shared/api';
@@ -47,7 +47,7 @@ export const WorkspaceApi = () => {
       { workspaceId, newName },
       { headers: { 'user-id': userId } }
     );
-    return response.data as TWorkspace;
+    return response.data as TWorkspaceDto;
   };
 
   const deleteWorkspace = async (userId: string, workspaceId: string): Promise<void> => {
