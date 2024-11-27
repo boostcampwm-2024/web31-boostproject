@@ -1,10 +1,9 @@
 import { useState } from 'react';
-
 import { useResetCssStore } from '@/shared/store';
 import { resetCss } from '@/shared/utils/resetCss';
 import CodeMirror from '@uiw/react-codemirror';
-import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
+import { html } from '@codemirror/lang-html';
 import CopyIcon from '@/shared/assets/code_copy.svg?react';
 import toast from 'react-hot-toast';
 
@@ -73,7 +72,7 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
 
         {/* TODO: 코드 수정 금지 [논의 필요] */}
         {activeTab === 'preview' && (
-          <iframe srcDoc={totalCode} className="h-full w-full" title="Preview"></iframe>
+          <iframe srcDoc={totalCode} className="h-full w-full" title="Preview" sandbox=""></iframe>
         )}
         {activeTab === 'html' && (
           <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />

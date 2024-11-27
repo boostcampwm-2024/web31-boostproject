@@ -1,6 +1,6 @@
-import swaggerAutogen from 'swagger-autogen';
 import fs from 'fs';
 import { options } from './swagger';
+import swaggerAutogen from 'swagger-autogen';
 
 const outputFile = './src/docs/swagger-output.json';
 const endpointsFiles = ['./src/routes/v1/index.ts'];
@@ -21,7 +21,7 @@ swaggerAutogenInstance(outputFile, endpointsFiles, options).then(() => {
     if (swaggerDoc.host && swaggerDoc.basePath) {
       swaggerDoc.servers = [
         {
-          url: `http://${swaggerDoc.host}${swaggerDoc.basePath}`,
+          url: `http://${swaggerDoc.host}${swaggerDoc.basePath}api`,
         },
       ];
     }

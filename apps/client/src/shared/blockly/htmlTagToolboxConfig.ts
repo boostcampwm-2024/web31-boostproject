@@ -1,4 +1,4 @@
-import { blockContents } from './htmlBlockContents';
+import { blockContents } from '@/shared/blockly';
 
 export const htmlTagToolboxConfig = {
   kind: 'categoryToolbox',

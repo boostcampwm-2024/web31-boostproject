@@ -1,7 +1,6 @@
 import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
-
-import { categoryColours } from '@/widgets';
+import { categoryColours } from '@/shared/blockly';
 
 // 디자인에 맞춰 블록에 따라 블록 색상이 다르게 적용되도록 커스텀 theme를 만들어두었습니다.
 const defaultBlockStyles: {
