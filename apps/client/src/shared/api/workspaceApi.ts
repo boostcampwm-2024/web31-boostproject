@@ -1,9 +1,9 @@
 import {
-  Tcanvas,
+  TCanvas,
   TCreatedWorkspaceDto,
   TGetWorkspaceResponse,
   TPagedWorkspaceListResultDto,
-  TtotalCssPropertyObj,
+  TTotalCssPropertyObj,
   TWorkspace,
 } from '@/shared/types';
 
@@ -58,7 +58,7 @@ export const WorkspaceApi = () => {
   const saveWorkspaceCssProperty = async (
     userId: string,
     workspaceId: string,
-    totalCssPropertyObj: TtotalCssPropertyObj
+    totalCssPropertyObj: TTotalCssPropertyObj
   ) => {
     await Instance.put(
       `/workspace/css`,
@@ -67,12 +67,10 @@ export const WorkspaceApi = () => {
     );
   };
 
-  const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: any) => {
-    console.log(`userId: ${userId}, workspaceId: ${workspaceId}`);
-    console.log(canvas.blocks);
+  const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: TCanvas) => {
     await Instance.put(
       `/workspace/canvas`,
-      { workspaceId, canvas: JSON.stringify(canvas) },
+      { workspaceId, canvas: JSON.stringify(canvas.blocks) },
       { headers: { 'user-id': userId } }
     );
   };

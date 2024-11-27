@@ -1,6 +1,6 @@
-import { Tworkspace } from '@/types/workspaceType';
+import { TWorkspace } from '@/types/workspaceType';
 
-export const generateTotalCssPropertyObj = (workspace: Tworkspace) => {
+export const generateTotalCssPropertyObj = (workspace: TWorkspace) => {
   return {
     ...workspace.css_list.reduce((acc, css) => {
       return {

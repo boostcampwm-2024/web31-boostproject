@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 
 import { ERROR_MESSAGE } from '@/utils/error_message';
-import { TtotalCssPropertyObj } from '@/types/workspaceType';
+import { TTotalCssPropertyObj } from '@/types/workspaceType';
 import { WorkspaceService } from '@/services/workspaceService';
 
 export const WorkspaceController = () => {
@@ -120,7 +120,7 @@ export const WorkspaceController = () => {
     try {
       const userId = req.get('user-id') as string;
       const workspaceId = req.body.workspaceId as string;
-      const totalCssPropertyObj = req.body.totalCssPropertyObj as TtotalCssPropertyObj;
+      const totalCssPropertyObj = req.body.totalCssPropertyObj as TTotalCssPropertyObj;
       const savedWorkspace = await workspaceService.saveWorkspaceCssProperty(
         userId,
         workspaceId,

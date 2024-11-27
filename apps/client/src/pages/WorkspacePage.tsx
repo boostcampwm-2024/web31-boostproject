@@ -1,9 +1,5 @@
 import { WorkspaceContent, WorkspacePageHeader, cssStyleToolboxConfig } from '@/widgets';
-import {
-  useClassBlockStore,
-  useCssPropsStore,
-  useWorkspaceChangeStatusStore,
-} from '@/shared/store';
+import { useClassBlockStore, useWorkspaceChangeStatusStore } from '@/shared/store';
 import { useGetWorkspace, usePreventLeaveWorkspacePage } from '@/shared/hooks';
 
 import { Loading } from '@/shared/ui';

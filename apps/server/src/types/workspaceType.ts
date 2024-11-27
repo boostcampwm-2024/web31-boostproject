@@ -1,4 +1,4 @@
-export type TtotalCssPropertyObj = {
+export type TTotalCssPropertyObj = {
   [key: string]: {
     checkedCssPropertyObj: {
       [key: string]: boolean;
@@ -9,23 +9,23 @@ export type TtotalCssPropertyObj = {
   };
 };
 
-export type TcssList = Tcss[];
+export type TCssList = TCss[];
 
-export type Tcss = {
+export type TCss = {
   class_name: string;
-  option_list: Toption[];
+  option_list: TOption[];
 };
 
-export type Toption = {
+export type TOption = {
   property: string;
   value: string;
   is_checked: boolean;
 };
 
-export type Tworkspace = {
+export type TWorkspace = {
   user_id: string;
   workspace_id: string;
-  css_list: TcssList;
+  css_list: TCssList;
   updated_at: Date;
   is_css_reset: boolean;
 };

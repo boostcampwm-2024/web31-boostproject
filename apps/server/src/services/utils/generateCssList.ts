@@ -1,4 +1,5 @@
-import { Tcss, TcssList, TtotalCssPropertyObj } from '@/types/workspaceType';
+/* eslint-disable camelcase */
+import { TCss, TCssList, TTotalCssPropertyObj } from '@/types/workspaceType';
 
 /**
  * @description
@@ -7,10 +8,10 @@ import { Tcss, TcssList, TtotalCssPropertyObj } from '@/types/workspaceType';
  * 그러므로 checkedCssPropertyObj를 기준으로 optionList에 값을 저장함
  * 그렇지 않다면 cssOptionObj를 기준으로 optionList에 값을 저장
  */
-export const generateCssList = (totalCssPropertyObj: TtotalCssPropertyObj) => {
-  const cssList: TcssList = [];
+export const generateCssList = (totalCssPropertyObj: TTotalCssPropertyObj) => {
+  const cssList: TCssList = [];
   Object.keys(totalCssPropertyObj).forEach((className) => {
-    const css: Tcss = { class_name: className, option_list: [] };
+    const css: TCss = { class_name: className, option_list: [] };
 
     const checkedCssPropertyObj = totalCssPropertyObj[className].checkedCssPropertyObj;
     const cssOptionObj = totalCssPropertyObj[className].cssOptionObj;

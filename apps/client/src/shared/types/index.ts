@@ -5,9 +5,10 @@ export type {
   TWorkspace,
   TPagedWorkspaceListResultDto,
   TPagedWorkspaceListResult,
+  TTotalCssPropertyObj,
   TCursor,
-  Tcanvas,
-  Tstate,
+  TCanvas,
+  TState,
 } from './workspaceType';
 
 export type { TCssCategory, TCssCategoryItem, TCssCategoryList } from './cssCategoryType';

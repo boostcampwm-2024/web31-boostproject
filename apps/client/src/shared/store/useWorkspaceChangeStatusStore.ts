@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type TworkspaceChangeStatus = {
+type TWorkspaceChangeStatus = {
   isBlockChanged: boolean;
   isCssChanged: boolean;
 
@@ -9,7 +9,7 @@ type TworkspaceChangeStatus = {
   resetChangedStatusState: () => void;
 };
 
-export const useWorkspaceChangeStatusStore = create<TworkspaceChangeStatus>((set) => ({
+export const useWorkspaceChangeStatusStore = create<TWorkspaceChangeStatus>((set) => ({
   isBlockChanged: false,
   isCssChanged: false,
   setIsBlockChanged: (isBlockChanged) => set({ isBlockChanged }),

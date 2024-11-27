@@ -1,4 +1,4 @@
-import { Tcanvas, TtotalCssPropertyObj } from '@/shared/types/workspaceType';
+import { TCanvas, TTotalCssPropertyObj } from '@/shared/types/workspaceType';
 
 import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
@@ -19,8 +19,8 @@ export const useSaveWorkspace = () => {
       canvas,
     }: {
       workspaceId: string;
-      totalCssPropertyObj: TtotalCssPropertyObj;
-      canvas: any;
+      totalCssPropertyObj: TTotalCssPropertyObj;
+      canvas: TCanvas;
     }) => {
       return Promise.all([
         workspaceApi.saveWorkspaceCssProperty(userId, workspaceId, totalCssPropertyObj),

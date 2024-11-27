@@ -14,7 +14,7 @@ export type TWorkspaceDto = {
   workspaceId: string;
   name: string;
   isCssReset: boolean;
-  totalCssPropertyObj: TtotalCssPropertyObj;
+  totalCssPropertyObj: TTotalCssPropertyObj;
 };
 
 export type TPagedWorkspaceListResult = {
@@ -29,7 +29,7 @@ export type TWorkspace = {
   workspace_id: string;
   thumbnail: string | undefined;
   isCssReset: boolean;
-  totalTotalCssPropertyObj: TtotalCssPropertyObj;
+  totalTotalCssPropertyObj: TTotalCssPropertyObj;
 };
 
 export type TCursor = {
@@ -37,42 +37,42 @@ export type TCursor = {
   workspaceId: string;
 };
 
-export type TtotalCssPropertyObj = {
+export type TTotalCssPropertyObj = {
   [key: string]: {
-    checkedCssPropertyObj: TcheckedCssPropertyObj;
-    cssOptionObj: TcssOptionObj;
+    checkedCssPropertyObj: TCheckedCssPropertyObj;
+    cssOptionObj: TCssOptionObj;
   };
 };
 
-export type TcheckedCssPropertyObj = {
+export type TCheckedCssPropertyObj = {
   [key: string]: boolean;
 };
 
-export type TcssOptionObj = {
+export type TCssOptionObj = {
   [key: string]: string;
 };
 
-export type Tcanvas = {
+export type TCanvas = {
   blocks: {
     languageVersion: number;
-    blocks: Tstate[];
+    blocks: TState[];
   };
 };
 
-export type Tstate = {
+export type TState = {
   type: string;
   id?: string;
   x?: number;
   y?: number;
   inputs?: {
     children: {
-      block?: Tstate;
-      shadow?: Tstate;
+      block?: TState;
+      shadow?: TState;
     };
   };
   next?: {
-    block?: Tstate;
-    shadow?: Tstate;
+    block?: TState;
+    shadow?: TState;
   };
   movable?: boolean;
   inline?: boolean;

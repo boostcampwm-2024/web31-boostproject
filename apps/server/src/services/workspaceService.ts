@@ -1,4 +1,4 @@
-import { TcssList, TtotalCssPropertyObj, Tworkspace } from '@/types/workspaceType';
+import { TCssList, TTotalCssPropertyObj, TWorkspace } from '@/types/workspaceType';
 
 import { Workspace } from '@/models/workspaceModel';
 import { generateCssList } from '@/services/utils/generateCssList';
@@ -71,7 +71,7 @@ export const WorkspaceService = () => {
       if (!workspace) {
         return workspace;
       }
-      const totalCssPropertyObj = generateTotalCssPropertyObj(workspace as Tworkspace);
+      const totalCssPropertyObj = generateTotalCssPropertyObj(workspace as TWorkspace);
       return {
         workspace_id: workspace.workspace_id,
         name: workspace.name,
@@ -97,7 +97,7 @@ export const WorkspaceService = () => {
         return updatedWorkspace;
       }
 
-      const totalCssPropertyObj = generateTotalCssPropertyObj(updatedWorkspace as Tworkspace);
+      const totalCssPropertyObj = generateTotalCssPropertyObj(updatedWorkspace as TWorkspace);
       return {
         name: updatedWorkspace.name,
         workspaceId: updatedWorkspace.workspace_id,
@@ -130,10 +130,10 @@ export const WorkspaceService = () => {
   const saveWorkspaceCssProperty = async (
     userId: string,
     workspaceId: string,
-    totalCssPropertyObj: TtotalCssPropertyObj
+    totalCssPropertyObj: TTotalCssPropertyObj
   ) => {
     try {
-      const cssList: TcssList = generateCssList(totalCssPropertyObj);
+      const cssList: TCssList = generateCssList(totalCssPropertyObj);
       const updatedWorkspace = await Workspace.findOneAndUpdate(
         {
           user_id: userId,

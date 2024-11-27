@@ -4,7 +4,7 @@ import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
 import { workspaceKeys } from '@/shared/hooks';
-/* eslint-disable */
+
 export const useUpdateWorkspaceName = () => {
   const queryClient = useQueryClient();
   const workspaceApi = WorkspaceApi();

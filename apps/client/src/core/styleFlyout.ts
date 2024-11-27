@@ -9,6 +9,7 @@ import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
 import { RenderResetCssTooltip } from '@/entities';
 import toast from 'react-hot-toast';
 import FixedFlyout from './fixedFlyout';
+import TabbedToolbox from './tabbedToolbox';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
