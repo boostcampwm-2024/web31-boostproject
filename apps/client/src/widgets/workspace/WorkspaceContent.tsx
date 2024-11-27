@@ -104,11 +104,11 @@ export const WorkspaceContent = () => {
   }, []);
 
   useEffect(() => {
-    if (!workspace || !canvasInfo || canvasInfo.length === 0) {
+    if (!workspace || canvasInfo.length === 0) {
       return;
     }
     Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
-  }, [workspace]);
+  }, [workspace, canvasInfo]);
 
   useEffect(() => {
     setCssCode(cssCodeGenerator(totalCssPropertyObj));
