@@ -15,10 +15,3 @@ export { CssPropsSelectBox } from './workspace/css/CssPropsSelectBox';
 export { CssOptionItemList } from './workspace/css/CssOptionItemList';
 export { CssPropsSelectBoxHeader } from './workspace/css/CssPropsSelectBoxHeader';
 export { cssCodeGenerator } from './workspace/css/cssCodeGenerator';
-
-export { categoryColours } from './workspace/blockly/categoryColours';
-export { defineBlocks } from './workspace/blockly/defineBlocks';
-export { blockContents } from './workspace/blockly/htmlBlockContents';
-export { initTheme } from './workspace/blockly/initTheme';
-export { htmlTagToolboxConfig } from './workspace/blockly/htmlTagToolboxConfig';
-export { cssStyleToolboxConfig } from './workspace/blockly/cssStyleToolboxConfig';

@@ -1,4 +1,8 @@
+import { TCssList, TTotalCssPropertyObj, TWorkspace } from '@/types/workspaceType';
+
 import { Workspace } from '@/models/workspaceModel';
+import { generateCssList } from '@/services/utils/generateCssList';
+import { generateTotalCssPropertyObj } from '@/services/utils/generateTotalCssPropertyObj';
 
 /* eslint-disable */
 export const WorkspaceService = () => {
@@ -15,16 +19,6 @@ export const WorkspaceService = () => {
       throw new Error(`Unknown Error ocurred while creating workspace`);
     }
   };
-
-  /**
-   * @description
-   * workspace 커서 기반 페이지네이션 메소드
-   * @param userId
-   * @param cursor
-   * @return {workspaceList , nextCursor}
-   * workspaceList : 현재 페이지의 워크스페이스
-   * nextCursor : 다음 페이지네이션 시작 커서
-   */
 
   const findWorkspaceListByPage = async (
     userId: string,
@@ -65,7 +59,6 @@ export const WorkspaceService = () => {
     }
   };
 
-  // TODO: 워크스페이스 상태도 불러와야 함
   const findWorkspaceByWorkspaceId = async (userId: string, workspaceId: string) => {
     try {
       const workspace = await Workspace.findOne(
@@ -73,9 +66,20 @@ export const WorkspaceService = () => {
           user_id: userId,
           workspace_id: workspaceId,
         },
-        { workspace_id: 1, name: 1, _id: 0 }
+        { _id: 0 }
       );
-      return workspace;
+      if (!workspace) {
+        return workspace;
+      }
+      const totalCssPropertyObj = generateTotalCssPropertyObj(workspace as TWorkspace);
+      return {
+        workspace_id: workspace.workspace_id,
+        name: workspace.name,
+        isCssReset: workspace.is_css_reset,
+        totalCssPropertyObj,
+        canvas: workspace.canvas,
+        classBlockList: workspace.class_block_list,
+      };
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Failed to get workspace : ${error.message}`);
@@ -91,7 +95,18 @@ export const WorkspaceService = () => {
         { name: newName, updated_at: Date.now() },
         { new: true }
       );
-      return updatedWorkspace;
+      if (!updatedWorkspace) {
+        return updatedWorkspace;
+      }
+
+      const totalCssPropertyObj = generateTotalCssPropertyObj(updatedWorkspace as TWorkspace);
+      return {
+        name: updatedWorkspace.name,
+        workspaceId: updatedWorkspace.workspace_id,
+        isCssReset: updatedWorkspace.is_css_reset,
+        totalCssPropertyObj,
+        canvas: updatedWorkspace.canvas,
+      };
     } catch (error) {
       if (error instanceof Error) {
         throw new Error(`Failed to update workspace : ${error.message}`);
@@ -115,11 +130,128 @@ export const WorkspaceService = () => {
     }
   };
 
+  const saveWorkspaceCssProperty = async (
+    userId: string,
+    workspaceId: string,
+    totalCssPropertyObj: TTotalCssPropertyObj
+  ) => {
+    try {
+      const cssList: TCssList = generateCssList(totalCssPropertyObj);
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            css_list: cssList,
+            updated_at: Date.now(),
+          },
+        }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace css property : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while updating workspace cssList`);
+    }
+  };
+
+  const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: any) => {
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            canvas,
+            updated_at: Date.now(),
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace canvas : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while updating workspace canvas`);
+    }
+  };
+
+  const saveWorkspaceClassBlockList = async (
+    userId: string,
+    workspaceId: string,
+    classBlockList: string
+  ) => {
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            class_block_list: classBlockList,
+            updated_at: Date.now(),
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace class block list : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while updating workspace class block list`);
+    }
+  };
+
+  const saveWorkspaceCssResetStatus = async (
+    userId: string,
+    workspaceId: string,
+    cssResetStatus: boolean
+  ) => {
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            is_css_reset: cssResetStatus,
+            updated_at: Date.now(),
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace css reset status : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while updating workspace css reset status`);
+    }
+  };
   return {
     createWorkspace,
     findWorkspaceListByPage,
     findWorkspaceByWorkspaceId,
     updateWorkspaceName,
     deleteWorkspace,
+    saveWorkspaceCssProperty,
+    saveWorkspaceCanvas,
+    saveWorkspaceClassBlockList,
+    saveWorkspaceCssResetStatus,
   };
 };

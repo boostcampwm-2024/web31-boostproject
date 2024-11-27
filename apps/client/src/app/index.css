@@ -32,7 +32,7 @@
   }
 
   .text-semibold-lg {
-    @apply text-xl font-semibold leading-5;
+    @apply text-xl font-semibold leading-7;
   }
 
   .text-semibold-md {
@@ -57,6 +57,10 @@
 
   .text-medium-sm {
     @apply text-xs font-medium leading-4;
+  }
+
+  .text-tooltip-sm {
+    @apply text-xs font-medium leading-[1.15rem];
   }
 }
 
@@ -189,6 +193,11 @@ input[type='color']::-webkit-color-swatch-wrapper {
 }
 
 .resetCssCheckbox {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.resetCssCheckbox {
   @apply h-5 w-5 appearance-none rounded border border-gray-100 bg-white bg-center bg-no-repeat;
 }
 
@@ -200,4 +209,15 @@ input[type='color']::-webkit-color-swatch-wrapper {
 .resetCssText {
   @apply text-gray-400;
   padding: 0 6px 0 12px;
+}
+
+.blocklyTooltipDiv {
+  @apply text-gray-white text-tooltip-sm rounded-md border-none bg-green-500 px-3 py-2 opacity-100;
+}
+
+.blocklyContextMenu {
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
 }

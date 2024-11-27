@@ -1,31 +1,31 @@
 import 'blockly/blocks';
+
 import * as Blockly from 'blockly/core';
 
-import { useEffect, useState } from 'react';
-
-import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-
+import { CssPropsSelectBox, PreviewBox, cssCodeGenerator } from '@/widgets';
 import {
-  CssPropsSelectBox,
+  blockContents,
+  defineBlocks,
+  htmlCodeGenerator,
   htmlTagToolboxConfig,
   initTheme,
-  PreviewBox,
-  cssCodeGenerator,
-} from '@/widgets';
+  initializeBlocks,
+  tabToolboxConfig,
+} from '@/shared/blockly';
+import { useCssPropsStore, useWorkspaceChangeStatusStore, useWorkspaceStore } from '@/shared/store';
+import { useEffect, useState } from 'react';
 
-import { useCssPropsStore, useWorkspaceStore } from '@/shared/store';
+import CustomTrashcan from '@/core/customTrashcan';
+import CustomZoomControls from '@/core/customZoomControls';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
+import { customTooltip } from '@/core/customTooltip';
 import { registerCustomComponents } from '@/core/register';
-import { tabToolboxConfig } from './blockly/tabConfig';
-import { defineBlocks } from './blockly/defineBlocks';
-import CustomZoomControls from '@/core/customZoomControls';
-import CustomTrashcan from '@/core/customTrashcan';
-import { blockContents } from './blockly/htmlBlockContents';
-import { initializeBlocks } from './blockly/initBlocks';
 
 registerCustomComponents();
 defineBlocks(blockContents);
+
+Blockly.Tooltip.setCustomTooltip(customTooltip);
 
 Blockly.WorkspaceSvg.prototype.addZoomControls = function () {
   this.zoomControls_ = new CustomZoomControls(this);
@@ -47,8 +47,8 @@ export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
-  const { workspace, setWorkspace } = useWorkspaceStore();
-
+  const { workspace, setWorkspace, canvasInfo } = useWorkspaceStore();
+  const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
@@ -76,7 +76,6 @@ export const WorkspaceContent = () => {
     initializeBlocks(newWorkspace);
 
     newWorkspace.clearUndo();
-
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
       if (
@@ -88,6 +87,7 @@ export const WorkspaceContent = () => {
       ) {
         const code = htmlCodeGenerator.workspaceToCode(newWorkspace);
         setHtmlCode(code);
+        setIsBlockChanged(true);
       }
     };
 
@@ -102,6 +102,13 @@ export const WorkspaceContent = () => {
       newWorkspace.dispose();
     };
   }, []);
+
+  useEffect(() => {
+    if (!workspace || !canvasInfo || canvasInfo.length === 0) {
+      return;
+    }
+    Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
+  }, [workspace]);
 
   useEffect(() => {
     setCssCode(cssCodeGenerator(totalCssPropertyObj));

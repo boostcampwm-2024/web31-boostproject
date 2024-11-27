@@ -1,15 +1,17 @@
+import { useCssPropsStore, useWorkspaceChangeStatusStore } from '@/shared/store';
+
 import { debounce } from '@/shared/utils';
 import { useCallback } from 'react';
-import { useCssPropsStore } from '@/shared/store';
 
 export const useCssOptions = () => {
   const { setCheckedCssPropertyObj, setCssOptionObj, currentCssClassName } = useCssPropsStore();
-
+  const { setIsCssChanged } = useWorkspaceChangeStatusStore();
   const handleCssPropertyCheckboxChange = (
     property: string,
     isChecked: boolean,
     cssOption: string
   ) => {
+    setIsCssChanged(true);
     setCheckedCssPropertyObj(currentCssClassName, property, !isChecked);
     if (!isChecked) {
       setCssOptionObj(currentCssClassName, property, cssOption);
@@ -17,6 +19,7 @@ export const useCssOptions = () => {
   };
 
   const handleCssOptionChange = (property: string, value: string) => {
+    setIsCssChanged(true);
     setCssOptionObj(currentCssClassName, property, value);
   };
 

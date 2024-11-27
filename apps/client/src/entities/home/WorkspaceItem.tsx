@@ -1,7 +1,7 @@
 import TrashSVG from '@/shared/assets/trash.svg?react';
 import { formatRelativeOrAbsoluteDate } from '@/shared/utils';
-import { useModalStore } from '@/shared/store';
 import { useDeleteWorkspace } from '@/shared/hooks';
+import { useModalStore } from '@/shared/store';
 
 type WorkspaceItemProps = {
   workspaceId: string;
@@ -18,13 +18,22 @@ export const WorkspaceItem = ({
   lastEdited,
   onClick,
 }: WorkspaceItemProps) => {
-  const { openModal: onOpen, setModalContent, setModalAction: handleClick } = useModalStore();
+  const {
+    openModal: onOpen,
+    closeModal,
+    setModalContent,
+    setHandleModalCloseButton,
+    setHandleModalConfirmButton,
+  } = useModalStore();
   const { mutate } = useDeleteWorkspace();
 
   const handleOnclick = () => {
     setModalContent(`${title}을(를)
       삭제하겠습니까?`);
-    handleClick(() => {
+    setHandleModalCloseButton(() => {
+      closeModal();
+    });
+    setHandleModalConfirmButton(() => {
       mutate(workspaceId);
     });
     onOpen();

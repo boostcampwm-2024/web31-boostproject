@@ -4,6 +4,7 @@ type TClassBlock = {
   classBlockList: string[];
   addClassBlock: (newClassBlockName: string) => void;
   removeClassBlock: (classBlockName: string) => void;
+  initClassBlockList: (classList: string[]) => void;
 };
 
 export const useClassBlockStore = create<TClassBlock>((set) => ({
@@ -17,5 +18,8 @@ export const useClassBlockStore = create<TClassBlock>((set) => ({
     set((state) => ({
       classBlockList: state.classBlockList.filter((name) => name !== classBlockName),
     }));
+  },
+  initClassBlockList: (classList: string[]) => {
+    set({ classBlockList: classList });
   },
 }));

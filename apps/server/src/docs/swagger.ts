@@ -96,13 +96,41 @@ const options = {
         WorkspaceDto: {
           type: 'object',
           properties: {
-            workspace_id: {
+            workspaceId: {
               type: 'string',
               example: 'b15eac31-3942-4192-9cbd-2e2cdd48da0a',
             },
             name: {
               type: 'string',
               example: '워크스페이스 이름',
+            },
+            totalCssPropertyObj: {
+              type: 'object',
+              properties: {
+                className: {
+                  type: 'object',
+                  properties: {
+                    checkedCssPropertyObj: {
+                      type: 'object',
+                      properties: {
+                        property: {
+                          type: 'boolean',
+                          example: 'false',
+                        },
+                      },
+                    },
+                    cssOptionObj: {
+                      type: 'object',
+                      properties: {
+                        property: {
+                          type: 'string',
+                          example: 'value',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
             },
           },
         },

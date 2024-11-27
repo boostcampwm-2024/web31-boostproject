@@ -1,17 +1,28 @@
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { HomePage, NotFound, WorkspacePage } from '@/pages';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
 import { ToasterWithMax } from '@/shared/ui';
 
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <HomePage />,
+  },
+  {
+    path: '/workspace/:workspaceId',
+    element: <WorkspacePage />,
+  },
+  {
+    path: '*',
+    element: <NotFound />,
+  },
+]);
+
 export const App = () => (
-  <BrowserRouter>
+  <>
     <ToasterWithMax />
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/workspace/:workspaceId" element={<WorkspacePage />} />
-      <Route path="*" element={<NotFound />} />
-    </Routes>
-  </BrowserRouter>
+    <RouterProvider router={router} />
+  </>
 );
 
 export default App;
