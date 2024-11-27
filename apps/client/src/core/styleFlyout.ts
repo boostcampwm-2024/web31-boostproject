@@ -10,6 +10,8 @@ import { Tblock } from '@/shared/types';
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
 import { validateClassNameBody, validateClassNameStart } from '@/shared/utils/cssClassName';
 import { useResetCssStore } from '@/shared/store';
+import { RenderResetCssTooltip } from '@/entities';
+
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -30,7 +32,7 @@ export default class StyleFlyout extends FixedFlyout {
       for: 'creatingBlockInput',
       class: 'creatingBlockLabel',
     });
-    createLabelElement.textContent = '스타일 생성하기';
+    createLabelElement.textContent = '클래스 생성하기';
 
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
@@ -54,7 +56,8 @@ export default class StyleFlyout extends FixedFlyout {
     const listLabelElement = Dom.createElement<HTMLLabelElement>('label', {
       class: 'listBlockLabel',
     });
-    listLabelElement.textContent = '스타일 블록 목록';
+    listLabelElement.textContent = '클래스 블록 목록';
+
 
     // reset CSS 부분
     const resetCssDivElement = Dom.createElement<HTMLDivElement>('div', {
@@ -80,6 +83,41 @@ export default class StyleFlyout extends FixedFlyout {
       alt: 'reset CSS Info',
       class: 'questionImage',
     });
+
+    // Tooltip Root를 저장할 변수
+    const tooltipDivElement = document.createElement('div');
+    document.body.appendChild(tooltipDivElement);
+
+    // Tooltip 표시
+    const showTooltip = () => {
+      const { left, top } = questionImageElement.getBoundingClientRect();
+      RenderResetCssTooltip(
+        {
+          description:
+            '브라우저마다 다른 기본 스타일을 일관되게 만들기 위해, 모든 요소의 기본 스타일을 초기화하는 CSS입니다.',
+          isOpen: true,
+          leftX: left,
+          topY: top,
+        },
+        tooltipDivElement
+      );
+    };
+
+    // Tooltip 숨기기
+    const hideTooltip = () => {
+      RenderResetCssTooltip(
+        {
+          description: '',
+          isOpen: false,
+          leftX: 0,
+          topY: 0,
+        },
+        tooltipDivElement
+      );
+    };
+
+    questionImageElement.addEventListener('mouseenter', showTooltip);
+    questionImageElement.addEventListener('mouseleave', hideTooltip);
 
     resetCssDivElement.appendChild(resetCssCheckboxElement);
     resetCssDivElement.appendChild(resetCssTextElement);
@@ -109,13 +147,11 @@ export default class StyleFlyout extends FixedFlyout {
       return;
     }
 
-    Blockly.ContextMenuRegistry.registry.reset();
-
     const deleteOption = {
       id: menuId,
       scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
-      displayText: `삭제하기`,
-      weight: 10,
+      displayText: '블록 삭제',
+      weight: 100,
       preconditionFn: (scope: any) => {
         const blockType = scope.block.type;
         const isInCssStyleToolboxConfig = cssStyleToolboxConfig.contents.some(
@@ -139,7 +175,7 @@ export default class StyleFlyout extends FixedFlyout {
 
         const flyout = (Blockly.getMainWorkspace() as any).getToolbox().getFlyout();
         flyout.show(cssStyleToolboxConfig.contents);
-        toast.success(`"${blockType}" 스타일 블록이 삭제되었습니다.`);
+        toast.success(`"${blockType}" 클래스 블록이 삭제되었습니다.`);
       },
     };
 

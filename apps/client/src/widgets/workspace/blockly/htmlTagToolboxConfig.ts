@@ -35,13 +35,7 @@ export const htmlTagToolboxConfig = {
     },
     {
       kind: 'category',
-      name: '링크',
-      categorystyle: 'linkCategory',
-      contents: blockContents.link,
-    },
-    {
-      kind: 'category',
-      name: '기타',
+      name: '내용',
       categorystyle: 'etcCategory',
       contents: blockContents.etc,
     },

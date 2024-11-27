@@ -1,9 +1,10 @@
 import { useState } from 'react';
+
+import { useResetCssStore } from '@/shared/store';
+import { resetCss } from '@/shared/utils/resetCss';
 import CodeMirror from '@uiw/react-codemirror';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
-import { useResetCssStore } from '@/shared/store';
-import { resetCss } from '@/shared/utils/resetCss';
 
 type PreviewBoxProps = {
   htmlCode: string;
