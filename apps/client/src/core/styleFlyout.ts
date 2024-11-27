@@ -1,7 +1,6 @@
 import * as Blockly from 'blockly/core';
 
 import Dom from './dom';
-import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore, useResetCssStore, useCssPropsStore } from '@/shared/store';
 import questionSvgPath from '@/shared/assets/question.svg';
 import { TBlock } from '@/shared/types';
@@ -10,6 +9,7 @@ import { RenderResetCssTooltip } from '@/entities';
 import toast from 'react-hot-toast';
 import FixedFlyout from './fixedFlyout';
 import TabbedToolbox from './tabbedToolbox';
+import { cssStyleToolboxConfig } from '@/shared/blockly';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -207,7 +207,10 @@ export default class StyleFlyout extends FixedFlyout {
     }
 
     // 기존 블록에 새 블록 추가
-    cssStyleToolboxConfig!.contents = [...existingBlocks, { kind: 'block', type: inputValue }];
+    cssStyleToolboxConfig!.contents = [
+      ...existingBlocks,
+      { kind: 'block', type: inputValue, enabled: true },
+    ];
     const { addClassBlock } = useClassBlockStore.getState();
     addClassBlock(inputValue);
 

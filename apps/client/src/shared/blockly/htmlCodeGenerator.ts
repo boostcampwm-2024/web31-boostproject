@@ -2,9 +2,9 @@ import * as Blockly from 'blockly/core';
 
 import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
 
-import { blockContents } from './htmlBlockContents';
+import { blockContents } from '@/shared/blockly';
 
-const htmlCodeGenerator = new Blockly.Generator('HTML');
+export const htmlCodeGenerator = new Blockly.Generator('HTML');
 
 // generator 내에서도 blockType 명을 넣을 때 addPreviousTypeName 사용해주시길 바랍니다!
 
@@ -79,5 +79,3 @@ Object.values(blockContents).forEach((blockInfoList) => {
     }
   });
 });
-
-export default htmlCodeGenerator;
