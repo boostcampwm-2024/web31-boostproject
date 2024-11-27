@@ -39,6 +39,7 @@ jobs:
       - name: Set FE .env
         run: |
           echo "VITE_SERVER_URL=http://localhost:3000" > apps/client/.env
+          echo "VITE_STATIC_STORAGE_URL=${{ secrets.VITE_STATIC_STORAGE_URL }}" >> apps/client/.env
 
       - name: Buld Frontend
         run: |
@@ -97,6 +98,7 @@ jobs:
             echo "${{ secrets.DEPLOY_SERVER_CORS_ACCEPT }}" >> apps/server/.env
 
             echo "VITE_SERVER_URL=${{ secrets.DEPLOY_VITE_SERVER_URL }}" > apps/client/.env
+            echo "VITE_STATIC_STORAGE_URL=${{ secrets.VITE_STATIC_STORAGE_URL }}" >> apps/client/.env
 
             sudo docker compose pull
             sudo docker compose down
