@@ -3,23 +3,23 @@ import 'blockly/blocks';
 import * as Blockly from 'blockly/core';
 
 import { CssPropsSelectBox, PreviewBox, cssCodeGenerator } from '@/widgets';
-import { useCssPropsStore, useWorkspaceStore, useWorkspaceChangeStatusStore } from '@/shared/store';
-import { useEffect, useState } from 'react';
-
-import FixedFlyout from '@/core/fixedFlyout';
-import TabbedToolbox from '@/core/tabbedToolbox';
-import { registerCustomComponents } from '@/core/register';
-import CustomZoomControls from '@/core/customZoomControls';
-import CustomTrashcan from '@/core/customTrashcan';
 import {
   blockContents,
   defineBlocks,
   htmlCodeGenerator,
   htmlTagToolboxConfig,
-  initializeBlocks,
   initTheme,
+  initializeBlocks,
   tabToolboxConfig,
 } from '@/shared/blockly';
+import { useCssPropsStore, useWorkspaceChangeStatusStore, useWorkspaceStore } from '@/shared/store';
+import { useEffect, useState } from 'react';
+
+import CustomTrashcan from '@/core/customTrashcan';
+import CustomZoomControls from '@/core/customZoomControls';
+import FixedFlyout from '@/core/fixedFlyout';
+import TabbedToolbox from '@/core/tabbedToolbox';
+import { registerCustomComponents } from '@/core/register';
 
 registerCustomComponents();
 defineBlocks(blockContents);
@@ -101,7 +101,7 @@ export const WorkspaceContent = () => {
   }, []);
 
   useEffect(() => {
-    if (!workspace || canvasInfo.length === 0) {
+    if (!workspace || !canvasInfo || canvasInfo.length === 0) {
       return;
     }
     Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
