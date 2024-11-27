@@ -1,6 +1,6 @@
-import { TtotalCssPropertyObj } from '@/shared/types';
+import { TTotalCssPropertyObj } from '@/shared/types';
 
-export const cssCodeGenerator = (totalCssPropertyObj: TtotalCssPropertyObj) => {
+export const cssCodeGenerator = (totalCssPropertyObj: TTotalCssPropertyObj) => {
   let cssCode = '';
 
   Object.keys(totalCssPropertyObj)
