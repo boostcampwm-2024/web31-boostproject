@@ -14,5 +14,4 @@ export default meta;
 
 type Story = StoryObj<typeof NotHoveredEmptyWorkspace>;
 
-// 기본 상태
 export const Default: Story = {};
