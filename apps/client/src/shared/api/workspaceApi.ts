@@ -1,8 +1,8 @@
 import {
-  TcreatedWorkspaceDto,
-  TgetWorkspaceResponse,
-  TpagedWorkspaceListResultDto,
-  Tworkspace,
+  TCreatedWorkspaceDto,
+  TGetWorkspaceResponse,
+  TPagedWorkspaceListResultDto,
+  TWorkspace,
 } from '@/shared/types';
 
 import { Instance } from '@/shared/api';
@@ -18,7 +18,7 @@ export const WorkspaceApi = () => {
         },
       }
     );
-    return response.data as TcreatedWorkspaceDto;
+    return response.data as TCreatedWorkspaceDto;
   };
 
   const getWorkspaceList = async (userId: string, cursor: string) => {
@@ -28,14 +28,14 @@ export const WorkspaceApi = () => {
         headers: { 'user-id': userId },
       }
     );
-    return response.data as TpagedWorkspaceListResultDto;
+    return response.data as TPagedWorkspaceListResultDto;
   };
 
   const getWorkspace = async (userId: string, workspaceId: string) => {
     const response = await Instance.get(`/workspace?workspaceId=${workspaceId}`, {
       headers: { 'user-id': userId },
     });
-    return response.data as TgetWorkspaceResponse;
+    return response.data as TGetWorkspaceResponse;
   };
 
   const updateWorkspaceName = async (userId: string, workspaceId: string, newName: string) => {
@@ -44,7 +44,7 @@ export const WorkspaceApi = () => {
       { workspaceId, newName },
       { headers: { 'user-id': userId } }
     );
-    return response.data as Tworkspace;
+    return response.data as TWorkspace;
   };
 
   const deleteWorkspace = async (userId: string, workspaceId: string): Promise<void> => {

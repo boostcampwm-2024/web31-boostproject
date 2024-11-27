@@ -1,6 +1,6 @@
-export type Tblock = { kind: string; type: string };
+export type TBlock = { kind: string; type: string };
 
-export type TtoolboxConfig = {
+export type TToolboxConfig = {
   kind: string;
-  contents: Tblock[];
+  contents: TBlock[];
 };

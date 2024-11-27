@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 
 export const ToasterWithMax = () => {
   const { toasts } = useToasterStore();
-  const [toastLimit, _setToastLimit] = useState<number>(1);
+  const [toastLimit] = useState<number>(1);
 
   useEffect(() => {
     toasts

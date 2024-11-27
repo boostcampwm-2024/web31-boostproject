@@ -1,4 +1,4 @@
-import { TcreatedWorkspaceDto } from '@/shared/types';
+import { TCreatedWorkspaceDto } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
 import toast from 'react-hot-toast';
 import { useLoadingStore } from '@/shared/store';
@@ -12,7 +12,7 @@ export const useCreateWorkspace = () => {
   const navigate = useNavigate();
   const setPending = useLoadingStore((state) => state.setIsPending);
   const queryClient = useQueryClient();
-  const { mutate } = useMutation<TcreatedWorkspaceDto, Error, void, unknown>({
+  const { mutate } = useMutation<TCreatedWorkspaceDto, Error, void, unknown>({
     mutationFn: () => {
       setPending(true);
       const userId = getUserId();

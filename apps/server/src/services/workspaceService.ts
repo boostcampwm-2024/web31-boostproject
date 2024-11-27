@@ -1,5 +1,6 @@
 import { Workspace } from '@/models/workspaceModel';
 
+/* eslint-disable */
 export const WorkspaceService = () => {
   const createWorkspace = async (userId: string) => {
     const newWorkspaceId = crypto.randomUUID();

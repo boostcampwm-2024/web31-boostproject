@@ -23,6 +23,7 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
   const totalCode = `${htmlCode.slice(0, indexOfHead)}${styleCode}${htmlCode.slice(indexOfHead)}`;
 
   // TODO: 상수 분리한 후 재사용성 높이기
+  /* eslint-disable */
   const copyToClipboard = async (copyText: string, label: string) => {
     try {
       await navigator.clipboard.writeText(copyText);

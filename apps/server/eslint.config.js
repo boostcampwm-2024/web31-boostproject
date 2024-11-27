@@ -4,7 +4,7 @@ export default [
   defaultConfig.jsCommended,
   defaultConfig.base,
   {
-    ignores: [...defaultConfig.base.ignores, '**/dist/**/*'],
+    ignores: [...defaultConfig.base.ignores, '**/dist/**/*', '**/swagger.ts'],
   },
   defaultConfig.ignorePrettier,
 ];

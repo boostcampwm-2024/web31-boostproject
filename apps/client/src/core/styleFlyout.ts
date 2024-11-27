@@ -6,7 +6,7 @@ import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
 import questionSvgPath from '@/shared/assets/question.svg';
-import { Tblock } from '@/shared/types';
+import { TBlock } from '@/shared/types';
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
 import { useResetCssStore } from '@/shared/store';
 import { RenderResetCssTooltip } from '@/entities';
@@ -152,11 +152,12 @@ export default class StyleFlyout extends FixedFlyout {
       preconditionFn: (scope: any) => {
         const blockType = scope.block.type;
         const isInCssStyleToolboxConfig = cssStyleToolboxConfig.contents.some(
-          (item) => item.type === blockType
+          (item) => (item as any).type === blockType
         );
 
         return isInCssStyleToolboxConfig && scope.block.isDeletable() ? 'enabled' : 'hidden';
       },
+
       callback: (scope: any, _e: PointerEvent) => {
         const block = scope.block;
         const blockType = block.type;
@@ -185,7 +186,7 @@ export default class StyleFlyout extends FixedFlyout {
       return toast.error('클래스명을 입력해주세요.');
     }
 
-    const existingBlocks: Tblock[] = cssStyleToolboxConfig!.contents || [];
+    const existingBlocks: TBlock[] = cssStyleToolboxConfig!.contents || [];
     const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
     if (isBlockAlreadyAdded) {
       return toast.error(`"${inputValue}" 입력한 클래스명 블록은 이미 존재합니다.`);
@@ -199,7 +200,7 @@ export default class StyleFlyout extends FixedFlyout {
             'CLASS'
           ); // 입력된 이름 반영
           this.setOutput(true);
-          this.setStyle(`default_block_css`);
+          this.setStyle(`defaultBlockCss`);
         },
       };
     }
