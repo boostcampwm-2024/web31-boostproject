@@ -4,3 +4,4 @@ export { useCssPropsStore } from './useCssPropsStore';
 export { useCssTooltipStore } from './useCssTooptipStore';
 export { useClassBlockStore } from './useClassBlockStore';
 export { useResetCssStore } from './useResetCssStore';
+export { useWorkspaceStore } from './useWorkspaceStore';

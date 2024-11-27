@@ -1,9 +1,9 @@
-export type TcssCategoryList = {
-  category: TcssCategory;
-  items: TcssCategoryItem[];
+export type TCssCategoryList = {
+  category: TCssCategory;
+  items: TCssCategoryItem[];
 }[];
 
-export type TcssCategory =
+export type TCssCategory =
   | '레이아웃'
   | '박스모델'
   | '타이포그래피'
@@ -13,7 +13,7 @@ export type TcssCategory =
   | 'flex 속성'
   | 'grid 속성';
 
-export type TcssCategoryItem = {
+export type TCssCategoryItem = {
   label: string;
   type: 'select' | 'input' | 'color';
   option?: string[];

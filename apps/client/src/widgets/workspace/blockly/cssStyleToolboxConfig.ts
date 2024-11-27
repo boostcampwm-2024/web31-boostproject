@@ -1,6 +1,6 @@
-import { TtoolboxConfig } from '@/shared/types';
+import { TToolboxConfig } from '@/shared/types';
 
-export const cssStyleToolboxConfig: TtoolboxConfig = {
+export const cssStyleToolboxConfig: TToolboxConfig = {
   kind: 'categoryToolbox',
   contents: [],
 };

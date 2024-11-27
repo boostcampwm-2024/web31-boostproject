@@ -32,4 +32,18 @@ export const registerCustomComponents = () => {
     StyleFlyout,
     true
   );
+
+  Blockly.Css.register(`
+    .blocklyZoom>image, .blocklyZoom>svg>image {
+      opacity: .6;
+    }
+
+    .blocklyZoom>image:hover, .blocklyZoom>svg>image:hover {
+      opacity: .8;
+    }
+
+    .blocklyZoom>image:active, .blocklyZoom>svg>image:active {
+      opacity: 1;
+    }
+  `);
 };

@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 
+/* eslint-disable */
 const workspaceScheme = new mongoose.Schema({
   workspace_id: { type: String, required: true, unique: true },
   user_id: { type: String, required: true },

@@ -1,15 +1,15 @@
 export type {
-  TcreatedWorkspaceDto,
-  TgetWorkspaceResponse,
-  TworkspaceDto,
-  Tworkspace,
-  TpagedWorkspaceListResultDto,
-  TpagedWorkspaceListResult,
-  Tcursor,
+  TCreatedWorkspaceDto,
+  TGetWorkspaceResponse,
+  TWorkspaceDto,
+  TWorkspace,
+  TPagedWorkspaceListResultDto,
+  TPagedWorkspaceListResult,
+  TCursor,
 } from './workspaceType';
 
-export type { TcssCategory, TcssCategoryItem, TcssCategoryList } from './cssCategoryType';
+export type { TCssCategory, TCssCategoryItem, TCssCategoryList } from './cssCategoryType';
 export type { TBlockInfo, TBlockContents } from './blockType';
 export type { IExtendedIToolbox } from './extendedType';
 export type { TTabConfig, TTabsConfig, TTabToolboxConfig } from './tabType';
-export type { Tblock, TtoolboxConfig } from './styleToolboxType';
+export type { TBlock, TToolboxConfig } from './styleToolboxType';

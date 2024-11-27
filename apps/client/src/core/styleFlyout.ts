@@ -6,12 +6,11 @@ import Dom from './dom';
 import { cssStyleToolboxConfig } from '@/widgets';
 import { useClassBlockStore } from '@/shared/store';
 import questionSvgPath from '@/shared/assets/question.svg';
-import { Tblock } from '@/shared/types';
+import { TBlock } from '@/shared/types';
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
 import { validateClassNameBody, validateClassNameStart } from '@/shared/utils/cssClassName';
 import { useResetCssStore } from '@/shared/store';
 import { RenderResetCssTooltip } from '@/entities';
-
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -57,7 +56,6 @@ export default class StyleFlyout extends FixedFlyout {
       class: 'listBlockLabel',
     });
     listLabelElement.textContent = '클래스 블록 목록';
-
 
     // reset CSS 부분
     const resetCssDivElement = Dom.createElement<HTMLDivElement>('div', {
@@ -155,7 +153,7 @@ export default class StyleFlyout extends FixedFlyout {
       preconditionFn: (scope: any) => {
         const blockType = scope.block.type;
         const isInCssStyleToolboxConfig = cssStyleToolboxConfig.contents.some(
-          (item) => item.type === blockType
+          (item) => (item as any).type === blockType
         );
         return isInCssStyleToolboxConfig && scope.block.isDeletable() ? 'enabled' : 'hidden';
       },
@@ -202,7 +200,13 @@ export default class StyleFlyout extends FixedFlyout {
       return toast.error('클래스명은 영문자, 밑줄(_), 하이픈(-), 숫자만 포함해주세요');
     }
 
-    const existingBlocks: Tblock[] = cssStyleToolboxConfig!.contents || [];
+    if (!validateClassNameStart(inputValue)) {
+      return toast.error('클래스명 첫 글자는 영문자, 밑줄(_), 하이픈(-)만 가능해요');
+    } else if (!validateClassNameBody(inputValue)) {
+      return toast.error('클래스명은 영문자, 밑줄(_), 하이픈(-), 숫자만 포함해주세요');
+    }
+
+    const existingBlocks: TBlock[] = cssStyleToolboxConfig!.contents || [];
     const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
     if (isBlockAlreadyAdded) {
       return toast.error(`"${inputValue}" 입력한 클래스명 블록은 이미 존재합니다.`);
@@ -216,7 +220,7 @@ export default class StyleFlyout extends FixedFlyout {
             'CLASS'
           ); // 입력된 이름 반영
           this.setOutput(true);
-          this.setStyle(`default_block_css`);
+          this.setStyle(`defaultBlockCss`);
         },
       };
     }

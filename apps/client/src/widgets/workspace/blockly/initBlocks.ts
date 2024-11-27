@@ -1,7 +1,7 @@
 import { addPreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
 
-type InitialBlockDefinition = {
+type TInitialBlockDefinition = {
   type: string;
   coordinate?: { x: number; y: number };
   movable?: boolean;
@@ -11,7 +11,7 @@ type InitialBlockDefinition = {
   };
 };
 
-export const initialBlocksJson: InitialBlockDefinition[] = [
+export const initialBlocksJson: TInitialBlockDefinition[] = [
   {
     type: addPreviousTypeName('html'),
     coordinate: { x: 40, y: 40 },

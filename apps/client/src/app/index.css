@@ -173,6 +173,10 @@ input[type='color']::-webkit-color-swatch-wrapper {
   @apply bg-blue-300;
 }
 
+.blocklyTrash {
+  opacity: 1 !important;
+}
+
 .listBlockLabel {
   @apply text-bold-rg text-gray-black;
   margin-top: 1.75rem;
