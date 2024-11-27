@@ -5,3 +5,5 @@ export { useCssTooltipStore } from './useCssTooptipStore';
 export { useClassBlockStore } from './useClassBlockStore';
 export { useWorkspaceChangeStatusStore } from './useWorkspaceChangeStatusStore';
 export { useBlocklyWorkspaceStore } from './useBlocklyWorkspaceStore';
+export { useResetCssStore } from './useResetCssStore';
+export { useWorkspaceStore } from './useWorkspaceStore';

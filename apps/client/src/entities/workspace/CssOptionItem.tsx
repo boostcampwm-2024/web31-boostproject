@@ -66,6 +66,7 @@ export const CssOptionItem = ({ cssItem, index }: CssOptionItemProps) => {
       {cssItem.type === 'select' && (
         <select
           id={cssItem.label}
+          title={cssItem.label}
           className="bg-gray-white focus:ring-gray-black text-semibold-md focus:border-gray-black w-[120px] truncate rounded-lg border border-gray-100 px-2 py-1 outline-none"
           onChange={(e) => handleCssOptionChange(cssItem.label, e.target.value)}
           value={cssOption}
@@ -95,6 +96,7 @@ export const CssOptionItem = ({ cssItem, index }: CssOptionItemProps) => {
           <p>{cssOption}</p>
           <input
             type="color"
+            title={cssOption}
             onChange={(e) => handleColorChange(cssItem.label, e.target.value)}
             value={cssOption}
             className="h-5 w-5 cursor-pointer appearance-none bg-transparent"

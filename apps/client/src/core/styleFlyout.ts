@@ -1,15 +1,15 @@
 import * as Blockly from 'blockly/core';
 
-import { useClassBlockStore, useCssPropsStore } from '@/shared/store';
-
 import Dom from './dom';
-import FieldClickableImage from './fieldClickableImage';
-import FixedFlyout from './fixedFlyout';
-import TabbedToolbox from './tabbedToolbox';
-import { Tblock } from '@/shared/types';
-import cssClassDeleteIcon from '@/shared/assets/css_class_delete_icon.svg';
 import { cssStyleToolboxConfig } from '@/widgets';
+import { useClassBlockStore, useResetCssStore, useCssPropsStore } from '@/shared/store';
+import questionSvgPath from '@/shared/assets/question.svg';
+import { Tblock } from '@/shared/types';
+import TabbedToolbox from './tabbedToolbox';
+import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
+import { RenderResetCssTooltip } from '@/entities';
 import toast from 'react-hot-toast';
+import FixedFlyout from './fixedFlyout';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -17,19 +17,6 @@ export default class StyleFlyout extends FixedFlyout {
   pElement: HTMLDivElement | null = null;
   inputElement: HTMLInputElement | null = null;
   buttonElement: HTMLButtonElement | null = null;
-
-  // flyout 위치 오버라이딩
-  position(): void {
-    super.position(); // FixedFlyout의 기본 배치 호출
-    const toolbox = this.targetWorkspace!.getToolbox();
-
-    if (!toolbox) {
-      throw new Error('no toolbox');
-    }
-
-    const metrics = (toolbox as TabbedToolbox).getContentAreaMetrics();
-    this.positionAt_(metrics.width - 10, metrics.height - 150, 10, 150);
-  }
 
   init(targetWorkspace: Blockly.WorkspaceSvg): void {
     super.init(targetWorkspace);
@@ -39,17 +26,23 @@ export default class StyleFlyout extends FixedFlyout {
       class: 'contentCreatingBlock',
     });
 
-    const labelElement = Dom.createElement<HTMLLabelElement>('label', {
+    const createLabelElement = Dom.createElement<HTMLLabelElement>('label', {
       for: 'creatingBlockInput',
       class: 'creatingBlockLabel',
     });
-    labelElement.textContent = '클래스명';
+    createLabelElement.textContent = '클래스 생성하기';
 
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
       placeholder: '클래스명을 정해주세요',
       class: 'creatingBlockInput',
       id: 'creatingBlockInput',
+      maxlength: '30',
+    });
+    this.inputElement.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        this.createStyleBlock();
+      }
     });
 
     const buttonElement = Dom.createElement<HTMLButtonElement>('button', {
@@ -57,15 +50,133 @@ export default class StyleFlyout extends FixedFlyout {
     });
     buttonElement.textContent = '+';
     buttonElement.addEventListener('click', () => this.createStyleBlock());
-    // TODO: input 입력값 존재 && focus된 경우 Enter 클릭하면 CSS 클래스명 블록 생성
 
-    [labelElement, this.inputElement, buttonElement].forEach((element) =>
-      cssStyleToolboxDivElement.appendChild(element)
-    );
+    const listLabelElement = Dom.createElement<HTMLLabelElement>('label', {
+      class: 'listBlockLabel',
+    });
+    listLabelElement.textContent = '클래스 블록 목록';
 
-    toolbox.addElementToContentArea(cssStyleToolboxDivElement);
+    // reset CSS 부분
+    const resetCssDivElement = Dom.createElement<HTMLDivElement>('div', {
+      class: 'resetCssDiv',
+    });
+
+    const resetCssCheckboxElement = Dom.createElement<HTMLInputElement>('input', {
+      type: 'checkbox',
+      class: 'resetCssCheckbox',
+    });
+    resetCssCheckboxElement.checked = useResetCssStore.getState().isResetCssChecked;
+    resetCssCheckboxElement.addEventListener('change', () => {
+      useResetCssStore.getState().toggleResetCss();
+    });
+
+    const resetCssTextElement = Dom.createElement<HTMLSpanElement>('span', {
+      class: 'resetCssText',
+    });
+    resetCssTextElement.textContent = 'reset CSS 적용하기';
+
+    const questionImageElement = Dom.createElement<HTMLImageElement>('img', {
+      src: questionSvgPath,
+      alt: 'reset CSS Info',
+      class: 'questionImage',
+    });
+
+    // Tooltip Root를 저장할 변수
+    const tooltipDivElement = document.createElement('div');
+    document.body.appendChild(tooltipDivElement);
+
+    // Tooltip 표시
+    const showTooltip = () => {
+      const { left, top } = questionImageElement.getBoundingClientRect();
+      RenderResetCssTooltip(
+        {
+          description:
+            '브라우저마다 다른 기본 스타일을 일관되게 만들기 위해, 모든 요소의 기본 스타일을 초기화하는 CSS입니다.',
+          isOpen: true,
+          leftX: left,
+          topY: top,
+        },
+        tooltipDivElement
+      );
+    };
+
+    // Tooltip 숨기기
+    const hideTooltip = () => {
+      RenderResetCssTooltip(
+        {
+          description: '',
+          isOpen: false,
+          leftX: 0,
+          topY: 0,
+        },
+        tooltipDivElement
+      );
+    };
+
+    questionImageElement.addEventListener('mouseenter', showTooltip);
+    questionImageElement.addEventListener('mouseleave', hideTooltip);
+
+    resetCssDivElement.appendChild(resetCssCheckboxElement);
+    resetCssDivElement.appendChild(resetCssTextElement);
+    resetCssDivElement.appendChild(questionImageElement);
+
+    [
+      createLabelElement,
+      this.inputElement,
+      buttonElement,
+      resetCssDivElement,
+      listLabelElement,
+    ].forEach((element) => cssStyleToolboxDivElement.appendChild(element));
+
+    toolbox.addElementToContentArea(cssStyleToolboxDivElement, true);
+
+    this.registerCustomContextMenu();
+
     // TODO: toolbox 중복 호출 논의
     this.show(cssStyleToolboxConfig.contents);
+  }
+
+  registerCustomContextMenu() {
+    const menuId = 'deleteBlock';
+
+    // 중복 등록 방지: 이미 등록된 ID는 다시 등록하지 않음
+    if (Blockly.ContextMenuRegistry.registry.getItem(menuId)) {
+      return;
+    }
+
+    const deleteOption = {
+      id: menuId,
+      scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK, // 블록에만 적용
+      displayText: '블록 삭제',
+      weight: 100,
+      preconditionFn: (scope: any) => {
+        const blockType = scope.block.type;
+        const isInCssStyleToolboxConfig = cssStyleToolboxConfig.contents.some(
+          (item) => item.type === blockType
+        );
+
+        return isInCssStyleToolboxConfig && scope.block.isDeletable() ? 'enabled' : 'hidden';
+      },
+      callback: (scope: any, _e: PointerEvent) => {
+        const block = scope.block;
+        const blockType = block.type;
+
+        block.dispose(false, true);
+
+        cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
+          (item) => item.type !== blockType
+        );
+
+        const { removeClassBlock } = useClassBlockStore.getState();
+        removeClassBlock(blockType);
+
+        const flyout = (Blockly.getMainWorkspace() as any).getToolbox().getFlyout();
+        flyout.show(cssStyleToolboxConfig.contents);
+        toast.success(`"${blockType}" 클래스 블록이 삭제되었습니다.`);
+      },
+    };
+
+    Blockly.ContextMenuRegistry.registry.register(deleteOption);
   }
 
   createStyleBlock() {
@@ -81,27 +192,15 @@ export default class StyleFlyout extends FixedFlyout {
     }
 
     if (!Blockly.Blocks[inputValue!]) {
-      const flyoutInstance = this;
       useCssPropsStore.getState().addNewCssClass(inputValue);
       Blockly.Blocks[inputValue!] = {
         init: function () {
-          const input = this.appendDummyInput();
-          input.appendField(new Blockly.FieldLabelSerializable(inputValue!), 'CLASS');
-
-          // TODO: CSS 클래스명 블록 색상 변경
-          input.appendField(
-            new FieldClickableImage(
-              cssClassDeleteIcon,
-              12,
-              12,
-              '삭제',
-              flyoutInstance.deleteStyleBlock.bind(flyoutInstance, inputValue!)
-            )
-          );
-
+          this.appendDummyInput().appendField(
+            new CustomFieldLabelSerializable(inputValue!),
+            'CLASS'
+          ); // 입력된 이름 반영
           this.setOutput(true);
-          this.setColour('#02D085');
-          // this.setColour('#F4F8FA');
+          this.setStyle(`default_block_css`);
         },
       };
     }
@@ -117,28 +216,5 @@ export default class StyleFlyout extends FixedFlyout {
     if (this.inputElement) {
       this.inputElement.value = '';
     }
-  }
-
-  // TODO: 워크스페이스에 존재하는 CSS 클래스명 블록 삭제 논의 필요
-  deleteStyleBlock(blockType: string) {
-    const blocks = this.workspace_.getAllBlocks();
-
-    // CSS 클래스명 블록 삭제
-    for (let i = 0; i < blocks.length; i++) {
-      if (blocks[i].type === blockType) {
-        blocks[i].dispose(false, true);
-        break;
-      }
-    }
-
-    cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
-      (block) => block.type !== blockType
-    );
-
-    const { removeClassBlock } = useClassBlockStore.getState();
-    removeClassBlock(blockType);
-
-    this.show(cssStyleToolboxConfig.contents);
-    toast.success(`"${blockType}" 클래스명 블록이 삭제되었습니다.`);
   }
 }

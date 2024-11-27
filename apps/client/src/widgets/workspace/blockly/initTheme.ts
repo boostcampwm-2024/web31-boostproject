@@ -24,9 +24,9 @@ const defaultBlockStyles: {
     colourTertiary: '#2677C3',
   },
   default_block_css: {
-    colourPrimary: '#FFFFFF',
+    colourPrimary: '#FFF3AD',
     colourSecondary: '#41505B',
-    colourTertiary: '#2677C3',
+    colourTertiary: '#FFE241',
   },
 };
 

@@ -12,28 +12,48 @@ import {
 import {
   useBlocklyWorkspaceStore,
   useCssPropsStore,
+  useWorkspaceStore,
   useWorkspaceChangeStatusStore,
 } from '@/shared/store';
 import { useEffect, useState } from 'react';
 
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
-import { blockContents } from './blockly/htmlBlockContents';
-import { defineBlocks } from './blockly/defineBlocks';
 import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import { initializeBlocks } from './blockly/initBlocks';
 import { registerCustomComponents } from '@/core/register';
 import { tabToolboxConfig } from './blockly/tabConfig';
+import { defineBlocks } from './blockly/defineBlocks';
+import CustomZoomControls from '@/core/customZoomControls';
+import CustomTrashcan from '@/core/customTrashcan';
+import { blockContents } from './blockly/htmlBlockContents';
+import { initializeBlocks } from './blockly/initBlocks';
 
 registerCustomComponents();
 defineBlocks(blockContents);
+
+Blockly.WorkspaceSvg.prototype.addZoomControls = function () {
+  this.zoomControls_ = new CustomZoomControls(this);
+  const svgZoomControls = this.zoomControls_.createDom();
+  this.svgGroup_.appendChild(svgZoomControls);
+};
+
+Blockly.WorkspaceSvg.newTrashcan = function (workspace: Blockly.WorkspaceSvg): CustomTrashcan {
+  return new CustomTrashcan(workspace);
+};
+
+Blockly.WorkspaceSvg.prototype.addTrashcan = function () {
+  this.trashcan = Blockly.WorkspaceSvg.newTrashcan(this);
+  const svgTrashcan = this.trashcan.createDom();
+  this.svgGroup_.insertBefore(svgTrashcan, this.getCanvas());
+};
 
 export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
+  const { workspace, setWorkspace } = useWorkspaceStore();
   const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
-  const { setWorkspace } = useBlocklyWorkspaceStore();
+  const { setWorkspace: setBlocklyWorkspace } = useBlocklyWorkspaceStore();
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
@@ -53,12 +73,15 @@ export const WorkspaceContent = () => {
         minScale: 0.3,
         scaleSpeed: 1.2,
       },
+      maxTrashcanContents: 0,
     });
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
 
     initializeBlocks(newWorkspace);
-    setWorkspace(newWorkspace);
+
+    newWorkspace.clearUndo();
+    setBlocklyWorkspace(newWorkspace);
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
       if (
@@ -75,6 +98,10 @@ export const WorkspaceContent = () => {
     };
 
     newWorkspace.addChangeListener(handleAutoConversion);
+
+    if (workspace === null) {
+      setWorkspace(newWorkspace);
+    }
 
     return () => {
       newWorkspace.removeChangeListener(handleAutoConversion);
