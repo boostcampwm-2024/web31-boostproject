@@ -1,15 +1,21 @@
 import * as Blockly from 'blockly/core';
 
-import Dom from './dom';
-import { useClassBlockStore, useResetCssStore, useCssPropsStore } from '@/shared/store';
-import questionSvgPath from '@/shared/assets/question.svg';
-import { TBlock } from '@/shared/types';
+import {
+  useClassBlockStore,
+  useCssPropsStore,
+  useResetCssStore,
+  useWorkspaceChangeStatusStore,
+} from '@/shared/store';
+
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
-import { RenderResetCssTooltip } from '@/entities';
-import toast from 'react-hot-toast';
+import Dom from './dom';
 import FixedFlyout from './fixedFlyout';
+import { RenderResetCssTooltip } from '@/entities';
+import { TBlock } from '@/shared/types';
 import TabbedToolbox from './tabbedToolbox';
 import { cssStyleToolboxConfig } from '@/shared/blockly';
+import questionSvgPath from '@/shared/assets/question.svg';
+import toast from 'react-hot-toast';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -163,7 +169,8 @@ export default class StyleFlyout extends FixedFlyout {
         const blockType = block.type;
 
         block.dispose(false, true);
-
+        useCssPropsStore.getState().removeCssClass(blockType);
+        useWorkspaceChangeStatusStore.getState().setIsBlockChanged(true);
         cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
           (item) => item.type !== blockType
         );

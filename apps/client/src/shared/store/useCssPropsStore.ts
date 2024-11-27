@@ -12,6 +12,7 @@ type TcssProps = {
   setCheckedCssPropertyObj: (className: string, label: string, value: boolean) => void;
   setCssOptionObj: (className: string, label: string, value: string) => void;
   initCssPropertyObj: (totalCssPropertyObj: TTotalCssPropertyObj) => void;
+  removeCssClass: (className: string) => void;
 };
 
 export const useCssPropsStore = create<TcssProps>((set) => {
@@ -67,5 +68,11 @@ export const useCssPropsStore = create<TcssProps>((set) => {
 
     initCssPropertyObj: (totalCssPropertyObj) =>
       set({ totalCssPropertyObj, currentCssClassName: '', selectedCssCategory: '레이아웃' }),
+    removeCssClass: (className) =>
+      set((state) => {
+        const updatedTotalCssPropertyObj = { ...state.totalCssPropertyObj };
+        delete updatedTotalCssPropertyObj[className];
+        return { totalCssPropertyObj: updatedTotalCssPropertyObj };
+      }),
   };
 });
