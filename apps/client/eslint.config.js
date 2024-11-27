@@ -1,62 +1,49 @@
-const isProduction = process.env.NODE_ENV === 'production';
+import defaultConfig from '@packages/eslint';
+import react from 'eslint-plugin-react';
+import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import reactRefreshPlugin from 'eslint-plugin-react-refresh';
+import storybookPlugin from 'eslint-plugin-storybook';
 
-export default {
-  env: {
-    browser: true,
-    es2021: true,
-    node: true,
-  },
-  extends: [
-    'eslint:recommended',
-    'plugin:react/recommended',
-    'plugin:@typescript-eslint/recommended',
-    'prettier', // prettier와 충돌하는 규칙 비활성화
-  ],
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaFeatures: {
-      jsx: true,
+export default [
+  defaultConfig.jsCommended,
+  defaultConfig.base,
+
+  {
+    files: [...defaultConfig.base.files, '**/*.{jsx,tsx}'],
+    plugins: {
+      ...defaultConfig.base.plugins,
+      react,
+      'react-hooks': reactHooksPlugin,
+      'react-refresh': reactRefreshPlugin,
+      storybook: storybookPlugin,
     },
-    ecmaVersion: 12,
-    sourceType: 'module',
-  },
-  plugins: ['react', '@typescript-eslint', 'prettier'],
-  settings: {
-    react: {
-      version: 'detect',
+    languageOptions: {
+      ...defaultConfig.base.languageOptions,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
-    'import/resolver': {
-      alias: {
-        map: [['@', './src']], // 절대 경로 설정
-        extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    settings: {
+      react: {
+        version: '18.3.1',
+      },
+      'import/resolver': {
+        alias: {
+          map: [['@', './src']],
+          extensions: ['.ts', '.tsx', '.js', '.jsx'],
+        },
       },
     },
   },
-  rules: Object.assign(
-    {
-      // Prettier와 ESLint 통합 (Prettier 규칙 위반 시 에러)
-      'prettier/prettier': 'error',
-
-      // 코드 품질 관련 규칙
-      'prefer-arrow-callback': 'error', // 콜백에 화살표 함수 사용
-      curly: ['error', 'all'], // 조건문 중괄호 강제
-      'no-else-return': 'error', // Early Return 패턴 강제
-
-      // 네이밍 컨벤션 관련 규칙
-      '@typescript-eslint/naming-convention': [
-        'error',
-        { selector: 'variable', format: ['camelCase'] },
-        { selector: 'function', format: ['camelCase'] },
-        { selector: 'typeLike', format: ['PascalCase'] },
-        { selector: 'typeParameter', prefix: ['T'], format: ['PascalCase'] },
-      ],
-      camelcase: 'error', // 변수명 camelCase 강제
-
-      // Boolean 변수 네이밍 규칙
-      'id-match': ['error', '^(is|has|should|can|todo|user)[A-Z][a-zA-Z0-9]*$'],
-    },
-    isProduction
-      ? { 'no-console': 'error', 'no-debugger': 'error' }
-      : { 'no-unused-vars': 'warn', 'no-console': 'off' }
-  ),
-};
+  {
+    ignores: [
+      ...defaultConfig.base.ignores,
+      '**/dist/**/*',
+      '**/vite-env.d.ts',
+      '**/.storybook/**',
+    ],
+  },
+  defaultConfig.ignorePrettier,
+];
