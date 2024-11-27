@@ -1,4 +1,3 @@
-import { CustomFieldLabelSerializable } from '@/core/customFieldLabelSerializable';
 import { CustomFieldTextInput } from '@/core/customFieldTextInput';
 import { TBlockContents } from '@/shared/types';
 import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
@@ -14,6 +13,7 @@ import * as Blockly from 'blockly/core';
 const defineBlockWithDefaults = (
   blockName: string,
   blockColorNum: number | string,
+  description: string,
   blockDefinition: any = { init: function () {} },
   isDefault: boolean = true
 ) => {
@@ -23,6 +23,7 @@ const defineBlockWithDefaults = (
 
     if (!this.styleName_) {
       this.setStyle(`defaultBlock${blockColorNum}`);
+      this.setTooltip(description);
     }
 
     if (isDefault) {
@@ -42,6 +43,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
   defineBlockWithDefaults(
     addPreviousTypeName('html'),
     1,
+    '웹페이지의 시작과 끝을 알려주는 가장 큰 상자예요.\n모든 내용을 담고 있는 책의 겉표지 같은 거예요.',
     {
       init: function () {
         this.appendDummyInput().appendField('html');
@@ -54,6 +56,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
   defineBlockWithDefaults(
     addPreviousTypeName('head'),
     2,
+    '웹페이지의 정보를 담아두는 곳이에요.\n책의 목차나 출판 정보같이 보이지 않지만 중요한 정보들이 들어가요.',
     {
       init: function () {
         this.setPreviousStatement(true);
@@ -64,7 +67,11 @@ export const defineBlocks = (blockContents: TBlockContents) => {
     false
   );
 
-  defineBlockWithDefaults(addPreviousTypeName('body'), 3);
+  defineBlockWithDefaults(
+    addPreviousTypeName('body'),
+    3,
+    '웹페이지에서 실제로 보이는 모든 내용이 들어가는 곳이에요.\n책의 실제 내용이 적힌 부분같은 거예요.'
+  );
 
   /*
    *   {
@@ -79,6 +86,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
         defineBlockWithDefaults(
           blockInfo.type,
           (index % 3) + 1,
+          blockInfo.description,
           {
             init: function () {
               this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
@@ -86,6 +94,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
               this.appendDummyInput()
                 .appendField(removePreviousTypeName(blockInfo.type))
                 .appendField(new CustomFieldTextInput(), 'TEXT');
+              this.setTooltip(blockInfo.description);
             },
           },
           false
@@ -97,6 +106,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
         defineBlockWithDefaults(
           blockInfo.type,
           (index % 3) + 1,
+          blockInfo.description,
           {
             init: function () {
               this.setPreviousStatement(true);
@@ -107,20 +117,8 @@ export const defineBlocks = (blockContents: TBlockContents) => {
           false
         );
       } else {
-        defineBlockWithDefaults(blockInfo.type, (index % 3) + 1);
+        defineBlockWithDefaults(blockInfo.type, (index % 3) + 1, blockInfo.description);
       }
     });
   });
-
-  defineBlockWithDefaults(
-    'css_style',
-    'Css',
-    {
-      init: function () {
-        this.appendDummyInput().appendField(new CustomFieldLabelSerializable('클래스명'), 'CLASS'); // "클래스명"은 초기값
-        this.setOutput(true); // 이 블록을 다른 블록에 연결할 수 있도록 설정
-      },
-    },
-    false
-  );
 };
