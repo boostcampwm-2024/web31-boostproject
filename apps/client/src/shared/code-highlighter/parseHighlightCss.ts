@@ -11,5 +11,6 @@ export const parseHighlightCss = (css: string, styles: Record<string, string>) =
     .replace(/:\s*([^;]+);/g, (_, value) => {
       // 속성 값 ex) #ffffff, 16px ...
       return `: <span class="${styles['property-value']}">${value}</span>;`;
-    });
+    })
+    .trim();
 };

@@ -15,7 +15,7 @@ export const CodeViewer = ({ code, type, theme }: CodeViewerProps) => {
   return (
     <div className={`${styles.viewer} ${theme === 'dark' ? styles.dark : styles.light}`}>
       <div className={styles.lineNumbers}>
-        {code.split('\n').map((_, index) => (
+        {highlightedCode.split('\n').map((_, index) => (
           <div key={index} className={styles.lineNumber}>
             {index + 1}
           </div>
