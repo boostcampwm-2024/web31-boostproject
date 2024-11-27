@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useResetCssStore } from '@/shared/store';
 import { resetCss } from '@/shared/utils/resetCss';
-import CodeMirror from '@uiw/react-codemirror';
-// import { css } from '@codemirror/lang-css';
-import { html } from '@codemirror/lang-html';
+// import CodeMirror from '@uiw/react-codemirror';
+// // import { css } from '@codemirror/lang-css';
+// import { html } from '@codemirror/lang-html';
 import CopyIcon from '@/shared/assets/code_copy.svg?react';
 import toast from 'react-hot-toast';
 import { CodeViewer } from '@/shared/code-highlighter';
@@ -77,8 +77,8 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
           <iframe srcDoc={totalCode} className="h-full w-full" title="Preview" sandbox=""></iframe>
         )}
         {activeTab === 'html' && (
-          <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />
-          // <CodeViewer code={htmlCode} type="html" theme="light" />
+          // <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />
+          <CodeViewer code={htmlCode} type="html" theme="light" />
         )}
         {activeTab === 'css' && (
           // <CodeMirror value={cssCode} height="100%" extensions={[css()]} theme="light" />
