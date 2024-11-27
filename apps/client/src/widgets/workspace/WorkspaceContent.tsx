@@ -19,10 +19,13 @@ import CustomTrashcan from '@/core/customTrashcan';
 import CustomZoomControls from '@/core/customZoomControls';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
+import { customTooltip } from '@/core/customTooltip';
 import { registerCustomComponents } from '@/core/register';
 
 registerCustomComponents();
 defineBlocks(blockContents);
+
+Blockly.Tooltip.setCustomTooltip(customTooltip);
 
 Blockly.WorkspaceSvg.prototype.addZoomControls = function () {
   this.zoomControls_ = new CustomZoomControls(this);
