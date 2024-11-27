@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type TcssTooltip = {
+type TCssTooltip = {
   offsetX: number;
   offsetY: number;
   leftX: number;
@@ -12,7 +12,7 @@ type TcssTooltip = {
   setTopY: (topY: number) => void;
 };
 
-export const useCssTooltipStore = create<TcssTooltip>((set) => ({
+export const useCssTooltipStore = create<TCssTooltip>((set) => ({
   offsetX: -1,
   offsetY: -1,
   leftX: 0,

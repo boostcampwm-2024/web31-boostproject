@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 
-type TclassBlock = {
+type TClassBlock = {
   classBlockList: string[];
   addClassBlock: (newClassBlockName: string) => void;
   removeClassBlock: (classBlockName: string) => void;
   initClassBlockList: (classList: string[]) => void;
 };
 
-export const useClassBlockStore = create<TclassBlock>((set) => ({
+export const useClassBlockStore = create<TClassBlock>((set) => ({
   classBlockList: [],
   addClassBlock: (newClassBlockName: string) => {
     set((state) => ({

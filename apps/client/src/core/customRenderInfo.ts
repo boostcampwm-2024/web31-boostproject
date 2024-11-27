@@ -5,10 +5,10 @@ import { CustomFieldTextInput } from './customFieldTextInput';
 const Types = Blockly.blockRendering.Types;
 
 /*
-  블록내에서 inlineInputField 와 blockl label field를 space-between처럼 좌우에 고정시키기 위해 커스텀한 renderInfo 클래스입니다.
-  renderInfo는 블록 좌표, 어떤 블록 타입인지, 어떤 길이를 가지는지 등등 블록에 대한 정보를 전부 설정해주는 클래스로, 
-  drawer 이전 마지막으로 호출되는 클래스이기에 이 부분에서 field가 그려질 좌표를 수정해주었습니다.
-*/
+ *블록내에서 inlineInputField 와 blockl label field를 space-between처럼 좌우에 고정시키기 위해 커스텀한 renderInfo 클래스입니다.
+ *renderInfo는 블록 좌표, 어떤 블록 타입인지, 어떤 길이를 가지는지 등등 블록에 대한 정보를 전부 설정해주는 클래스로,
+ *drawer 이전 마지막으로 호출되는 클래스이기에 이 부분에서 field가 그려질 좌표를 수정해주었습니다.
+ */
 export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
   constructor(renderer: CustomRenderer, block: Blockly.BlockSvg) {
     super(renderer, block);

@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 
+/* eslint-disable */
+
 const optionScheme = new mongoose.Schema({
   property: { type: String },
   value: { type: String },
@@ -11,6 +13,7 @@ const cssListScheme = new mongoose.Schema({
   option_list: [optionScheme],
 });
 
+/* eslint-disable */
 const workspaceScheme = new mongoose.Schema({
   workspace_id: { type: String, required: true, unique: true },
   user_id: { type: String, required: true },

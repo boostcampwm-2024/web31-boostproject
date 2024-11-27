@@ -4,13 +4,13 @@ import { Spinner } from '@/shared/ui';
 import { useParams } from 'react-router-dom';
 import { useUpdateWorkspaceName, workspaceKeys } from '@/shared/hooks';
 import { useQueryClient } from '@tanstack/react-query';
-import { TgetWorkspaceResponse } from '@/shared/types';
+import { TGetWorkspaceResponse } from '@/shared/types';
 
 export const WorkspaceNameInput = () => {
   const { workspaceId } = useParams() as { workspaceId: string };
   const { mutate, isPending } = useUpdateWorkspaceName();
   const queryClient = useQueryClient();
-  const workspaceData = queryClient.getQueryData<TgetWorkspaceResponse>(
+  const workspaceData = queryClient.getQueryData<TGetWorkspaceResponse>(
     workspaceKeys.detail(workspaceId)
   );
   const name = workspaceData?.workspaceDto.name || '워크스페이스 이름';

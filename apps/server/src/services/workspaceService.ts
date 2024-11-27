@@ -4,6 +4,7 @@ import { Workspace } from '@/models/workspaceModel';
 import { generateCssList } from '@/services/utils/generateCssList';
 import { generateTotalCssPropertyObj } from '@/services/utils/generateTotalCssPropertyObj';
 
+/* eslint-disable */
 export const WorkspaceService = () => {
   const createWorkspace = async (userId: string) => {
     const newWorkspaceId = crypto.randomUUID();

@@ -1,9 +1,9 @@
-import { Tworkspace } from '@/shared/types';
+import { TWorkspace } from '@/shared/types';
 import { WorkspaceItem } from '@/entities';
 import { useNavigate } from 'react-router-dom';
 
 type workspaceListProps = {
-  workspaceList: Array<Tworkspace>;
+  workspaceList: Array<TWorkspace>;
 };
 
 export const WorkspaceList = ({ workspaceList }: workspaceListProps) => {

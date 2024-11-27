@@ -8,22 +8,22 @@ const defaultBlockStyles: {
   [key: string]: Partial<Blockly.Theme.BlockStyle>;
 } = {
   ...Blockly.Themes.Zelos.blockStyles,
-  default_block1: {
+  defaultBlock1: {
     colourPrimary: '#B2DAFF',
     colourSecondary: '#F4F8FA',
     colourTertiary: '#2677C3',
   },
-  default_block2: {
+  defaultBlock2: {
     colourPrimary: '#67B6FF',
     colourSecondary: 'F4F8FA',
     colourTertiary: '#2677C3',
   },
-  default_block3: {
+  defaultBlock3: {
     colourPrimary: '#4195E4',
     colourSecondary: '#F4F8FA',
     colourTertiary: '#2677C3',
   },
-  default_block_css: {
+  defaultBlockCss: {
     colourPrimary: '#FFF3AD',
     colourSecondary: '#41505B',
     colourTertiary: '#FFE241',

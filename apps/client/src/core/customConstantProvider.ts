@@ -1,7 +1,7 @@
 import * as Blockly from 'blockly/core';
 
 const svgPaths = Blockly.utils.svgPaths;
-type Shape = Blockly.blockRendering.BaseShape | Blockly.blockRendering.DynamicShape;
+type TShape = Blockly.blockRendering.BaseShape | Blockly.blockRendering.DynamicShape;
 
 export class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
   constructor() {
@@ -41,13 +41,14 @@ export class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
     };
   }
 
-  /*
-    makeNotch와 똑같이 draw 동작 전 rounded에 대한 cosntant 값이 다시 매겨집니다. 
-    이 메소드가 쓰이는 곳은 inlint input field가 있을 경우 이에 대한 내부 path 경로를 그릴 때 사용됩니다.
-    즉, boolock내에서는 클래스명 블록과 text 블록 내 input field, html 태그 블록들의 비어져있는 클래스명 field 부분을 그릴 때 사용됩니다.
-    해당 메소드는 메소드의 내부 로직중 일부를 고쳐야함으로, super.makeRounded 이후 사용하기 어려워 해당 메소드를 그대로 복붙해와서 사용중입니다.
-  */
-  protected override makeRounded(): Shape {
+  /**
+   * makeNotch와 똑같이 draw 동작 전 rounded에 대한 cosntant 값이 다시 매겨집니다.
+   * 이 메소드가 쓰이는 곳은 inlint input field가 있을 경우 이에 대한 내부 path 경로를 그릴 때 사용됩니다.
+   * 즉, boolock내에서는 클래스명 블록과 text 블록 내 input field, html 태그 블록들의 비어져있는 클래스명 field 부분을 그릴 때 사용됩니다.
+   * 해당 메소드는 메소드의 내부 로직중 일부를 고쳐야함으로, super.makeRounded 이후 사용하기 어려워 해당 메소드를 그대로 복붙해와서 사용중입니다.
+   */
+
+  protected override makeRounded(): TShape {
     const maxWidth = this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH; // parent 블록과 연결된 내부 블록의 최대 너비 값
     const maxHeight = maxWidth * 1.5;
 
@@ -106,10 +107,10 @@ export class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
     };
   }
 
-  /* 
-    renderer가 동작하면서 블록이 만들어질 때 해당 메소드를 통해 블록들의 스타일이 적용됩니다.
-    기존 메소드로 만들어진 list중 blocklyText 부분의 색상만 변경하였습니다.
-  */
+  /**
+   * renderer가 동작하면서 블록이 만들어질 때 해당 메소드를 통해 블록들의 스타일이 적용됩니다.
+   * 기존 메소드로 만들어진 list중 blocklyText 부분의 색상만 변경하였습니다.
+   */
   override getCSS_(selector: string): string[] {
     const cssList = super.getCSS_(selector);
 

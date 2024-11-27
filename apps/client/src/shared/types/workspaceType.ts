@@ -1,28 +1,28 @@
-export type TcreatedWorkspaceDto = {
+export type TCreatedWorkspaceDto = {
   newWorkspaceId: string;
 };
 
-export type TpagedWorkspaceListResultDto = {
-  pagedWorkspaceListResult: TpagedWorkspaceListResult;
+export type TPagedWorkspaceListResultDto = {
+  pagedWorkspaceListResult: TPagedWorkspaceListResult;
 };
 
-export type TgetWorkspaceResponse = {
-  workspaceDto: TworkspaceDto;
+export type TGetWorkspaceResponse = {
+  workspaceDto: TWorkspaceDto;
 };
 
-export type TworkspaceDto = {
+export type TWorkspaceDto = {
   workspaceId: string;
   name: string;
   isCssReset: boolean;
   totalCssPropertyObj: TtotalCssPropertyObj;
 };
 
-export type TpagedWorkspaceListResult = {
-  workspaceList: Array<Tworkspace>;
-  nextCursor: Tcursor | null;
+export type TPagedWorkspaceListResult = {
+  workspaceList: Array<TWorkspace>;
+  nextCursor: TCursor | null;
 };
 
-export type Tworkspace = {
+export type TWorkspace = {
   name: string;
   updated_at: string;
   user_id: string;
@@ -32,7 +32,7 @@ export type Tworkspace = {
   totalTotalCssPropertyObj: TtotalCssPropertyObj;
 };
 
-export type Tcursor = {
+export type TCursor = {
   updatedAt: string;
   workspaceId: string;
 };
