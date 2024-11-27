@@ -17,9 +17,13 @@ export const parseHighlightHtml = (html: string, styles: Record<string, string>)
     const children = Array.from(element.childNodes)
       .map((child) => processNode(child, depth + 1))
       .join('');
-    const closeTag = `${indent}&lt;/${tag}&gt;`;
 
-    return `\n${openTag}${children}\n${closeTag}`;
+    // 자식 노드 여부 확인
+    const isLeafNode = children.trim() === '';
+    const closeTag = `${indent}&lt;/${tag}&gt;`;
+    const innerContent = isLeafNode ? '\n' : children;
+
+    return `\n${openTag}${innerContent}\n${closeTag}`;
   };
 
   // 텍스트 노드 처리
