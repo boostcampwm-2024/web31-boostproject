@@ -1,8 +1,11 @@
 import { useState } from 'react';
+
+import { useResetCssStore } from '@/shared/store';
+import { resetCss } from '@/shared/utils/resetCss';
 import CodeMirror from '@uiw/react-codemirror';
 import { html } from '@codemirror/lang-html';
 import { css } from '@codemirror/lang-css';
-
+        
 type PreviewBoxProps = {
   htmlCode: string;
   cssCode: string;
@@ -10,8 +13,10 @@ type PreviewBoxProps = {
 
 export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
+  const { isResetCssChecked } = useResetCssStore();
 
-  const styleCode = `<style>${cssCode}</style>`;
+  const finalCssCode = isResetCssChecked ? `${resetCss}\n${cssCode}` : cssCode;
+  const styleCode = `<style>${finalCssCode}</style>`;
   const indexOfHead = htmlCode.indexOf('</head>');
   const totalCode = `${htmlCode.slice(0, indexOfHead)}${styleCode}${htmlCode.slice(indexOfHead)}`;
 

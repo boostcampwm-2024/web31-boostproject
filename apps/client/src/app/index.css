@@ -138,7 +138,7 @@ input[type='color']::-webkit-color-swatch-wrapper {
 .contentCreatingBlock {
   display: flex;
   flex-direction: column;
-  padding: 1.25rem 1rem;
+  padding: 1.25rem 1rem 0.5rem 1rem;
 }
 
 .creatingBlockLabel {
@@ -175,4 +175,29 @@ input[type='color']::-webkit-color-swatch-wrapper {
 
 .blocklyTrash {
   opacity: 1 !important;
+}
+
+.listBlockLabel {
+  @apply text-bold-rg text-gray-black;
+  margin-top: 1.75rem;
+}
+
+.resetCssDiv {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0 0 0;
+}
+
+.resetCssCheckbox {
+  @apply h-5 w-5 appearance-none rounded border border-gray-100 bg-white bg-center bg-no-repeat;
+}
+
+.resetCssCheckbox:checked {
+  @apply bg-white;
+  background-image: url('@/shared/assets/check.svg');
+}
+
+.resetCssText {
+  @apply text-gray-400;
+  padding: 0 6px 0 12px;
 }

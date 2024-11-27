@@ -12,7 +12,7 @@ export class CustomFieldLabelSerializable extends Blockly.FieldLabelSerializable
   override initView(): void {
     super.initView();
     if (this.textElement_) {
-      this.textElement_.style.fill = `#41505B`;
+      this.textElement_.style.fill = `#1E272E`;
     }
   }
 }
