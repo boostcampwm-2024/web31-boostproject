@@ -9,7 +9,7 @@ NC='\033[0m'
 commit_msg=$(head -n1 "$1")
 
 # 허용된 커밋 메시지 접두사 패턴
-allowed_patterns="^(✨ feat: |🐛 fix: |💄 design: |🎨 style: |🔨 refactor: |☔️ test: |📝 docs: |🙀 chore: |💬 comment: |🚚 rename: |🔥 remove: |🚨 !HOTFIX!: |🎸 etc: )"
+allowed_patterns="^(Merge|✨ feat: |🐛 fix: |💄 design: |🎨 style: |🔨 refactor: |☔️ test: |📝 docs: |🙀 chore: |💬 comment: |🚚 rename: |🔥 remove: |🚨 !HOTFIX!: |🎸 etc: )"
 if ! echo "$commit_msg" | grep -qE "$allowed_patterns"; then
     printf "${RED}❌ 잘못된 커밋 메시지 형식입니다.${NC}\n"
     printf "${BLUE}커밋 메시지는 다음 중 하나로 시작해야 합니다:${NC}\n"
