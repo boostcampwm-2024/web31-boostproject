@@ -1,4 +1,5 @@
 import {
+  TBlock,
   TCanvas,
   TCreatedWorkspaceDto,
   TGetWorkspaceResponse,
@@ -60,7 +61,7 @@ export const WorkspaceApi = () => {
     workspaceId: string,
     totalCssPropertyObj: TTotalCssPropertyObj
   ) => {
-    await Instance.put(
+    await Instance.patch(
       `/workspace/css`,
       { workspaceId, totalCssPropertyObj },
       { headers: { 'user-id': userId } }
@@ -68,9 +69,33 @@ export const WorkspaceApi = () => {
   };
 
   const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: TCanvas) => {
-    await Instance.put(
+    await Instance.patch(
       `/workspace/canvas`,
-      { workspaceId, canvas: JSON.stringify(canvas.blocks) },
+      { workspaceId, canvas: JSON.stringify(canvas) },
+      { headers: { 'user-id': userId } }
+    );
+  };
+
+  const saveWorkspaceClassBlockList = async (
+    userId: string,
+    workspaceId: string,
+    classBlockList: TBlock[]
+  ) => {
+    await Instance.patch(
+      `/workspace/classBlockList`,
+      { workspaceId, classBlockList: JSON.stringify(classBlockList) },
+      { headers: { 'user-id': userId } }
+    );
+  };
+
+  const saveWorkspaceCssResetStatus = async (
+    userId: string,
+    workspaceId: string,
+    isCssReset: boolean
+  ) => {
+    await Instance.patch(
+      `/workspace/cssResetStatus`,
+      { workspaceId, cssResetStatus: isCssReset },
       { headers: { 'user-id': userId } }
     );
   };
@@ -83,5 +108,7 @@ export const WorkspaceApi = () => {
     deleteWorkspace,
     saveWorkspaceCssProperty,
     saveWorkspaceCanvas,
+    saveWorkspaceClassBlockList,
+    saveWorkspaceCssResetStatus,
   };
 };

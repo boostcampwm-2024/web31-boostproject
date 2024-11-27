@@ -165,6 +165,55 @@ export const WorkspaceController = () => {
     }
   };
 
+  const storeWorkspaceClassBlockList = (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.body.workspaceId as string;
+      const classBlockList = req.body.classBlockList as string;
+      const storedWorkspace = workspaceService.saveWorkspaceClassBlockList(
+        userId,
+        workspaceId,
+        classBlockList
+      );
+      if (!storedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      res.status(200).json({ message: 'success' });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
+  };
+
+  const storeWorkspaceCssResetStatus = async (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.body.workspaceId as string;
+      const cssResetStatus = req.body.cssResetStatus as boolean;
+      const storedWorkspace = await workspaceService.saveWorkspaceCssResetStatus(
+        userId,
+        workspaceId,
+        cssResetStatus
+      );
+      if (!storedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      res.status(200).json({ message: 'success' });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
+  };
+
   return {
     createNewWorkspace,
     getWorkspaceListByPage,
@@ -173,5 +222,7 @@ export const WorkspaceController = () => {
     removeWorkspace,
     storeWorkspaceCssProperty,
     storeWorkspaceCanvas,
+    storeWorkspaceClassBlockList,
+    storeWorkspaceCssResetStatus,
   };
 };

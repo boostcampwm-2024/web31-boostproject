@@ -77,6 +77,8 @@ export const WorkspaceService = () => {
         name: workspace.name,
         isCssReset: workspace.is_css_reset,
         totalCssPropertyObj,
+        canvas: workspace.canvas,
+        classBlockList: workspace.class_block_list,
       };
     } catch (error) {
       if (error instanceof Error) {
@@ -101,8 +103,9 @@ export const WorkspaceService = () => {
       return {
         name: updatedWorkspace.name,
         workspaceId: updatedWorkspace.workspace_id,
-        isResetCss: updatedWorkspace.is_css_reset,
+        isCssReset: updatedWorkspace.is_css_reset,
         totalCssPropertyObj,
+        canvas: updatedWorkspace.canvas,
       };
     } catch (error) {
       if (error instanceof Error) {
@@ -181,6 +184,65 @@ export const WorkspaceService = () => {
     }
   };
 
+  const saveWorkspaceClassBlockList = async (
+    userId: string,
+    workspaceId: string,
+    classBlockList: string
+  ) => {
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            class_block_list: classBlockList,
+            updated_at: Date.now(),
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace class block list : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while updating workspace class block list`);
+    }
+  };
+
+  const saveWorkspaceCssResetStatus = async (
+    userId: string,
+    workspaceId: string,
+    cssResetStatus: boolean
+  ) => {
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            is_css_reset: cssResetStatus,
+            updated_at: Date.now(),
+          },
+        },
+        {
+          new: true,
+        }
+      );
+      return updatedWorkspace;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(`Failed to update workspace css reset status : ${error.message}`);
+      }
+      throw new Error(`Unknown Error ocurred while updating workspace css reset status`);
+    }
+  };
   return {
     createWorkspace,
     findWorkspaceListByPage,
@@ -189,5 +251,7 @@ export const WorkspaceService = () => {
     deleteWorkspace,
     saveWorkspaceCssProperty,
     saveWorkspaceCanvas,
+    saveWorkspaceClassBlockList,
+    saveWorkspaceCssResetStatus,
   };
 };

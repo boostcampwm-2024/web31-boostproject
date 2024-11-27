@@ -189,3 +189,76 @@ workspaceRouter.delete(
   */
   workspaceController.removeWorkspace
 );
+
+workspaceRouter.patch(
+  '/css',
+  /* 
+    #swagger.summary = '워크스페이스 CSS 속성 저장'
+    #swagger.description = 'user id 와 workspace id로 워크스페이스를 조회 후 CSS 속성을 저장합니다.'
+    #swagger.tags = ['Workspace']
+    #swagger.parameters['user-id'] = {
+      in: 'header',
+      description: '유저 아이디 (UUID 형식)',
+      type: 'string',
+      required: true,
+    }
+    #swagger.requestBody = {
+      required: true,
+      content: {
+        "application/json": {
+          schema: {
+            type: 'object',
+            properties: {
+              workspaceId: {
+                type: 'string',
+                example: 'b15eac31-3942-4192-9cbd-2e2cdd48da0a',
+              },
+              totalCssPropertyObj: {
+                type: 'object',
+                properties: {
+                  className : {
+                    type: 'object',
+                    properties: {
+                      checkedCssPropertyObj: {
+                        type: 'object',
+                        properties: {
+                          property: {
+                            type: 'boolean',
+                            example: true,
+                          }
+                        }
+                      },
+                      cssOptionObj: {
+                        type: 'object',
+                        properties: {
+                          property: {
+                            type: 'string',
+                            example: 'value',
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+            },
+          }
+        }
+      }
+    }
+    #swagger.responses[200] = {
+      description: 'success',
+    }
+    #swagger.responses[404] = {
+      description: 'Not Found'
+    }
+    #swagger.responses[500] = {
+      description: 'internal server error'
+    }
+  */
+  workspaceController.storeWorkspaceCssProperty
+);
+
+workspaceRouter.patch('/canvas', workspaceController.storeWorkspaceCanvas);
+workspaceRouter.patch('/classBlockList', workspaceController.storeWorkspaceClassBlockList);
+workspaceRouter.patch('/cssResetStatus', workspaceController.storeWorkspaceCssResetStatus);

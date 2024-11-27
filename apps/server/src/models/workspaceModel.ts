@@ -20,6 +20,7 @@ const workspaceScheme = new mongoose.Schema({
   name: { type: String, required: true, default: '워크스페이스 이름' },
   canvas: { type: String },
   css_list: [cssListScheme],
+  class_block_list: { type: String },
   is_css_reset: { type: Boolean, required: true, default: false },
   thumbnail: { type: String },
   updated_at: { type: Date, required: true, default: Date.now },
