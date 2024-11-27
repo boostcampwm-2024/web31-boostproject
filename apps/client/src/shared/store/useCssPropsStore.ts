@@ -1,17 +1,17 @@
-import { TtotalCssPropertyObj } from '@/shared/types';
+import { TTotalCssPropertyObj } from '@/shared/types';
 import { create } from 'zustand';
 
 type TcssProps = {
   currentCssClassName: string;
   selectedCssCategory: string;
-  totalCssPropertyObj: TtotalCssPropertyObj;
+  totalCssPropertyObj: TTotalCssPropertyObj;
 
   addNewCssClass: (newCssClass: string) => void;
   setCurrentCssClassName: (currentCssClassName: string) => void;
   setSelectedCssCategory: (cssCategory: string) => void;
   setCheckedCssPropertyObj: (className: string, label: string, value: boolean) => void;
   setCssOptionObj: (className: string, label: string, value: string) => void;
-  initCssPropertyObj: (totalCssPropertyObj: TtotalCssPropertyObj) => void;
+  initCssPropertyObj: (totalCssPropertyObj: TTotalCssPropertyObj) => void;
 };
 
 export const useCssPropsStore = create<TcssProps>((set) => {

@@ -1,6 +1,6 @@
 import { ModalConfirm, Spinner, SquareButton } from '@/shared/ui';
 
-import { TbuttonContent } from '@/shared/types';
+import { TButtonContent } from '@/shared/types';
 import { useModalStore } from '@/shared/store/useModalStore';
 
 export const WorkspaceModal = () => {
@@ -12,7 +12,7 @@ export const WorkspaceModal = () => {
     isLoading,
   } = useModalStore();
 
-  const buttonContents: TbuttonContent[] = [
+  const buttonContents: TButtonContent[] = [
     { name: '아차차~', func: handleModalCloseButton, type: 'neutral' },
     { name: '지울래요', func: handleModalConfirmButton, type: 'danger', isDisabled: isLoading },
   ];

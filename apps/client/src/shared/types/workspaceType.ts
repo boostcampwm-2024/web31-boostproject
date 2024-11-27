@@ -15,6 +15,8 @@ export type TWorkspaceDto = {
   name: string;
   isCssReset: boolean;
   totalCssPropertyObj: TTotalCssPropertyObj;
+  canvas: string;
+  classBlockList: string;
 };
 
 export type TPagedWorkspaceListResult = {

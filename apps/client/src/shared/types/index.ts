@@ -16,3 +16,4 @@ export type { TBlockInfo, TBlockContents } from './blockType';
 export type { IExtendedIToolbox } from './extendedType';
 export type { TTabConfig, TTabsConfig, TTabToolboxConfig } from './tabType';
 export type { TBlock, TToolboxConfig } from './styleToolboxType';
+export type { TButtonContent } from './modalButtonType';
