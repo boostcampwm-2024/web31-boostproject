@@ -17,6 +17,8 @@ export type TWorkspaceDto = {
   totalCssPropertyObj: TTotalCssPropertyObj;
   canvas: string;
   classBlockList: string;
+  thumbnail: string;
+  updatedAt: string;
 };
 
 export type TPagedWorkspaceListResult = {
@@ -26,9 +28,9 @@ export type TPagedWorkspaceListResult = {
 
 export type TWorkspace = {
   name: string;
-  updated_at: string;
-  user_id: string;
-  workspace_id: string;
+  updatedAt: string;
+  userId: string;
+  workspaceId: string;
   thumbnail: string | undefined;
   isCssReset: boolean;
   totalTotalCssPropertyObj: TTotalCssPropertyObj;
