@@ -2,10 +2,11 @@ import { useState } from 'react';
 import { useResetCssStore } from '@/shared/store';
 import { resetCss } from '@/shared/utils/resetCss';
 import CodeMirror from '@uiw/react-codemirror';
-import { css } from '@codemirror/lang-css';
+// import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
 import CopyIcon from '@/shared/assets/code_copy.svg?react';
 import toast from 'react-hot-toast';
+import { CodeViewer } from '@/shared/code-highlighter';
 
 type PreviewBoxProps = {
   htmlCode: string;
@@ -38,6 +39,7 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
     copyToClipboard(codeToCopy, label);
   };
 
+  console.log(htmlCode);
   return (
     <section className="flex-1 border-b border-gray-100">
       <nav className="flex h-10 border-b border-gray-100">
@@ -76,9 +78,11 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
         )}
         {activeTab === 'html' && (
           <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />
+          // <CodeViewer code={htmlCode} type="html" theme="light" />
         )}
         {activeTab === 'css' && (
-          <CodeMirror value={cssCode} height="100%" extensions={[css()]} theme="light" />
+          // <CodeMirror value={cssCode} height="100%" extensions={[css()]} theme="light" />
+          <CodeViewer code={cssCode} type="css" theme="dark" />
         )}
       </div>
     </section>

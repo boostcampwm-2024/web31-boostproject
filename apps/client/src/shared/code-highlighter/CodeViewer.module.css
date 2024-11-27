@@ -1,0 +1,58 @@
+.viewer {
+  display: flex;
+  font-family: monospace;
+  font-size: 14px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.light {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.dark {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.lineNumbers {
+  padding: 10px;
+  text-align: right;
+  background-color: #f5f5f5;
+  color: #888888;
+  border-right: 1px solid #ddd;
+}
+
+.lineNumber {
+  padding: 0px 5px;
+}
+
+.codeContent {
+  padding: 10px;
+  overflow: auto;
+}
+
+.codeContent .tag {
+  color: #007acc;
+}
+
+.codeContent .attribute {
+  color: #d19a66;
+}
+
+.codeContent .value {
+  color: #98c379;
+}
+
+.codeContent .selector {
+  color: #c678dd;
+}
+
+.codeContent .property {
+  color: #61afef;
+}
+
+.codeContent .property-value {
+  color: #e06c75;
+}

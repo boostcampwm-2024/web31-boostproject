@@ -26,5 +26,3 @@ export const App = () => (
 );
 
 export default App;
-
-// 하이
