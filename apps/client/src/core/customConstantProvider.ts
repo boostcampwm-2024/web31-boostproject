@@ -12,7 +12,7 @@ export class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
     this.NOTCH_OFFSET_LEFT = (2 * this.GRID_UNIT) / 3; // 블록 연결 부분을 기준으로 좌측 길이
     this.CORNER_RADIUS = (2 * this.GRID_UNIT) / 3;
     this.FIELD_TEXT_FONTFAMILY = 'SUIT Variable';
-    this.FIELD_TEXT_FONTWEIGHT = 'normal';
+    this.FIELD_TEXT_FONTWEIGHT = 'bold';
     this.EMPTY_INLINE_INPUT_PADDING = 50; // inline text input field가 비어져 있을 경우, 해당 필드 너비
     this.MIN_BLOCK_WIDTH = 56; // 블록 최소 너비 (클래스명 블록의 최소 너비를 정하기 위해)
     this.FIELD_BORDER_RECT_X_PADDING = 7; // inlin text input field의 좌우 padding값 (클래스명 블록 및 텍스트 블록)

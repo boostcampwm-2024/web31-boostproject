@@ -56,5 +56,6 @@ export class CustomFieldLabel extends Blockly.FieldLabel {
     this.backgroundRect_.setAttribute('x', (bbox.x + 6).toString());
     this.backgroundRect_.setAttribute('y', (bbox.y - 2).toString());
     this.textElement_?.setAttribute('x', (bbox.x + 12).toString());
+    this.textElement_?.setAttribute('y', (bbox.y + 9).toString());
   }
 }
