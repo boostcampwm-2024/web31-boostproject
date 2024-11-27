@@ -181,13 +181,12 @@ input[type='color']::-webkit-color-swatch-wrapper {
 .resetCssDiv {
   display: flex;
   align-items: center;
-  margin: 1rem 0;
+  margin: 1rem 0 0 0;
 }
 
 .resetCssCheckbox {
   width: 1.25rem;
   height: 1.25rem;
-  margin: 1rem 0 0 0;
 }
 
 .resetCssCheckbox {
