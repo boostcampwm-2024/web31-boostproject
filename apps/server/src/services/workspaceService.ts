@@ -101,11 +101,13 @@ export const WorkspaceService = () => {
 
       const totalCssPropertyObj = generateTotalCssPropertyObj(updatedWorkspace as TWorkspace);
       return {
+        userId: updatedWorkspace.user_id,
         name: updatedWorkspace.name,
         workspaceId: updatedWorkspace.workspace_id,
         isCssReset: updatedWorkspace.is_css_reset,
         totalCssPropertyObj,
         canvas: updatedWorkspace.canvas,
+        updatedAt: updatedWorkspace.updated_at,
       };
     } catch (error) {
       if (error instanceof Error) {
