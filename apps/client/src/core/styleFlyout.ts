@@ -35,7 +35,7 @@ export default class StyleFlyout extends FixedFlyout {
 
     this.inputElement = Dom.createElement<HTMLInputElement>('input', {
       type: 'text',
-      placeholder: '스타일명을 정해주세요',
+      placeholder: '클래스명을 정해주세요',
       class: 'creatingBlockInput',
       id: 'creatingBlockInput',
       maxlength: '30',
@@ -192,12 +192,6 @@ export default class StyleFlyout extends FixedFlyout {
     const inputValue = this.inputElement?.value;
     if (!inputValue) {
       return toast.error('클래스명을 입력해주세요.');
-    }
-
-    if (!validateClassNameStart(inputValue)) {
-      return toast.error('클래스명 첫 글자는 영문자, 밑줄(_), 하이픈(-)만 가능해요');
-    } else if (!validateClassNameBody(inputValue)) {
-      return toast.error('클래스명은 영문자, 밑줄(_), 하이픈(-), 숫자만 포함해주세요');
     }
 
     if (!validateClassNameStart(inputValue)) {
