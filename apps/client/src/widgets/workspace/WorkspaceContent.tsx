@@ -13,7 +13,7 @@ import {
   cssCodeGenerator,
 } from '@/widgets';
 
-import { useCssPropsStore } from '@/shared/store';
+import { useCssPropsStore, useWorkspaceStore } from '@/shared/store';
 import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
 import { registerCustomComponents } from '@/core/register';
@@ -47,6 +47,7 @@ export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
+  const { workspace, setWorkspace } = useWorkspaceStore();
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -74,6 +75,8 @@ export const WorkspaceContent = () => {
 
     initializeBlocks(newWorkspace);
 
+    newWorkspace.clearUndo();
+
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
       if (
@@ -89,6 +92,10 @@ export const WorkspaceContent = () => {
     };
 
     newWorkspace.addChangeListener(handleAutoConversion);
+
+    if (workspace === null) {
+      setWorkspace(newWorkspace);
+    }
 
     return () => {
       newWorkspace.removeChangeListener(handleAutoConversion);
