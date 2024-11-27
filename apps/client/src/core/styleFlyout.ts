@@ -8,6 +8,7 @@ import { useClassBlockStore } from '@/shared/store';
 import questionSvgPath from '@/shared/assets/question.svg';
 import { TBlock } from '@/shared/types';
 import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
+import { validateClassNameBody, validateClassNameStart } from '@/shared/utils/cssClassName';
 import { useResetCssStore } from '@/shared/store';
 import { RenderResetCssTooltip } from '@/entities';
 
@@ -146,7 +147,7 @@ export default class StyleFlyout extends FixedFlyout {
 
     const deleteOption = {
       id: menuId,
-      scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK, // 블록에만 적용
+      scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
       displayText: '블록 삭제',
       weight: 100,
       preconditionFn: (scope: any) => {
@@ -154,7 +155,6 @@ export default class StyleFlyout extends FixedFlyout {
         const isInCssStyleToolboxConfig = cssStyleToolboxConfig.contents.some(
           (item) => (item as any).type === blockType
         );
-
         return isInCssStyleToolboxConfig && scope.block.isDeletable() ? 'enabled' : 'hidden';
       },
 
@@ -178,12 +178,26 @@ export default class StyleFlyout extends FixedFlyout {
     };
 
     Blockly.ContextMenuRegistry.registry.register(deleteOption);
+
+    // 툴팁 닫기 이벤트 추가
+    document.addEventListener('click', (event) => {
+      const contextMenu = document.querySelector('.blocklyContextMenu');
+      if (contextMenu && !contextMenu.contains(event.target as Node)) {
+        (contextMenu as HTMLElement).style.display = 'none';
+      }
+    });
   }
 
   createStyleBlock() {
     const inputValue = this.inputElement?.value;
     if (!inputValue) {
       return toast.error('클래스명을 입력해주세요.');
+    }
+
+    if (!validateClassNameStart(inputValue)) {
+      return toast.error('클래스명 첫 글자는 영문자, 밑줄(_), 하이픈(-)만 가능해요');
+    } else if (!validateClassNameBody(inputValue)) {
+      return toast.error('클래스명은 영문자, 밑줄(_), 하이픈(-), 숫자만 포함해주세요');
     }
 
     const existingBlocks: TBlock[] = cssStyleToolboxConfig!.contents || [];

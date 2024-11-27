@@ -34,7 +34,7 @@ export default class FixedFlyout extends Blockly.VerticalFlyout {
 
     const toolbox = this.targetWorkspace.getToolbox() as TabbedToolbox;
 
-    const x = 0;
+    const x = 7;
     const y = 0;
 
     if (!toolbox) {
@@ -46,7 +46,7 @@ export default class FixedFlyout extends Blockly.VerticalFlyout {
     this.width_ = metrics.width;
     this.height_ = metrics.height;
 
-    this.positionAt_(metrics.width, metrics.height - toolbox.getContentHeight(), x, y);
+    this.positionAt_(metrics.width - 7, metrics.height - toolbox.getContentHeight(), x, y);
   }
 
   /**
