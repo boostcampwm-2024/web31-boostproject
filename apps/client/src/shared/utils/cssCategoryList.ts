@@ -1,6 +1,6 @@
-import { TcssCategoryList } from '@/shared/types';
+import { TCssCategoryList } from '@/shared/types';
 
-export const cssCategoryList: TcssCategoryList = [
+export const cssCategoryList: TCssCategoryList = [
   {
     category: '레이아웃',
     items: [

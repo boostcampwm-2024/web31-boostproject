@@ -22,7 +22,7 @@ const defineBlockWithDefaults = (
     originalInit.call(this);
 
     if (!this.styleName_) {
-      this.setStyle(`default_block${blockColorNum}`);
+      this.setStyle(`defaultBlock${blockColorNum}`);
     }
 
     if (isDefault) {
@@ -66,11 +66,13 @@ export const defineBlocks = (blockContents: TBlockContents) => {
 
   defineBlockWithDefaults(addPreviousTypeName('body'), 3);
 
-  //   {
-  //   kind: 'block',
-  //   type: 'span',
-  //   description: '설명 작성',
-  // },
+  /*
+   *   {
+   *   kind: 'block',
+   *   type: 'span',
+   *   description: '설명 작성',
+   * },
+   */
   Object.values(blockContents).forEach((blockInfoList) => {
     blockInfoList.forEach((blockInfo, index) => {
       if (blockInfo.type === addPreviousTypeName('text')) {
@@ -112,7 +114,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
 
   defineBlockWithDefaults(
     'css_style',
-    '_css',
+    'Css',
     {
       init: function () {
         this.appendDummyInput().appendField(new CustomFieldLabelSerializable('클래스명'), 'CLASS'); // "클래스명"은 초기값

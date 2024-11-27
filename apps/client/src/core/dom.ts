@@ -21,14 +21,14 @@ export default class Dom {
   static createSvgElement<T extends SVGElement>(
     name: string | Svg<T>,
     attrs: { [key: string]: string | number },
-    opt_parent?: Element | null
+    optParent?: Element | null
   ): T {
     const e = document.createElementNS(this.SVG_NS, `${name}`) as unknown as T;
     for (const key in attrs) {
       e.setAttribute(key, `${attrs[key]}`);
     }
-    if (opt_parent) {
-      opt_parent.appendChild(e);
+    if (optParent) {
+      optParent.appendChild(e);
     }
     return e;
   }

@@ -1,7 +1,7 @@
 import * as Blockly from 'blockly/core';
 
 const svgPaths = Blockly.utils.svgPaths;
-type Shape = Blockly.blockRendering.BaseShape | Blockly.blockRendering.DynamicShape;
+type TShape = Blockly.blockRendering.BaseShape | Blockly.blockRendering.DynamicShape;
 
 export class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
   constructor() {
@@ -48,7 +48,7 @@ export class CustomConstantProvider extends Blockly.zelos.ConstantProvider {
    * 해당 메소드는 메소드의 내부 로직중 일부를 고쳐야함으로, super.makeRounded 이후 사용하기 어려워 해당 메소드를 그대로 복붙해와서 사용중입니다.
    */
 
-  protected override makeRounded(): Shape {
+  protected override makeRounded(): TShape {
     const maxWidth = this.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH; // parent 블록과 연결된 내부 블록의 최대 너비 값
     const maxHeight = maxWidth * 1.5;
 

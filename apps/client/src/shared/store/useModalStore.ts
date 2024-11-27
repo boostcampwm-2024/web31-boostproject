@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type ModalStoreType = {
+type TModalStore = {
   isModalOpen: boolean;
   modalContent: string;
   isLoading: boolean;
@@ -12,7 +12,7 @@ type ModalStoreType = {
   setIsLoading: (loading: boolean) => void;
 };
 
-export const useModalStore = create<ModalStoreType>()((set) => ({
+export const useModalStore = create<TModalStore>()((set) => ({
   modalContent: '워크스페이스 이름',
   modalAction: () => {},
   isModalOpen: false,

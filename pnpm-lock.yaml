@@ -175,6 +175,9 @@ importers:
         specifier: ^5.1.2
         version: 5.1.2
     devDependencies:
+      '@packages/eslint':
+        specifier: workspace:*
+        version: link:../../packages/eslint
       '@packages/tsconfig':
         specifier: workspace:*
         version: link:../../packages/tsconfig

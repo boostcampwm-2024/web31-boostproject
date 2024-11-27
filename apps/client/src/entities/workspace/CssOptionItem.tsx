@@ -2,11 +2,11 @@ import { useCssOptionItem, useCssOptions, useCssTooltip } from '@/shared/hooks';
 
 import { CssTooltip } from '@/entities';
 import Question from '@/shared/assets/question.svg?react';
-import { TcssCategoryItem } from '@/shared/types';
+import { TCssCategoryItem } from '@/shared/types';
 import { useCssPropsStore } from '@/shared/store';
 
 type CssOptionItemProps = {
-  cssItem: TcssCategoryItem;
+  cssItem: TCssCategoryItem;
   index: number;
 };
 
