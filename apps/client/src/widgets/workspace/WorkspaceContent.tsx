@@ -23,9 +23,12 @@ import CustomZoomControls from '@/core/customZoomControls';
 import CustomTrashcan from '@/core/customTrashcan';
 import { blockContents } from './blockly/htmlBlockContents';
 import { initializeBlocks } from './blockly/initBlocks';
+import { customTooltip } from '@/core/customTooltip';
 
 registerCustomComponents();
 defineBlocks(blockContents);
+
+Blockly.Tooltip.setCustomTooltip(customTooltip);
 
 Blockly.WorkspaceSvg.prototype.addZoomControls = function () {
   this.zoomControls_ = new CustomZoomControls(this);
