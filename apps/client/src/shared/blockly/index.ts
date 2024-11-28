@@ -8,3 +8,4 @@ export { initializeBlocks, initialBlocksJson } from './initBlocks';
 export { initTheme } from './initTheme';
 export { tabToolboxConfig } from './tabConfig';
 export { createCssClassBlock } from './createCssClassBlock';
+export { cssCodeGenerator } from './cssCodeGenerator';
