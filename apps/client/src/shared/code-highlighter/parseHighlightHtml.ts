@@ -26,14 +26,14 @@ export const parseHighlightHtml = (html: string, styles: Record<string, string>)
     return `\n${openTag}${innerContent}\n${closeTag}`;
   };
 
-  // 텍스트 노드 처리
+  // 텍스트 노드는 따로 처리
   const renderText = (textNode: Text, depth: number): string => {
     const text = textNode.textContent?.trim();
     const indent = '  '.repeat(depth);
     return text ? `\n${indent}<span class="${styles.text}">${text}</span>` : '';
   };
 
-  // 노드 타입에 따라 처리
+  // 노드 타입에 따로 처리
   const processNode = (node: ChildNode, depth: number = 0): string => {
     if (node.nodeType === Node.ELEMENT_NODE) {
       return renderElement(node as HTMLElement, depth);

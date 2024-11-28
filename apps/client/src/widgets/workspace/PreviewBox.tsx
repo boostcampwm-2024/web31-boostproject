@@ -39,7 +39,6 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
     copyToClipboard(codeToCopy, label);
   };
 
-  console.log(htmlCode);
   return (
     <section className="flex-1 border-b border-gray-100">
       <nav className="flex h-10 border-b border-gray-100">

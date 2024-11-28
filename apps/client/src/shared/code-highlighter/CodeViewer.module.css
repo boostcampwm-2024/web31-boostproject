@@ -28,6 +28,14 @@
   padding: 0px 5px;
 }
 
+.lineHighlight {
+  color: #02d085;
+}
+
+.lineNumberHighlight {
+  background-color: #E5FBF3;
+}
+
 .codeContent {
   padding: 10px;
   overflow: auto;
