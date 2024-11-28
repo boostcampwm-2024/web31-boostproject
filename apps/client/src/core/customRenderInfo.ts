@@ -1,6 +1,7 @@
 import * as Blockly from 'blockly/core';
 import { CustomRenderer } from './customRenderer';
 import { CustomFieldTextInput } from './customFieldTextInput';
+import { hasField } from '@/shared/utils';
 
 const Types = Blockly.blockRendering.Types;
 
@@ -26,37 +27,6 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
     const LEFT_PADDING = 14;
     const RIGHT_PADDING = 10;
 
-    const calculateRowWidth = (
-      fieldLabel: { width: number; xPos: number },
-      inputField: { width: number; height: number; xPos: number }
-    ) => {
-      const height = Math.min(inputField.height, MAX_DYNAMIC_HEIGHT);
-      const radius = height / 4;
-
-      const tempWidth =
-        LEFT_PADDING + fieldLabel.width + DEFAULT_REMAINING + inputField.width + RIGHT_PADDING;
-      let totalRowWidth = Math.max(tempWidth, MIN_ROW_WIDTH);
-      const difference = inputField.width - (radius + EMPTY_PADDING);
-
-      if (difference) {
-        totalRowWidth += difference > 50 ? difference / 2 + 25 : difference;
-      }
-
-      const remainingSpace =
-        totalRowWidth - (fieldLabel.width + inputField.width + LEFT_PADDING + RIGHT_PADDING);
-      inputField.xPos = fieldLabel.width + remainingSpace - fieldLabel.xPos;
-
-      inputField.xPos =
-        fieldLabel.width +
-        (totalRowWidth > 160 ? DEFAULT_REMAINING : remainingSpace) +
-        LEFT_PADDING;
-
-      return {
-        rowWidth: totalRowWidth > 160 ? inputField.xPos + inputField.width + RIGHT_PADDING : 160,
-        blockWidthIncrease: difference > 50 ? 50 : difference,
-      };
-    };
-
     let isProcessedBetween = false;
 
     this.rows.forEach((row) => {
@@ -64,9 +34,27 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
         const fieldLabel = row.elements[1];
         const inputField = row.elements[row.elements.length - 2];
 
-        const { rowWidth, blockWidthIncrease } = calculateRowWidth(fieldLabel, inputField);
-        row.width = rowWidth;
-        this.block_.width += blockWidthIncrease;
+        const height = Math.min(inputField.height, MAX_DYNAMIC_HEIGHT);
+        const radius = height / 4;
+
+        const tempWidth =
+          LEFT_PADDING + fieldLabel.width + DEFAULT_REMAINING + inputField.width + RIGHT_PADDING;
+        let totalRowWidth = Math.max(tempWidth, MIN_ROW_WIDTH);
+
+        let inputFieldDiff = inputField.width - (radius + EMPTY_PADDING);
+        if (inputFieldDiff) {
+          inputFieldDiff = inputFieldDiff > 50 ? (inputFieldDiff + 50) / 2 : inputFieldDiff;
+          totalRowWidth += inputFieldDiff;
+        }
+
+        const remainingSpace =
+          totalRowWidth - (fieldLabel.width + inputField.width + LEFT_PADDING + RIGHT_PADDING);
+        inputField.xPos =
+          fieldLabel.width +
+          (totalRowWidth > MIN_ROW_WIDTH ? DEFAULT_REMAINING : remainingSpace) +
+          LEFT_PADDING;
+
+        row.width = totalRowWidth > 160 ? inputField.xPos + inputField.width + RIGHT_PADDING : 160;
         finalizeMaxWidth = Math.max(finalizeMaxWidth, row.width);
         isProcessedBetween = true;
       } else {
@@ -80,9 +68,19 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
           const inputField = row.elements[row.elements.length - 2];
           const fieldLabel = row.elements.length > 3 ? row.elements[1] : { width: 0, xPos: 8 };
 
-          const { rowWidth, blockWidthIncrease } = calculateRowWidth(fieldLabel, inputField);
-          row.width = rowWidth;
-          this.block_.width += blockWidthIncrease;
+          const tempWidthWithoutInputField =
+            LEFT_PADDING + fieldLabel.width + DEFAULT_REMAINING + RIGHT_PADDING;
+          const tempWidth = tempWidthWithoutInputField + inputField.width;
+
+          if (hasField(inputField) && tempWidth < MIN_ROW_WIDTH) {
+            (inputField.field as CustomFieldTextInput).updateWidth(
+              MIN_ROW_WIDTH - tempWidthWithoutInputField
+            );
+          }
+
+          inputField.xPos = fieldLabel.width + DEFAULT_REMAINING + LEFT_PADDING;
+
+          row.width = Math.max(tempWidth, MIN_ROW_WIDTH);
           finalizeMaxWidth = Math.max(finalizeMaxWidth, row.width);
           isProcessedBetween = true;
         } else {
@@ -94,7 +92,7 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
     if (finalizeMaxWidth > this.topRow.width) {
       const difference = finalizeMaxWidth - this.topRow.width;
       const additionalWidth =
-        difference > 50 && isProcessedBetween ? difference / 2 + 25 : difference;
+        difference > 50 && isProcessedBetween ? (difference + 50) / 2 : difference;
 
       this.topRow.elements[this.topRow.elements.length - 2].width += additionalWidth;
       this.bottomRow.elements[this.bottomRow.elements.length - 2].width += additionalWidth;
