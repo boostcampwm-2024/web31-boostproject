@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react';
 export const CssPropsSelectBoxHeader = () => {
   const { setCurrentCssClassName } = useCssPropsStore();
   const { classBlockList } = useClassBlockStore();
-  // TODO: css class 동적으로 추가히기 (전역 상태 변수로 변경)
   const [cssClassList, setCssClassList] = useState<string[]>([]);
 
   const handleSelectClassName = (e: React.ChangeEvent<HTMLSelectElement>) => {

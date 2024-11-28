@@ -1,57 +1,62 @@
 import * as Blockly from 'blockly/core';
 
-import {
-  BlockInfo,
-  ButtonInfo,
-  DynamicCategoryInfo,
-  FlyoutItemInfo,
-  LabelInfo,
-  SeparatorInfo,
-  StaticCategoryInfo,
-} from 'blockly/core/utils/toolbox';
-import { TTabToolboxConfig, TTabs } from '@/shared/types';
+import { TTabToolboxConfig, TTabsConfig } from '@/shared/types';
 
 import Dom from './dom';
+import FixedFlyout from './fixedFlyout';
 
+export interface IContentAreaMetrics {
+  width: number;
+  height: number;
+}
+
+// @ts-expect-error Private field inheritance
 export default class TabbedToolbox extends Blockly.Toolbox {
-  private tabs_: TTabs | undefined;
-  private currentTab_: string | undefined;
+  private tabsConfig_: TTabsConfig | undefined;
+  private currentTabId_: string | undefined;
 
-  private tabContainer_: HTMLDivElement | null;
-  private contentsContainer_: HTMLDivElement | null;
-
-  private contentArea_: ContentArea | null;
+  private tabContainer_: HTMLDivElement | null = null;
+  private contentsContainer_: HTMLDivElement | null = null;
+  private contentArea_: HTMLDivElement | null = null;
+  private flyout_: Blockly.IFlyout | null = null;
 
   constructor(workspace: Blockly.WorkspaceSvg) {
     super(workspace);
-    this.contentArea_ = null;
-    this.tabContainer_ = null;
-    this.contentsContainer_ = null;
   }
 
-  setConfig(config: TTabToolboxConfig) {
-    this.tabs_ = config.tabs;
-    this.currentTab_ = config.defaultSelectedTab;
-    this.initTabs_();
-  }
-
-  init() {
+  /**
+   * Toolbox를 초기화하고 initInternal_에서 Flyout과 ContentArea를 추가합니다.
+   * @throws {Error} flyout이 초기화되지 않았을 경우
+   * @throws {Error} ContentsContainer가 초기화되지 않았을 경우
+   * @override
+   */
+  override init() {
     super.init();
-    this.HtmlDiv = this.createDom_(this.workspace_);
 
-    this.contentArea_ = this.createContentArea_();
+    const flyout = this.getFlyout();
 
-    if (!this.contentsContainer_ || !this.contentArea_) {
-      throw new Error('contentsContainer_ or contentArea_ is null.');
+    if (!flyout) {
+      throw new Error('Flyout이 초기화되지 않았습니다. Toolbox 생성 시 Flyout 설정이 필요합니다.');
     }
 
-    this.contentsContainer_.prepend(this.contentArea_.createDom());
-    this.setVisible(true);
-    this.contentArea_.init(this);
-    this.render(this.toolboxDef_);
+    if (!this.contentsContainer_) {
+      throw new Error('contentsContainer가 초기화되지 않았습니다. DOM 요소 생성이 필요합니다.');
+    }
+
+    const contentArea = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
+    contentArea.prepend(flyout.createDom('svg'));
+
+    this.contentArea_ = contentArea;
+    this.contentsContainer_.prepend(contentArea);
   }
 
-  createDom_(workspace: Blockly.WorkspaceSvg): HTMLDivElement {
+  /**
+   * Toolbox의 DOM 요소들을 생성합니다.
+   * @param workspace - 이 Toolbox가 속한 Blockly workspace
+   * @returns Toolbox의 메인 Container Div
+   * @override
+   */
+  override createDom_(workspace: Blockly.WorkspaceSvg): HTMLDivElement {
     const svg = workspace.getParentSvg();
     const container = this.createContainer_();
 
@@ -64,29 +69,134 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     container.appendChild(this.contentsContainer_);
 
     this.contentsDiv_ = this.createContentsContainer_();
-    // this.contentsDiv_.tabIndex = 0;
+    this.contentsDiv_.tabIndex = 0; // 기존 createDom_에 있는 코드 그대로 유지
     this.contentsContainer_.appendChild(this.contentsDiv_);
 
     this.attachEvents_(container, this.contentsDiv_);
     return container;
   }
 
-  updateContentArea_(
-    oldItem: Blockly.ISelectableToolboxItem | null,
-    newItem: Blockly.ISelectableToolboxItem | null
-  ) {
-    if (
-      newItem &&
-      (oldItem !== newItem || newItem.isCollapsible()) &&
-      newItem.getContents().length
-    ) {
-      //  this.contentArea_!.update(newItem.getContents());
-      this.contentArea_!.scrollToStart();
+  /**
+   * TabbedToolbox에 Tab과 관련된 설정을 추가하고 Tab을 초기화합니다.
+   * @param config - Tab에 대한 정보
+   * @throws {Error} Flyout이 초기화되지 않았을 경우
+   */
+
+  public setConfig(tabToolboxConfig: TTabToolboxConfig) {
+    const flyout = this.getFlyout();
+
+    if (!flyout) {
+      throw new Error(
+        'Flyout이 초기화되지 않았습니다. tab을 생성한 이후 Flyout의 위치를 변경하기 위해 Flyout이 초기화되어 있어야 합니다.'
+      );
     }
+
+    this.tabsConfig_ = tabToolboxConfig.tabs;
+    this.currentTabId_ = tabToolboxConfig.defaultSelectedTab;
+    this.initTabs_();
+    flyout.position();
   }
 
-  createContentArea_(): ContentArea {
-    return new ContentArea();
+  /**
+   * Flyout보다 먼저 삽입된 콘텐츠들의 총 높이를 계산하여 반환합니다.
+   *
+   * @description
+   * Flyout은 기본적으로 ContentArea의 전체 높이를 차지하지만, ContentArea에 다른 요소들이 추가되면, Flyout은 그만큼 높이가 줄어들어야 합니다.
+   * 이 함수는 ContentArea에 추가된 요소들의 높이를 측정하여 Flyout의 높이를 적절히 조절하는데 사용됩니다.
+   *
+   * @returns 콘텐츠의 총 높이
+   * @throws {Error} ContentArea가 초기화되지 않았을 경우
+   */
+
+  public getContentHeight(): number {
+    if (!this.contentArea_) {
+      throw new Error(
+        'ContentArea가 초기화되지 않았습니다. 높이 계산을 위해서는 ContentArea가 초기화되어야 합니다.'
+      );
+    }
+
+    const parentRect = this.contentArea_.getBoundingClientRect();
+    const children = this.contentArea_.children;
+
+    let maxBottom = 0;
+
+    for (const child of children) {
+      if (child.classList.contains('blocklyFlyout')) {
+        break;
+      }
+
+      const rect = child.getBoundingClientRect();
+      const bottom = rect.bottom - parentRect.top;
+
+      const computedStyle = window.getComputedStyle(child);
+      const marginBottom = parseFloat(computedStyle.marginBottom);
+
+      maxBottom = Math.max(maxBottom, bottom + marginBottom);
+    }
+
+    return maxBottom;
+  }
+
+  /**
+   * ContentArea의 너비와 높이를 객체로 반환합니다.
+   *
+   * @description
+   * Flyout은 기본적으로 ContentArea의 전체 높이를 차지합니다.
+   * Flyout의 크기를 ContentArea에 맞춰 계산할 때 필요합니다.
+   *
+   * @returns ContentArea의 너비와 높이를 포함하는 IContentAreaMetrics 객체.
+   * @throws {Error} ContentArea가 초기화되지 않았을 경우
+   */
+
+  public getContentAreaMetrics(): IContentAreaMetrics {
+    if (!this.contentArea_) {
+      throw new Error(
+        'ContentArea가 초기화되지 않았습니다. ContentArea의 width와 height를 계산하기 위해 ContentArea가 초기화되어야 합니다.'
+      );
+    }
+
+    const contentAreaClientRect = this.contentArea_.getBoundingClientRect();
+
+    return {
+      width: contentAreaClientRect.width,
+      height: contentAreaClientRect.height,
+    };
+  }
+
+  /**
+   * ContentArea에 HTML 요소를 추가합니다.
+   *
+   * @description
+   * ContentArea는 flyout 요소를 감싸는 div입니다.
+   * 이 함수는 기본적으로 appendChild를 사용하여 ContentArea에 새로운 HTML 요소를 추가합니다.
+   *
+   * @param element - ContentArea에 추가할 HTML 요소
+   * @param prepend - true일 경우 요소를 ContentArea의 맨 앞에 추가합니다. 기본값은 false입니다.
+   *
+   * @throws {Error} contentArea가 초기화되지 않았을 경우
+   *
+   * @example
+   * ```typescript
+   * const element = document.createElement('div');
+   * element.textContent = '텍스트';
+   *
+   * // ContentArea 끝에 요소 추가
+   * toolbox.addElementToContentArea(element);
+   *
+   * // ContentArea 맨 앞에 요소 추가
+   * toolbox.addElementToContentArea(element, true);
+   * ```
+   */
+
+  public addElementToContentArea(element: HTMLElement, prepend: boolean = false): void {
+    if (!this.contentArea_) {
+      throw new Error('ContentArea가 초기화되지 않았습니다.');
+    }
+    if (prepend) {
+      this.contentArea_.prepend(element);
+    } else {
+      this.contentArea_.appendChild(element);
+    }
   }
 
   private initTabContainer_() {
@@ -103,13 +213,13 @@ export default class TabbedToolbox extends Blockly.Toolbox {
 
   private initTabs_() {
     if (!this.HtmlDiv || !this.tabContainer_) {
-      throw new Error('No HtmlDiv or tabContainer.');
+      throw new Error('HtmlDiv나 ContentArea가 초기화되지 않았습니다.');
     }
 
-    Object.entries(this.tabs_!).forEach(([id, tabConfig]) => {
+    Object.entries(this.tabsConfig_!).forEach(([id, tabConfig]) => {
       const tabElement = this.createTab_(tabConfig.label, id);
 
-      if (this.currentTab_ && this.currentTab_ === id) {
+      if (this.currentTabId_ && this.currentTabId_ === id) {
         this.selectTab_(id, tabElement);
       }
 
@@ -119,31 +229,89 @@ export default class TabbedToolbox extends Blockly.Toolbox {
   }
 
   private createTab_(label: string, id: string) {
-    const tab = document.createElement('div');
-    tab.className = 'toolboxTab';
+    const tab = Dom.createElement<HTMLDivElement>('div', {
+      class: 'toolboxTab',
+    });
     tab.dataset.id = id.toString();
     tab.appendChild(this.createLabel_(label));
     return tab;
   }
 
   private createLabel_(label: string) {
-    const labelSpan = document.createElement('span');
-    labelSpan.className = 'toolboxTabLabel';
+    const labelSpan = Dom.createElement<HTMLDivElement>('span', {
+      class: 'toolboxTabLabel',
+    });
     labelSpan.textContent = label;
     return labelSpan;
   }
 
   private selectTab_(id: string, tabElement: HTMLDivElement) {
-    if (!this.workspace_ || !this.tabs_) {
+    if (!this.workspace_ || !this.tabsConfig_) {
       return;
     }
-    this.currentTab_ = id;
-    this.workspace_.updateToolbox(this.tabs_[id].toolboxConfig);
+
+    this.currentTabId_ = id;
+    const tabConfig = this.tabsConfig_[id];
+
+    if (this.flyout_) {
+      this.flyout_.dispose();
+    }
+
+    this.flyout_ = this.createFlyoutByRegistry_(
+      tabConfig.flyoutRegistryName || FixedFlyout.registryName
+    );
+
+    if (!this.contentArea_) {
+      throw new Error('ContentArea가 초기화되지 않았습니다.');
+    }
+
+    this.clearContentArea_();
+
+    this.contentArea_.prepend(this.flyout_.createDom('svg'));
+    this.flyout_.init(this.workspace_);
+
+    this.workspace_.updateToolbox(tabConfig.toolboxConfig);
+
     Array.from(this.tabContainer_!.children).forEach((child) => {
       child.classList.remove('tabSelected');
     });
+
     tabElement.classList.add('tabSelected');
-    this.setSelectedItem(this.getToolboxItems()![0]);
+
+    if (tabConfig.toolboxConfig.kind === 'categoryToolbox' && this.getToolboxItems().length !== 0) {
+      this.setSelectedItem(this.getToolboxItems()![0]);
+    }
+  }
+
+  private createFlyoutByRegistry_(flyoutRegistryName: string): Blockly.IFlyout {
+    const workspace = this.workspace_;
+    const workspaceOptions = new Blockly.Options({
+      parentWorkspace: workspace,
+      rtl: workspace.RTL,
+      oneBasedIndex: workspace.options.oneBasedIndex,
+      horizontalLayout: workspace.horizontalLayout,
+      renderer: workspace.options.renderer,
+      rendererOverrides: workspace.options.rendererOverrides,
+      move: {
+        scrollbars: true,
+      },
+    } as Blockly.BlocklyOptions);
+
+    workspaceOptions.toolboxPosition = workspace.options.toolboxPosition;
+
+    const FlyoutClass = Blockly.registry.getClass(
+      Blockly.registry.Type.FLYOUTS_VERTICAL_TOOLBOX,
+      flyoutRegistryName
+    );
+
+    return new FlyoutClass!(workspaceOptions);
+  }
+
+  private clearContentArea_() {
+    if (!this.contentArea_) {
+      throw new Error('ContentArea가 초기화되지 않았습니다.');
+    }
+    this.contentArea_.innerHTML = '';
   }
 }
 
@@ -180,152 +348,12 @@ Blockly.Css.register(`
   display: flex;
   width: 100%;
   height: 100%;
+  background-color: white;
 }
 
 .contentArea {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
-  background-color: white;
 }
 `);
-
-enum ContentAreaItemType {
-  BLOCK = 'block',
-  LABEL = 'label',
-  INPUT = 'input',
-  BUTTON = 'button',
-}
-
-export type ContentAreaItemInfo =
-  | BlockInfo
-  | SeparatorInfo
-  | ButtonInfo
-  | LabelInfo
-  | DynamicCategoryInfo;
-
-export type ToolboxItemInfo = FlyoutItemInfo | StaticCategoryInfo;
-
-export interface ToolboxInfo {
-  kind?: string;
-  contents: ToolboxItemInfo[];
-}
-
-export type FlyoutItemInfoArray = FlyoutItemInfo[];
-
-export type FlyoutDefinition = FlyoutItemInfoArray | NodeList | ToolboxInfo | Node[];
-
-export interface ContentAreaItem {
-  type: ContentAreaItemType;
-  item: Blockly.BlockSvg | HTMLElement | undefined;
-}
-
-export interface IContentArea extends Blockly.IRegistrable {
-  createDom(): HTMLDivElement;
-  init(targetToolbox: TabbedToolbox): void;
-  dispose(): void;
-  getToolbox(): TabbedToolbox | null;
-  getContents(): ContentAreaItem[];
-  setContents(contents: ContentAreaItem[]): void;
-  createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[];
-  isScrollable(): boolean;
-  scrollToStart(): void;
-}
-
-export class ContentArea implements IContentArea {
-  private htmlDiv_: HTMLDivElement | null;
-  private targetToolbox_: TabbedToolbox | null;
-  private contents_: ContentAreaItem[];
-
-  constructor() {
-    this.htmlDiv_ = null;
-    this.targetToolbox_ = null;
-    this.contents_ = [];
-  }
-  createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[] {
-    console.log(contentAreaDef);
-    throw new Error('Method not implemented.');
-  }
-
-  createDom(): HTMLDivElement {
-    this.htmlDiv_ = Dom.createElement<HTMLDivElement>('div', { class: 'contentArea' });
-    return this.htmlDiv_;
-  }
-
-  init(targetToolbox: TabbedToolbox): void {
-    this.targetToolbox_ = targetToolbox;
-  }
-
-  getToolbox(): TabbedToolbox | null {
-    return this.targetToolbox_;
-  }
-
-  getContents(): ContentAreaItem[] {
-    return this.contents_;
-  }
-
-  setContents(contents: ContentAreaItem[]): void {
-    this.contents_ = contents;
-  }
-
-  update(contentAreaDef: FlyoutDefinition) {
-    console.log(contentAreaDef);
-    /**
-     * kind: "block"
-     * type: "html"
-     *
-     */
-    //this.clearOldBlocks();
-    if (!this.htmlDiv_) {
-      throw new Error('htmlDiv is null');
-    }
-
-    const block = Dom.createElement<HTMLDivElement>('div', { class: 'block' });
-    block.innerHTML = '<li>아이템</li><li>아이템</li><li>아이템</li>';
-    this.htmlDiv_.appendChild(block);
-    // if (typeof flyoutDef === 'string') {
-    //   flyoutDef = this.getDynamicCategoryContents(flyoutDef);
-    // }
-
-    /**
-     * { type : 'block', items: [] }
-     */
-
-    // for (const info in contentAreaDef) {
-    //   this.createFlyoutBlock(info as BlockInfo);
-    // }
-    // const flyoutInfo = this.createContentAreaInfo(contentAreaDef);
-
-    // this.setContents(flyoutInfo.contents);
-
-    // this.layout_(flyoutInfo.contents);
-
-    //this.emptyRecycledBlocks();
-  }
-
-  // createFlyoutBlock(blockInfo: BlockInfo) {
-  //   return blockInfo as Blockly.BlockSvg;
-  // }
-
-  // layout_(contents: ContentAreaItem[]) {}
-
-  // createContentAreaInfo(contentAreaDef: FlyoutDefinition): ContentAreaItem[] {
-  //   const contents: ContentAreaItem[] = [];
-  //   for (const info in contentAreaDef) {
-  //     this.createFlyoutBlock(info as BlockInfo);
-  //   }
-  //   return contents;
-  // }
-
-  isScrollable(): boolean {
-    throw new Error('Method not implemented.');
-  }
-
-  scrollToStart(): void {
-    console.log('Method not implemented.');
-  }
-
-  dispose(): void {
-    throw new Error('Method not implemented.');
-  }
-}

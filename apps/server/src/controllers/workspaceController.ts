@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import { ERROR_MESSAGE } from '@/utils/error_message';
+import { TTotalCssPropertyObj } from '@/types/workspaceType';
 import { WorkspaceService } from '@/services/workspaceService';
 
 export const WorkspaceController = () => {
@@ -25,7 +26,7 @@ export const WorkspaceController = () => {
   };
 
   /**
-   * @desciption
+   * @description
    * 워크스페이스 조회 api입니다.
    * 커서 기반 페이지네이션을 적용해서 20개씩 보냅니다.
    * @method GET
@@ -115,11 +116,113 @@ export const WorkspaceController = () => {
     }
   };
 
+  const storeWorkspaceCssProperty = async (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.body.workspaceId as string;
+      const totalCssPropertyObj = req.body.totalCssPropertyObj as TTotalCssPropertyObj;
+      const savedWorkspace = await workspaceService.saveWorkspaceCssProperty(
+        userId,
+        workspaceId,
+        totalCssPropertyObj
+      );
+      if (!savedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      res.status(200).json({ message: 'success' });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
+  };
+
+  const storeWorkspaceCanvas = async (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.body.workspaceId as string;
+      const canvas = req.body.canvas;
+      const savedWorkspace = await workspaceService.saveWorkspaceCanvas(
+        userId,
+        workspaceId,
+        canvas
+      );
+      if (!savedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      res.status(200).json({ message: 'success' });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
+  };
+
+  const storeWorkspaceClassBlockList = (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.body.workspaceId as string;
+      const classBlockList = req.body.classBlockList as string;
+      const storedWorkspace = workspaceService.saveWorkspaceClassBlockList(
+        userId,
+        workspaceId,
+        classBlockList
+      );
+      if (!storedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      res.status(200).json({ message: 'success' });
+    } catch (error) {
+      if (error instanceof Error) {
+        console.error(error);
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
+  };
+
+  const storeWorkspaceCssResetStatus = async (req: Request, res: Response) => {
+    try {
+      const userId = req.get('user-id') as string;
+      const workspaceId = req.body.workspaceId as string;
+      const cssResetStatus = req.body.cssResetStatus as boolean;
+      const storedWorkspace = await workspaceService.saveWorkspaceCssResetStatus(
+        userId,
+        workspaceId,
+        cssResetStatus
+      );
+      if (!storedWorkspace) {
+        throw new Error('Workspace not found');
+      }
+      res.status(200).json({ message: 'success' });
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Workspace not found') {
+          return res.status(404).json({ message: ERROR_MESSAGE[404] });
+        }
+        res.status(500).json({ message: ERROR_MESSAGE[500] });
+      }
+    }
+  };
+
   return {
     createNewWorkspace,
     getWorkspaceListByPage,
     getWorkspaceInfo,
     editWorkspaceName,
     removeWorkspace,
+    storeWorkspaceCssProperty,
+    storeWorkspaceCanvas,
+    storeWorkspaceClassBlockList,
+    storeWorkspaceCssResetStatus,
   };
 };

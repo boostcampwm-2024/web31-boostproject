@@ -1,62 +1,63 @@
 import 'blockly/blocks';
+
 import * as Blockly from 'blockly/core';
 
+import { CssPropsSelectBox, PreviewBox, cssCodeGenerator } from '@/widgets';
+import {
+  blockContents,
+  defineBlocks,
+  htmlCodeGenerator,
+  htmlTagToolboxConfig,
+  initTheme,
+  initializeBlocks,
+  tabToolboxConfig,
+} from '@/shared/blockly';
+import { useCssPropsStore, useWorkspaceChangeStatusStore, useWorkspaceStore } from '@/shared/store';
 import { useEffect, useState } from 'react';
 
-import htmlCodeGenerator from '@/widgets/workspace/blockly/htmlCodeGenerator';
-import CustomCategory from '../../core/customCategory';
-import { TTabToolboxConfig } from '@/shared/types';
+import CustomTrashcan from '@/core/customTrashcan';
+import CustomZoomControls from '@/core/customZoomControls';
+import FixedFlyout from '@/core/fixedFlyout';
 import TabbedToolbox from '@/core/tabbedToolbox';
-// import FixedFlyout from '@/core/fixedFlyout';
-import {
-  CssPropsSelectBox,
-  defineBlocks,
-  toolboxConfig,
-  initTheme,
-  PreviewBox,
-  cssCodeGenerator,
-  toolboxConfig2,
-  classMakerPrompt,
-} from '@/widgets';
-import { useCssPropsStore } from '@/shared/store';
+import { customTooltip } from '@/core/customTooltip';
+import { registerCustomComponents } from '@/core/register';
+
+registerCustomComponents();
+defineBlocks(blockContents);
+
+Blockly.Tooltip.setCustomTooltip(customTooltip);
+
+Blockly.WorkspaceSvg.prototype.addZoomControls = function () {
+  this.zoomControls_ = new CustomZoomControls(this);
+  const svgZoomControls = this.zoomControls_.createDom();
+  this.svgGroup_.appendChild(svgZoomControls);
+};
+
+Blockly.WorkspaceSvg.newTrashcan = function (workspace: Blockly.WorkspaceSvg): CustomTrashcan {
+  return new CustomTrashcan(workspace);
+};
+
+Blockly.WorkspaceSvg.prototype.addTrashcan = function () {
+  this.trashcan = Blockly.WorkspaceSvg.newTrashcan(this);
+  const svgTrashcan = this.trashcan.createDom();
+  this.svgGroup_.insertBefore(svgTrashcan, this.getCanvas());
+};
 
 export const WorkspaceContent = () => {
-  const tabToolboxConfig: TTabToolboxConfig = {
-    tabs: {
-      html: {
-        label: 'HTML 태그',
-        toolboxConfig: toolboxConfig,
-      },
-      css: {
-        label: '스타일',
-        toolboxConfig: toolboxConfig2,
-      },
-    },
-    defaultSelectedTab: 'html',
-  };
-
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
-
-  defineBlocks();
-
+  const { workspace, setWorkspace, canvasInfo } = useWorkspaceStore();
+  const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
   useEffect(() => {
-    Blockly.registry.register(
-      Blockly.registry.Type.TOOLBOX_ITEM,
-      Blockly.ToolboxCategory.registrationName,
-      CustomCategory,
-      true
-    );
-
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
-        //flyoutsVerticalToolbox: FixedFlyout,
+        flyoutsVerticalToolbox: FixedFlyout,
         toolbox: TabbedToolbox,
       },
-      renderer: 'zelos',
+      renderer: 'boolock',
       toolboxPosition: 'end',
-      toolbox: toolboxConfig,
+      toolbox: htmlTagToolboxConfig,
       theme: initTheme, // 커스텀 테마 적용
       zoom: {
         // 확대 및 축소 버튼 설정
@@ -67,19 +68,14 @@ export const WorkspaceContent = () => {
         minScale: 0.3,
         scaleSpeed: 1.2,
       },
+      maxTrashcanContents: 0,
     });
-    //  const blockContainer = wrapBlocklyBlocksInDiv(newWorkspace);
-    (newWorkspace.getToolbox() as any).setConfig(tabToolboxConfig);
 
-    const flyout = newWorkspace!.getToolbox()!.getFlyout();
-    newWorkspace.registerButtonCallback('classMakerPrompt', () => {
-      classMakerPrompt(newWorkspace);
-      flyout!.show(toolboxConfig2.contents);
-    });
-    flyout!.show(toolboxConfig2.contents);
+    (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
 
-    flyout!.hide = () => {};
+    initializeBlocks(newWorkspace);
 
+    newWorkspace.clearUndo();
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
       if (
@@ -91,16 +87,28 @@ export const WorkspaceContent = () => {
       ) {
         const code = htmlCodeGenerator.workspaceToCode(newWorkspace);
         setHtmlCode(code);
+        setIsBlockChanged(true);
       }
     };
 
     newWorkspace.addChangeListener(handleAutoConversion);
+
+    if (workspace === null) {
+      setWorkspace(newWorkspace);
+    }
 
     return () => {
       newWorkspace.removeChangeListener(handleAutoConversion);
       newWorkspace.dispose();
     };
   }, []);
+
+  useEffect(() => {
+    if (!workspace || !canvasInfo || canvasInfo.length === 0) {
+      return;
+    }
+    Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
+  }, [workspace, canvasInfo]);
 
   useEffect(() => {
     setCssCode(cssCodeGenerator(totalCssPropertyObj));

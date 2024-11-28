@@ -1,25 +1,29 @@
 import { create } from 'zustand';
 
-type ModalStoreType = {
+type TModalStore = {
   isModalOpen: boolean;
   modalContent: string;
   isLoading: boolean;
-  modalAction: () => void;
+  handleModalConfirmButton: () => void;
+  handleModalCloseButton: () => void;
   openModal: () => void;
   closeModal: () => void;
   setModalContent: (content: string) => void;
-  setModalAction: (action: () => void) => void;
   setIsLoading: (loading: boolean) => void;
+  setHandleModalConfirmButton: (action: () => void) => void;
+  setHandleModalCloseButton: (action: () => void) => void;
 };
 
-export const useModalStore = create<ModalStoreType>()((set) => ({
-  modalContent: '워크스페이스 이름',
-  modalAction: () => {},
+export const useModalStore = create<TModalStore>()((set) => ({
   isModalOpen: false,
+  modalContent: '워크스페이스 이름',
   isLoading: false,
+  handleModalConfirmButton: () => {},
+  handleModalCloseButton: () => {},
   openModal: () => set({ isModalOpen: true }),
   closeModal: () => set({ isModalOpen: false }),
   setModalContent: (content) => set({ modalContent: content }),
-  setModalAction: (action) => set({ modalAction: action }),
   setIsLoading: (loading) => set({ isLoading: loading }),
+  setHandleModalConfirmButton: (action) => set({ handleModalConfirmButton: action }),
+  setHandleModalCloseButton: (action) => set({ handleModalCloseButton: action }),
 }));

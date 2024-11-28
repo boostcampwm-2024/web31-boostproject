@@ -1,13 +1,13 @@
 import { useCssPropsStore, useCssTooltipStore } from '@/shared/store';
 import { useEffect, useState } from 'react';
 
-import { TcssCategoryItem } from '@/shared/types';
+import { TCssCategoryItem } from '@/shared/types';
 import { useCssOptions } from '@/shared/hooks';
 
-export const useCssOptionItem = (cssItem: TcssCategoryItem) => {
+export const useCssOptionItem = (cssItem: TCssCategoryItem) => {
   const { handleCssOptionChange } = useCssOptions();
   const { setOffsetX, setOffsetY } = useCssTooltipStore();
-  const { currentCssClassName, totalCssPropertyObj } = useCssPropsStore();
+  const { currentCssClassName, totalCssPropertyObj, selectedCssCategory } = useCssPropsStore();
 
   const [cssOptionValue, setCssOptionValue] = useState<string>('');
   const [isHover, setIsHover] = useState<boolean>(false);
@@ -34,11 +34,13 @@ export const useCssOptionItem = (cssItem: TcssCategoryItem) => {
       totalCssPropertyObj[currentCssClassName].checkedCssPropertyObj[cssItem.label] ?? false
     );
     if (!totalCssPropertyObj[currentCssClassName].cssOptionObj[cssItem.label]) {
-      setCssOption(cssItem.type === 'select' ? cssItem.option![0] : '');
+      setCssOption(
+        cssItem.type === 'select' ? cssItem.option![0] : cssItem.type === 'color' ? '#000000' : ''
+      );
       return;
     }
     setCssOption(totalCssPropertyObj[currentCssClassName].cssOptionObj[cssItem.label]);
-  }, [totalCssPropertyObj, currentCssClassName]);
+  }, [totalCssPropertyObj, currentCssClassName, cssItem, selectedCssCategory]);
 
   /**
    * @description 엔터키 입력시 스타일 프로퍼티 변경 이벤트 핸들러
