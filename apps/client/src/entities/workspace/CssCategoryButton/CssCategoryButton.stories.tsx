@@ -1,9 +1,10 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { CssCategoryButton } from './CssCategoryButton';
+import { useCssPropsStore } from '@/shared/store';
 
 const meta: Meta<typeof CssCategoryButton> = {
-  title: 'Category/CssCateGoryButtonProps',
+  title: 'Category/CssCateGoryButton',
   component: CssCategoryButton,
   parameters: {
     layout: 'centered',
@@ -20,10 +21,11 @@ export const Default: Story = {
     cssCategory: '레이아웃',
   },
   render: (args) => {
+    const { selectedCssCategory } = useCssPropsStore();
     return (
-      <div className="flex gap-5">
+      <div className="flex items-center gap-5">
+        <p>현재 선택된 카테고리 : {selectedCssCategory}</p>
         <CssCategoryButton cssCategory={args.cssCategory} />
-        <CssCategoryButton cssCategory={'타이포그래피'} />
       </div>
     );
   },
