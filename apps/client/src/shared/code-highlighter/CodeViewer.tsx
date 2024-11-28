@@ -1,7 +1,7 @@
 import styles from './CodeViewer.module.css';
 import { parseHighlightCss } from './parseHighlightCss';
 import { parseHighlightHtml } from './parseHighlightHtml';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type CodeViewerProps = {
   code: string;
@@ -14,7 +14,6 @@ export const CodeViewer = ({ code, type, theme }: CodeViewerProps) => {
   const [highlightedLines, setHighlightedLines] = useState<number[]>([]);
   const [hoveredLineNumber, setHoveredLineNumber] = useState<number | null>(null);
 
-  const codeRef = useRef<HTMLDivElement>(null);
   const parsedCode =
     type === 'html' ? parseHighlightHtml(code, styles) : parseHighlightCss(code, styles);
   const codeLineList = parsedCode.split('\n').filter((line) => line.trim() !== '');
@@ -64,7 +63,7 @@ export const CodeViewer = ({ code, type, theme }: CodeViewerProps) => {
         ))}
       </div>
       {/* 코드 영역 */}
-      <div className={styles.codeContent} ref={codeRef}>
+      <div className={styles.codeContent}>
         <pre>
           <code>
             {codeLineList.map((line, index) => (
