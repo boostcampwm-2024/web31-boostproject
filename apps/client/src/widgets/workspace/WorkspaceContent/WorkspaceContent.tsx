@@ -44,6 +44,11 @@ Blockly.WorkspaceSvg.prototype.addTrashcan = function () {
   this.svgGroup_.insertBefore(svgTrashcan, this.getCanvas());
 };
 
+/**
+ *
+ * @description
+ * 블록 코딩을 할 수 있고 웹사이트, HTML, CSS 코드를 미리보기 할 수 있는 컴포넌트
+ */
 export const WorkspaceContent = () => {
   const [htmlCode, setHtmlCode] = useState<string>('');
   const [cssCode, setCssCode] = useState<string>('');

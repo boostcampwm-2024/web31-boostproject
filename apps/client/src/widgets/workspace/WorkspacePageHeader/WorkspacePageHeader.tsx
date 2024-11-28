@@ -2,6 +2,11 @@ import { RedoButton, SaveButton, UndoButton, WorkspaceNameInput } from '@/entiti
 
 import { Logo } from '@/shared/ui';
 
+/**
+ *
+ * @description
+ * 워크스페이스 페이지 헤더 컴포넌트
+ */
 export const WorkspacePageHeader = () => {
   return (
     <div className="flex h-14 w-full flex-shrink-0 items-center justify-between border-b border-gray-100 bg-white pl-8 pr-4">

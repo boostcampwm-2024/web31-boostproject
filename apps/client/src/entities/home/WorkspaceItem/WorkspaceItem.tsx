@@ -11,6 +11,11 @@ type WorkspaceItemProps = {
   onClick: () => void;
 };
 
+/**
+ *
+ * @description
+ * 워크스페이스 아이템 컴포넌트
+ */
 export const WorkspaceItem = ({
   workspaceId,
   title,

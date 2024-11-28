@@ -2,6 +2,11 @@ import { Select, TOption } from '@/shared/ui';
 import { useClassBlockStore, useCssPropsStore } from '@/shared/store';
 import { useEffect, useState } from 'react';
 
+/**
+ *
+ * @description
+ * CSS 클래스를 선택할 수 있는 헤더 컴포넌트
+ */
 export const CssPropsSelectBoxHeader = () => {
   const { currentCssClassName, setCurrentCssClassName } = useCssPropsStore();
   const { classBlockList } = useClassBlockStore();

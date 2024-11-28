@@ -5,6 +5,11 @@ import { SkeletonWorkspaceList } from '@/shared/ui';
 import { WorkspaceLoadError } from '@/entities';
 import { useGetWorkspaceList } from '@/shared/hooks';
 
+/**
+ *
+ * @description
+ * 워크스페이스 헤더와 그리드를 감싸는 컨테이너 컴포넌트
+ */
 export const WorkspaceContainer = () => {
   const { hasNextPage, fetchNextPage, isPending, isFetchingNextPage, isError, workspaceList } =
     useGetWorkspaceList();

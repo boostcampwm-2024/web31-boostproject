@@ -8,6 +8,11 @@ type CircleButtonProps = {
   disable?: boolean;
 };
 
+/**
+ *
+ * @description
+ * 원형 버튼 재사용 컴포넌트
+ */
 export const CircleButton = ({
   children,
   width,

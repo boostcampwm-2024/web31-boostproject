@@ -6,6 +6,11 @@ type LogoProps = {
   isBlack: boolean;
 };
 
+/**
+ *
+ * @description
+ * 로고 컴포넌트 (흰색/검은색), 클릭 시 홈페이지로 이동
+ */
 export const Logo = ({ isBlack }: LogoProps) => {
   return (
     <Link to="/">

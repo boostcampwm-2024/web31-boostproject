@@ -3,6 +3,11 @@ import PlusSVG from '@/shared/assets/plus.svg?react';
 import { useCreateWorkspace } from '@/shared/hooks';
 import { useLoadingStore } from '@/shared/store';
 
+/**
+ *
+ * @description
+ * 워크스페이스 추가 버튼 컴포넌트
+ */
 export const WorkspaceAddBtn = () => {
   const { mutate: createWorkspace } = useCreateWorkspace();
   const { isPending } = useLoadingStore();

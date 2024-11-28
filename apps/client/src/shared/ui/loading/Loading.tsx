@@ -6,6 +6,11 @@ type LoadingProps = {
   color?: string;
 };
 
+/**
+ *
+ * @description
+ * 막대 로딩 컴포넌트
+ */
 export const Loading = ({ height = 10, width = 120, color = '#02D085' }: LoadingProps) => {
   return (
     <div className="fixed z-[99999] flex h-full w-full items-center justify-center bg-black opacity-70">

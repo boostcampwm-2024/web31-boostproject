@@ -6,6 +6,11 @@ type workspaceListProps = {
   workspaceList: Array<TWorkspace>;
 };
 
+/**
+ *
+ * @description
+ * 워크스페이스 목록 컴포넌트
+ */
 export const WorkspaceList = ({ workspaceList }: workspaceListProps) => {
   const navigate = useNavigate();
   return (

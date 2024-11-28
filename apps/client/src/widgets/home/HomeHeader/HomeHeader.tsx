@@ -4,6 +4,11 @@ type HomeHeaderProps = {
   isBlack: boolean;
 };
 
+/**
+ *
+ * @description
+ * 홈페지 헤더 컴포넌트
+ */
 export const HomeHeader = ({ isBlack }: HomeHeaderProps) => {
   return (
     <header

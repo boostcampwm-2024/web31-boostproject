@@ -26,7 +26,12 @@ interface SelectProps {
   disabled?: boolean;
 }
 
-export function Select({
+/**
+ *
+ * @description
+ * 커스텀 select 컴포넌트
+ */
+export const Select = ({
   id,
   options,
   value,
@@ -34,7 +39,7 @@ export function Select({
   placeholder = '',
   size = SelectSize.MEDIUM,
   disabled = false,
-}: SelectProps) {
+}: SelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>(value);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -130,4 +135,4 @@ export function Select({
       )}
     </div>
   );
-}
+};

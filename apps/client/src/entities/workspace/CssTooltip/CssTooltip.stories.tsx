@@ -11,7 +11,7 @@ const meta: Meta<typeof CssTooltip> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'CSS 속성에 관한 정보를 알려주는 컴포넌트입니다.',
+        component: 'CSS 속성에 관한 정보를 알려주는 컴포넌트',
       },
     },
   },

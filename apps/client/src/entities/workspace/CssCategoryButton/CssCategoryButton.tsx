@@ -5,9 +5,10 @@ type CssCategoryButtonProps = {
   cssCategory: TCssCategory;
 };
 
-/***
+/**
+ *
  * @description
- * CSS 카테고리를 선택할 수 있는 버튼입니다.
+ * CSS 카테고리를 선택할 수 있는 버튼 컴포넌트
  */
 export const CssCategoryButton = ({ cssCategory }: CssCategoryButtonProps) => {
   const { selectedCssCategory, setSelectedCssCategory } = useCssPropsStore();

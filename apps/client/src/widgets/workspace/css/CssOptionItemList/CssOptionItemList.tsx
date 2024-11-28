@@ -2,6 +2,11 @@ import { CssOptionItem } from '@/entities';
 import { cssCategoryList } from '@/shared/utils';
 import { useCssPropsStore } from '@/shared/store';
 
+/**
+ *
+ * @description
+ * CSS 속성을 설정할 수 있는 컴포넌트의 목록을 보여주는 컴포넌트
+ */
 export const CssOptionItemList = () => {
   const { selectedCssCategory } = useCssPropsStore();
   return (

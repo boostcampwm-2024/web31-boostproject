@@ -12,6 +12,11 @@ type PreviewBoxProps = {
   cssCode: string;
 };
 
+/**
+ *
+ * @description
+ * 웹사이트, HTML, CSS 코드 미리보기 박스 컴포넌트
+ */
 export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
   const { isResetCssChecked } = useResetCssStore();

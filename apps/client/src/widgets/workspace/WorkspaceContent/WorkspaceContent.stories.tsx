@@ -11,7 +11,7 @@ const meta: Meta<typeof WorkspaceContent> = {
   decorators: [
     (Story) => {
       return (
-        <div id="blocklyDiv" style={{ height: '100vh', width: '100vw' }}>
+        <div className="flex h-screen w-screen flex-1">
           <Story />
         </div>
       );

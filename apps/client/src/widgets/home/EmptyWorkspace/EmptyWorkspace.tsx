@@ -2,6 +2,11 @@ import { HoveredEmptyWorkspace, NotHoveredEmptyWorkspace } from '@/entities';
 
 import { useState } from 'react';
 
+/**
+ *
+ * @description
+ * 빈 워크스페이스 컴포넌트
+ */
 export const EmptyWorkspace = () => {
   const [isHovered, setIsHovered] = useState(false);
 

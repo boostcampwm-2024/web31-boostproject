@@ -1,16 +1,21 @@
+import { Select, SelectSize } from '@/shared/ui';
 import { useCssOptionItem, useCssOptions, useCssTooltip } from '@/shared/hooks';
 
 import { CssTooltip } from '@/entities';
 import Question from '@/shared/assets/question.svg?react';
 import { TCssCategoryItem } from '@/shared/types';
 import { useCssPropsStore } from '@/shared/store';
-import { Select, SelectSize } from '@/shared/ui';
 
 type CssOptionItemProps = {
   cssItem: TCssCategoryItem;
   index: number;
 };
 
+/**
+ *
+ * @description
+ * CSS 속성을 선택할 수 있는 컴포넌트
+ */
 export const CssOptionItem = ({ cssItem, index }: CssOptionItemProps) => {
   const { totalCssPropertyObj, currentCssClassName } = useCssPropsStore();
   const { handleCssPropertyCheckboxChange, handleCssOptionChange, handleColorChange } =

@@ -1,6 +1,11 @@
 import toast, { Toaster, useToasterStore } from 'react-hot-toast';
 import { useEffect, useState } from 'react';
 
+/**
+ *
+ * @description
+ * 최대 개수 제한이 있는 토스트 컴포넌트
+ */
 export const ToasterWithMax = () => {
   const { toasts } = useToasterStore();
   const [toastLimit] = useState<number>(1);

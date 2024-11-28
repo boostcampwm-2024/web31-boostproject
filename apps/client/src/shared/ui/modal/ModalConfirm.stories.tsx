@@ -8,6 +8,11 @@ const meta: Meta<typeof ModalConfirm> = {
   component: ModalConfirm,
   parameters: {
     layout: 'centered',
+    docs: {
+      description: {
+        component: '모달 재사용 컴포넌트',
+      },
+    },
   },
   tags: ['autodocs'],
 };

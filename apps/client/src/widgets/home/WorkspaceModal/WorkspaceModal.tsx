@@ -3,6 +3,11 @@ import { ModalConfirm, Spinner, SquareButton } from '@/shared/ui';
 import { TButtonContent } from '@/shared/types';
 import { useModalStore } from '@/shared/store/useModalStore';
 
+/**
+ *
+ * @description
+ * 워크스페이스 삭제 모달 컴포넌트
+ */
 export const WorkspaceModal = () => {
   const {
     isModalOpen: isOpen,
