@@ -1,8 +1,12 @@
 import { Helmet } from 'react-helmet-async';
-
 import { HomeHeader } from '@/widgets';
 
 // TODO: 메세지 상수화 shared/utils/constants.ts 안에 관리
+/**
+ *
+ * @description
+ * 404 페이지 컴포넌트
+ */
 export const NotFound = () => {
   return (
     <>

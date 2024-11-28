@@ -1,10 +1,15 @@
 import { GuidesBox, HomeHeader, WorkspaceContainer, WorkspaceModal } from '@/widgets';
-
-import { Loading } from '@/shared/ui';
 import { useClassBlockStore, useLoadingStore, useWorkspaceStore } from '@/shared/store';
-import { useEffect } from 'react';
-import { Helmet } from 'react-helmet-async';
 
+import { Helmet } from 'react-helmet-async';
+import { Loading } from '@/shared/ui';
+import { useEffect } from 'react';
+
+/**
+ *
+ * @description
+ * Boolock 홈페이지 컴포넌트
+ */
 export const HomePage = () => {
   const { isPending } = useLoadingStore();
   const { setWorkspace, setCanvasInfo: setBlockInfo } = useWorkspaceStore();
