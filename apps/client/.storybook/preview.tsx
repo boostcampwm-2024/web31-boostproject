@@ -1,5 +1,6 @@
 import '../src/app/index.css';
 
+import { withMemoryRouter } from './decorators/MemoryRouterProvider';
 import { withQueryClient } from './decorators/QueryProvider';
 
 /** @type { import('@storybook/react').Preview } */
@@ -12,7 +13,7 @@ const preview = {
       },
     },
   },
-  decorators: [withQueryClient],
+  decorators: [withQueryClient, withMemoryRouter],
 };
 
 export default preview;

@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { Logo } from './Logo';
-import { MemoryRouter } from 'react-router-dom';
 import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof Logo> = {
@@ -17,11 +16,9 @@ const meta: Meta<typeof Logo> = {
         action('logo-clicked')({ pathname: '/' });
       };
       return (
-        <MemoryRouter>
-          <div onClick={handleClick}>
-            <Story />
-          </div>
-        </MemoryRouter>
+        <div onClick={handleClick}>
+          <Story />
+        </div>
       );
     },
   ],
