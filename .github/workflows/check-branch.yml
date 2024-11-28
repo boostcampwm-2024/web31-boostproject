@@ -13,14 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push'
     steps:
-      - name: Check out code
-        uses: actions/checkout@v2
-
       - name: Check branch name
         run: |
           branch_name=$(git rev-parse --abbrev-ref HEAD)
-          if [[ ! $branch_name =~ ^(feat/[0-9]+|bug/[0-9]+|hotfix|chore|gh-pages)$ ]]; then
-            echo "Error: Branch name must follow the pattern 'feat/[number]', 'bug/[number]', 'hotfix', or 'chore'. or 'gh-pages'."
+          if [[ ! $branch_name =~ ^(feat/[0-9]+|bug/[0-9]+|hotfix_[0-9]{4}|chore_[0-9]{4}|gh-pages)$ ]]; then
+            echo "Error: Branch name must follow the pattern 'feat/[number]', 'bug/[number]', 'hotfix_mmdd', or 'chore_mmdd'. or 'gh-pages'."
             exit 1
           fi
 
