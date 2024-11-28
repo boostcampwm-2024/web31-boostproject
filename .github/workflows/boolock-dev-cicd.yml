@@ -43,6 +43,7 @@ jobs:
 
       - name: Set Nginx SSL files
         run: |
+          mkdir -p apps/client/ssl
           echo "${{ secrets.SSL_FULLCHAIN }}" > apps/client/ssl/fullchain.pem
           echo "${{ secrets.SSL_PRIVKEY }}" > apps/client/ssl/privkey.pem
 
