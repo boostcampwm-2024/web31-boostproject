@@ -1,0 +1,6 @@
+# 모든 크롤러에게 전체 사이트 크롤링 허용
+User-agent: *
+Disallow:
+
+# 사이트맵 위치 지정
+Sitemap: http://www.boolock.site/sitemap.xml
