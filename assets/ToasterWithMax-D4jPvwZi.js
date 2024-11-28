@@ -1,0 +1,2 @@
+import{j as i}from"./jsx-runtime-DR9Q75dM.js";import{I as a,_ as n,a as m}from"./index-D1AAVYfs.js";import{r as o}from"./index-DRjF_FHU.js";const p=()=>{const{toasts:s}=a(),[e]=o.useState(1);return o.useEffect(()=>{s.filter(t=>t.visible).filter((t,r)=>r>=e).forEach(t=>n.dismiss(t.id))},[s,e]),i.jsx(m,{position:"top-center",reverseOrder:!1})};p.__docgenInfo={description:`@description
+최대 개수 제한이 있는 토스트 컴포넌트`,methods:[],displayName:"ToasterWithMax"};export{p as T};

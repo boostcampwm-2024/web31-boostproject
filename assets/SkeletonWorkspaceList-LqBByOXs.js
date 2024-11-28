@@ -1,0 +1,2 @@
+import{j as e}from"./jsx-runtime-DR9Q75dM.js";import{S as s}from"./SkeletonWorkspace-D4UalYBK.js";const t=({skeletonNum:r})=>e.jsx(e.Fragment,{children:new Array(r).fill(0).map((n,o)=>e.jsx(s,{},o))});t.__docgenInfo={description:`@description
+여러 개의 워크스페이스 스켈레톤 UI 컴포넌트`,methods:[],displayName:"SkeletonWorkspaceList",props:{skeletonNum:{required:!0,tsType:{name:"number"},description:""}}};export{t as S};
