@@ -12,3 +12,6 @@ export { Spinner } from './loading/Spinner';
 
 export { SkeletonWorkspace } from './skeleton/SkeletonWorkspace';
 export { SkeletonWorkspaceList } from './skeleton/SkeletonWorkspaceList';
+
+export { Select, SelectSize } from './select/Select';
+export type { TOption } from './select/Select';
