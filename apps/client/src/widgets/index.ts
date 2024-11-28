@@ -1,11 +1,11 @@
-export { GuidesBox } from './home/GuidesBox';
-export { HomeHeader } from './home/HomeHeader';
-export { WorkspaceList } from './home/WorkspaceList';
-export { WorkspaceHeader } from './home/WorkspaceHeader';
-export { EmptyWorkspace } from './home/EmptyWorkspace';
-export { WorkspaceGrid } from './home/WorkspaceGrid';
-export { WorkspaceContainer } from './home/WorkspaceContainer';
-export { WorkspaceModal } from './home/WorkspaceModal';
+export { GuidesBox } from './home/GuidesBox/GuidesBox';
+export { HomeHeader } from './home/HomeHeader/HomeHeader';
+export { WorkspaceList } from './home/WorkspaceList/WorkspaceList';
+export { WorkspaceHeader } from './home/WorkspaceHeader/WorkspaceHeader';
+export { EmptyWorkspace } from './home/EmptyWorkspace/EmptyWorkspace';
+export { WorkspaceGrid } from './home/WorkspaceGrid/WorkspaceGrid';
+export { WorkspaceContainer } from './home/WorkspaceContainer/WorkspaceContainer';
+export { WorkspaceModal } from './home/WorkspaceModal/WorkspaceModal';
 
 export { PreviewBox } from './workspace/PreviewBox';
 export { WorkspaceContent } from './workspace/WorkspaceContent';

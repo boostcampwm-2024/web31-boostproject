@@ -1,13 +1,14 @@
 import { Meta, StoryObj } from '@storybook/react';
+
 import { EmptyWorkspace } from './EmptyWorkspace';
 
 const meta: Meta<typeof EmptyWorkspace> = {
-  title: 'widgets/EmptyWorkspace',
+  title: 'widgets/home/EmptyWorkspace',
   component: EmptyWorkspace,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
-  tags: ['auTODO:cs'],
+  tags: ['autodocs'],
 };
 
 export default meta;

@@ -2,6 +2,8 @@ export { GuideVideo } from './home/GuideVideo/GuideVideo';
 export { WorkspaceItem } from './home/WorkspaceItem/WorkspaceItem';
 export { WorkspaceAddBtn } from './home/WorkspaceAddBtn/WorkspaceAddBtn';
 export { WorkspaceLoadError } from './home/WorkspaceLoadError/WorkspaceLoadError';
+export { HoveredEmptyWorkspace } from './home/HoveredEmptyWorkspace/HoveredEmptyWorkspace';
+export { NotHoveredEmptyWorkspace } from './home/NotHoveredEmptyWorkspace/NotHoveredEmptyWorkspace';
 
 export { RedoButton } from './workspace/RedoButton/RedoButton';
 export { UndoButton } from './workspace/UndoButton/UndoButton';
