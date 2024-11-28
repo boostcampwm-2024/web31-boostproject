@@ -23,6 +23,8 @@ import CustomZoomControls from '@/core/customZoomControls';
 import CustomTrashcan from '@/core/customTrashcan';
 import { blockContents } from './blockly/htmlBlockContents';
 import { initializeBlocks } from './blockly/initBlocks';
+import { ResizePanel } from '@/shared/ui/resizePanel/ResizePanel';
+import { ResizePanelAlign, ResizePanelType, useResizePanel } from '@/shared/hooks/useResize';
 
 registerCustomComponents();
 defineBlocks(blockContents);
@@ -48,6 +50,31 @@ export const WorkspaceContent = () => {
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
   const { workspace, setWorkspace } = useWorkspaceStore();
+  const {
+    size: leftWidth,
+    isMinOrMax: isMinOrMaxWidth,
+    handleResizeStart: handleHorizontalResizeStart,
+    handleResize: handleHorizontalResize,
+    handleResizeEnd: handleHorizontalResizeEnd,
+  } = useResizePanel({
+    minSize: 20,
+    maxSize: 80,
+    initialSize: 32,
+    align: ResizePanelAlign.VERTICAL,
+  });
+
+  const {
+    size: previewHeight,
+    isMinOrMax: isMinOrMaxHeight,
+    handleResizeStart: handleVerticalResizeStart,
+    handleResize: handleVerticalResize,
+    handleResizeEnd: handleVerticalResizeEnd,
+  } = useResizePanel({
+    minSize: 30,
+    maxSize: 70,
+    initialSize: 50,
+    align: ResizePanelAlign.HORIZONTAL,
+  });
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -108,13 +135,40 @@ export const WorkspaceContent = () => {
   }, [htmlCode, totalCssPropertyObj]);
 
   return (
-    <div className="flex flex-1">
-      <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
-        <PreviewBox htmlCode={htmlCode} cssCode={cssCode} />
-        <CssPropsSelectBox />
+    <div
+      className="flex flex-1"
+      onMouseMove={handleHorizontalResize}
+      onMouseUp={handleHorizontalResizeEnd}
+      onMouseLeave={handleHorizontalResizeEnd}
+    >
+      <div
+        className="flex h-full w-[32rem] flex-shrink-0 flex-col"
+        style={{ width: `${leftWidth}%` }}
+      >
+        <div
+          className="flex-shrink-0"
+          style={{ height: `${previewHeight}%` }}
+          onMouseMove={handleVerticalResize}
+          onMouseUp={handleVerticalResizeEnd}
+          onMouseLeave={handleVerticalResizeEnd}
+        >
+          <PreviewBox htmlCode={htmlCode} cssCode={cssCode} />
+        </div>
+        <ResizePanel
+          onMouseDown={handleVerticalResizeStart(ResizePanelType.PROPERTY)}
+          invalid={isMinOrMaxHeight(previewHeight)}
+          align={ResizePanelAlign.HORIZONTAL}
+        />
+        <div style={{ height: `${100 - previewHeight}%` }}>
+          <CssPropsSelectBox />
+        </div>
       </div>
-
-      <div id="blocklyDiv" className="h-full w-full"></div>
+      <ResizePanel
+        onMouseDown={handleHorizontalResizeStart(ResizePanelType.WORKSPACE)}
+        invalid={isMinOrMaxWidth(leftWidth)}
+        align={ResizePanelAlign.VERTICAL}
+      />
+      <div id="blocklyDiv" className="h-full w-full" style={{ width: `${100 - leftWidth}%` }}></div>
     </div>
   );
 };
