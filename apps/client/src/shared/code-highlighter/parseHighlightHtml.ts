@@ -14,16 +14,20 @@ export const parseHighlightHtml = (html: string, styles: Record<string, string>)
       .join(' ');
 
     const openTag = `${indent}&lt;${tag}${attrs ? ' ' + attrs : ''}&gt;`;
+    const closeTag = `${indent}&lt;/${tag}&gt;`;
+
+    // 자식 노드 처리
     const children = Array.from(element.childNodes)
       .map((child) => processNode(child, depth + 1))
       .join('');
 
-    // 자식 노드 여부 확인
-    const isLeafNode = children.trim() === '';
-    const closeTag = `${indent}&lt;/${tag}&gt;`;
-    const innerContent = isLeafNode ? '\n' : children;
+    // 예외 처리: <head> 태그는 한 줄로 처리
+    if (element.tagName.toLowerCase() === 'head') {
+      return `${indent}&lt;${tag}${attrs ? ' ' + attrs : ''}&gt;${children.trim()}&lt;/${tag}&gt;`;
+    }
 
-    return `\n${openTag}${innerContent}\n${closeTag}`;
+    // 자식 노드 유무에 따른 반환
+    return children.trim() ? `\n${openTag}\n${children}\n${closeTag}` : `\n${openTag}\n${closeTag}`;
   };
 
   // 텍스트 노드는 따로 처리

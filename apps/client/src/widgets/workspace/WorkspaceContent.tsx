@@ -49,6 +49,7 @@ export const WorkspaceContent = () => {
   const { totalCssPropertyObj } = useCssPropsStore();
   const { workspace, setWorkspace, canvasInfo } = useWorkspaceStore();
   const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
+
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
@@ -72,10 +73,9 @@ export const WorkspaceContent = () => {
     });
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
-
     initializeBlocks(newWorkspace);
-
     newWorkspace.clearUndo();
+
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
       if (
@@ -108,6 +108,13 @@ export const WorkspaceContent = () => {
       return;
     }
     Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
+
+    // 최경일 실험
+    const handleClick = () => {
+      const clickedBlock = document.querySelector('.blocklyCursor');
+      console.log(clickedBlock);
+    };
+    document.addEventListener('click', handleClick);
   }, [workspace, canvasInfo]);
 
   useEffect(() => {

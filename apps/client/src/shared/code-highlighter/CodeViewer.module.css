@@ -33,7 +33,7 @@
 }
 
 .lineNumberHighlight {
-  background-color: #E5FBF3;
+  background-color: #e5fbf3;
 }
 
 .codeContent {
@@ -63,4 +63,17 @@
 
 .codeContent .property-value {
   color: #e06c75;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.newLine {
+  animation: fadeIn 1s ease-in-out;
 }
