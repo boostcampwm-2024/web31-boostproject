@@ -1,35 +1,35 @@
 name: Check Branch Name and Prevent Main Merge
 
 on:
-  push:
-    branches:
-      - '*'
   pull_request:
     branches:
+      - dev
       - main
 
 jobs:
   check-branch-name:
     runs-on: ubuntu-latest
-    if: github.event_name == 'push'
+    if: github.event.pull_request.base.ref == 'dev'
     steps:
-      - name: Check branch name
+      - name: Extract Source Branch Name
         run: |
-          branch_name=${GITHUB_REF##*/}
-          echo "Current branch: $branch_name"
+          branch_name=$(jq -r .pull_request.head.ref "$GITHUB_EVENT_PATH")
+          echo "Source Branch: $branch_name"
 
           if [[ ! $branch_name =~ ^(feat/[0-9]+|bug/[0-9]+|hotfix_[0-9]{4}|chore_[0-9]{4}|gh-pages)$ ]]; then
-            echo "Error: Branch name must follow the pattern 'feat/[number]', 'bug/[number]', 'hotfix_mmdd', or 'chore_mmdd'. or 'gh-pages'."
+            echo "Error: Branch name must follow the pattern 'feat/[number]', 'bug/[number]', 'hotfix_mmdd', 'chore_mmdd', or 'gh-pages'."
             exit 1
           fi
 
   prevent-main-merge:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
+    if: github.event.pull_request.base.ref == 'main'
     steps:
-      - name: Prevent merge to main
+      - name: Prevent Merge to Main
         run: |
           base_branch=$(jq -r .pull_request.base.ref "$GITHUB_EVENT_PATH")
+          echo "Base Branch: $base_branch"
+
           if [[ $base_branch == "main" ]]; then
             echo "Error: Pull requests to the main branch are not allowed."
             exit 1
