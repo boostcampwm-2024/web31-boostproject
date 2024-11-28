@@ -1,5 +1,5 @@
-import { HoveredEmptyWorkspace } from '@/entities/home/HoveredEmptyWorkspace';
-import { NotHoveredEmptyWorkspace } from '@/entities/home/NotHoveredEmptyWorkspace';
+import { HoveredEmptyWorkspace } from '@/entities/home/HoveredEmptyWorkspace/HoveredEmptyWorkspace';
+import { NotHoveredEmptyWorkspace } from '@/entities/home/NotHoveredEmptyWorkspace/NotHoveredEmptyWorkspace';
 import { useState } from 'react';
 
 export const EmptyWorkspace = () => {

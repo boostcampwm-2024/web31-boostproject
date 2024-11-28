@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from '@storybook/react';
+
 import { NotHoveredEmptyWorkspace } from './NotHoveredEmptyWorkspace';
 
 const meta: Meta<typeof NotHoveredEmptyWorkspace> = {
