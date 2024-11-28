@@ -23,9 +23,10 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
     const MAX_DYNAMIC_WIDTH = this.constants_.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;
     const MAX_DYNAMIC_HEIGHT = MAX_DYNAMIC_WIDTH * 1.5;
     const EMPTY_PADDING = this.constants_.EMPTY_INLINE_INPUT_PADDING;
-    const DEFAULT_REMAINING = 33;
+    const DEFAULT_REMAINING = 35;
     const LEFT_PADDING = 14;
     const RIGHT_PADDING = 10;
+    const DIFF_MAX = MIN_ROW_WIDTH - 110;
 
     let isProcessedBetween = false;
 
@@ -43,7 +44,8 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
 
         let inputFieldDiff = inputField.width - (radius + EMPTY_PADDING);
         if (inputFieldDiff) {
-          inputFieldDiff = inputFieldDiff > 50 ? (inputFieldDiff + 50) / 2 : inputFieldDiff;
+          inputFieldDiff =
+            inputFieldDiff > DIFF_MAX ? (inputFieldDiff + DIFF_MAX) / 2 : inputFieldDiff;
           totalRowWidth += inputFieldDiff;
         }
 
@@ -92,7 +94,7 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
     if (finalizeMaxWidth > this.topRow.width) {
       const difference = finalizeMaxWidth - this.topRow.width;
       const additionalWidth =
-        difference > 50 && isProcessedBetween ? (difference + 50) / 2 : difference;
+        difference > DIFF_MAX && isProcessedBetween ? (difference + DIFF_MAX) / 2 : difference;
 
       this.topRow.elements[this.topRow.elements.length - 2].width += additionalWidth;
       this.bottomRow.elements[this.bottomRow.elements.length - 2].width += additionalWidth;
