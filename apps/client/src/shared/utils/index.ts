@@ -9,3 +9,4 @@ export {
 } from './boolockConstants';
 export { debounce } from './debounce';
 export { cssCategoryList } from './cssCategoryList';
+export { hasField } from './typeGuard';
