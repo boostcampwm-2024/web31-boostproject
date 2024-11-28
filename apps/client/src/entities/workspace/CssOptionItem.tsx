@@ -4,6 +4,7 @@ import { CssTooltip } from '@/entities';
 import Question from '@/shared/assets/question.svg?react';
 import { TCssCategoryItem } from '@/shared/types';
 import { useCssPropsStore } from '@/shared/store';
+import { Select, SelectSize } from '@/shared/ui';
 
 type CssOptionItemProps = {
   cssItem: TCssCategoryItem;
@@ -64,25 +65,19 @@ export const CssOptionItem = ({ cssItem, index }: CssOptionItemProps) => {
         </div>
       </div>
       {cssItem.type === 'select' && (
-        <select
+        <Select
           id={cssItem.label}
-          title={cssItem.label}
-          className="bg-gray-white focus:ring-gray-black text-semibold-md focus:border-gray-black w-[120px] truncate rounded-lg border border-gray-100 px-2 py-1 outline-none"
-          onChange={(e) => handleCssOptionChange(cssItem.label, e.target.value)}
+          options={cssItem.option!}
           value={cssOption}
+          onChange={(selected) => handleCssOptionChange(cssItem.label, selected)}
           disabled={currentCssClassName.length === 0}
-        >
-          {cssItem.option?.map((option) => (
-            <option id={option} value={option} key={option}>
-              {option}
-            </option>
-          ))}
-        </select>
+          size={SelectSize.SMALL}
+        />
       )}
       {cssItem.type === 'input' && (
         <input
           type="text"
-          className="text-semibold-md focus:border-gray-black placeholder:text-semibold-sm w-28 rounded-lg border border-gray-100 px-2 py-1 placeholder-gray-100 focus:border focus:outline-none"
+          className="text-medium-md placeholder:text-medium-md w-36 rounded-lg border border-gray-100 px-4 py-1.5 text-gray-500 placeholder-gray-100 focus:border-gray-200 focus:outline-none disabled:border disabled:border-gray-100 disabled:bg-gray-50"
           placeholder="값을 입력하세요"
           onBlur={(e) => handleCssOptionChange(cssItem.label, e.target.value)}
           onKeyDown={(e) => handleEnterKey(cssItem.label, e)}
@@ -93,7 +88,7 @@ export const CssOptionItem = ({ cssItem, index }: CssOptionItemProps) => {
       )}
       {cssItem.type === 'color' && (
         <div className="flex items-center gap-4">
-          <p>{cssOption}</p>
+          <p className="text-medium-md text-gray-500">{cssOption}</p>
           <input
             type="color"
             title={cssOption}

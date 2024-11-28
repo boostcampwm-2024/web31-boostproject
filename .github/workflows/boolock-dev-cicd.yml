@@ -97,7 +97,7 @@ jobs:
           script: |
             cd boolock/web31-BooLock
             git checkout dev
-            git pull
+            git pull origin dev
 
             echo "MONGO_URI=${{ secrets.DEPLOY_MONGO_URI }}"  > apps/server/.env
             echo "IS_LOCAL=false" >> apps/server/.env
