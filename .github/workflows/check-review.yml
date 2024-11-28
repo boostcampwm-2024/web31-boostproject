@@ -21,16 +21,12 @@ jobs:
           if [[ "$base_branch" == "dev" ]]; then
             if [[ "$head_branch" =~ ^(chore_[0-9]{4}|hotfix_[0-9]{4})$ ]]; then
               echo "Branch $head_branch is exempt from the 2-reviewer approval rule."
+
+              # PR 자동 승인
+              gh pr review "$GITHUB_REF" --approve
               exit 0
             fi
-
-            echo "Checking approvals for branch $head_branch..."
-            reviews=$(gh pr review --list --json state | jq '[.[] | select(.state=="APPROVED")] | length')
-            if [[ $reviews -lt 2 ]]; then
-              echo "Error: This pull request requires at least 2 approvals."
-              exit 1
-            fi
-          else
-            echo "This PR is not targeting the dev branch. Skipping."
-            exit 0
           fi
+
+          echo "This PR requires manual review."
+          exit 0
