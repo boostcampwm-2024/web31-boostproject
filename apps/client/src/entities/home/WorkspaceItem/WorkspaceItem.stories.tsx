@@ -7,7 +7,7 @@ const meta: Meta<typeof WorkspaceItem> = {
   title: 'entities/home/WorkspaceItem',
   component: WorkspaceItem,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
 
   tags: ['autodocs'],
@@ -28,8 +28,10 @@ export const Default: Story = {
     },
   },
   render: (args) => (
-    <ul>
-      <WorkspaceItem {...args} />
-    </ul>
+    <div className="flex items-center justify-center p-4">
+      <ul className="w-[264px]">
+        <WorkspaceItem {...args} />
+      </ul>
+    </div>
   ),
 };
