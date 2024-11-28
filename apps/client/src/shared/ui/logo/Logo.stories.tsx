@@ -1,7 +1,8 @@
 import { Meta, StoryObj } from '@storybook/react';
-import { MemoryRouter } from 'react-router-dom';
 
 import { Logo } from './Logo';
+import { MemoryRouter } from 'react-router-dom';
+import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof Logo> = {
   title: 'shared/ui/logo/Logo',
@@ -10,11 +11,19 @@ const meta: Meta<typeof Logo> = {
     layout: 'centered',
   },
   decorators: [
-    (Story) => (
-      <MemoryRouter>
-        <Story />
-      </MemoryRouter>
-    ),
+    (Story) => {
+      const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+        event.preventDefault();
+        action('logo-clicked')({ pathname: '/' });
+      };
+      return (
+        <MemoryRouter>
+          <div onClick={handleClick}>
+            <Story />
+          </div>
+        </MemoryRouter>
+      );
+    },
   ],
   tags: ['autodocs'],
 };
@@ -25,12 +34,18 @@ type Story = StoryObj<typeof Logo>;
 
 export const BlackLogo: Story = {
   args: {
-    isBlack: true,
+    isBlack: false,
   },
 };
 
 export const WhiteLogo: Story = {
   args: {
-    isBlack: false,
+    isBlack: true,
+  },
+  parameters: {
+    backgrounds: {
+      default: 'black',
+      values: [{ name: 'black', value: '#000000' }],
+    },
   },
 };
