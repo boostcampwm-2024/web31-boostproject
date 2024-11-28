@@ -11,6 +11,15 @@ const Types = Blockly.blockRendering.Types;
  *drawer 이전 마지막으로 호출되는 클래스이기에 이 부분에서 field가 그려질 좌표를 수정해주었습니다.
  */
 export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
+  MIN_WIDTH = 160;
+  MAX_WIDTH = 0;
+  MAX_HEIGHT = 0;
+  PADDING_EMPTY = 0;
+  PADDING_DEFAULT = 35;
+  PADDING_LEFT = 14;
+  PADDING_RIGHT = 10;
+  WIDTH_DIFF = this.MIN_WIDTH - 110;
+
   constructor(renderer: CustomRenderer, block: Blockly.BlockSvg) {
     super(renderer, block);
   }
@@ -18,90 +27,102 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
   override finalize_(): void {
     super.finalize_();
 
-    let finalizeMaxWidth = this.topRow.width;
-    const MIN_ROW_WIDTH = 160;
-    const MAX_DYNAMIC_WIDTH = this.constants_.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;
-    const MAX_DYNAMIC_HEIGHT = MAX_DYNAMIC_WIDTH * 1.5;
-    const EMPTY_PADDING = this.constants_.EMPTY_INLINE_INPUT_PADDING;
-    const DEFAULT_REMAINING = 35;
-    const LEFT_PADDING = 14;
-    const RIGHT_PADDING = 10;
-    const DIFF_MAX = MIN_ROW_WIDTH - 110;
-
-    let isProcessedBetween = false;
+    this.initDynamicProps();
+    let maxWidth = this.topRow.width;
+    let adjusted = false;
 
     this.rows.forEach((row) => {
       if (row.hasInlineInput && row.elements.length === 5) {
-        const fieldLabel = row.elements[1];
-        const inputField = row.elements[row.elements.length - 2];
-
-        const height = Math.min(inputField.height, MAX_DYNAMIC_HEIGHT);
-        const radius = height / 4;
-
-        const tempWidth =
-          LEFT_PADDING + fieldLabel.width + DEFAULT_REMAINING + inputField.width + RIGHT_PADDING;
-        let totalRowWidth = Math.max(tempWidth, MIN_ROW_WIDTH);
-
-        let inputFieldDiff = inputField.width - (radius + EMPTY_PADDING);
-        if (inputFieldDiff) {
-          inputFieldDiff =
-            inputFieldDiff > DIFF_MAX ? (inputFieldDiff + DIFF_MAX) / 2 : inputFieldDiff;
-          totalRowWidth += inputFieldDiff;
-        }
-
-        const remainingSpace =
-          totalRowWidth - (fieldLabel.width + inputField.width + LEFT_PADDING + RIGHT_PADDING);
-        inputField.xPos =
-          fieldLabel.width +
-          (totalRowWidth > MIN_ROW_WIDTH ? DEFAULT_REMAINING : remainingSpace) +
-          LEFT_PADDING;
-
-        row.width = totalRowWidth > 160 ? inputField.xPos + inputField.width + RIGHT_PADDING : 160;
-        finalizeMaxWidth = Math.max(finalizeMaxWidth, row.width);
-        isProcessedBetween = true;
+        maxWidth = this.handleInlineInput(row, maxWidth);
+        adjusted = true;
       } else {
-        let isInlineCustomInput = row.elements.some(
-          (elem) =>
-            Types.isField(elem) &&
-            (elem as Blockly.blockRendering.Field).field instanceof CustomFieldTextInput
+        const hasCustomInput = row.elements.some(
+          (el) =>
+            Types.isField(el) &&
+            (el as Blockly.blockRendering.Field).field instanceof CustomFieldTextInput
         );
 
-        if (isInlineCustomInput) {
-          const inputField = row.elements[row.elements.length - 2];
-          const fieldLabel = row.elements.length > 3 ? row.elements[1] : { width: 0, xPos: 8 };
-
-          const tempWidthWithoutInputField =
-            LEFT_PADDING + fieldLabel.width + DEFAULT_REMAINING + RIGHT_PADDING;
-          const tempWidth = tempWidthWithoutInputField + inputField.width;
-
-          if (hasField(inputField) && tempWidth < MIN_ROW_WIDTH) {
-            (inputField.field as CustomFieldTextInput).updateWidth(
-              MIN_ROW_WIDTH - tempWidthWithoutInputField
-            );
-          }
-
-          inputField.xPos = fieldLabel.width + DEFAULT_REMAINING + LEFT_PADDING;
-
-          row.width = Math.max(tempWidth, MIN_ROW_WIDTH);
-          finalizeMaxWidth = Math.max(finalizeMaxWidth, row.width);
-          isProcessedBetween = true;
+        if (hasCustomInput) {
+          maxWidth = this.handleCustomInput(row, maxWidth);
+          adjusted = true;
         } else {
-          finalizeMaxWidth = Math.max(finalizeMaxWidth, MIN_ROW_WIDTH);
+          maxWidth = Math.max(maxWidth, this.MIN_WIDTH);
         }
       }
     });
 
-    if (finalizeMaxWidth > this.topRow.width) {
-      const difference = finalizeMaxWidth - this.topRow.width;
-      const additionalWidth =
-        difference > DIFF_MAX && isProcessedBetween ? (difference + DIFF_MAX) / 2 : difference;
+    this.updateWidths(maxWidth, adjusted);
+  }
 
-      this.topRow.elements[this.topRow.elements.length - 2].width += additionalWidth;
-      this.bottomRow.elements[this.bottomRow.elements.length - 2].width += additionalWidth;
+  private initDynamicProps(): void {
+    this.MAX_WIDTH = this.constants_.MAX_DYNAMIC_CONNECTION_SHAPE_WIDTH;
+    this.MAX_HEIGHT = this.MAX_WIDTH * 1.5;
+    this.PADDING_EMPTY = this.constants_.EMPTY_INLINE_INPUT_PADDING;
+  }
+
+  private handleInlineInput(row: any, maxWidth: number): number {
+    const label = row.elements[1];
+    const input = row.elements[row.elements.length - 2];
+
+    const height = Math.min(input.height, this.MAX_HEIGHT);
+    const radius = height / 4;
+    const labelWidth = label.width;
+    const inputWidth = input.width;
+
+    const totalBase =
+      this.PADDING_LEFT + labelWidth + this.PADDING_DEFAULT + inputWidth + this.PADDING_RIGHT;
+    let totalWidth = Math.max(totalBase, this.MIN_WIDTH);
+
+    const extraWidth = inputWidth - (radius + this.PADDING_EMPTY);
+    if (extraWidth) {
+      totalWidth += extraWidth > this.WIDTH_DIFF ? (extraWidth + this.WIDTH_DIFF) / 2 : extraWidth;
+    }
+
+    const remaining =
+      totalWidth - (labelWidth + inputWidth + this.PADDING_LEFT + this.PADDING_RIGHT);
+    input.xPos =
+      labelWidth +
+      (totalWidth > this.MIN_WIDTH ? this.PADDING_DEFAULT : remaining) +
+      this.PADDING_LEFT;
+
+    row.width =
+      totalWidth > this.MIN_WIDTH ? input.xPos + inputWidth + this.PADDING_RIGHT : this.MIN_WIDTH;
+
+    return Math.max(maxWidth, row.width);
+  }
+
+  private handleCustomInput(row: any, maxWidth: number): number {
+    const input = row.elements[row.elements.length - 2];
+    const label = row.elements.length > 3 ? row.elements[1] : { width: 0, xPos: 8 };
+
+    const labelWidth = label.width;
+    const inputWidth = input.width;
+
+    const baseWidth = this.PADDING_LEFT + labelWidth + this.PADDING_DEFAULT + this.PADDING_RIGHT;
+    const totalWidth = baseWidth + inputWidth;
+
+    if (hasField(input) && totalWidth < this.MIN_WIDTH) {
+      (input.field as CustomFieldTextInput).updateWidth(this.MIN_WIDTH - baseWidth);
+    }
+
+    input.xPos = labelWidth + this.PADDING_DEFAULT + this.PADDING_LEFT;
+
+    row.width = Math.max(totalWidth, this.MIN_WIDTH);
+
+    return Math.max(maxWidth, row.width);
+  }
+
+  private updateWidths(maxWidth: number, adjusted: boolean): void {
+    if (maxWidth > this.topRow.width) {
+      const diff = maxWidth - this.topRow.width;
+      const extra = diff > this.WIDTH_DIFF && adjusted ? (diff + this.WIDTH_DIFF) / 2 : diff;
+
+      this.topRow.elements[this.topRow.elements.length - 2].width += extra;
+      this.bottomRow.elements[this.bottomRow.elements.length - 2].width += extra;
 
       this.rows.forEach((row) => {
         if (row.hasStatement) {
-          row.width += additionalWidth;
+          row.width += extra;
         }
       });
     }
