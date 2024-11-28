@@ -1,9 +1,9 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import { Meta, StoryObj } from '@storybook/react';
 
 import { CssCategoryButton } from './CssCategoryButton';
 
 const meta: Meta<typeof CssCategoryButton> = {
-  title: 'Category/CssCategoryButton',
+  title: 'Category/CssCateGoryButtonProps',
   component: CssCategoryButton,
   parameters: {
     layout: 'centered',
@@ -12,34 +12,19 @@ const meta: Meta<typeof CssCategoryButton> = {
 };
 
 export default meta;
+
 type Story = StoryObj<typeof CssCategoryButton>;
-// Default state
+
 export const Default: Story = {
   args: {
-    cssCategory: {
-      category: '레이아웃',
-    },
+    cssCategory: '레이아웃',
+  },
+  render: (args) => {
+    return (
+      <div className="flex gap-5">
+        <CssCategoryButton cssCategory={args.cssCategory} />
+        <CssCategoryButton cssCategory={'타이포그래피'} />
+      </div>
+    );
   },
 };
-
-// import { Meta, StoryObj } from '@storybook/react';
-// import MyComponent from './MyComponent';
-
-// const meta: Meta<typeof MyComponent> = {
-//   title: 'Category/MyComponent',
-//   component: MyComponent,
-//   parameters: {
-//     layout: 'centered',
-//   },
-//   tags: ['autodocs'],
-// };
-
-// export default meta;
-
-// type Story = StoryObj<typeof MyComponent>;
-
-// export const Default: Story = {
-//   args: {
-//     // propsname: value,
-//   },
-// };
