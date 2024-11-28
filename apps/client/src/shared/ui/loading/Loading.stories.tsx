@@ -21,4 +21,9 @@ export const Default: Story = {
     width: 120,
     color: '#02D085',
   },
+  render: (args) => (
+    <div className="h-screen w-screen">
+      <Loading {...args} />
+    </div>
+  ),
 };
