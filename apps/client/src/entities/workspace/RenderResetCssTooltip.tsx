@@ -15,12 +15,5 @@ export const RenderResetCssTooltip = (props: TooltipProps, container: HTMLElemen
     root = createRoot(container);
   }
 
-  root.render(
-    <CssTooltip
-      description={props.description}
-      isOpen={props.isOpen}
-      leftX={props.leftX}
-      topY={props.topY}
-    />
-  );
+  root.render(CssTooltip(props));
 };
