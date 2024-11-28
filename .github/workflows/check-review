@@ -1,0 +1,36 @@
+name: PR Review Check
+
+on:
+  pull_request:
+    branches:
+      - dev
+
+jobs:
+  check-pr-reviews:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check PR Source and Target Branches
+        run: |
+          base_branch=$(jq -r .pull_request.base.ref "$GITHUB_EVENT_PATH")
+          head_branch=$(jq -r .pull_request.head.ref "$GITHUB_EVENT_PATH")
+
+          echo "Base branch: $base_branch"
+          echo "Head branch: $head_branch"
+
+          if [[ "$base_branch" == "dev" ]]; then
+            if [[ "$head_branch" =~ ^(chore_[0-9]{4}|hotfix_[0-9]{4})$ ]]; then
+              echo "Branch $head_branch is exempt from the 2-reviewer approval rule."
+              exit 0
+            fi
+
+            echo "Checking approvals for branch $head_branch..."
+            reviews=$(gh pr review --list --json state | jq '[.[] | select(.state=="APPROVED")] | length')
+            if [[ $reviews -lt 2 ]]; then
+              echo "Error: This pull request requires at least 2 approvals."
+              exit 1
+            fi
+          else
+            echo "This PR is not targeting the dev branch. Skipping."
+            exit 0
+          fi
