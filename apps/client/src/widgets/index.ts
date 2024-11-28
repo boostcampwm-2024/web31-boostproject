@@ -7,11 +7,10 @@ export { WorkspaceGrid } from './home/WorkspaceGrid/WorkspaceGrid';
 export { WorkspaceContainer } from './home/WorkspaceContainer/WorkspaceContainer';
 export { WorkspaceModal } from './home/WorkspaceModal/WorkspaceModal';
 
-export { PreviewBox } from './workspace/PreviewBox';
-export { WorkspaceContent } from './workspace/WorkspaceContent';
-export { WorkspacePageHeader } from './workspace/WorkspacePageHeader';
-export { CssCategoryBar } from './workspace/css/CssCategoryBar';
-export { CssPropsSelectBox } from './workspace/css/CssPropsSelectBox';
-export { CssOptionItemList } from './workspace/css/CssOptionItemList';
-export { CssPropsSelectBoxHeader } from './workspace/css/CssPropsSelectBoxHeader';
-export { cssCodeGenerator } from './workspace/css/cssCodeGenerator';
+export { PreviewBox } from './workspace/PreviewBox/PreviewBox';
+export { WorkspaceContent } from './workspace/WorkspaceContent/WorkspaceContent';
+export { WorkspacePageHeader } from './workspace/WorkspacePageHeader/WorkspacePageHeader';
+export { CssCategoryBar } from './workspace/css/CssCategoryBar/CssCategoryBar';
+export { CssPropsSelectBox } from './workspace/css/CssPropsSelectBox/CssPropsSelectBox';
+export { CssOptionItemList } from './workspace/css/CssOptionItemList/CssOptionItemList';
+export { CssPropsSelectBoxHeader } from './workspace/css/CssPropsSelectBoxHeader/CssPropsSelectBoxHeader';
