@@ -1,11 +1,10 @@
 import YouTube, { YouTubeProps } from 'react-youtube';
 
-// TODO: 뒤에 props 붙이기 T 없애기 (props이므로)
-type TvideoId = {
+type GuideVideoProps = {
   videoId: string;
 };
 
-export const GuideVideo = ({ videoId }: TvideoId) => {
+export const GuideVideo = ({ videoId }: GuideVideoProps) => {
   const opts: YouTubeProps['opts'] = {
     width: '360',
     height: '233',
