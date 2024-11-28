@@ -16,6 +16,7 @@ services:
       - base
     ports:
       - '80:80'
+      - '443:443'
 
   backend:
     build:
