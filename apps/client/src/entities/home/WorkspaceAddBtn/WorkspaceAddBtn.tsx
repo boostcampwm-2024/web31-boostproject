@@ -12,7 +12,7 @@ export const WorkspaceAddBtn = () => {
   };
 
   return (
-    <CircleButton width="w-5" height="w-5" onClick={handleClick} disable={isPending}>
+    <CircleButton width="w-5" height="h-5" onClick={handleClick} disable={isPending}>
       <PlusSVG width="12" height="12" />
     </CircleButton>
   );
