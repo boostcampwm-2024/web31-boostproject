@@ -108,7 +108,7 @@ export const WorkspaceContent = () => {
       return;
     }
     Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
-  }, [workspace]);
+  }, [workspace, canvasInfo]);
 
   useEffect(() => {
     setCssCode(cssCodeGenerator(totalCssPropertyObj));

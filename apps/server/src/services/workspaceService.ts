@@ -106,6 +106,9 @@ export const WorkspaceService = () => {
         isCssReset: updatedWorkspace.is_css_reset,
         totalCssPropertyObj,
         canvas: updatedWorkspace.canvas,
+        userId: updatedWorkspace.user_id,
+        updatedAt: updatedWorkspace.updated_at,
+        thumbnail: updatedWorkspace.thumbnail,
       };
     } catch (error) {
       if (error instanceof Error) {
