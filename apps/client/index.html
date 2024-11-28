@@ -1,13 +1,38 @@
 <!doctype html>
-<html lang="en">
+<html lang="ko">
   <head>
+    <!-- 기본 meta 태그 및 link -->
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/images/boolock_logo.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>BooLock</title>
+    <meta
+      name="description"
+      content="코딩 입문자들이 html과 css를 블록으로 쉽고 재밌게 배울 수 있는 플랫폼입니다."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="author" content="부스트캠프 9기 Web31팀" />
+    <!-- Open Graph -->
+    <meta property="og:title" content="BooLock" />
+    <meta
+      property="og:description"
+      content="코딩 입문자들이 html과 css를 블록으로 쉽고 재밌게 배울 수 있는 플랫폼입니다."
+    />
+    <meta property="og:url" content="http://boolock.site/" />
+    <meta property="og:image" content="/images/boolock_thumnail.png" />
+    <meta property="og:image:alt" content="블록코딩 플랫폼 BooLock의 썸네일" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="600" />
+    <meta property="og:site_name" content="BooLock" />
+    <meta property="og:type" content="website" />
+    <!-- Twitter Cards -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="BooLock: 쉽게 배우는 블록 코딩" />
+    <meta name="twitter:description" content="HTML과 CSS를 블록으로 쉽고 재미있게 배우세요!" />
+    <meta name="twitter:image" content="/images/twitter_thumbnail.png" />
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="src/app/main.tsx"></script>
+    <div id="root" aria-label="BooLock 플랫폼"></div>
+    <script type="module" src="src/app/main.tsx" defer></script>
   </body>
 </html>
