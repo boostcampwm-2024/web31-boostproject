@@ -1,5 +1,7 @@
 import '../src/app/index.css';
 
+import { withQueryClient } from './decorators/QueryProvider';
+
 /** @type { import('@storybook/react').Preview } */
 const preview = {
   parameters: {
@@ -10,6 +12,7 @@ const preview = {
       },
     },
   },
+  decorators: [withQueryClient],
 };
 
 export default preview;
