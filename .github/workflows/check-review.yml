@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+      
       - name: Check PR Source and Target Branches
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
