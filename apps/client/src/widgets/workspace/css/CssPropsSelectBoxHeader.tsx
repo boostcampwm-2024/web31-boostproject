@@ -1,5 +1,5 @@
-import { useClassBlockStore, useCssPropsStore } from '@/shared/store';
 import { Select, TOption } from '@/shared/ui';
+import { useClassBlockStore, useCssPropsStore } from '@/shared/store';
 import { useEffect, useState } from 'react';
 
 export const CssPropsSelectBoxHeader = () => {
@@ -26,6 +26,7 @@ export const CssPropsSelectBoxHeader = () => {
         options={selectOptions}
         value={currentCssClassName}
         onChange={(selected: string) => setCurrentCssClassName(selected)}
+        placeholder="클래스를 선택해주세요"
       />
     </header>
   );

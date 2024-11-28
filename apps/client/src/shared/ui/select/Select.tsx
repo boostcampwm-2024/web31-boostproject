@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import ArrowUp from '@/shared/assets/arrow_up.svg?react';
+import { useEffect, useRef, useState } from 'react';
+
 import ArrowDown from '@/shared/assets/arrow_down.svg?react';
+import ArrowUp from '@/shared/assets/arrow_up.svg?react';
 
 export enum SelectSize {
   // eslint-disable-next-line no-unused-vars
