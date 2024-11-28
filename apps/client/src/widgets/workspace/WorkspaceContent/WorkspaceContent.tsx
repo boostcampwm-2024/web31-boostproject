@@ -2,9 +2,10 @@ import 'blockly/blocks';
 
 import * as Blockly from 'blockly/core';
 
-import { CssPropsSelectBox, PreviewBox, cssCodeGenerator } from '@/widgets';
+import { CssPropsSelectBox, PreviewBox } from '@/widgets';
 import {
   blockContents,
+  cssCodeGenerator,
   defineBlocks,
   htmlCodeGenerator,
   htmlTagToolboxConfig,
@@ -120,7 +121,6 @@ export const WorkspaceContent = () => {
         <PreviewBox htmlCode={htmlCode} cssCode={cssCode} />
         <CssPropsSelectBox />
       </div>
-
       <div id="blocklyDiv" className="h-full w-full"></div>
     </div>
   );

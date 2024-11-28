@@ -1,11 +1,11 @@
-import { useState } from 'react';
-import { useResetCssStore } from '@/shared/store';
-import { resetCss } from '@/shared/utils/resetCss';
 import CodeMirror from '@uiw/react-codemirror';
+import CopyIcon from '@/shared/assets/code_copy.svg?react';
 import { css } from '@codemirror/lang-css';
 import { html } from '@codemirror/lang-html';
-import CopyIcon from '@/shared/assets/code_copy.svg?react';
+import { resetCss } from '@/shared/utils/resetCss';
 import toast from 'react-hot-toast';
+import { useResetCssStore } from '@/shared/store';
+import { useState } from 'react';
 
 type PreviewBoxProps = {
   htmlCode: string;
@@ -60,7 +60,7 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
           CSS
         </button>
       </nav>
-      <div className="relative min-h-[20rem]">
+      <div className="relative h-full max-h-[calc(100%-26rem)] min-h-[20rem] w-full">
         {(activeTab === 'html' || activeTab === 'css') && (
           <div className="absolute right-4 top-5 z-50">
             <CopyIcon
