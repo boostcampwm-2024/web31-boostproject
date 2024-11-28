@@ -4,7 +4,7 @@ import { RedoButton } from './RedoButton';
 import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof RedoButton> = {
-  title: 'Category/RedoButton',
+  title: 'entities/workspace/RedoButton',
   component: RedoButton,
   parameters: {
     layout: 'centered',

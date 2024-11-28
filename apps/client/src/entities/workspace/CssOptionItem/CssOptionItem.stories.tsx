@@ -1,8 +1,9 @@
 import { Meta, StoryObj } from '@storybook/react';
+
 import { CssOptionItem } from './CssOptionItem';
 
 const meta: Meta<typeof CssOptionItem> = {
-  title: 'Category/CssOptionItem',
+  title: 'entities/workspace/CssOptionItem',
   component: CssOptionItem,
   parameters: {
     layout: 'centered',

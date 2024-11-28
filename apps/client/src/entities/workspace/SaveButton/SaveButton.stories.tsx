@@ -4,7 +4,7 @@ import { SaveButton } from './SaveButton';
 import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof SaveButton> = {
-  title: 'Category/SaveButton',
+  title: 'entities/workspace/SaveButton',
   component: SaveButton,
   parameters: {
     layout: 'centered',

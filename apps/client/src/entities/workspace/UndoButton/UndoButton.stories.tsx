@@ -4,7 +4,7 @@ import { UndoButton } from './UndoButton';
 import { action } from '@storybook/addon-actions';
 
 const meta: Meta<typeof UndoButton> = {
-  title: 'Category/UndoButton',
+  title: 'entities/workspace/UndoButton',
   component: UndoButton,
   parameters: {
     layout: 'centered',

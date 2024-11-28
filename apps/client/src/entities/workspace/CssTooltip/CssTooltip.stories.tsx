@@ -5,7 +5,7 @@ import QuestionIcon from '@/shared/assets/question.svg?react';
 import { useState } from 'react';
 
 const meta: Meta<typeof CssTooltip> = {
-  title: 'Category/CssTooltip',
+  title: 'entities/workspace/CssTooltip',
   component: CssTooltip,
   parameters: {
     layout: 'centered',

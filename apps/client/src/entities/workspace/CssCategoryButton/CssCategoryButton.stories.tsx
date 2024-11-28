@@ -4,7 +4,7 @@ import { CssCategoryButton } from './CssCategoryButton';
 import { useCssPropsStore } from '@/shared/store';
 
 const meta: Meta<typeof CssCategoryButton> = {
-  title: 'Category/CssCateGoryButton',
+  title: 'entities/workspace/CssCateGoryButton',
   component: CssCategoryButton,
   parameters: {
     layout: 'centered',
