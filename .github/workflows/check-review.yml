@@ -15,7 +15,7 @@ jobs:
       
       - name: Check PR Source and Target Branches
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.PAT_APPROVER }}
         run: |
           base_branch=$(jq -r .pull_request.base.ref "$GITHUB_EVENT_PATH")
           head_branch=$(jq -r .pull_request.head.ref "$GITHUB_EVENT_PATH")
@@ -23,6 +23,7 @@ jobs:
 
           echo "Base branch: $base_branch"
           echo "Head branch: $head_branch"
+          echo "PR number: $pr_number"
 
           if [[ "$base_branch" == "dev" ]]; then
             if [[ "$head_branch" =~ ^(chore_[0-9]{4}|hotfix_[0-9]{4})$ ]]; then
