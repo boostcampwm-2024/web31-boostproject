@@ -7,6 +7,12 @@ import { cssStyleToolboxConfig } from '@/shared/blockly';
 import { useParams } from 'react-router-dom';
 import { useSaveWorkspace } from '@/shared/hooks';
 
+/**
+ *
+ * @description
+ * Workspace 상태를 저장하는 버튼입니다.
+ * 저장 항목 : css 속성, 캔버스 블록 상태, css class 블록, css 리셋 여부
+ */
 export const SaveButton = () => {
   const workspaceId = useParams().workspaceId as string;
   const { mutate: saveWorkspace, isPending } = useSaveWorkspace(workspaceId);
