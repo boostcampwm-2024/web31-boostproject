@@ -8,6 +8,6 @@ export { UndoButton } from './workspace/UndoButton/UndoButton';
 export { SaveButton } from './workspace/SaveButton/SaveButton';
 export { WorkspaceNameInput } from './workspace/WorkspaceNameInput/WorkspaceNameInput';
 export { CssTooltip } from './workspace/CssTooltip';
-export { CssOptionItem } from './workspace/CssOptionItem';
+export { CssOptionItem } from './workspace/CssOptionItem/CssOptionItem';
 export { CssCategoryButton } from './workspace/CssCategoryButton/CssCategoryButton';
 export { RenderResetCssTooltip } from './workspace/RenderResetCssTooltip';
