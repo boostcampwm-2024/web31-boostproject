@@ -5,6 +5,7 @@ type TInitialBlockDefinition = {
   type: string;
   coordinate?: { x: number; y: number };
   movable?: boolean;
+  deletable?: boolean;
   connection?: {
     parent: string;
     input: string;
@@ -16,6 +17,7 @@ export const initialBlocksJson: TInitialBlockDefinition[] = [
     type: addPreviousTypeName('html'),
     coordinate: { x: 40, y: 40 },
     movable: false,
+    deletable: false,
   },
   {
     type: addPreviousTypeName('head'),
@@ -24,6 +26,7 @@ export const initialBlocksJson: TInitialBlockDefinition[] = [
       input: 'children',
     },
     movable: false,
+    deletable: false,
   },
   {
     type: addPreviousTypeName('body'),
@@ -32,6 +35,7 @@ export const initialBlocksJson: TInitialBlockDefinition[] = [
       input: 'children',
     },
     movable: false,
+    deletable: false,
   },
 ];
 
@@ -39,7 +43,7 @@ export function initializeBlocks(workspace: Blockly.WorkspaceSvg) {
   const createdBlocks: Record<string, Blockly.Block> = {};
 
   initialBlocksJson.forEach((blockDefinition) => {
-    const { type, coordinate, movable, connection } = blockDefinition;
+    const { type, coordinate, deletable, movable, connection } = blockDefinition;
 
     const block = workspace.newBlock(type);
     if (coordinate) {
@@ -47,6 +51,9 @@ export function initializeBlocks(workspace: Blockly.WorkspaceSvg) {
     }
     if (movable === false) {
       block.setMovable(false);
+    }
+    if (deletable === false) {
+      block.setDeletable(false);
     }
 
     block.initSvg();
