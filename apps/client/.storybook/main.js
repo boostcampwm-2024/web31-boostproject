@@ -17,6 +17,10 @@ const config = {
         plugins: [require('tailwindcss'), require('autoprefixer')],
       },
     };
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      include: ['blockly'],
+    };
     return config;
   },
 };

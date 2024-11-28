@@ -1,5 +1,6 @@
 import '../src/app/index.css';
 
+import { withHelmetProvider } from './decorators/HelmetProdiver';
 import { withMemoryRouter } from './decorators/MemoryRouterProvider';
 import { withQueryClient } from './decorators/QueryProvider';
 
@@ -13,7 +14,7 @@ const preview = {
       },
     },
   },
-  decorators: [withQueryClient, withMemoryRouter],
+  decorators: [withQueryClient, withMemoryRouter, withHelmetProvider],
 };
 
 export default preview;

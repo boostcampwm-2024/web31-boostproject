@@ -1,10 +1,14 @@
-import { MemoryRouter } from 'react-router-dom';
+import { RouterProvider, createMemoryRouter } from 'react-router-dom';
+
 import React from 'react';
 
 export const withMemoryRouter = (Story) => {
-  return (
-    <MemoryRouter>
-      <Story />
-    </MemoryRouter>
-  );
+  const routes = [
+    {
+      path: '/',
+      element: <Story />,
+    },
+  ];
+  const router = createMemoryRouter(routes);
+  return <RouterProvider router={router} />;
 };
