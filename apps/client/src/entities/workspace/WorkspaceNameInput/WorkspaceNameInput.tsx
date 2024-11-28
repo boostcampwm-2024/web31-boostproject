@@ -1,11 +1,15 @@
 import { FocusEventHandler, KeyboardEventHandler } from 'react';
+import { useUpdateWorkspaceName, workspaceKeys } from '@/shared/hooks';
 
 import { Spinner } from '@/shared/ui';
-import { useParams } from 'react-router-dom';
-import { useUpdateWorkspaceName, workspaceKeys } from '@/shared/hooks';
-import { useQueryClient } from '@tanstack/react-query';
 import { TGetWorkspaceResponse } from '@/shared/types';
+import { useParams } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
+/**
+ * @description
+ * 워크스페이스 이름을 수정할 수 있는 컴포넌트입니다.
+ */
 export const WorkspaceNameInput = () => {
   const { workspaceId } = useParams() as { workspaceId: string };
   const { mutate, isPending } = useUpdateWorkspaceName();
