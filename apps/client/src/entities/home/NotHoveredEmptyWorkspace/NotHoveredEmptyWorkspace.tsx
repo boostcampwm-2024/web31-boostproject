@@ -1,3 +1,7 @@
+/**
+ * @description
+ * 워크스페이스가 없을 때, 마우스가 올라가지 않은 상태의 빈 워크스페이스 컴포넌트
+ */
 export const NotHoveredEmptyWorkspace = () => {
   return (
     <div className="flex h-[23rem] flex-col items-center justify-center bg-gray-50 text-gray-200">

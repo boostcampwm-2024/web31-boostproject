@@ -6,7 +6,7 @@ const meta: Meta<typeof NotHoveredEmptyWorkspace> = {
   title: 'entities/home/NotHoveredEmptyWorkspace',
   component: NotHoveredEmptyWorkspace,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
   tags: ['autodocs'],
 };

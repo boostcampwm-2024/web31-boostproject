@@ -6,7 +6,7 @@ const meta: Meta<typeof WorkspaceLoadError> = {
   title: 'entities/home/WorkspaceLoadError',
   component: WorkspaceLoadError,
   parameters: {
-    layout: 'centered',
+    layout: 'fullscreen',
   },
   tags: ['autodocs'],
 };
