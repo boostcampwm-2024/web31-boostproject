@@ -1,11 +1,9 @@
-import { TCssCategory, TCssCategoryItem } from '@/shared/types';
-
+import { TCssCategory } from '@/shared/types';
 import { useCssPropsStore } from '@/shared/store';
 
 type CssCategoryButtonProps = {
   cssCategory: {
     category: TCssCategory;
-    items: TCssCategoryItem[];
   };
 };
 

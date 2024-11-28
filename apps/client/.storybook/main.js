@@ -11,5 +11,13 @@ const config = {
     name: '@storybook/react-vite',
     options: {},
   },
+  viteFinal: (config) => {
+    config.css = {
+      postcss: {
+        plugins: [require('tailwindcss'), require('autoprefixer')],
+      },
+    };
+    return config;
+  },
 };
 export default config;

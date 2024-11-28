@@ -1,6 +1,7 @@
-// import { useCssPropsStore } from '@/shared/store';
-// import { useEffect } from 'react';
+// import React, { useEffect } from 'react';
+
 // import type { Decorator } from '@storybook/react';
+// import { useCssPropsStore } from '../../src/shared/store';
 
 // export const withZustandProvider: Decorator = (Story, context) => {
 //   const mockData = context.parameters.mockData || {};
@@ -14,8 +15,3 @@
 
 //   return <Story />;
 // };
-
-// // .storybook/preview.tsx
-// import { withZustandProvider } from './decorators/ZustandProvider';
-
-// export const decorators = [withZustandProvider];
