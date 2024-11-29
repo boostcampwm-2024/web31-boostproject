@@ -7,6 +7,11 @@ type SquareButtonProps = {
   isDisabled?: boolean;
 };
 
+/**
+ *
+ * @description
+ * 사각형 버튼 재사용 컴포넌트
+ */
 export const SquareButton = ({
   children,
   variant = 'neutral',

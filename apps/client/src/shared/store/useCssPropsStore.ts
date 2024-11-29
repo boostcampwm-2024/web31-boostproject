@@ -72,7 +72,11 @@ export const useCssPropsStore = create<TcssProps>((set) => {
       set((state) => {
         const updatedTotalCssPropertyObj = { ...state.totalCssPropertyObj };
         delete updatedTotalCssPropertyObj[className];
-        return { totalCssPropertyObj: updatedTotalCssPropertyObj };
+        return {
+          totalCssPropertyObj: updatedTotalCssPropertyObj,
+          currentCssClassName:
+            className === state.currentCssClassName ? '' : state.currentCssClassName,
+        };
       }),
   };
 });

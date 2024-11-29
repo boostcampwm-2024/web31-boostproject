@@ -1,6 +1,7 @@
-import { useState, useRef, useEffect } from 'react';
-import ArrowUp from '@/shared/assets/arrow_up.svg?react';
+import { useEffect, useRef, useState } from 'react';
+
 import ArrowDown from '@/shared/assets/arrow_down.svg?react';
+import ArrowUp from '@/shared/assets/arrow_up.svg?react';
 
 export enum SelectSize {
   // eslint-disable-next-line no-unused-vars
@@ -25,7 +26,12 @@ interface SelectProps {
   disabled?: boolean;
 }
 
-export function Select({
+/**
+ *
+ * @description
+ * 커스텀 select 컴포넌트
+ */
+export const Select = ({
   id,
   options,
   value,
@@ -33,7 +39,7 @@ export function Select({
   placeholder = '',
   size = SelectSize.MEDIUM,
   disabled = false,
-}: SelectProps) {
+}: SelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>(value);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
@@ -129,4 +135,4 @@ export function Select({
       )}
     </div>
   );
-}
+};
