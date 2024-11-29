@@ -16,8 +16,8 @@ jobs:
           branch_name=$(jq -r .pull_request.head.ref "$GITHUB_EVENT_PATH")
           echo "Source Branch: $branch_name"
 
-          if [[ ! $branch_name =~ ^(feat/[0-9]+|bug/[0-9]+|refactor/[0-9]|+|hotfix_[0-9]{4}|chore_[0-9]{4}|gh-pages)$ ]]; then
-            echo "Error: Branch name must follow the pattern 'feat/[number]', 'bug/[number]', 'refactor/[number]', 'hotfix_mmdd', 'chore_mmdd', or 'gh-pages'."
+          if [[ ! $branch_name =~ ^(feat/[0-9]+|bug/[0-9]+|refactor/[0-9]+|hotfix_[0-9]{4}|chore_[0-9]{4}|gh-pages)$ ]]; then
+            echo "Error: Branch name must follow the pattern 'feat/[number]', 'bug/[number]', 'hotfix_mmdd', 'chore_mmdd', or 'gh-pages'."
             exit 1
           fi
 
