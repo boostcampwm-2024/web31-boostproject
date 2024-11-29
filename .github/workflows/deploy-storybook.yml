@@ -23,7 +23,7 @@ jobs:
         run: pnpm install
 
       - name: Build Storybook
-        run: pnpm --filter client run build-storybook -- --static-dir public
+        run: pnpm --filter client run build-storybook
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
