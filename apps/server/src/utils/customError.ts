@@ -10,13 +10,13 @@ export class CustomError extends Error {
 }
 
 export class NotFoundError extends CustomError {
-  constructor(message = 'Resource not found') {
+  constructor(message = 'Bad request') {
     super(message, errorStatus.HTTP_400_BAD_REQUEST);
   }
 }
 
 export class BadRequestError extends CustomError {
-  constructor(message = 'Bad request') {
+  constructor(message = 'Resource not found') {
     super(message, errorStatus.HTTP_404_NOT_FOUND);
   }
 }
