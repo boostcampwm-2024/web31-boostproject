@@ -1,5 +1,6 @@
 /* eslint-disable multiline-comment-style */
 import { WorkspaceController } from '@/controllers/workspaceController';
+import { asyncWrapper } from '@/utils/asyncWrapper';
 import express from 'express';
 
 export const workspaceRouter = express.Router();
@@ -38,7 +39,7 @@ workspaceRouter.get(
       description: 'internal server error'
     }
   */
-  workspaceController.getWorkspaceListByPage
+  asyncWrapper(workspaceController.getWorkspaceListByPage)
 );
 workspaceRouter.post(
   '/',
@@ -104,7 +105,7 @@ workspaceRouter.get(
       description: 'internal server error'
     }
   */
-  workspaceController.getWorkspaceInfo
+  asyncWrapper(workspaceController.getWorkspaceInfo)
 );
 
 workspaceRouter.patch(
@@ -187,7 +188,7 @@ workspaceRouter.delete(
       description: 'internal server error'
     }
   */
-  workspaceController.removeWorkspace
+  asyncWrapper(workspaceController.removeWorkspace)
 );
 
 workspaceRouter.patch(
@@ -256,9 +257,15 @@ workspaceRouter.patch(
       description: 'internal server error'
     }
   */
-  workspaceController.storeWorkspaceCssProperty
+  asyncWrapper(workspaceController.storeWorkspaceCssProperty)
 );
 
-workspaceRouter.patch('/canvas', workspaceController.storeWorkspaceCanvas);
-workspaceRouter.patch('/classBlockList', workspaceController.storeWorkspaceClassBlockList);
-workspaceRouter.patch('/cssResetStatus', workspaceController.storeWorkspaceCssResetStatus);
+workspaceRouter.patch('/canvas', asyncWrapper(workspaceController.storeWorkspaceCanvas));
+workspaceRouter.patch(
+  '/classBlockList',
+  asyncWrapper(workspaceController.storeWorkspaceClassBlockList)
+);
+workspaceRouter.patch(
+  '/cssResetStatus',
+  asyncWrapper(workspaceController.storeWorkspaceCssResetStatus)
+);
