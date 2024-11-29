@@ -6,6 +6,7 @@ import routes from './routes/v1/index';
 import swaggerDocument from './docs/swagger-output.json';
 import { swaggerUi } from './docs/swagger';
 import 'dotenv/config';
+import { errorMiddleware } from './middlewares/errorMiddleware';
 
 const app = express();
 
@@ -18,5 +19,6 @@ app.use(express.json());
 
 app.use('/api', routes);
 app.use('/api/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use(errorMiddleware);
 
 export default app;

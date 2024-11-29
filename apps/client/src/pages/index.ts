@@ -1,3 +1,3 @@
-export { HomePage } from './HomePage';
-export { NotFound } from './NotFound';
-export { WorkspacePage } from './WorkspacePage';
+export { HomePage } from './HomePage/HomePage';
+export { NotFound } from './NotFound/NotFound';
+export { WorkspacePage } from './Workspacepage/WorkspacePage';

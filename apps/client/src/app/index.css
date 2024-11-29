@@ -6,7 +6,7 @@
   @font-face {
     font-family: 'SUIT Variable';
     font-weight: 100 900;
-    src: url('fonts/SUIT-Variable.woff2') format('woff2-variations');
+    src: url('/fonts/SUIT-Variable.woff2') format('woff2-variations');
   }
 
   body {
@@ -32,7 +32,7 @@
   }
 
   .text-semibold-lg {
-    @apply text-xl font-semibold leading-5;
+    @apply text-xl font-semibold leading-7;
   }
 
   .text-semibold-md {
@@ -57,6 +57,10 @@
 
   .text-medium-sm {
     @apply text-xs font-medium leading-4;
+  }
+
+  .text-tooltip-sm {
+    @apply text-xs font-medium leading-[1.15rem];
   }
 }
 
@@ -205,11 +209,4 @@ input[type='color']::-webkit-color-swatch-wrapper {
 .resetCssText {
   @apply text-gray-400;
   padding: 0 6px 0 12px;
-}
-
-.blocklyContextMenu {
-  padding: 0 !important;
-  box-sizing: border-box !important;
-  max-height: 200px !important;
-  overflow-y: auto !important;
 }

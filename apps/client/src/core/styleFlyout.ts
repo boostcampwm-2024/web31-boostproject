@@ -1,16 +1,22 @@
 import * as Blockly from 'blockly/core';
-import toast from 'react-hot-toast';
-import TabbedToolbox from './tabbedToolbox';
-import FixedFlyout from './fixedFlyout';
-import Dom from './dom';
-import { cssStyleToolboxConfig } from '@/widgets';
-import { useClassBlockStore } from '@/shared/store';
-import questionSvgPath from '@/shared/assets/question.svg';
-import { TBlock } from '@/shared/types';
-import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
+
+import {
+  useClassBlockStore,
+  useCssPropsStore,
+  useResetCssStore,
+  useWorkspaceChangeStatusStore,
+} from '@/shared/store';
 import { validateClassNameBody, validateClassNameStart } from '@/shared/utils/cssClassName';
-import { useResetCssStore } from '@/shared/store';
+
+import { CustomFieldLabelSerializable } from './customFieldLabelSerializable';
+import Dom from './dom';
+import FixedFlyout from './fixedFlyout';
 import { RenderResetCssTooltip } from '@/entities';
+import { TBlock } from '@/shared/types';
+import TabbedToolbox from './tabbedToolbox';
+import { cssStyleToolboxConfig } from '@/shared/blockly';
+import questionSvgPath from '@/shared/assets/question.svg';
+import toast from 'react-hot-toast';
 
 export default class StyleFlyout extends FixedFlyout {
   static registryName = 'StyleFlyout';
@@ -163,7 +169,8 @@ export default class StyleFlyout extends FixedFlyout {
         const blockType = block.type;
 
         block.dispose(false, true);
-
+        useCssPropsStore.getState().removeCssClass(blockType);
+        useWorkspaceChangeStatusStore.getState().setIsBlockChanged(true);
         cssStyleToolboxConfig.contents = cssStyleToolboxConfig.contents.filter(
           (item) => item.type !== blockType
         );
@@ -207,6 +214,7 @@ export default class StyleFlyout extends FixedFlyout {
     }
 
     if (!Blockly.Blocks[inputValue!]) {
+      useCssPropsStore.getState().addNewCssClass(inputValue);
       Blockly.Blocks[inputValue!] = {
         init: function () {
           this.appendDummyInput().appendField(
@@ -220,7 +228,10 @@ export default class StyleFlyout extends FixedFlyout {
     }
 
     // 기존 블록에 새 블록 추가
-    cssStyleToolboxConfig!.contents = [...existingBlocks, { kind: 'block', type: inputValue }];
+    cssStyleToolboxConfig!.contents = [
+      ...existingBlocks,
+      { kind: 'block', type: inputValue, enabled: true },
+    ];
     const { addClassBlock } = useClassBlockStore.getState();
     addClassBlock(inputValue);
 

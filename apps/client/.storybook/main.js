@@ -11,5 +11,18 @@ const config = {
     name: '@storybook/react-vite',
     options: {},
   },
+  staticDirs: ['../public'],
+  viteFinal: (config) => {
+    config.css = {
+      postcss: {
+        plugins: [require('tailwindcss'), require('autoprefixer')],
+      },
+    };
+    config.optimizeDeps = {
+      ...config.optimizeDeps,
+      include: ['blockly'],
+    };
+    return config;
+  },
 };
 export default config;

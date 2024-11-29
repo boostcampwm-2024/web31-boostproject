@@ -1,5 +1,10 @@
 import PictureIcon from '@/shared/assets/picture_icon.svg?react';
 
+/**
+ *
+ * @description
+ * 워크스페이스 스켈레톤 UI 컴포넌트
+ */
 export const SkeletonWorkspace = () => {
   return (
     <div className="shadow-drop flex w-full animate-pulse flex-col rounded-lg">
