@@ -9,7 +9,7 @@
     "lint": "eslint --fix .",
     "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build --static-dir public"
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@codemirror/lang-css": "^6.3.0",
