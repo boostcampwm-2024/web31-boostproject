@@ -1,13 +1,14 @@
-import { TCssList, TTotalCssPropertyObj, TWorkspace } from '@/types/workspaceType';
+/* eslint-disable camelcase */
+import 'dotenv/config';
+
+import { S3, Upload } from '@/config/s3';
+import { TTotalCssPropertyObj, TWorkspace } from '@/types/workspaceType';
 
 import { Workspace } from '@/models/workspaceModel';
 import { generateCssList } from '@/services/utils/generateCssList';
 import { generateTotalCssPropertyObj } from '@/services/utils/generateTotalCssPropertyObj';
-import { S3, Upload } from '@/config/s3';
-import 'dotenv/config';
-import { Readable } from 'stream';
+import sharp from 'sharp';
 
-/* eslint-disable */
 export const WorkspaceService = () => {
   const createWorkspace = async (userId: string) => {
     const newWorkspaceId = crypto.randomUUID();
@@ -101,114 +102,71 @@ export const WorkspaceService = () => {
     return deletedWorkspace;
   };
 
-  const saveWorkspaceCssProperty = async (
-    userId: string,
-    workspaceId: string,
-    totalCssPropertyObj: TTotalCssPropertyObj
-  ) => {
-    const cssList: TCssList = generateCssList(totalCssPropertyObj);
-    const updatedWorkspace = await Workspace.findOneAndUpdate(
-      {
-        user_id: userId,
-        workspace_id: workspaceId,
-      },
-      {
-        $set: {
-          css_list: cssList,
-          updated_at: Date.now(),
-        },
-      }
-    );
-    return updatedWorkspace;
-  };
-
-  const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: any) => {
-    const updatedWorkspace = await Workspace.findOneAndUpdate(
-      {
-        user_id: userId,
-        workspace_id: workspaceId,
-      },
-      {
-        $set: {
-          canvas,
-          updated_at: Date.now(),
-        },
-      },
-      {
-        new: true,
-      }
-    );
-    return updatedWorkspace;
-  };
-
-  const saveWorkspaceClassBlockList = async (
-    userId: string,
-    workspaceId: string,
-    classBlockList: string
-  ) => {
-    const updatedWorkspace = await Workspace.findOneAndUpdate(
-      {
-        user_id: userId,
-        workspace_id: workspaceId,
-      },
-      {
-        $set: {
-          class_block_list: classBlockList,
-          updated_at: Date.now(),
-        },
-      },
-      {
-        new: true,
-      }
-    );
-    return updatedWorkspace;
-  };
-
-  const saveWorkspaceCssResetStatus = async (
-    userId: string,
-    workspaceId: string,
-    cssResetStatus: boolean
-  ) => {
-    const updatedWorkspace = await Workspace.findOneAndUpdate(
-      {
-        user_id: userId,
-        workspace_id: workspaceId,
-      },
-      {
-        $set: {
-          is_css_reset: cssResetStatus,
-          updated_at: Date.now(),
-        },
-      },
-      {
-        new: true,
-      }
-    );
-    return updatedWorkspace;
-  };
-
   const saveWorkspace = async (
     userId: string,
     workspaceId: string,
-    totalCssPropertyObj: TTotalCssPropertyObj,
+    totalCssPropertyObj: string,
     canvas: string,
     classBlockList: string,
-    cssResetStatus: boolean,
+    cssResetStatus: string,
+    // eslint-disable-next-line no-undef
     thumbnail: Express.Multer.File
   ) => {
-    const upload = new Upload({
-      client: S3,
-      params: {
-        Bucket: process.env.S3_BUCKET_NAME,
-        Key: `thumbnail/${userId}/${workspaceId}.png`,
-        ACL: 'public-read',
-        Body: thumbnail.buffer,
-        ContentType: thumbnail.mimetype,
-      },
-    });
-    console.log(thumbnail.mimetype);
-    const uploadResult = await upload.done();
-    console.log(`uploadResult`, uploadResult);
+    const session = await Workspace.startSession();
+    session.startTransaction();
+    try {
+      const webpThumbnail = await sharp(thumbnail.buffer)
+        .resize({
+          width: 528,
+          height: 360,
+          fit: 'inside',
+          background: { r: 255, g: 255, b: 255, alpha: 1 },
+        })
+        .webp()
+        .toBuffer();
+      const upload = new Upload({
+        client: S3,
+        params: {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: `thumbnail/${userId}/${workspaceId}.webp`,
+          ACL: 'public-read',
+          Body: webpThumbnail,
+          ContentType: 'image/webp',
+        },
+      });
+      const uploadResult = await upload.done();
+      if (!uploadResult) {
+        throw new Error('Failed to upload thumbnail');
+      }
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            css_list: generateCssList(JSON.parse(totalCssPropertyObj) as TTotalCssPropertyObj),
+            canvas,
+            class_block_list: classBlockList,
+            is_css_reset: cssResetStatus === 'true',
+            updated_at: Date.now(),
+            thumbnail: uploadResult.Location,
+          },
+        },
+        { new: true }
+      );
+      if (!updatedWorkspace) {
+        throw new Error('Failed to update workspace');
+      }
+      await session.commitTransaction();
+
+      return { uploadResult, updatedWorkspace };
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
   };
 
   return {
@@ -217,10 +175,6 @@ export const WorkspaceService = () => {
     findWorkspaceByWorkspaceId,
     updateWorkspaceName,
     deleteWorkspace,
-    saveWorkspaceCssProperty,
-    saveWorkspaceCanvas,
-    saveWorkspaceClassBlockList,
-    saveWorkspaceCssResetStatus,
     saveWorkspace,
   };
 };
