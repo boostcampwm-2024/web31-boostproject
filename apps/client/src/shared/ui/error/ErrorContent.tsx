@@ -1,11 +1,10 @@
-import React from 'react';
 import { HomeHeader } from '@/widgets';
 
-interface ErrorContentProps {
+type ErrorContentProps = {
   description: string;
-}
+};
 
-export const ErrorContent: React.FC<ErrorContentProps> = ({ description }) => {
+export const ErrorContent = ({ description }: ErrorContentProps) => {
   return (
     <>
       <HomeHeader isBlack={false} />
