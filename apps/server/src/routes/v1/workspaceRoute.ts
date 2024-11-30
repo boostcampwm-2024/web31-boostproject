@@ -196,10 +196,11 @@ workspaceRouter.delete(
 );
 
 workspaceRouter.patch(
-  '/css',
+  '/',
+  upload.single('thumbnail'),
   /* 
-    #swagger.summary = '워크스페이스 CSS 속성 저장'
-    #swagger.description = 'user id 와 workspace id로 워크스페이스를 조회 후 CSS 속성을 저장합니다.'
+    #swagger.summary = '워크스페이스 정보 저장'
+    #swagger.description = 'user id 와 workspace id로 워크스페이스를 조회 후 CSS 속성, 워크스페이스 캔버스 상태, 클래스 블록, reset css 적용 여부, 미리보기 썸네일을 저장합니다.'
     #swagger.tags = ['Workspace']
     #swagger.parameters['user-id'] = {
       in: 'header',
@@ -210,7 +211,7 @@ workspaceRouter.patch(
     #swagger.requestBody = {
       required: true,
       content: {
-        "application/json": {
+        "multipart/form-data": {
           schema: {
             type: 'object',
             properties: {
@@ -219,33 +220,21 @@ workspaceRouter.patch(
                 example: 'b15eac31-3942-4192-9cbd-2e2cdd48da0a',
               },
               totalCssPropertyObj: {
-                type: 'object',
-                properties: {
-                  className : {
-                    type: 'object',
-                    properties: {
-                      checkedCssPropertyObj: {
-                        type: 'object',
-                        properties: {
-                          property: {
-                            type: 'boolean',
-                            example: true,
-                          }
-                        }
-                      },
-                      cssOptionObj: {
-                        type: 'object',
-                        properties: {
-                          property: {
-                            type: 'string',
-                            example: 'value',
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
+                type: 'string',
               },
+              canvas: {
+                type: 'string',
+              },
+              classBlockList: {
+                type: 'string',
+              },
+              cssResetStatus: {
+                type: 'boolean',
+              },
+              thumbnail: {
+                type: 'string',
+                format: 'binary',
+              } 
             },
           }
         }
@@ -261,21 +250,5 @@ workspaceRouter.patch(
       description: 'internal server error'
     }
   */
-  asyncWrapper(workspaceController.storeWorkspaceCssProperty)
-);
-
-workspaceRouter.patch('/canvas', asyncWrapper(workspaceController.storeWorkspaceCanvas));
-workspaceRouter.patch(
-  '/classBlockList',
-  asyncWrapper(workspaceController.storeWorkspaceClassBlockList)
-);
-workspaceRouter.patch(
-  '/cssResetStatus',
-  asyncWrapper(workspaceController.storeWorkspaceCssResetStatus)
-);
-
-workspaceRouter.patch(
-  '/',
-  upload.single('thumbnail'),
   asyncWrapper(workspaceController.storeWorkspace)
 );
