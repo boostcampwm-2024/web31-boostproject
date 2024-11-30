@@ -1,6 +1,5 @@
 import { FocusEventHandler, KeyboardEventHandler } from 'react';
 import { useUpdateWorkspaceName, workspaceKeys } from '@/shared/hooks';
-
 import { Spinner } from '@/shared/ui';
 import { TGetWorkspaceResponse } from '@/shared/types';
 import { useParams } from 'react-router-dom';
@@ -17,7 +16,7 @@ export const WorkspaceNameInput = () => {
   const workspaceData = queryClient.getQueryData<TGetWorkspaceResponse>(
     workspaceKeys.detail(workspaceId)
   );
-  const name = workspaceData?.workspaceDto.name || '워크스페이스 이름';
+  const name = workspaceData?.workspaceDto?.name || '워크스페이스 이름';
 
   const handleBlur: FocusEventHandler<HTMLInputElement> = (
     event: React.FocusEvent<HTMLInputElement>
