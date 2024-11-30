@@ -2,6 +2,10 @@
 import { WorkspaceController } from '@/controllers/workspaceController';
 import { asyncWrapper } from '@/utils/asyncWrapper';
 import express from 'express';
+import multer from 'multer';
+
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 export const workspaceRouter = express.Router();
 
@@ -268,4 +272,10 @@ workspaceRouter.patch(
 workspaceRouter.patch(
   '/cssResetStatus',
   asyncWrapper(workspaceController.storeWorkspaceCssResetStatus)
+);
+
+workspaceRouter.patch(
+  '/',
+  upload.single('thumbnail'),
+  asyncWrapper(workspaceController.storeWorkspace)
 );

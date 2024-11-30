@@ -3,6 +3,9 @@ import { TCssList, TTotalCssPropertyObj, TWorkspace } from '@/types/workspaceTyp
 import { Workspace } from '@/models/workspaceModel';
 import { generateCssList } from '@/services/utils/generateCssList';
 import { generateTotalCssPropertyObj } from '@/services/utils/generateTotalCssPropertyObj';
+import { S3, Upload } from '@/config/s3';
+import 'dotenv/config';
+import { Readable } from 'stream';
 
 /* eslint-disable */
 export const WorkspaceService = () => {
@@ -183,6 +186,31 @@ export const WorkspaceService = () => {
     );
     return updatedWorkspace;
   };
+
+  const saveWorkspace = async (
+    userId: string,
+    workspaceId: string,
+    totalCssPropertyObj: TTotalCssPropertyObj,
+    canvas: string,
+    classBlockList: string,
+    cssResetStatus: boolean,
+    thumbnail: Express.Multer.File
+  ) => {
+    const upload = new Upload({
+      client: S3,
+      params: {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: `thumbnail/${userId}/${workspaceId}.png`,
+        ACL: 'public-read',
+        Body: thumbnail.buffer,
+        ContentType: thumbnail.mimetype,
+      },
+    });
+    console.log(thumbnail.mimetype);
+    const uploadResult = await upload.done();
+    console.log(`uploadResult`, uploadResult);
+  };
+
   return {
     createWorkspace,
     findWorkspaceListByPage,
@@ -193,5 +221,6 @@ export const WorkspaceService = () => {
     saveWorkspaceCanvas,
     saveWorkspaceClassBlockList,
     saveWorkspaceCssResetStatus,
+    saveWorkspace,
   };
 };

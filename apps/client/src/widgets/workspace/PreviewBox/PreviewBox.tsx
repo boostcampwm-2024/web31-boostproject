@@ -22,7 +22,7 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
   const { isResetCssChecked } = useResetCssStore();
 
   const finalCssCode = isResetCssChecked ? `${resetCss}\n${cssCode}` : cssCode;
-  const styleCode = `<style>${finalCssCode}</style>`;
+  const styleCode = `<style> html, head, body {width : 100%; height : 100%;} ${finalCssCode}</style>`;
   const indexOfHead = htmlCode.indexOf('</head>');
   const totalCode = `${htmlCode.slice(0, indexOfHead)}${styleCode}${htmlCode.slice(indexOfHead)}`;
 
@@ -77,7 +77,12 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
 
         {/* TODO: 코드 수정 금지 [논의 필요] */}
         {activeTab === 'preview' && (
-          <iframe srcDoc={totalCode} className="h-full w-full" title="Preview" sandbox=""></iframe>
+          <iframe
+            srcDoc={totalCode}
+            className="h-full w-full"
+            title="Preview"
+            sandbox="allow-same-origin allow-scripts"
+          ></iframe>
         )}
         {activeTab === 'html' && (
           <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />
