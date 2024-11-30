@@ -74,14 +74,22 @@ htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
 // 전체 코드 생성 함수
 export const generateFullCode = (workspace: Blockly.Workspace) => {
   const topBlockList = workspace.getTopBlocks(true);
-  const codeList = topBlockList.map((block) => {
-    try {
-      return htmlCodeGenerator.blockToCode(block) || '';
-    } catch (e) {
-      console.error(`블록 ${block.type} 처리 중 오류 발생:`, e);
-      return '';
-    }
-  });
+
+  // HTML 블록 내부에 포함된 블록만 처리
+  const codeList = topBlockList
+    .filter((block) => {
+      const rootBlock = block.getRootBlock();
+      return rootBlock.type === addPreviousTypeName('html');
+    })
+    .map((block) => {
+      try {
+        return htmlCodeGenerator.blockToCode(block) || '';
+      } catch (e) {
+        console.error(`블록 ${block.type} 처리 중 오류 발생:`, e);
+        return '';
+      }
+    });
+
   return codeList.join('\n');
 };
 
