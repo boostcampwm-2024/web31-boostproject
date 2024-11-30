@@ -71,6 +71,20 @@ htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
   return code;
 };
 
+// 전체 코드 생성 함수
+export const generateFullCode = (workspace: Blockly.Workspace) => {
+  const topBlockList = workspace.getTopBlocks(true);
+  const codeList = topBlockList.map((block) => {
+    try {
+      return htmlCodeGenerator.blockToCode(block) || '';
+    } catch (e) {
+      console.error(`블록 ${block.type} 처리 중 오류 발생:`, e);
+      return '';
+    }
+  });
+  return codeList.join('\n');
+};
+
 transferTagBlockToCode(addPreviousTypeName('html'));
 transferTagBlockToCode(addPreviousTypeName('body'));
 

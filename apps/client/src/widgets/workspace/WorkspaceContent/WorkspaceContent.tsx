@@ -7,7 +7,7 @@ import {
   blockContents,
   cssCodeGenerator,
   defineBlocks,
-  htmlCodeGenerator,
+  generateFullCode,
   htmlTagToolboxConfig,
   initTheme,
   initializeBlocks,
@@ -55,6 +55,7 @@ export const WorkspaceContent = () => {
   const { totalCssPropertyObj } = useCssPropsStore();
   const { workspace, setWorkspace, canvasInfo } = useWorkspaceStore();
   const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
+
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
@@ -78,20 +79,18 @@ export const WorkspaceContent = () => {
     });
 
     (newWorkspace.getToolbox() as TabbedToolbox).setConfig(tabToolboxConfig);
-
     initializeBlocks(newWorkspace);
-
     newWorkspace.clearUndo();
+
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
       if (
         event.type === Blockly.Events.BLOCK_CREATE ||
         event.type === Blockly.Events.BLOCK_MOVE ||
-        event.type === Blockly.Events.BLOCK_DRAG ||
         event.type === Blockly.Events.BLOCK_CHANGE ||
         event.type === Blockly.Events.BLOCK_DELETE
       ) {
-        const code = htmlCodeGenerator.workspaceToCode(newWorkspace);
+        const code = generateFullCode(newWorkspace);
         setHtmlCode(code);
         setIsBlockChanged(true);
       }
