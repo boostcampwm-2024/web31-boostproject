@@ -56,6 +56,12 @@ htmlCodeGenerator.forBlock[addPreviousTypeName('br')] = function () {
 
 // 연속적인 코드 블록을 생성하기 위해 블록 연결을 처리하도록 코드 생성을 커스터마이즈
 htmlCodeGenerator.scrub_ = function (block, code, thisOnly) {
+  // 최상위 블록 (getRootBlock: Blockly의 블록 트리 탐색 함수)
+  const topBlock = block.getRootBlock();
+  // 최상위 블록이 html 블록이 아니면 빈 문자열 반환
+  if (topBlock.type !== addPreviousTypeName('html')) {
+    return '';
+  }
   // 다음 블록 찾기
   const nextBlock = block.nextConnection && block.nextConnection.targetBlock();
   // 다음 블록의 코드를 추가
