@@ -33,7 +33,7 @@ export const Default: Story = {
         <ModalConfirm {...args} isOpen={isOpen}>
           <div className="flex flex-col items-center justify-center">
             <p>모달창입니다.</p>
-            <img src="./images/booduck_modal.png" alt="부덕이" width={100} height={100} />
+            <img src="/images/booduck_modal.png" alt="부덕이" width={100} height={100} />
             <button onClick={() => setIsOpen(false)}>닫기</button>
           </div>
         </ModalConfirm>
