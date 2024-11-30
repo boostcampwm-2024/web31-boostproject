@@ -38,6 +38,9 @@ importers:
       '@codemirror/lang-html':
         specifier: ^6.4.9
         version: 6.4.9
+      '@storybook/addon-actions':
+        specifier: ^8.4.5
+        version: 8.4.5(storybook@8.4.2(prettier@3.3.3))
       '@tanstack/react-query':
         specifier: ^5.59.19
         version: 5.59.20(react@18.3.1)
@@ -126,6 +129,9 @@ importers:
       '@types/react-router-dom':
         specifier: ^5.3.3
         version: 5.3.3
+      '@types/storybook__addon-actions':
+        specifier: ^5.2.1
+        version: 5.2.1(storybook@8.4.2(prettier@3.3.3))
       '@vitejs/plugin-react':
         specifier: ^4.3.3
         version: 4.3.3(vite@5.4.11(@types/node@22.9.0))
@@ -924,6 +930,11 @@ packages:
     peerDependencies:
       storybook: ^8.4.2
 
+  '@storybook/addon-actions@8.4.5':
+    resolution: {integrity: sha512-rbB19uiGJ61XHbKIbS1a9bUS6re5L8rT5NMNeEJhCxXRpFUPrlTXMSoD/Pgcn3ENeEMVZsm8/eCzxAVgAP3Mgg==}
+    peerDependencies:
+      storybook: ^8.4.5
+
   '@storybook/addon-backgrounds@8.4.2':
     resolution: {integrity: sha512-s4uag5VKuk8q2MSnuNS7Sv+v1/mykzGPXe/zZRW2ammtkdHp8Uy78eQS2G0aiG02chXCX+qQgWMyy5QItDcTFQ==}
     peerDependencies:
@@ -1275,6 +1286,10 @@ packages:
 
   '@types/serve-static@1.15.7':
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
+
+  '@types/storybook__addon-actions@5.2.1':
+    resolution: {integrity: sha512-FyxvLsL23H55GD1EEQnRd6TcYU+dbbxtRdreMtaRRgpmTVJ3N7BGyWZIYjou4ja1/pD8xwwvIaqZo3Ew7HEw2w==}
+    deprecated: Deprecated
 
   '@types/swagger-jsdoc@6.0.4':
     resolution: {integrity: sha512-W+Xw5epcOZrF/AooUM/PccNMSAFOKWZA5dasNyMujTwsBkU74njSJBpvCCJhHAJ95XRMzQrrW844Btu0uoetwQ==}
@@ -4508,6 +4523,15 @@ snapshots:
       storybook: 8.4.2(prettier@3.3.3)
       uuid: 9.0.1
 
+  '@storybook/addon-actions@8.4.5(storybook@8.4.2(prettier@3.3.3))':
+    dependencies:
+      '@storybook/global': 5.0.0
+      '@types/uuid': 9.0.8
+      dequal: 2.0.3
+      polished: 4.3.1
+      storybook: 8.4.2(prettier@3.3.3)
+      uuid: 9.0.1
+
   '@storybook/addon-backgrounds@8.4.2(storybook@8.4.2(prettier@3.3.3))':
     dependencies:
       '@storybook/global': 5.0.0
@@ -4953,6 +4977,12 @@ snapshots:
       '@types/http-errors': 2.0.4
       '@types/node': 22.9.0
       '@types/send': 0.17.4
+
+  '@types/storybook__addon-actions@5.2.1(storybook@8.4.2(prettier@3.3.3))':
+    dependencies:
+      '@storybook/addon-actions': 8.4.5(storybook@8.4.2(prettier@3.3.3))
+    transitivePeerDependencies:
+      - storybook
 
   '@types/swagger-jsdoc@6.0.4': {}
 

@@ -13,6 +13,12 @@ export class CustomFieldTextInput extends Blockly.FieldTextInput {
   protected textGroup_!: SVGGElement;
   protected backgroundRect_!: SVGRectElement;
   protected isFixed: boolean = false;
+  width = 0;
+
+  updateWidth(width: number) {
+    this.width = width;
+    this.render_();
+  }
 
   protected override updateSize_(margin?: number): void {
     const constants = this.getConstants();
@@ -24,6 +30,8 @@ export class CustomFieldTextInput extends Blockly.FieldTextInput {
           : 0;
     let totalWidth = xOffset * 2;
     let totalHeight = constants!.FIELD_TEXT_HEIGHT;
+
+    this.width = Math.max(constants!.EMPTY_INLINE_INPUT_PADDING + 8, this.width);
 
     let contentWidth = 0;
     if (this.textElement_) {
@@ -40,7 +48,7 @@ export class CustomFieldTextInput extends Blockly.FieldTextInput {
     }
 
     this.size_.height = totalHeight;
-    this.size_.width = Math.max(totalWidth, constants!.EMPTY_INLINE_INPUT_PADDING);
+    this.size_.width = Math.max(totalWidth, this.width);
 
     this.positionTextElement_(xOffset, contentWidth);
     this.positionBorderRect_();
