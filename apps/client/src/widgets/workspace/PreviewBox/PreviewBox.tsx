@@ -78,7 +78,7 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
           <iframe srcDoc={totalCode} className="h-full w-full" title="Preview" sandbox=""></iframe>
         )}
         {activeTab === 'html' && <CodeViewer code={htmlCode} type="html" theme="light" />}
-        {activeTab === 'css' && <CodeViewer code={cssCode} type="css" theme="dark" />}
+        {activeTab === 'css' && <CodeViewer code={cssCode} type="css" theme="light" />}
       </div>
     </section>
   );

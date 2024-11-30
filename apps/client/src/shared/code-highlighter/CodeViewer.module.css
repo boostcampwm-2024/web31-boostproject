@@ -2,13 +2,9 @@
   display: flex;
   font-family: monospace;
   font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
 }
 
 .light {
-  background-color: #ffffff;
-  color: #000000;
 }
 
 .dark {

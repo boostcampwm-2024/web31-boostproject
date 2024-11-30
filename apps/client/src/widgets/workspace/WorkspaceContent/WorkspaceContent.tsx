@@ -112,14 +112,8 @@ export const WorkspaceContent = () => {
     if (!workspace || !canvasInfo || canvasInfo.length === 0) {
       return;
     }
-    Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
 
-    // 최경일 실험
-    const handleClick = () => {
-      const clickedBlock = document.querySelector('.blocklyCursor');
-      console.log(clickedBlock);
-    };
-    document.addEventListener('click', handleClick);
+    Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
   }, [workspace, canvasInfo]);
 
   useEffect(() => {
