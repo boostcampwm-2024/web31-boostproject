@@ -1,7 +1,7 @@
 import { HomePage, NotFound, WorkspacePage } from '@/pages';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-
 import { ToasterWithMax } from '@/shared/ui';
+import { ErrorPage } from '@/pages/ErrorPage/ErrorPage';
 
 const router = createBrowserRouter([
   {
@@ -11,6 +11,7 @@ const router = createBrowserRouter([
   {
     path: '/workspace/:workspaceId',
     element: <WorkspacePage />,
+    errorElement: <ErrorPage />,
   },
   {
     path: '*',
