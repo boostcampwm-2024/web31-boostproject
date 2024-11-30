@@ -18,7 +18,6 @@ export const HomeHeader = ({ isBlack }: HomeHeaderProps) => {
         <div className="flex items-center gap-4">
           <Logo isBlack={isBlack} />
         </div>
-        <div className="h-8 w-8 rounded-full bg-gray-300"></div>
       </div>
     </header>
   );
