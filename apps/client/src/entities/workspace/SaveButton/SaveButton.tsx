@@ -4,10 +4,10 @@ import { useCssPropsStore, useResetCssStore, useWorkspaceStore } from '@/shared/
 
 import { Spinner } from '@/shared/ui';
 import { cssStyleToolboxConfig } from '@/shared/blockly';
+import html2canvas from 'html2canvas';
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useSaveWorkspace } from '@/shared/hooks';
-import toast from 'react-hot-toast';
-import html2canvas from 'html2canvas';
 
 /**
  *
@@ -22,36 +22,45 @@ export const SaveButton = () => {
   const { workspace } = useWorkspaceStore();
   const { isResetCssChecked } = useResetCssStore();
 
-  const handleClick = async () => {
-    const canvas = Blockly.serialization.workspaces.save(workspace!) as any;
+  const ERROR_MESSAGE = {
+    SELECT_PREVIEW_TAB: '미리보기 탭을 선택해주세요.',
+    FAIL_TO_SAVE: '저장에 실패했습니다.',
+  };
 
+  const capturePreview = async () => {
     const previewIframe = document.querySelector('iframe');
-
     if (!previewIframe) {
-      toast.error('미리보기탭을 선택해주세요.');
-      return;
+      throw new Error(ERROR_MESSAGE.SELECT_PREVIEW_TAB);
     }
-
     const previewContent = previewIframe.contentWindow!.document.body;
-    console.log(previewContent);
     const preview = await html2canvas(previewContent, {});
-
     const blob = await new Promise<Blob | null>((resolve) => preview.toBlob(resolve, 'image/png'));
-
     if (!blob) {
-      toast.error('이미지 저장에 실패했습니다.');
-      return;
+      throw new Error(ERROR_MESSAGE.FAIL_TO_SAVE);
     }
-
     const thumbnail = new File([blob], 'thumbnail.png', { type: 'image/png' });
+    if (!thumbnail) {
+      throw new Error(ERROR_MESSAGE.FAIL_TO_SAVE);
+    }
+    return thumbnail;
+  };
 
-    saveWorkspace({
-      totalCssPropertyObj,
-      canvas,
-      classBlockList: cssStyleToolboxConfig.contents,
-      cssResetStatus: isResetCssChecked,
-      thumbnail,
-    });
+  const handleClick = async () => {
+    try {
+      const canvas = Blockly.serialization.workspaces.save(workspace!) as any;
+      const thumbnail = await capturePreview();
+      saveWorkspace({
+        totalCssPropertyObj,
+        canvas,
+        classBlockList: cssStyleToolboxConfig.contents,
+        cssResetStatus: isResetCssChecked,
+        thumbnail,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   return (
