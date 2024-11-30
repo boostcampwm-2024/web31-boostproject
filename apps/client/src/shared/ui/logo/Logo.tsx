@@ -15,7 +15,7 @@ export const Logo = ({ isBlack }: LogoProps) => {
   return (
     <Link to="/">
       <div className="flex items-center gap-3">
-        <img src="./images/boolock_logo.png" width={32} height={32} alt="Boolock Logo" />
+        <img src="/images/boolock_logo.png" width={32} height={32} alt="Boolock Logo" />
         {isBlack ? <WhiteLogoText className="w-28" /> : <BlackLogoText className="w-28" />}
       </div>
     </Link>
