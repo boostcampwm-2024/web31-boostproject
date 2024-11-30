@@ -9,7 +9,6 @@ import {
 } from '@/shared/types';
 
 import { Instance } from '@/shared/api';
-import { form } from '../utils/tags';
 
 export const WorkspaceApi = () => {
   const createWorkspace = async (userId: string) => {
@@ -57,50 +56,6 @@ export const WorkspaceApi = () => {
     });
   };
 
-  const saveWorkspaceCssProperty = async (
-    userId: string,
-    workspaceId: string,
-    totalCssPropertyObj: TTotalCssPropertyObj
-  ) => {
-    await Instance.patch(
-      `/workspace/css`,
-      { workspaceId, totalCssPropertyObj },
-      { headers: { 'user-id': userId } }
-    );
-  };
-
-  const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: TCanvas) => {
-    await Instance.patch(
-      `/workspace/canvas`,
-      { workspaceId, canvas: JSON.stringify(canvas) },
-      { headers: { 'user-id': userId } }
-    );
-  };
-
-  const saveWorkspaceClassBlockList = async (
-    userId: string,
-    workspaceId: string,
-    classBlockList: TBlock[]
-  ) => {
-    await Instance.patch(
-      `/workspace/classBlockList`,
-      { workspaceId, classBlockList: JSON.stringify(classBlockList) },
-      { headers: { 'user-id': userId } }
-    );
-  };
-
-  const saveWorkspaceCssResetStatus = async (
-    userId: string,
-    workspaceId: string,
-    isCssReset: boolean
-  ) => {
-    await Instance.patch(
-      `/workspace/cssResetStatus`,
-      { workspaceId, cssResetStatus: isCssReset },
-      { headers: { 'user-id': userId } }
-    );
-  };
-
   const saveWorkspace = async (
     userId: string,
     workspaceId: string,
@@ -132,10 +87,6 @@ export const WorkspaceApi = () => {
     getWorkspace,
     updateWorkspaceName,
     deleteWorkspace,
-    saveWorkspaceCssProperty,
-    saveWorkspaceCanvas,
-    saveWorkspaceClassBlockList,
-    saveWorkspaceCssResetStatus,
     saveWorkspace,
   };
 };
