@@ -129,6 +129,31 @@ export const WorkspaceController = () => {
     res.status(200).json({ message: 'success' });
   };
 
+  const storeWorkspace = async (req: Request, res: Response) => {
+    const thumbnail = req.file;
+    const userId = req.get('user-id') as string;
+    const { workspaceId, totalCssPropertyObj, canvas, classBlockList, cssResetStatus } = req.body;
+    console.log(thumbnail?.size);
+    console.log(`workspaceId: ${workspaceId}`);
+    console.log(`totalCssPropertyObj: ${totalCssPropertyObj}`);
+    console.log(`canvas: ${canvas}`);
+    console.log(`classBlockList: ${classBlockList}`);
+    console.log(`cssResetStatus: ${cssResetStatus}`);
+    if (!thumbnail) {
+      throw new Error('Thumbnail is required');
+    }
+    await workspaceService.saveWorkspace(
+      userId,
+      workspaceId,
+      totalCssPropertyObj,
+      canvas,
+      classBlockList,
+      cssResetStatus,
+      thumbnail
+    );
+    res.status(200).json({ message: 'success' });
+  };
+
   return {
     createNewWorkspace,
     getWorkspaceListByPage,
@@ -139,5 +164,6 @@ export const WorkspaceController = () => {
     storeWorkspaceCanvas,
     storeWorkspaceClassBlockList,
     storeWorkspaceCssResetStatus,
+    storeWorkspace,
   };
 };

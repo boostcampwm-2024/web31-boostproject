@@ -9,6 +9,7 @@ import {
 } from '@/shared/types';
 
 import { Instance } from '@/shared/api';
+import { form } from '../utils/tags';
 
 export const WorkspaceApi = () => {
   const createWorkspace = async (userId: string) => {
@@ -100,6 +101,31 @@ export const WorkspaceApi = () => {
     );
   };
 
+  const saveWorkspace = async (
+    userId: string,
+    workspaceId: string,
+    totalCssPropertyObj: TTotalCssPropertyObj,
+    canvas: TCanvas,
+    classBlockList: TBlock[],
+    isCssReset: boolean,
+    thumbnail: File
+  ) => {
+    const formData = new FormData();
+    formData.append('workspaceId', workspaceId);
+    formData.append('totalCssPropertyObj', JSON.stringify(totalCssPropertyObj));
+    formData.append('canvas', JSON.stringify(canvas));
+    formData.append('classBlockList', JSON.stringify(classBlockList));
+    formData.append('cssResetStatus', isCssReset.toString());
+    formData.append('thumbnail', thumbnail);
+
+    await Instance.patch('/workspace', formData, {
+      headers: {
+        'user-id': userId,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  };
+
   return {
     createWorkspace,
     getWorkspaceList,
@@ -110,5 +136,6 @@ export const WorkspaceApi = () => {
     saveWorkspaceCanvas,
     saveWorkspaceClassBlockList,
     saveWorkspaceCssResetStatus,
+    saveWorkspace,
   };
 };
