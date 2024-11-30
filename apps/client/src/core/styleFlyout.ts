@@ -25,6 +25,7 @@ export default class StyleFlyout extends FixedFlyout {
   inputElement: HTMLInputElement | null = null;
   buttonElement: HTMLButtonElement | null = null;
 
+  // CSS 클래스 Flyout 초기 생성
   init(targetWorkspace: Blockly.WorkspaceSvg): void {
     super.init(targetWorkspace);
     const toolbox = this.targetWorkspace.getToolbox() as TabbedToolbox;
@@ -120,6 +121,7 @@ export default class StyleFlyout extends FixedFlyout {
       );
     };
 
+    // Tooltip 이벤트 등록
     questionImageElement.addEventListener('mouseenter', showTooltip);
     questionImageElement.addEventListener('mouseleave', hideTooltip);
 
@@ -143,6 +145,7 @@ export default class StyleFlyout extends FixedFlyout {
     this.show(cssStyleToolboxConfig.contents);
   }
 
+  // 마우스 우클릭 시 컨텍스트 메뉴
   registerCustomContextMenu() {
     const menuId = 'deleteBlock';
 
@@ -151,6 +154,7 @@ export default class StyleFlyout extends FixedFlyout {
       return;
     }
 
+    // 컨텍스트 메뉴 삭제 옵션 정보
     const deleteOption = {
       id: menuId,
       scopeType: Blockly.ContextMenuRegistry.ScopeType.BLOCK,
@@ -164,7 +168,7 @@ export default class StyleFlyout extends FixedFlyout {
         return isInCssStyleToolboxConfig && scope.block.isDeletable() ? 'enabled' : 'hidden';
       },
 
-      callback: (scope: any, _e: PointerEvent) => {
+      callback: (scope: any) => {
         const block = scope.block;
         const blockType = block.type;
 
@@ -184,9 +188,10 @@ export default class StyleFlyout extends FixedFlyout {
       },
     };
 
+    // 블록 삭제 옵션 등록
     Blockly.ContextMenuRegistry.registry.register(deleteOption);
 
-    // 툴팁 닫기 이벤트 추가
+    // 컨텍스트 메뉴 외부 영역 클릭 시 닫기 이벤트 추가
     document.addEventListener('click', (event) => {
       const contextMenu = document.querySelector('.blocklyContextMenu');
       if (contextMenu && !contextMenu.contains(event.target as Node)) {
@@ -195,24 +200,29 @@ export default class StyleFlyout extends FixedFlyout {
     });
   }
 
+  // 새로운 스타일 블록 생성
   createStyleBlock() {
     const inputValue = this.inputElement?.value;
+    // 클래스명 입력값이 없을 경우 에러 메시지 출력
     if (!inputValue) {
       return toast.error('클래스명을 입력해주세요.');
     }
 
+    // 클래스명 유효성 검사
     if (!validateClassNameStart(inputValue)) {
       return toast.error('클래스명 첫 글자는 영문자, 밑줄(_), 하이픈(-)만 가능해요');
     } else if (!validateClassNameBody(inputValue)) {
       return toast.error('클래스명은 영문자, 밑줄(_), 하이픈(-), 숫자만 포함해주세요');
     }
 
+    // 클래스명 중복 검사
     const existingBlocks: TBlock[] = cssStyleToolboxConfig!.contents || [];
     const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
     if (isBlockAlreadyAdded) {
       return toast.error(`"${inputValue}" 입력한 클래스명 블록은 이미 존재합니다.`);
     }
 
+    // 새롭게 생성되는 CSS 클래스 블록 정보
     if (!Blockly.Blocks[inputValue!]) {
       useCssPropsStore.getState().addNewCssClass(inputValue);
       Blockly.Blocks[inputValue!] = {
@@ -220,14 +230,14 @@ export default class StyleFlyout extends FixedFlyout {
           this.appendDummyInput().appendField(
             new CustomFieldLabelSerializable(inputValue!),
             'CLASS'
-          ); // 입력된 이름 반영
+          );
           this.setOutput(true);
           this.setStyle(`defaultBlockCss`);
         },
       };
     }
 
-    // 기존 블록에 새 블록 추가
+    // 기존 블록들이 있는 cssStyleToolboxConfig.ts에 새 블록 추가
     cssStyleToolboxConfig!.contents = [
       ...existingBlocks,
       { kind: 'block', type: inputValue, enabled: true },
