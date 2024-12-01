@@ -18,7 +18,7 @@ const steps = [
   {
     title: '미리보기와 코드 확인하기',
     content:
-      '미리보기 탭에서는 블록 코딩으로 만든 화면을, HTML/CSS 탭에서는 코드를 확인할 수 있어요.',
+      '미리보기 탭에서는 블록 코딩으로 만든 화면을,\n HTML/CSS 탭에서는 코드를 확인할 수 있어요.',
   },
   {
     title: '저장하고 불러오기',
@@ -36,25 +36,21 @@ export const CoachMark = () => {
     }
   };
 
-  //   const prevStep = () => {
-  //     if (currentStep > 0) {
-  //       setCurrentStep(currentStep - 1);
-  //     }
-  //   };
+  const prevStep = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-70">
-      <div className="z-[99999] min-h-40 max-w-80 rounded-2xl bg-white p-6 shadow-lg">
+      <div className="z-[99999] min-h-40 max-w-96 rounded-2xl bg-white p-6 shadow-lg">
         <h2 className="text-bold-sm mb-4 text-gray-200">{steps[currentStep].title}</h2>
-        <p className="text-medium-md mb-6">{steps[currentStep].content}</p>
+        <p className="text-medium-md mb-6 whitespace-pre-line">{steps[currentStep].content}</p>
         <div className="flex justify-between">
           <div>
             {currentStep + 1}/{stepsLength}
           </div>
-          {/* TODO: 이전 버튼 추가 논의 필요 */}
-          {/* <button onClick={prevStep} disabled={currentStep === 0}>
-            이전
-          </button> */}
           <div className="flex gap-2">
             <CircleButton
               onClick={closeCoachMark}
@@ -63,6 +59,16 @@ export const CoachMark = () => {
             >
               그만 보기
             </CircleButton>
+
+            {/* TODO: 이전 버튼 추가 논의 필요 */}
+            <CircleButton
+              className="text-bold-sm h-8 w-16"
+              onClick={prevStep}
+              disable={currentStep === 0}
+            >
+              이전
+            </CircleButton>
+
             <CircleButton
               onClick={nextStep}
               disable={currentStep === stepsLength}
