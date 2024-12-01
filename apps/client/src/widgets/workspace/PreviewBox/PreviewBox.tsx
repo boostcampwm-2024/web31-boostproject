@@ -28,7 +28,7 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
     <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Gothic+A1:wght@300;400;700&family=IBM+Plex+Sans+KR:wght@300;400;700&family=Nanum+Gothic:wght@400;700&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR:wght@200..900&display=swap" rel="stylesheet" />
   `;
   const finalCssCode = isResetCssChecked ? `${resetCss}\n${cssCode}` : cssCode;
-  const styleCode = `<style> * { box-sizing : border-box; margin : 0; padding : 0; } html, head, body { width : 100%; height : 100%; } ${finalCssCode}</style>`;
+  const styleCode = `<style> * { box-sizing : border-box; margin : 0; padding : 0; ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: #cdd9e4; border-radius: 4px; } } html, head, body { width : 100%; height : 100%;  } ${finalCssCode}</style>`;
   const indexOfHead = htmlCode.indexOf('</head>');
   const totalCode = `${htmlCode.slice(0, indexOfHead)}${googleFontsLinksCode}${styleCode}${htmlCode.slice(indexOfHead)}`;
 

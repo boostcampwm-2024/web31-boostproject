@@ -72,6 +72,11 @@ export const cssCategoryList: TCssCategoryList = [
         option: ['nowrap', 'wrap', 'wrap-reverse'],
         description: 'flex 아이템들의 줄 바꿈 여부를 지정합니다.',
       },
+      {
+        label: 'gap',
+        type: 'input',
+        description: 'flex 항목 사이의 간격을 지정합니다.',
+      },
     ],
   },
   {
@@ -154,6 +159,11 @@ export const cssCategoryList: TCssCategoryList = [
         label: 'background-color',
         type: 'color',
         description: '요소의 배경 색상을 지정합니다.',
+      },
+      {
+        label: 'box-shadow',
+        type: 'input',
+        description: '요소에 그림자 효과를 추가합니다. (예: 2px 2px 4px rgba(0,0,0,0.2))',
       },
     ],
   },
