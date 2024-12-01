@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
+import { TWorkspaceDto } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
@@ -16,7 +17,12 @@ export const useUpdateWorkspaceName = () => {
     },
     onSuccess: (data) => {
       toast.success('워크스페이스 이름이 변경되었습니다.');
-      queryClient.invalidateQueries({ queryKey: workspaceKeys.detail(data.workspaceId) });
+      queryClient.setQueryData(workspaceKeys.detail(data.workspaceId), (oldData: TWorkspaceDto) => {
+        return {
+          ...oldData,
+          name: data.name,
+        };
+      });
       queryClient.invalidateQueries({ queryKey: workspaceKeys.list() });
     },
     onError: () => {

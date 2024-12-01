@@ -19,18 +19,32 @@ export const useSaveWorkspace = (workspaceId: string) => {
       canvas,
       classBlockList,
       cssResetStatus,
+      thumbnail,
     }: {
       totalCssPropertyObj: TTotalCssPropertyObj;
       canvas: TCanvas;
       classBlockList: TBlock[];
       cssResetStatus: boolean;
+      thumbnail: File;
     }) => {
-      return Promise.all([
-        workspaceApi.saveWorkspaceCssProperty(userId, workspaceId, totalCssPropertyObj),
-        workspaceApi.saveWorkspaceCanvas(userId, workspaceId, canvas),
-        workspaceApi.saveWorkspaceClassBlockList(userId, workspaceId, classBlockList),
-        workspaceApi.saveWorkspaceCssResetStatus(userId, workspaceId, cssResetStatus),
-      ]);
+      /*
+       * return Promise.all([
+       *   workspaceApi.saveWorkspaceCssProperty(userId, workspaceId, totalCssPropertyObj),
+       *   workspaceApi.saveWorkspaceCanvas(userId, workspaceId, canvas),
+       *   workspaceApi.saveWorkspaceClassBlockList(userId, workspaceId, classBlockList),
+       *   workspaceApi.saveWorkspaceCssResetStatus(userId, workspaceId, cssResetStatus),
+       * ]);
+       */
+
+      return workspaceApi.saveWorkspace(
+        userId,
+        workspaceId,
+        totalCssPropertyObj,
+        canvas,
+        classBlockList,
+        cssResetStatus,
+        thumbnail
+      );
     },
     onSuccess: () => {
       resetChangedStatusState();
