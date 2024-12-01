@@ -14,7 +14,6 @@ import { useQuery } from '@tanstack/react-query';
 import { workspaceKeys } from '@/shared/hooks';
 import { createCssClassBlock, cssStyleToolboxConfig } from '@/shared/blockly';
 
-// TODO : thumbnail 저장 기능 구현
 export const useGetWorkspace = (workspaceId: string) => {
   const workspaceApi = WorkspaceApi();
   const userId = getUserId();
@@ -40,6 +39,10 @@ export const useGetWorkspace = (workspaceId: string) => {
       return;
     }
     if (!data) {
+      return;
+    }
+
+    if (!data.workspaceDto) {
       return;
     }
 
