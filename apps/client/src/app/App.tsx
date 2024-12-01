@@ -7,6 +7,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <HomePage />,
+    errorElement: <ErrorPage />,
   },
   {
     path: '/workspace/:workspaceId',
