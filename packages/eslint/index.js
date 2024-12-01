@@ -1,14 +1,20 @@
-import js from '@eslint/js';
+import eslintConfigPrettier from 'eslint-config-prettier';
 import globals from 'globals';
+import js from '@eslint/js';
 import tsEslint from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default {
   jsCommended: js.configs.recommended,
   base: {
     files: ['**/*.{js,ts}'],
-    ignores: ['**/node_modules/**/*', '**/dist/**/*', '**/*.config.js', '**/*.config.ts'],
+    ignores: [
+      '**/node_modules/**/*',
+      '**/dist/**/*',
+      '**/*.config.js',
+      '**/*.config.ts',
+      '**/storybook-static/**/*',
+    ],
     languageOptions: {
       globals: {
         ...globals.browser,
