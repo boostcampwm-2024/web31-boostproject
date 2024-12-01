@@ -17,3 +17,4 @@ export type { IExtendedIToolbox } from './extendedType';
 export type { TTabConfig, TTabsConfig, TTabToolboxConfig } from './tabType';
 export type { TBlock, TToolboxConfig } from './styleToolboxType';
 export type { TButtonContent } from './modalButtonType';
+export type { TImageItem, TImageMap } from './imageUploadType';
