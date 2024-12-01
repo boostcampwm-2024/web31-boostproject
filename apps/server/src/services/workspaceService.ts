@@ -17,6 +17,33 @@ export const WorkspaceService = () => {
     return newWorkspaceId;
   };
 
+  const createSampleWorkspace = async (userId: string) => {
+    const sampleWorkspace = await Workspace.findOne({ workspace_id: 'sample' });
+
+    if (!sampleWorkspace) {
+      throw new Error('Sample workspace가 존재하지 않습니다.');
+    }
+
+    const newWorkspaceId = crypto.randomUUID();
+
+    const clonedWorkspaceData = {
+      workspace_id: newWorkspaceId,
+      user_id: userId,
+      name: sampleWorkspace.name,
+      canvas: sampleWorkspace.canvas,
+      css_list: sampleWorkspace.css_list,
+      class_block_list: sampleWorkspace.class_block_list,
+      is_css_reset: sampleWorkspace.is_css_reset,
+      thumbnail: sampleWorkspace.thumbnail,
+      updated_at: new Date(),
+    };
+
+    const clonedWorkspace = new Workspace(clonedWorkspaceData);
+    await clonedWorkspace.save();
+
+    return newWorkspaceId;
+  };
+
   const findWorkspaceListByPage = async (
     userId: string,
     cursor: { updatedAt: string; workspaceId: string } | null
@@ -171,6 +198,7 @@ export const WorkspaceService = () => {
 
   return {
     createWorkspace,
+    createSampleWorkspace,
     findWorkspaceListByPage,
     findWorkspaceByWorkspaceId,
     updateWorkspaceName,
