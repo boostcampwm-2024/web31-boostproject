@@ -74,6 +74,25 @@ export const cssCategoryList: TCssCategoryList = [
     category: '타이포그래피',
     items: [
       {
+        label: 'font-family',
+        type: 'select',
+        option: [
+          'Noto Sans KR',
+          'Noto Serif KR',
+          'Nanum Gothic',
+          'Gaegu',
+          'IBM Plex Sans KR',
+          'Gothic A1',
+        ],
+        description: '폰트를 지정합니다.',
+      },
+      {
+        label: 'font-weight',
+        type: 'select',
+        option: ['300', '400', '700'],
+        description: '폰트의 굵기를 설정합니다. 숫자가 커질수록 굵어집니다.',
+      },
+      {
         label: 'line-height',
         type: 'input',
         description: '줄 높이를 지정합니다.',
