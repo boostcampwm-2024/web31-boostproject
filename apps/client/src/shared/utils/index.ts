@@ -6,6 +6,7 @@ export {
   addPreviousTypeName,
   removePreviousTypeName,
   PREVIOUS_TYPE_NAME,
+  addPrefixToCssClassName,
   removeCssClassNamePrefix,
   CSS_CLASS_PREFIX,
 } from './boolockConstants';

@@ -17,6 +17,10 @@ export const removePreviousTypeName = (type: string): string => {
   return type;
 };
 
+export const addPrefixToCssClassName = (className: string) => {
+  return className.startsWith(CSS_CLASS_PREFIX) ? className : `${CSS_CLASS_PREFIX}${className}`;
+};
+
 export const removeCssClassNamePrefix = (className: string) => {
   return className.startsWith(CSS_CLASS_PREFIX)
     ? className.replace(CSS_CLASS_PREFIX, '')
