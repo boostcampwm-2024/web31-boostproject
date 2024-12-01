@@ -5,9 +5,9 @@ import ArrowUp from '@/shared/assets/arrow_up.svg?react';
 
 export enum SelectSize {
   // eslint-disable-next-line no-unused-vars
-  SMALL = 'SM',
+  SMALL = 'SMALL',
   // eslint-disable-next-line no-unused-vars
-  MEDIUM = 'MD',
+  MEDIUM = 'MEDIUM',
 }
 
 export type TOption = {
@@ -107,7 +107,6 @@ export const Select = ({
 
   const selectedLabel = getSelectedLabel(selectedOption, options);
 
-  // className="bg-gray-white focus:ring-gray-black text-semibold-md focus:border-gray-black w-[120px] truncate rounded-lg border border-gray-100 px-2 py-1 outline-none"
   return (
     <div
       className={`${size === SelectSize.MEDIUM ? 'w-52' : 'w-36'} truncate`}
