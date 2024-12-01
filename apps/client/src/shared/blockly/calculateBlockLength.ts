@@ -1,5 +1,51 @@
 import * as Blockly from 'blockly';
 
+// 특정 블록의 자식 블록들을 가져오는 공통 함수
+const getChildBlocks = (block: Blockly.Block): Blockly.Block[] => {
+  const innerBlocks: Blockly.Block[] = [];
+  block.inputList.forEach((input) => {
+    const connection = input.connection;
+    if (connection) {
+      let targetBlock = connection.targetBlock();
+      while (targetBlock) {
+        innerBlocks.push(targetBlock);
+        targetBlock = targetBlock.getNextBlock();
+      }
+    }
+  });
+  return innerBlocks;
+};
+
+// 특정 블록 타입에 따라 길이를 반환하는 공통 함수
+const getBaseLengthForBlockType = (blockType: string): number => {
+  const singleLineBlocks = [
+    'BOOLOCK_SYSTEM_head',
+    'BOOLOCK_SYSTEM_text',
+    'BOOLOCK_SYSTEM_br',
+    'BOOLOCK_SYSTEM_hr',
+  ];
+
+  const containerBlocks = [
+    'BOOLOCK_SYSTEM_html',
+    'BOOLOCK_SYSTEM_body',
+    'BOOLOCK_SYSTEM_p',
+    'BOOLOCK_SYSTEM_button',
+    'BOOLOCK_SYSTEM_div',
+  ];
+
+  // 한 줄 블록
+  if (singleLineBlocks.includes(blockType)) {
+    return 1;
+  }
+
+  // 기본 2줄 블록
+  if (containerBlocks.includes(blockType)) {
+    return 2;
+  }
+
+  return 0;
+};
+
 // 선택한 블록의 코드 길이 계산
 export const calculateBlockLength = (currentBlock: Blockly.Block): number => {
   if (!currentBlock) {
@@ -7,75 +53,28 @@ export const calculateBlockLength = (currentBlock: Blockly.Block): number => {
   }
 
   const blockType = currentBlock.type;
+  const baseLength = getBaseLengthForBlockType(blockType);
 
-  if (blockType === 'BOOLOCK_SYSTEM_html' || blockType === 'BOOLOCK_SYSTEM_body') {
-    let blockLength = 2;
-    const innerBlocks: Blockly.Block[] = [];
+  // 자식 블록 처리 (재귀)
+  const childBlocks = getChildBlocks(currentBlock);
+  const childrenLength = childBlocks.reduce(
+    (sum, childBlock) => sum + calculateBlockLength(childBlock),
+    0
+  );
 
-    currentBlock.inputList.forEach((input) => {
-      const connection = input.connection;
+  // 기본 2줄 + 자식 블록 길이를 처리해야 하는 블록
+  const containerBlocks = [
+    'BOOLOCK_SYSTEM_html',
+    'BOOLOCK_SYSTEM_body',
+    'BOOLOCK_SYSTEM_p',
+    'BOOLOCK_SYSTEM_button',
+    'BOOLOCK_SYSTEM_div',
+  ];
 
-      if (connection) {
-        let targetBlock = connection.targetBlock();
-
-        while (targetBlock) {
-          innerBlocks.push(targetBlock);
-          targetBlock = targetBlock.getNextBlock();
-        }
-      }
-    });
-
-    // 자식 블록 길이 합산
-    innerBlocks.forEach((innerBlock) => {
-      blockLength += calculateBlockLength(innerBlock);
-    });
-
-    return blockLength;
+  if (containerBlocks.includes(blockType)) {
+    return 2 + childrenLength;
   }
 
-  // html, head, text, br, hr 는 항상 1줄
-  if (
-    blockType === 'BOOLOCK_SYSTEM_html' ||
-    blockType === 'BOOLOCK_SYSTEM_head' ||
-    blockType === 'BOOLOCK_SYSTEM_text' ||
-    blockType === 'BOOLOCK_SYSTEM_br' ||
-    blockType === 'BOOLOCK_SYSTEM_hr'
-  ) {
-    return 1;
-  }
-
-  // 자식 블록 탐색
-  const innerBlocks: Blockly.Block[] = [];
-
-  currentBlock.inputList.forEach((input) => {
-    const connection = input.connection;
-
-    if (connection) {
-      let targetBlock = connection.targetBlock();
-
-      while (targetBlock) {
-        innerBlocks.push(targetBlock);
-        targetBlock = targetBlock.getNextBlock();
-      }
-    }
-  });
-
-  // `p`, `button`, `div` 등 컨테이너 블록 처리
-  if (['BOOLOCK_SYSTEM_p', 'BOOLOCK_SYSTEM_button', 'BOOLOCK_SYSTEM_div'].includes(blockType)) {
-    if (innerBlocks.length === 0) {
-      return 2; // 자식이 없으면 열고 닫는 태그만 포함 (2줄)
-    }
-
-    // 자식이 있을 경우 기본 2줄 + 자식들의 길이
-    let blockLength = 2;
-
-    innerBlocks.forEach((innerBlock) => {
-      blockLength += calculateBlockLength(innerBlock);
-    });
-
-    return blockLength;
-  }
-
-  // 기본적으로 길이를 0으로 반환
-  return 0;
+  // 기본적으로 블록의 길이 반환
+  return baseLength + childrenLength;
 };
