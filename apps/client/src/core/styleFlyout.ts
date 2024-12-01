@@ -145,6 +145,12 @@ export default class StyleFlyout extends FixedFlyout {
     this.show(cssStyleToolboxConfig.contents);
   }
 
+  // CSS 클래스명에 접두사를 붙이는 메서드
+  addPrefixToClassName(className: string) {
+    const CSS_CLASS_PREFIX = 'CSS_';
+    return `${CSS_CLASS_PREFIX}${className}`;
+  }
+
   // 마우스 우클릭 시 컨텍스트 메뉴
   registerCustomContextMenu() {
     const menuId = 'deleteBlock';
@@ -215,17 +221,20 @@ export default class StyleFlyout extends FixedFlyout {
       return toast.error('클래스명은 영문자, 밑줄(_), 하이픈(-), 숫자만 포함해주세요');
     }
 
+    const createClassType = this.addPrefixToClassName(inputValue);
+
     // 클래스명 중복 검사
     const existingBlocks: TBlock[] = cssStyleToolboxConfig!.contents || [];
-    const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === inputValue);
+    const isBlockAlreadyAdded = existingBlocks.some((block) => block.type === createClassType);
     if (isBlockAlreadyAdded) {
       return toast.error(`"${inputValue}" 입력한 클래스명 블록은 이미 존재합니다.`);
     }
 
     // 새롭게 생성되는 CSS 클래스 블록 정보
-    if (!Blockly.Blocks[inputValue!]) {
-      useCssPropsStore.getState().addNewCssClass(inputValue);
-      Blockly.Blocks[inputValue!] = {
+
+    if (!Blockly.Blocks[createClassType!]) {
+      useCssPropsStore.getState().addNewCssClass(createClassType);
+      Blockly.Blocks[createClassType!] = {
         init: function () {
           this.appendDummyInput().appendField(
             new CustomFieldLabelSerializable(inputValue!),
@@ -240,7 +249,7 @@ export default class StyleFlyout extends FixedFlyout {
     // 기존 블록들이 있는 cssStyleToolboxConfig.ts에 새 블록 추가
     cssStyleToolboxConfig!.contents = [
       ...existingBlocks,
-      { kind: 'block', type: inputValue, enabled: true },
+      { kind: 'block', type: createClassType, enabled: true },
     ];
     const { addClassBlock } = useClassBlockStore.getState();
     addClassBlock(inputValue);
