@@ -1,8 +1,8 @@
 import { WorkspaceNameInput } from '@/entities';
-
 import { Logo } from '@/shared/ui';
 import { WorkspaceHeaderButtons } from '../WorkspaceHeaderButtons/WorkspaceHeaderButtons';
 import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
+import Question from '@/shared/assets/question.svg?react';
 
 /**
  *
@@ -19,8 +19,12 @@ export const WorkspacePageHeader = () => {
         <WorkspaceNameInput />
       </div>
       <div className="flex gap-11">
-        <button className="text-medium-rg text-gray-300" onClick={openCoachMark}>
-          도움말
+        <button
+          className="text-medium-rg hover flex items-center gap-1 text-gray-300"
+          onClick={openCoachMark}
+        >
+          도움말 <Question />
+          {/* TODO: 아이콘 색깔 논의 필요 & hover시 효과 */}
         </button>
         <WorkspaceHeaderButtons />
       </div>
