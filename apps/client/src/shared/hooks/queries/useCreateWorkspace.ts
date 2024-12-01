@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import { getUserId } from '@/shared/utils';
 import { workspaceKeys } from '@/shared/hooks';
 
-export const useCreateWorkspace = () => {
+export const useCreateWorkspace = (isSample = false) => {
   const workspaceApi = WorkspaceApi();
   const navigate = useNavigate();
   const setPending = useLoadingStore((state) => state.setIsPending);
@@ -16,11 +16,13 @@ export const useCreateWorkspace = () => {
     mutationFn: () => {
       setPending(true);
       const userId = getUserId();
-      return workspaceApi.createWorkspace(userId);
+      return workspaceApi.createWorkspace(userId, isSample);
     },
     onSuccess: (newWorkspace) => {
       queryClient.invalidateQueries({ queryKey: workspaceKeys.list() });
-      navigate(`/workspace/${newWorkspace.newWorkspaceId}`);
+      if (!isSample) {
+        navigate(`/workspace/${newWorkspace.newWorkspaceId}`);
+      }
     },
     onError: (error) => {
       console.error(error);
