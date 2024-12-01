@@ -18,7 +18,26 @@ const transferTagBlockToCode = (tagName: string) => {
     }
 
     const children = htmlCodeGenerator.statementToCode(block, 'children');
-    const code = `<${removePreviousTypeName(tagName)} class="${cssClass}">\n${children}\n</${removePreviousTypeName(tagName)}>`;
+    const realTagName = removePreviousTypeName(tagName);
+    let code = '';
+
+    if (realTagName === 'a') {
+      let href = '';
+      const hrefBlock = block.getField('HREF');
+      if (hrefBlock) {
+        href = block.getFieldValue('HREF') || '';
+      }
+
+      let target = '';
+      const targetBlock = block.getField('TARGET');
+      if (targetBlock) {
+        target = block.getFieldValue('TARGET') || '';
+      }
+      code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} href="${href}" target="${target}">\n${children}\n</${realTagName}>`;
+    } else {
+      code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''}>\n${children}\n</${realTagName}>`;
+    }
+
     return code;
   };
 };

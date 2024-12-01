@@ -77,7 +77,12 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
 
         {/* TODO: 코드 수정 금지 [논의 필요] */}
         {activeTab === 'preview' && (
-          <iframe srcDoc={totalCode} className="h-full w-full" title="Preview" sandbox=""></iframe>
+          <iframe
+            srcDoc={totalCode}
+            className="h-full w-full"
+            title="Preview"
+            sandbox="allow-scripts  allow-popups allow-top-navigation-by-user-activation"
+          ></iframe>
         )}
         {activeTab === 'html' && (
           <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />

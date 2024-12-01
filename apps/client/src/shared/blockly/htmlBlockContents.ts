@@ -192,6 +192,11 @@ const etcBlockContents: TBlockInfo[] = [
     type: addPreviousTypeName('text'),
     description: '일반 글자를 보여주는 기본 텍스트예요.\n특별한 꾸밈이 없는 평범한 글자랍니다.',
   },
+  {
+    kind: 'block',
+    type: addPreviousTypeName('a'),
+    description: '일반 글자를 보여주는 기본 텍스트예요.\n특별한 꾸밈이 없는 평범한 글자랍니다.',
+  },
 ];
 
 export const blockContents: TBlockContents = {

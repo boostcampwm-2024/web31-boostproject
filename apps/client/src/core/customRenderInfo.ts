@@ -31,26 +31,36 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
     let maxWidth = this.topRow.width;
     let adjusted = false;
 
-    this.rows.forEach((row) => {
-      if (row.hasInlineInput && row.elements.length === 5) {
-        maxWidth = this.handleInlineInput(row, maxWidth);
-        adjusted = true;
-      } else {
-        const hasCustomInput = row.elements.some(
-          (el) =>
-            Types.isField(el) &&
-            (el as Blockly.blockRendering.Field).field instanceof CustomFieldTextInput
-        );
-
-        if (hasCustomInput) {
-          maxWidth = this.handleCustomInput(row, maxWidth);
+    for (let i = 0; i < 2; i++) {
+      this.rows.forEach((row) => {
+        if (row.hasInlineInput && row.elements.length === 5) {
+          maxWidth = this.handleInlineInput(row, maxWidth);
           adjusted = true;
         } else {
-          maxWidth = Math.max(maxWidth, this.MIN_WIDTH);
-        }
-      }
-    });
+          const hasCustomInput = row.elements.some(
+            (el) =>
+              Types.isField(el) &&
+              (el as Blockly.blockRendering.Field).field instanceof CustomFieldTextInput
+          );
 
+          const hasDropdown = row.elements.some(
+            (el) =>
+              Types.isField(el) &&
+              (el as Blockly.blockRendering.Field).field instanceof Blockly.FieldDropdown
+          );
+
+          if (hasCustomInput) {
+            maxWidth = this.handleCustomInput(row, maxWidth);
+            adjusted = true;
+          } else if (hasDropdown) {
+            maxWidth = this.handleDropdown(row, maxWidth);
+            adjusted = true;
+          } else {
+            maxWidth = Math.max(maxWidth, this.MIN_WIDTH);
+          }
+        }
+      });
+    }
     this.updateWidths(maxWidth, adjusted);
   }
 
@@ -71,18 +81,24 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
 
     const totalBase =
       this.PADDING_LEFT + labelWidth + this.PADDING_DEFAULT + inputWidth + this.PADDING_RIGHT;
-    let totalWidth = Math.max(totalBase, this.MIN_WIDTH);
+    let totalWidth = Math.max(totalBase, this.MIN_WIDTH, maxWidth);
 
-    const extraWidth = inputWidth - (radius + this.PADDING_EMPTY);
-    if (extraWidth) {
-      totalWidth += extraWidth > this.WIDTH_DIFF ? (extraWidth + this.WIDTH_DIFF) / 2 : extraWidth;
+    const subWidth = inputWidth - (radius + this.PADDING_EMPTY);
+    let remaining = 0;
+    if (subWidth) {
+      const extraWidth = subWidth > this.WIDTH_DIFF ? (subWidth + this.WIDTH_DIFF) / 2 : subWidth;
+      totalWidth += extraWidth;
+      remaining =
+        totalWidth -
+        (labelWidth + inputWidth + this.PADDING_LEFT + this.PADDING_RIGHT) -
+        extraWidth;
+    } else {
+      remaining = totalWidth - (labelWidth + inputWidth + this.PADDING_LEFT + this.PADDING_RIGHT);
     }
 
-    const remaining =
-      totalWidth - (labelWidth + inputWidth + this.PADDING_LEFT + this.PADDING_RIGHT);
     input.xPos =
       labelWidth +
-      (totalWidth > this.MIN_WIDTH ? this.PADDING_DEFAULT : remaining) +
+      (remaining > this.PADDING_DEFAULT ? remaining : this.PADDING_DEFAULT) +
       this.PADDING_LEFT;
 
     row.width =
@@ -101,15 +117,39 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
     const baseWidth = this.PADDING_LEFT + labelWidth + this.PADDING_DEFAULT + this.PADDING_RIGHT;
     const totalWidth = baseWidth + inputWidth;
 
-    if (hasField(input) && totalWidth < this.MIN_WIDTH) {
-      (input.field as CustomFieldTextInput).updateWidth(this.MIN_WIDTH - baseWidth);
+    if (hasField(input) && totalWidth < maxWidth) {
+      (input.field as CustomFieldTextInput).updateWidth(maxWidth - baseWidth);
     }
 
     input.xPos = labelWidth + this.PADDING_DEFAULT + this.PADDING_LEFT;
 
-    row.width = Math.max(totalWidth, this.MIN_WIDTH);
+    row.width = Math.max(totalWidth, this.MIN_WIDTH, maxWidth);
 
     return Math.max(maxWidth, row.width);
+  }
+
+  private handleDropdown(row: any, maxWidth: number): number {
+    const input = row.elements[row.elements.length - 2];
+    const label = row.elements.length > 3 ? row.elements[1] : { width: 0, xPos: 8 };
+
+    const labelWidth = label.width;
+    const inputWidth = input.width;
+
+    const baseWidth =
+      this.PADDING_LEFT + labelWidth + this.PADDING_DEFAULT + this.PADDING_RIGHT + inputWidth;
+    const tempTotalWidth = Math.max(this.MIN_WIDTH, baseWidth);
+    const totalWidth = Math.max(tempTotalWidth, maxWidth);
+
+    if (tempTotalWidth == totalWidth) {
+      input.xPos = labelWidth + this.PADDING_DEFAULT + this.PADDING_LEFT;
+      row.width = Math.max(totalWidth, this.MIN_WIDTH);
+      return row.width;
+    }
+
+    const remaining = totalWidth - tempTotalWidth;
+    input.xPos = labelWidth + this.PADDING_DEFAULT + this.PADDING_LEFT + remaining;
+    row.width = totalWidth;
+    return row.width;
   }
 
   private updateWidths(maxWidth: number, adjusted: boolean): void {

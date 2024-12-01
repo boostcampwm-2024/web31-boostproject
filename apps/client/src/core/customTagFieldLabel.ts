@@ -4,7 +4,7 @@ const dom = Blockly.utils.dom;
 const Svg = Blockly.utils.Svg;
 
 // 블록의 좌측 블록 이름에 대한 라벨을 실제 돔에 올려주는 클래스입니다.
-export class CustomFieldLabel extends Blockly.FieldLabel {
+export class CustomTagFieldLabel extends Blockly.FieldLabel {
   protected backgroundRect_!: SVGRectElement;
 
   /*

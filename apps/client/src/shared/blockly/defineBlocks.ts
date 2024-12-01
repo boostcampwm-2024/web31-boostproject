@@ -2,6 +2,8 @@ import { CustomFieldTextInput } from '@/core/customFieldTextInput';
 import { TBlockContents } from '@/shared/types';
 import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
+import { CustomTagFieldLabel } from '../../core/customTagFieldLabel';
+import { CustomOptionFieldLabel } from '@/core/customOptionFieldLabel';
 
 /**
  * html 태그 블록을 생성할 때 좀 더 편리하게 생성하기 위해 만든 헬퍼함수입니다.
@@ -31,7 +33,7 @@ const defineBlockWithDefaults = (
       this.setNextStatement(true);
       this.appendValueInput('css class')
         .setCheck('CSS-CLASS')
-        .appendField(removePreviousTypeName(blockName));
+        .appendField(new CustomTagFieldLabel(removePreviousTypeName(blockName)));
       this.appendStatementInput('children').appendField();
     }
   };
@@ -46,7 +48,9 @@ export const defineBlocks = (blockContents: TBlockContents) => {
     '웹페이지의 시작과 끝을 알려주는 가장 큰 상자예요.\n모든 내용을 담고 있는 책의 겉표지 같은 거예요.',
     {
       init: function () {
-        this.appendDummyInput().appendField('html');
+        this.appendValueInput('css class')
+          .setCheck('CSS-CLASS')
+          .appendField(new CustomTagFieldLabel('html'));
         this.appendStatementInput('children').appendField('');
       },
     },
@@ -61,7 +65,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
       init: function () {
         this.setPreviousStatement(true);
         this.setNextStatement(true);
-        this.appendDummyInput().appendField('head');
+        this.appendDummyInput().appendField(new CustomTagFieldLabel('head'));
       },
     },
     false
@@ -92,7 +96,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
               this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
               this.setNextStatement(true); // 다른 블록 아래에 연결 가능
               this.appendDummyInput()
-                .appendField(removePreviousTypeName(blockInfo.type))
+                .appendField(new CustomTagFieldLabel(removePreviousTypeName(blockInfo.type)))
                 .appendField(new CustomFieldTextInput(), 'TEXT');
               this.setTooltip(blockInfo.description);
             },
@@ -111,7 +115,41 @@ export const defineBlocks = (blockContents: TBlockContents) => {
             init: function () {
               this.setPreviousStatement(true);
               this.setNextStatement(true);
-              this.appendDummyInput().appendField(removePreviousTypeName(blockInfo.type));
+              this.appendDummyInput().appendField(
+                new CustomTagFieldLabel(removePreviousTypeName(blockInfo.type))
+              );
+            },
+          },
+          false
+        );
+      } else if (blockInfo.type === addPreviousTypeName('a')) {
+        defineBlockWithDefaults(
+          blockInfo.type,
+          (index % 3) + 1,
+          blockInfo.description,
+          {
+            init: function () {
+              this.setPreviousStatement(true);
+              this.setNextStatement(true);
+              this.appendValueInput('css class')
+                .setCheck('CSS-CLASS')
+                .appendField(new CustomTagFieldLabel('a'));
+              this.appendDummyInput()
+                .appendField(new CustomOptionFieldLabel('target'))
+                .appendField(
+                  new Blockly.FieldDropdown([
+                    ['_blank', '_blank'],
+                    ['_self', '_self'],
+                    ['_parent', '_parent'],
+                    ['_top', '_top'],
+                  ]),
+                  'TARGET'
+                );
+              this.appendDummyInput()
+                .appendField(new CustomOptionFieldLabel('href'))
+                .appendField(new CustomFieldTextInput(), 'HREF');
+              this.appendStatementInput('children').appendField();
+              this.setInputsInline(false);
             },
           },
           false
