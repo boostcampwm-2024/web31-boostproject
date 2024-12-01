@@ -60,6 +60,7 @@ export const WorkspaceContent = () => {
   const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
   const [selectedBlockStartLine, setSelectedBlockStartLine] = useState<number>(0);
   const [selectedBlockLength, setSelectedBlockLength] = useState<number>(0);
+  const [selectedBlockType, setSelectedBlockType] = useState<string | null>(null);
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -112,6 +113,9 @@ export const WorkspaceContent = () => {
       }
 
       const block = newWorkspace.getBlockById(event.blockId || '');
+
+      // 블록 타입이 BOOLOCK_SYSTEM_으로 시작하지 않으면 처리
+      setSelectedBlockType(block && !block.type.startsWith('BOOLOCK_SYSTEM_') ? block.type : null);
 
       // 블록 미 선택시 초기화
       if (!block) {
@@ -167,6 +171,7 @@ export const WorkspaceContent = () => {
           cssCode={cssCode}
           selectedBlockStartLine={selectedBlockStartLine}
           selectedBlockLength={selectedBlockLength}
+          selectedBlockType={selectedBlockType}
         />
         <CssPropsSelectBox />
       </div>

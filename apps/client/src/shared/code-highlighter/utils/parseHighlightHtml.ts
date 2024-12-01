@@ -1,4 +1,8 @@
-export const parseHighlightHtml = (html: string, styles: Record<string, string>) => {
+export const parseHighlightHtml = (
+  html: string,
+  styles: Record<string, string>,
+  selectedBlockType: string | null
+) => {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, 'text/html');
 
@@ -7,12 +11,17 @@ export const parseHighlightHtml = (html: string, styles: Record<string, string>)
     const indent = '  '.repeat(depth);
     const tag = `<span class="${styles.tag}">${element.tagName.toLowerCase()}</span>`;
     const attrs = Array.from(element.attributes)
-      .map(
-        (attr) =>
-          `<span class="${styles.attribute}">${attr.name}</span>=<span class="${styles.value}">"${attr.value}"</span>`
-      )
+      .map((attr) => {
+        const value =
+          attr.name === 'class' && selectedBlockType && attr.value.includes(selectedBlockType)
+            ? attr.value.replace(
+                selectedBlockType,
+                `<span style="background-color: #FFF3AD; color: green">${selectedBlockType}</span>`
+              )
+            : attr.value;
+        return `<span class="${styles.attribute}">${attr.name}</span>=<span class="${styles.value}">"${value}"</span>`;
+      })
       .join(' ');
-
     const openTag = `${indent}&lt;${tag}${attrs ? ' ' + attrs : ''}&gt;`;
     const closeTag = `${indent}&lt;/${tag}&gt;`;
 
