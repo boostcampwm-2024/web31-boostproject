@@ -4,9 +4,6 @@
   font-size: 14px;
 }
 
-.light {
-}
-
 .dark {
   background-color: #1e1e1e;
   color: #d4d4d4;
@@ -25,7 +22,7 @@
 }
 
 .lineHighlight {
-  color: pink;
+  color: #02d085;
 }
 
 .codeContent {
