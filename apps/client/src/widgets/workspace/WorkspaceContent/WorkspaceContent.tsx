@@ -107,84 +107,34 @@ export const WorkspaceContent = () => {
 
     // 블록 클릭 이벤트 핸들러
     const handleBlockClick = (event: Blockly.Events.Abstract) => {
-      if (event instanceof Blockly.Events.Click) {
-        const block = newWorkspace.getBlockById(event.blockId || '');
-
-        if (block) {
-          const codeWithIds = generateFullCodeWithBlockId(newWorkspace);
-
-          // 블록이 시작하는 줄 번호 계산
-          const blockStartLine = findBlockStartLine(codeWithIds, block.id);
-
-          // 블록 길이 계산
-          const blockLength = calculateBlockLength(block);
-          setSelectedBlockLength(blockLength);
-
-          // 내부에 선언된 블록 탐색
-          const innerBlocks: Blockly.Block[] = [];
-          block.inputList.forEach((input) => {
-            const connection = input.connection;
-            if (connection) {
-              let targetBlock = connection.targetBlock();
-              while (targetBlock) {
-                if (targetBlock.type.startsWith('BOOLOCK_SYSTEM_')) {
-                  innerBlocks.push(targetBlock);
-                }
-                // 다음 연결된 블록 탐색
-                targetBlock = targetBlock.getNextBlock();
-              }
-            }
-          });
-
-          // 워크스페이스 내의 HTML 블록 내부 블록 ID를 리스트로 출력
-          const topBlocks = newWorkspace.getTopBlocks(true);
-          const htmlBlock = topBlocks.find((b) => b.type === 'BOOLOCK_SYSTEM_html');
-
-          if (htmlBlock) {
-            const childBlockIds: string[] = [];
-
-            // BOOLOCK_SYSTEM_으로 시작하는 블록만 포함
-            const getChildBlockIds = (currentBlock: Blockly.Block) => {
-              if (!currentBlock.type.startsWith('BOOLOCK_SYSTEM_')) {
-                return;
-              }
-
-              childBlockIds.push(currentBlock.id); // 현재 블록 ID 저장
-              currentBlock.getChildren(false).forEach(getChildBlockIds); // 자식 블록 재귀 탐색
-            };
-
-            getChildBlockIds(htmlBlock); // HTML 블록부터 시작
-
-            // 클릭한 블록이 몇 번째인지 확인
-            const blockIndex = childBlockIds.indexOf(block.id);
-            if (blockIndex !== -1) {
-              console.log(`클릭한 블록은 HTML 블록 내부에서 ${blockIndex + 1}번째 블록입니다.`);
-              setSelectedBlockStartLine(blockStartLine); // 선택된 블록 번호 설정
-            } else {
-              console.log('클릭한 블록은 HTML 블록 내부에 포함되지 않습니다.');
-              setSelectedBlockStartLine(0); // 블록이 HTML에 포함되지 않은 경우 0으로 설정
-              setSelectedBlockLength(0);
-            }
-          } else {
-            console.log('HTML 블록이 워크스페이스에 존재하지 않습니다.');
-            setSelectedBlockStartLine(0);
-            setSelectedBlockLength(0);
-          }
-        } else {
-          setSelectedBlockStartLine(0); // 빈 영역 클릭 시 블록 번호 0으로 설정
-          setSelectedBlockLength(0);
-        }
+      if (!(event instanceof Blockly.Events.Click)) {
+        return;
       }
-    };
 
-    const handleBlockIdCodeGeneration = () => {
-      const codeWithIds = generateFullCodeWithBlockId(newWorkspace); // 새 함수 호출
-      console.log('Generated Code with Block IDs:\n', codeWithIds);
+      const block = newWorkspace.getBlockById(event.blockId || '');
+
+      // 블록 미 선택시 초기화
+      if (!block) {
+        setSelectedBlockStartLine(0);
+        setSelectedBlockLength(0);
+
+        return;
+      }
+
+      // 블록 ID가 포함된 전체 코드 생성
+      const codeWithIds = generateFullCodeWithBlockId(newWorkspace);
+
+      // 선택한 블록 시작 줄 계산
+      const blockStartLine = findBlockStartLine(codeWithIds, block.id);
+      setSelectedBlockStartLine(blockStartLine);
+
+      // 선택한 블록 길이 계산
+      const blockLength = calculateBlockLength(block);
+      setSelectedBlockLength(blockLength);
     };
 
     newWorkspace.addChangeListener(handleAutoConversion);
     newWorkspace.addChangeListener(handleBlockClick);
-    newWorkspace.addChangeListener(handleBlockIdCodeGeneration);
 
     if (workspace === null) {
       setWorkspace(newWorkspace);
@@ -193,7 +143,6 @@ export const WorkspaceContent = () => {
     return () => {
       newWorkspace.removeChangeListener(handleAutoConversion);
       newWorkspace.removeChangeListener(handleBlockClick);
-      newWorkspace.removeChangeListener(handleBlockIdCodeGeneration);
       newWorkspace.dispose();
     };
   }, []);
