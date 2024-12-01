@@ -100,11 +100,11 @@ export const WorkspaceContent = () => {
       }
 
       if (event.type === Blockly.Events.VIEWPORT_CHANGE && isBlockLoadingFinish.current) {
+        // 캔버스에 있는 블록을 드래그할 때 발생하는 이벤트
         setIsBlockChanged(true);
       }
 
       if (event.type === Blockly.Events.FINISHED_LOADING) {
-        // 캔버스에 있는 블록을 드래그할 때 발생하는 이벤트
         isBlockLoadingFinish.current = true;
       }
     };
