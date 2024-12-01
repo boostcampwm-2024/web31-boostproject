@@ -172,6 +172,13 @@ export default class StyleFlyout extends FixedFlyout {
         const block = scope.block;
         const blockType = block.type;
 
+        const workspace = Blockly.getMainWorkspace();
+        const blocksToDelete = workspace.getBlocksByType(blockType);
+
+        blocksToDelete.forEach((block) => {
+          (block as any).dispose(false, true);
+        });
+
         block.dispose(false, true);
         useCssPropsStore.getState().removeCssClass(blockType);
         useWorkspaceChangeStatusStore.getState().setIsBlockChanged(true);
