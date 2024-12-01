@@ -70,7 +70,7 @@ export const CoachMark = () => {
             </CircleButton>
 
             <CircleButton
-              onClick={nextStep}
+              onClick={currentStep < 4 ? nextStep : closeCoachMark}
               disable={currentStep === stepsLength}
               className="text-bold-sm h-8 w-16"
             >
