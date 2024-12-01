@@ -4,6 +4,7 @@
  *앞으로 블록 타입을 지정할때는 꼭..! 이 함수를 이용해서 블록 타입명을 지정해주세요.
  */
 export const PREVIOUS_TYPE_NAME = 'BOOLOCK_SYSTEM_';
+export const CSS_CLASS_PREFIX = 'CSS_';
 
 export const addPreviousTypeName = (type: string) => {
   return `${PREVIOUS_TYPE_NAME}${type}`;
@@ -16,4 +17,8 @@ export const removePreviousTypeName = (type: string): string => {
   return type;
 };
 
-// TODO: css 클래스명 만들때 해당 previousTypeName으로 시작할 경우 블록 생성이 안 되도록 막는 로직도 추가해주시길 바랍니다.
+export const removeCssClassNamePrefix = (className: string) => {
+  return className.startsWith(CSS_CLASS_PREFIX)
+    ? className.replace(CSS_CLASS_PREFIX, '')
+    : className;
+};

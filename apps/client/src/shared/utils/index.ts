@@ -6,6 +6,8 @@ export {
   addPreviousTypeName,
   removePreviousTypeName,
   PREVIOUS_TYPE_NAME,
+  removeCssClassNamePrefix,
+  CSS_CLASS_PREFIX,
 } from './boolockConstants';
 export { debounce } from './debounce';
 export { cssCategoryList } from './cssCategoryList';
