@@ -4,6 +4,8 @@ import { useCssPropsStore, useResetCssStore, useWorkspaceStore } from '@/shared/
 
 import { Spinner } from '@/shared/ui';
 import { cssStyleToolboxConfig } from '@/shared/blockly';
+import html2canvas from 'html2canvas';
+import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
 import { useSaveWorkspace } from '@/shared/hooks';
 
@@ -19,14 +21,46 @@ export const SaveButton = () => {
   const { totalCssPropertyObj } = useCssPropsStore();
   const { workspace } = useWorkspaceStore();
   const { isResetCssChecked } = useResetCssStore();
-  const handleClick = () => {
-    const canvas = Blockly.serialization.workspaces.save(workspace!) as any;
-    saveWorkspace({
-      totalCssPropertyObj,
-      canvas,
-      classBlockList: cssStyleToolboxConfig.contents,
-      cssResetStatus: isResetCssChecked,
-    });
+
+  const ERROR_MESSAGE = {
+    SELECT_PREVIEW_TAB: '미리보기 탭을 선택해주세요.',
+    FAIL_TO_SAVE: '저장에 실패했습니다.',
+  };
+
+  const capturePreview = async () => {
+    const previewIframe = document.querySelector('iframe');
+    if (!previewIframe) {
+      throw new Error(ERROR_MESSAGE.SELECT_PREVIEW_TAB);
+    }
+    const previewContent = previewIframe.contentWindow!.document.body;
+    const preview = await html2canvas(previewContent, {});
+    const blob = await new Promise<Blob | null>((resolve) => preview.toBlob(resolve, 'image/png'));
+    if (!blob) {
+      throw new Error(ERROR_MESSAGE.FAIL_TO_SAVE);
+    }
+    const thumbnail = new File([blob], 'thumbnail.png', { type: 'image/png' });
+    if (!thumbnail) {
+      throw new Error(ERROR_MESSAGE.FAIL_TO_SAVE);
+    }
+    return thumbnail;
+  };
+
+  const handleClick = async () => {
+    try {
+      const canvas = Blockly.serialization.workspaces.save(workspace!) as any;
+      const thumbnail = await capturePreview();
+      saveWorkspace({
+        totalCssPropertyObj,
+        canvas,
+        classBlockList: cssStyleToolboxConfig.contents,
+        cssResetStatus: isResetCssChecked,
+        thumbnail,
+      });
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(error.message);
+      }
+    }
   };
 
   return (

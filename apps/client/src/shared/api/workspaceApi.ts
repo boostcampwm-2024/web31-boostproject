@@ -56,48 +56,29 @@ export const WorkspaceApi = () => {
     });
   };
 
-  const saveWorkspaceCssProperty = async (
+  const saveWorkspace = async (
     userId: string,
     workspaceId: string,
-    totalCssPropertyObj: TTotalCssPropertyObj
+    totalCssPropertyObj: TTotalCssPropertyObj,
+    canvas: TCanvas,
+    classBlockList: TBlock[],
+    isCssReset: boolean,
+    thumbnail: File
   ) => {
-    await Instance.patch(
-      `/workspace/css`,
-      { workspaceId, totalCssPropertyObj },
-      { headers: { 'user-id': userId } }
-    );
-  };
+    const formData = new FormData();
+    formData.append('workspaceId', workspaceId);
+    formData.append('totalCssPropertyObj', JSON.stringify(totalCssPropertyObj));
+    formData.append('canvas', JSON.stringify(canvas));
+    formData.append('classBlockList', JSON.stringify(classBlockList));
+    formData.append('cssResetStatus', isCssReset.toString());
+    formData.append('thumbnail', thumbnail);
 
-  const saveWorkspaceCanvas = async (userId: string, workspaceId: string, canvas: TCanvas) => {
-    await Instance.patch(
-      `/workspace/canvas`,
-      { workspaceId, canvas: JSON.stringify(canvas) },
-      { headers: { 'user-id': userId } }
-    );
-  };
-
-  const saveWorkspaceClassBlockList = async (
-    userId: string,
-    workspaceId: string,
-    classBlockList: TBlock[]
-  ) => {
-    await Instance.patch(
-      `/workspace/classBlockList`,
-      { workspaceId, classBlockList: JSON.stringify(classBlockList) },
-      { headers: { 'user-id': userId } }
-    );
-  };
-
-  const saveWorkspaceCssResetStatus = async (
-    userId: string,
-    workspaceId: string,
-    isCssReset: boolean
-  ) => {
-    await Instance.patch(
-      `/workspace/cssResetStatus`,
-      { workspaceId, cssResetStatus: isCssReset },
-      { headers: { 'user-id': userId } }
-    );
+    await Instance.patch('/workspace', formData, {
+      headers: {
+        'user-id': userId,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
   };
 
   return {
@@ -106,9 +87,6 @@ export const WorkspaceApi = () => {
     getWorkspace,
     updateWorkspaceName,
     deleteWorkspace,
-    saveWorkspaceCssProperty,
-    saveWorkspaceCanvas,
-    saveWorkspaceClassBlockList,
-    saveWorkspaceCssResetStatus,
+    saveWorkspace,
   };
 };
