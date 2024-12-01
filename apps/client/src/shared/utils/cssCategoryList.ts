@@ -41,6 +41,37 @@ export const cssCategoryList: TCssCategoryList = [
         type: 'input',
         description: '요소의 쌓이는 순서를 지정합니다.',
       },
+      {
+        label: 'flex-direction',
+        type: 'select',
+        option: ['row', 'row-reverse', 'column', 'column-reverse'],
+        description: 'flex 컨테이너 내의 아이템 배치 방향을 지정합니다.',
+      },
+      {
+        label: 'justify-content',
+        type: 'select',
+        option: [
+          'flex-start',
+          'flex-end',
+          'center',
+          'space-between',
+          'space-around',
+          'space-evenly',
+        ],
+        description: '주축(main axis)을 따라 flex 아이템들을 정렬하는 방법을 지정합니다.',
+      },
+      {
+        label: 'align-items',
+        type: 'select',
+        option: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline'],
+        description: '교차축(cross axis)을 따라 flex 아이템들을 정렬하는 방법을 지정합니다.',
+      },
+      {
+        label: 'flex-wrap',
+        type: 'select',
+        option: ['nowrap', 'wrap', 'wrap-reverse'],
+        description: 'flex 아이템들의 줄 바꿈 여부를 지정합니다.',
+      },
     ],
   },
   {
@@ -77,6 +108,7 @@ export const cssCategoryList: TCssCategoryList = [
         label: 'font-family',
         type: 'select',
         option: [
+          'Pretendard',
           'Noto Sans KR',
           'Noto Serif KR',
           'Nanum Gothic',
