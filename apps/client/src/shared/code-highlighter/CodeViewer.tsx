@@ -7,9 +7,17 @@ type CodeViewerProps = {
   code: string;
   type: 'html' | 'css';
   theme?: 'light' | 'dark';
+  selectedBlockStartLine?: number;
+  selectedBlockLength?: number;
 };
 
-export const CodeViewer = ({ code, type, theme }: CodeViewerProps) => {
+export const CodeViewer = ({
+  code,
+  type,
+  theme,
+  selectedBlockStartLine,
+  selectedBlockLength,
+}: CodeViewerProps) => {
   const [previousCodeLines, setPreviousCodeLines] = useState<string[]>([]);
   const [highlightedLines, setHighlightedLines] = useState<number[]>([]);
   const [hoveredLineNumber, setHoveredLineNumber] = useState<number | null>(null);
@@ -66,13 +74,23 @@ export const CodeViewer = ({ code, type, theme }: CodeViewerProps) => {
       <div className={styles.codeContent}>
         <pre>
           <code>
-            {codeLineList.map((line, index) => (
-              <div
-                key={index}
-                className={highlightedLines.includes(index) ? styles.newLine : ''}
-                dangerouslySetInnerHTML={{ __html: line }}
-              />
-            ))}
+            {codeLineList.map((line, index) => {
+              const isWithinSelectedBlock =
+                selectedBlockStartLine &&
+                selectedBlockLength &&
+                index + 1 >= selectedBlockStartLine &&
+                index + 1 < selectedBlockStartLine + selectedBlockLength;
+
+              return (
+                <div
+                  key={index}
+                  className={`${highlightedLines.includes(index) ? styles.newLine : ''} ${
+                    isWithinSelectedBlock ? styles.blockHighlight : ''
+                  }`}
+                  dangerouslySetInnerHTML={{ __html: line }}
+                />
+              );
+            })}
           </code>
         </pre>
       </div>

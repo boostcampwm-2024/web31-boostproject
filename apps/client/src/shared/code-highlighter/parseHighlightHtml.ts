@@ -21,6 +21,11 @@ export const parseHighlightHtml = (html: string, styles: Record<string, string>)
       .map((child) => processNode(child, depth + 1))
       .join('');
 
+    // 예외 처리: br와 hr 태그는 한 줄로 출력
+    if (['br', 'hr'].includes(element.tagName.toLowerCase())) {
+      return `\n${indent}&lt;${tag}${attrs ? ' ' + attrs : ''} /&gt;`;
+    }
+
     // 예외 처리: <head> 태그는 한 줄로 처리
     if (element.tagName.toLowerCase() === 'head') {
       return `${indent}&lt;${tag}${attrs ? ' ' + attrs : ''}&gt;${children.trim()}&lt;/${tag}&gt;`;

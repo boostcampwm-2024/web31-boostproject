@@ -8,6 +8,8 @@ import { CodeViewer } from '@/shared/code-highlighter';
 type PreviewBoxProps = {
   htmlCode: string;
   cssCode: string;
+  selectedBlockStartLine?: number;
+  selectedBlockLength?: number;
 };
 
 /**
@@ -15,7 +17,12 @@ type PreviewBoxProps = {
  * @description
  * 웹사이트, HTML, CSS 코드 미리보기 박스 컴포넌트
  */
-export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
+export const PreviewBox = ({
+  htmlCode,
+  cssCode,
+  selectedBlockStartLine,
+  selectedBlockLength,
+}: PreviewBoxProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
   const { isResetCssChecked } = useResetCssStore();
 
@@ -77,8 +84,24 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
         {activeTab === 'preview' && (
           <iframe srcDoc={totalCode} className="h-full w-full" title="Preview" sandbox=""></iframe>
         )}
-        {activeTab === 'html' && <CodeViewer code={htmlCode} type="html" theme="light" />}
-        {activeTab === 'css' && <CodeViewer code={cssCode} type="css" theme="light" />}
+        {activeTab === 'html' && (
+          <CodeViewer
+            code={htmlCode}
+            type="html"
+            theme="light"
+            selectedBlockStartLine={selectedBlockStartLine}
+            selectedBlockLength={selectedBlockLength}
+          />
+        )}
+        {activeTab === 'css' && (
+          <CodeViewer
+            code={cssCode}
+            type="css"
+            theme="light"
+            selectedBlockStartLine={selectedBlockStartLine}
+            selectedBlockLength={selectedBlockLength}
+          />
+        )}
       </div>
     </section>
   );
