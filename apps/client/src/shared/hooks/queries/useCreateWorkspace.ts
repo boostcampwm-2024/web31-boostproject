@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { useLoadingStore } from '@/shared/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { getUserId } from '@/shared/utils';
+import { getUserId, createUserId } from '@/shared/utils';
 import { workspaceKeys } from '@/shared/hooks';
 
 export const useCreateWorkspace = (isSample = false) => {
@@ -15,7 +15,7 @@ export const useCreateWorkspace = (isSample = false) => {
   const { mutate } = useMutation<TCreatedWorkspaceDto, Error, void, unknown>({
     mutationFn: () => {
       setPending(true);
-      const userId = getUserId();
+      const userId = getUserId() || createUserId();
       return workspaceApi.createWorkspace(userId, isSample);
     },
     onSuccess: (newWorkspace) => {
