@@ -43,8 +43,8 @@ export const CoachMark = () => {
   //   };
 
   return (
-    <div className="fixed inset-0 z-50 z-[99999] flex items-center justify-center bg-black bg-opacity-70">
-      <div className="min-h-40 max-w-80 rounded-2xl bg-white p-6 shadow-lg">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-70">
+      <div className="z-[99999] min-h-40 max-w-80 rounded-2xl bg-white p-6 shadow-lg">
         <h2 className="text-bold-sm mb-4 text-gray-200">{steps[currentStep].title}</h2>
         <p className="text-medium-md mb-6">{steps[currentStep].content}</p>
         <div className="flex justify-between">
@@ -67,7 +67,7 @@ export const CoachMark = () => {
               disable={currentStep === stepsLength}
               className="text-bold-sm h-8 w-16"
             >
-              다음
+              {currentStep < 4 ? '다음' : '시작하기'}
             </CircleButton>
           </div>
         </div>
