@@ -1,5 +1,5 @@
 export const parseHighlightCss = (css: string, styles: Record<string, string>) => {
-  return css
+  const formattedCss = css
     .replace(/([^\s{}]+)\s*{/g, (_, selector) => {
       // 선택자 ex) .body, .class, #id ...
       return `<span class="${styles.selector}">${selector}</span> {`;
@@ -13,4 +13,10 @@ export const parseHighlightCss = (css: string, styles: Record<string, string>) =
       return `: <span class="${styles['property-value']}">${value}</span>;`;
     })
     .trim();
+
+  // 모든 줄 앞에 공백 두 칸 추가
+  return formattedCss
+    .split('\n')
+    .map((line) => `  ${line}`)
+    .join('\n');
 };

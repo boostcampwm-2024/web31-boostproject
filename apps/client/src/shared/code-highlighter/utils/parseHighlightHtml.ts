@@ -53,5 +53,11 @@ export const parseHighlightHtml = (html: string, styles: Record<string, string>)
   };
 
   // 문서 루트 노드로 시작
-  return processNode(doc.documentElement, 0).trim();
+  const result = processNode(doc.documentElement, 0).trim();
+
+  // 각 줄 앞에 공백 두 칸 추가
+  return result
+    .split('\n')
+    .map((line) => `  ${line}`)
+    .join('\n');
 };
