@@ -1,10 +1,11 @@
-import { WorkspaceContent, WorkspacePageHeader } from '@/widgets';
+import { CoachMark, WorkspaceContent, WorkspacePageHeader } from '@/widgets';
 import { useGetWorkspace, usePreventLeaveWorkspacePage } from '@/shared/hooks';
-
 import { Helmet } from 'react-helmet-async';
 import { Loading } from '@/shared/ui';
 import { NotFound } from '@/pages/NotFound/NotFound';
 import { useParams } from 'react-router-dom';
+
+import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
 
 /**
  *
@@ -15,6 +16,7 @@ export const WorkspacePage = () => {
   const { workspaceId } = useParams();
   const { isPending, isError } = useGetWorkspace(workspaceId as string);
   usePreventLeaveWorkspacePage();
+  const { isCoachMarkOpen } = useCoachMarkStore();
 
   if (isError) {
     return <NotFound />;
@@ -31,6 +33,7 @@ export const WorkspacePage = () => {
       </Helmet>
       <div className="flex h-screen flex-col">
         {isPending && <Loading />}
+        {isCoachMarkOpen && <CoachMark />}
         <WorkspacePageHeader />
         <WorkspaceContent />
       </div>
