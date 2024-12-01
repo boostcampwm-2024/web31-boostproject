@@ -14,7 +14,7 @@ import {
   tabToolboxConfig,
 } from '@/shared/blockly';
 import { useCssPropsStore, useWorkspaceChangeStatusStore, useWorkspaceStore } from '@/shared/store';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import CustomTrashcan from '@/core/customTrashcan';
 import CustomZoomControls from '@/core/customZoomControls';
@@ -55,6 +55,7 @@ export const WorkspaceContent = () => {
   const { totalCssPropertyObj } = useCssPropsStore();
   const { workspace, setWorkspace, canvasInfo } = useWorkspaceStore();
   const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
+  const isBlockLoadingFinish = useRef<boolean>(false);
 
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
@@ -92,7 +93,19 @@ export const WorkspaceContent = () => {
       ) {
         const code = generateFullCode(newWorkspace);
         setHtmlCode(code);
+
+        if (isBlockLoadingFinish.current) {
+          setIsBlockChanged(true);
+        }
+      }
+
+      if (event.type === Blockly.Events.VIEWPORT_CHANGE && isBlockLoadingFinish.current) {
         setIsBlockChanged(true);
+      }
+
+      if (event.type === Blockly.Events.FINISHED_LOADING) {
+        // 캔버스에 있는 블록을 드래그할 때 발생하는 이벤트
+        isBlockLoadingFinish.current = true;
       }
     };
 
