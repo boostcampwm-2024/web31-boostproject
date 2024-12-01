@@ -51,6 +51,7 @@ export const CoachMark = () => {
           <div>
             {currentStep + 1}/{stepsLength}
           </div>
+          {/* TODO: 이전 버튼 추가 논의 필요 */}
           {/* <button onClick={prevStep} disabled={currentStep === 0}>
             이전
           </button> */}
