@@ -1,4 +1,5 @@
 import { TTotalCssPropertyObj } from '@/shared/types';
+import { removeCssClassNamePrefix } from '../utils';
 
 export const cssCodeGenerator = (totalCssPropertyObj: TTotalCssPropertyObj) => {
   let cssCode = '';
@@ -6,7 +7,7 @@ export const cssCodeGenerator = (totalCssPropertyObj: TTotalCssPropertyObj) => {
   Object.keys(totalCssPropertyObj)
     .filter((className) => className && className.length > 0)
     .forEach((className) => {
-      cssCode += `.${className} {\n`;
+      cssCode += `.${removeCssClassNamePrefix(className)} {\n`;
       Object.keys(totalCssPropertyObj[className].cssOptionObj).forEach((label) => {
         if (
           totalCssPropertyObj[className].checkedCssPropertyObj[label] &&
