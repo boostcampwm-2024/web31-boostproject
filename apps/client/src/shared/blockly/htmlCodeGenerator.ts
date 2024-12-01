@@ -17,10 +17,20 @@ const transferTagBlockToCode = (tagName: string) => {
       cssClass = cssClassBlock.getFieldValue('CLASS') || ''; // 직접 연결된 블록의 필드 값을 가져옴
     }
 
-    const children = htmlCodeGenerator.statementToCode(block, 'children');
+    const children = htmlCodeGenerator.statementToCode(block, 'children').trim();
     const blockId = block.id; // 블록 ID 가져오기
-    const code = `<${removePreviousTypeName(tagName)} class="${cssClass}" data-block-id="${blockId}">\n${children}\n</${removePreviousTypeName(tagName)}>`;
-    return code;
+
+    if (!children) {
+      // 자식 노드가 없으면 한 줄 공백 추가
+      return `<${removePreviousTypeName(tagName)} class="${cssClass}" data-block-id="${blockId}">\n</${removePreviousTypeName(
+        tagName
+      )}>`;
+    }
+
+    // 자식 노드가 있는 경우
+    return `<${removePreviousTypeName(tagName)} class="${cssClass}" data-block-id="${blockId}">\n${children}\n</${removePreviousTypeName(
+      tagName
+    )}>`;
   };
 };
 
@@ -46,6 +56,7 @@ export const generateFullCodeWithBlockId = (workspace: Blockly.Workspace) => {
       }
     });
 
+  console.log('codeList:', codeList);
   return codeList.join('\n');
 };
 
