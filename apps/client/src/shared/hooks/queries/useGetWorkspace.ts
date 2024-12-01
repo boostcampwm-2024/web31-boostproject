@@ -43,7 +43,6 @@ export const useGetWorkspace = (workspaceId: string) => {
       return;
     }
 
-    console.log(data.workspaceDto.totalCssPropertyObj);
     initCssPropertyObj(data.workspaceDto.totalCssPropertyObj);
     initClassBlockList(
       Object.keys(data.workspaceDto.totalCssPropertyObj).map((className) =>

@@ -252,7 +252,7 @@ export default class StyleFlyout extends FixedFlyout {
       { kind: 'block', type: createClassType, enabled: true },
     ];
     const { addClassBlock } = useClassBlockStore.getState();
-    addClassBlock(inputValue);
+    addClassBlock(createClassType);
 
     this.show(cssStyleToolboxConfig.contents);
     toast.success(`입력한 클래스명 블록 "${inputValue}"이(가) 추가되었습니다.`);
