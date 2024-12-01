@@ -54,9 +54,13 @@ export const WorkspaceItem = ({
       </button>
       <div className="cursor-pointer" onClick={onClick}>
         <div className="flex h-[180px] overflow-hidden bg-gray-50">
-          {/* TODO: 썸네일 형태에 따라 이미지 태그 OR 백그라운드로 지정 */}
           {thumbnail && (
-            <img src={thumbnail} alt="workspace thumbnail" className="h-32 w-full object-cover" />
+            <img
+              src={thumbnail}
+              alt="workspace thumbnail"
+              className="h-full w-full object-cover object-top"
+              loading="lazy"
+            />
           )}
         </div>
         <aside className="p-4 pb-6">

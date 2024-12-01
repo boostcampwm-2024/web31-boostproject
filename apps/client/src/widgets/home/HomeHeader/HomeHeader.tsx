@@ -7,7 +7,7 @@ type HomeHeaderProps = {
 /**
  *
  * @description
- * 홈페지 헤더 컴포넌트
+ * 홈페이지 헤더 컴포넌트
  */
 export const HomeHeader = ({ isBlack }: HomeHeaderProps) => {
   return (

@@ -20,7 +20,7 @@ export const useGetWorkspaceList = () => {
     },
     initialPageParam: 'null',
     getNextPageParam: (lastPage) => {
-      return lastPage.pagedWorkspaceListResult.nextCursor
+      return lastPage.pagedWorkspaceListResult?.nextCursor
         ? JSON.stringify(lastPage.pagedWorkspaceListResult.nextCursor)
         : undefined;
     },
