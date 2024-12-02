@@ -1,45 +1,42 @@
-import * as Blockly from 'blockly/core';
-
 import { useEffect, useRef, useState } from 'react';
-import { useDeleteImage, usePostImage } from '@/shared/hooks';
-
-import { ModalConfirm } from '@/shared/ui';
-import XIcon from '@/shared/assets/x_icon.svg?react';
 import toast from 'react-hot-toast';
 import { useParams } from 'react-router-dom';
+
+import { usePostImage } from '@/shared/hooks';
+import { ModalConfirm } from '@/shared/ui';
 import { parseBase64Info, parseFilename } from '@/shared/utils';
 import { useImageModalStore } from '@/shared/store';
+import {
+  ImageTagModalList,
+  ImageTagModalHeader,
+  ImageTagModalImg,
+  ImageTagModalSrc,
+} from '@/entities';
 
 /**
  *
  * @description
- * 워크스페이스 삭제 모달 컴포넌트
+ * 이미지 태그에 사용될 이미지 파일 업로드 및 이미지 선택을 위한 모달창
  */
 export const ImageUploadModal = () => {
-  const {
-    isImageUpload,
-    imagePathList,
-    nowImage,
-    nowId,
-    setNowImage,
-    updateImageMap,
-    setIsImageUpload,
-  } = useImageModalStore();
+  const { isImageUpload, imagePathList, nowImage, setNowImage } = useImageModalStore();
 
   const workspaceId = useParams().workspaceId as string;
 
-  const [imageSrc, setImageSrc] = useState<string | null>(null);
+  const [imageSrc, setImageSrc] = useState<string>('');
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [inputValue, setInputValue] = useState<string>('');
-  const [fileUpload, setFileUpload] = useState<boolean>(false);
   const [tagSrc, setTagSrc] = useState<string>(nowImage);
   const realFileRef = useRef<File | null>(null);
   const { mutate: postImage } = usePostImage();
-  const { mutate: deleteImage } = useDeleteImage();
 
   useEffect(() => {
     setTagSrc(nowImage);
   }, [nowImage]);
+
+  useEffect(() => {
+    handleReset();
+  }, [tagSrc]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -49,13 +46,11 @@ export const ImageUploadModal = () => {
         if (e.target) {
           const src = e.target.result as string;
           setImageSrc(src);
-          setFileUpload(true);
           setNowImage('');
           setInputValue(parseFilename(fileInputRef.current?.value || ''));
         }
       };
       reader.readAsDataURL(file);
-
       realFileRef.current = file;
     }
   };
@@ -69,142 +64,44 @@ export const ImageUploadModal = () => {
   const handleReset = () => {
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
-      setImageSrc(null);
-      setFileUpload(false);
+      realFileRef.current = null;
+      setImageSrc('');
       setInputValue('');
     }
   };
 
   const handleSaveImage = async () => {
-    const isValidFileFormat = (format: string | null) => {
-      return format === 'png' || format === 'jpg';
-    };
-
-    const showError = (message: string) => {
-      toast.error(message);
-      return false;
-    };
-
-    if (!imageSrc) {
-      return showError('파일 업로드 후 시도해주세요');
-    }
-
-    if (!inputValue.trim()) {
-      return showError('파일 이름 입력 후 시도해주세요');
-    }
-
-    const invalidChars = /[\\/:*?"<>|]/;
-    if (invalidChars.test(inputValue)) {
-      return showError('파일 이름에 다음 문자를 포함할 수 없습니다: \\ / : * ? " < > |');
+    if (!imageSrc || !inputValue.trim()) {
+      return toast.error('파일 업로드 후 이름을 입력해주세요.');
     }
 
     const temp = parseBase64Info(imageSrc);
-    if (!temp || !isValidFileFormat(temp.format)) {
-      return showError('파일이 존재하지 않거나 유효하지 않은 타입입니다.');
+    if (!temp || !['png', 'jpg'].includes(temp.format)) {
+      return toast.error('유효한 이미지 파일만 업로드 가능합니다.');
     }
 
-    const newImageName = `${inputValue.trim()}<${temp.format}`;
+    const newImageName = `${inputValue.trim()}.${temp.format}`;
     if (imagePathList.has(newImageName)) {
-      return showError('이미 존재하는 파일 이름입니다.');
+      return toast.error('이미 존재하는 파일 이름입니다.');
     }
 
     if (!realFileRef.current) {
-      return showError('이미지 파일이 존재하지 않습니다.');
+      return toast.error('업로드할 이미지 파일이 없습니다.');
     }
 
     postImage({ workspaceId, imageName: newImageName, image: realFileRef.current });
     handleReset();
   };
 
-  const handleSelectImage = (selectImage: string) => {
-    if (selectImage === tagSrc) {
-      setTagSrc('');
-    } else {
-      setTagSrc(selectImage);
-    }
-    handleReset();
-  };
-
-  const handleDeleteImage = (imageName: string, imageSrc: string) => {
-    if (imageSrc === tagSrc) {
-      setTagSrc('');
-    }
-    deleteImage({ workspaceId, imageName });
-  };
-
-  const handleCloseModal = () => {
-    setIsImageUpload(false);
-  };
-
-  const handleInputSrc = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTagSrc(event.target.value);
-  };
-
-  const handleSaveSrc = () => {
-    updateImageMap(tagSrc);
-
-    const workspace = Blockly.getMainWorkspace();
-    if (!workspace) {
-      toast.error('워크스페이스를 찾을 수 없습니다.');
-      return;
-    }
-
-    const targetBlock = workspace.getBlockById(nowId);
-    if (!targetBlock) {
-      toast.error('블록을 찾을 수 없습니다.');
-      return;
-    }
-
-    const imageField = targetBlock.getField('SRC');
-    if (!imageField) {
-      toast.error('이미지 필드를 찾을 수 없습니다.');
-      return;
-    }
-
-    imageField.setValue(tagSrc);
-    toast.success('필드 값이 성공적으로 업데이트되었습니다!');
-
-    handleCloseModal();
-  };
-
   return (
     <ModalConfirm isOpen={isImageUpload}>
       <div className="flex h-[36rem] w-[48rem] flex-col">
-        <span className="text-gray-black flex w-full flex-shrink-0 flex-row items-baseline justify-between">
-          <span className="text-bold-lg">이미지 선택</span>
-          <XIcon
-            className="fill-gray-black cursor-pointer"
-            width={'16'}
-            height={'16'}
-            onClick={handleCloseModal}
-          />
-        </span>
-        <div className="flex h-full w-full flex-grow flex-row pb-4 pt-2">
-          <div className="h-full w-1/2 overflow-auto rounded-md bg-gray-100 p-4">
-            {Array.from(imagePathList.entries()).map(([filename, realSrc], index) => (
-              <div
-                key={`imagePathList${index}`}
-                className={`flex flex-row items-center justify-between rounded-md px-2 py-1 ${
-                  realSrc === tagSrc ? 'bg-white bg-opacity-80' : 'bg-transparent'
-                }`}
-                onClick={() => {
-                  handleSelectImage(realSrc);
-                }}
-              >
-                {filename.replace(/</g, '.')}
-                <XIcon onClick={() => handleDeleteImage(filename, realSrc)} />
-              </div>
-            ))}
-          </div>
+        <ImageTagModalHeader />
+        <div className="flex h-full flex-grow flex-row pb-4 pt-2">
+          <ImageTagModalList tagSrc={tagSrc} onSetTagSrc={setTagSrc} onHandleReset={handleReset} />
           <div className="flex h-full w-1/2 flex-col items-center py-2 pl-4">
-            <div className="text-semibold-md w-full text-left">Image Upload</div>
-            <div className="my-1 flex h-full w-full justify-items-center bg-gray-100">
-              <img
-                className="max-h-full max-w-full object-contain"
-                src={fileUpload ? (imageSrc as string) : tagSrc}
-                alt="Preview"
-              />
-            </div>
+            <div className="text-semibold-md w-full text-left">이미지 미리보기</div>
+            <ImageTagModalImg imageSrc={imageSrc} tagSrc={tagSrc} />
             <input
               className="w-full"
               type="file"
@@ -220,19 +117,10 @@ export const ImageUploadModal = () => {
                 value={inputValue}
               />
             </div>
-            <button onClick={handleSaveImage}>이미지 파일 저장</button>
+            <button onClick={handleSaveImage}>이미지 파일 업로드</button>
           </div>
         </div>
-        <div className="mt-2 flex h-8 w-full flex-shrink-0 flex-row gap-2">
-          <input
-            className="flex-grow rounded-md border-[1px] px-2 py-1"
-            value={tagSrc}
-            onChange={handleInputSrc}
-          />
-          <button className="flex-shrink-0" onClick={handleSaveSrc}>
-            src 결정
-          </button>
-        </div>
+        <ImageTagModalSrc tagSrc={tagSrc} onSetTagSrc={setTagSrc} />
       </div>
     </ModalConfirm>
   );

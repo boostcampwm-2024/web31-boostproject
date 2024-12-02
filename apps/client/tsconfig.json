@@ -8,12 +8,6 @@
     "lib": ["dom", "dom.iterable", "esnext"],
     "esModuleInterop": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "src/**/*.d.ts",
-    "vite.config.ts",
-    "src/widgets/workspace/ImageUploadModal"
-  ],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.d.ts", "vite.config.ts"],
   "exclude": ["node_modules", "dist"]
 }
