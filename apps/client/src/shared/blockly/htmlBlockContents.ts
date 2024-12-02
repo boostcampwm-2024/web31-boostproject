@@ -196,12 +196,13 @@ const etcBlockContents: TBlockInfo[] = [
   {
     kind: 'block',
     type: addPreviousTypeName('a'),
-    description: '일반 글자를 보여주는 기본 텍스트예요.\n특별한 꾸밈이 없는 평범한 글자랍니다.',
+    description:
+      '다른 페이지나 웹사이트로 이동하는 버튼이에요.\n누르면 새로운 곳으로 가요.\ntarget의 속성은 아래와 같습니다.\nself - 미리보기창에서 열어요.\nblank - 새로운 탭에서 열어요\nparent - 현재 탭에서 열어요\ntop - 현재 탭에서 열어요',
   },
   {
     kind: 'block',
     type: addPreviousTypeName('img'),
-    description: '~~~이미지~~~',
+    description: '사진이나 그림을 보여주는 태그예요.\n여기에 사진 주소를 적으면 사진이 나와요',
   },
 ];
 

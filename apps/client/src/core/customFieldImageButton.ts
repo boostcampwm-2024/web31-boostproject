@@ -17,23 +17,10 @@ export class CustomFieldImageButton extends Blockly.Field<String> {
     if (this.value_ === '') {
       this.setValue('사진을 넣어주세요');
     }
+    // this.EDITABLE = false;
   }
 
   protected override createTextElement_(): void {
-    this.backgroundRect_ = dom.createSvgElement(
-      Svg.RECT,
-      {
-        class: 'blocklyButtonBackground',
-        x: 0,
-        y: 0,
-        rx: 4,
-        ry: 4,
-        fill: '#fff',
-        stroke: '#F4F8FA',
-      },
-      this.fieldGroup_
-    );
-
     this.textElement_ = dom.createSvgElement(
       Svg.TEXT,
       {
@@ -57,6 +44,16 @@ export class CustomFieldImageButton extends Blockly.Field<String> {
     // // 클릭 이벤트 리스너를 추가합니다.
     if (this.fieldGroup_) {
       this.fieldGroup_.addEventListener('click', this.onClick_.bind(this));
+      const fieldRect = this.fieldGroup_.querySelector('.blocklyFieldRect') as SVGRectElement;
+      if (fieldRect) {
+        this.fieldGroup_.onmouseenter = () => {
+          fieldRect.style.fill = '#E2EDFF';
+        };
+
+        this.fieldGroup_.onmouseleave = () => {
+          fieldRect.style.fill = '#fff';
+        };
+      }
     }
   }
 
