@@ -17,6 +17,13 @@ export const capturePreview = async () => {
   if (!previewDocument) {
     throw new Error(ERROR_MESSAGE.FAIL_TO_SAVE);
   }
+
+  /**
+   * iframe의 body 태그를 div 태그로 변경하여 html2canvas로 캡쳐할 수 있도록 설정
+   */
+  const previewHtml = previewDocument.documentElement.outerHTML
+    .replace('<body', '<div style="width: 100%; height: 100%;"')
+    .replace('</body>', '</div>');
   const div = document.createElement('div'); // iframe의 내용을 담을 div 생성
   if (isResetCssChecked) {
     div.classList.add('reset-css');
@@ -27,20 +34,18 @@ export const capturePreview = async () => {
      * 그래서 해당 문제를 해결하기 위해 기존 css 클래스들에 대한 특이성을 높이기 위해
      * .reset-css 클래스를 부모 클래스로 설정하여 특이성 문제를 해결
      */
-    const previewHtml = previewDocument?.documentElement.outerHTML
-      .replace('<style>', '<style>.reset-css {')
-      .replace('</style>', '} </style>');
 
-    div.innerHTML = previewHtml as Element['outerHTML'];
+    div.innerHTML = previewHtml
+      .replace('<style>', '<style>.reset-css {')
+      .replace('</style>', '} </style>') as Element['outerHTML'];
   } else {
-    div.innerHTML = previewDocument?.documentElement.outerHTML || '';
+    div.innerHTML = previewHtml || '';
   }
 
   /*
    * div를 화면 밖에서 렌더링하도록 설정 (화면에 보이지 않도록)
    * z-index를 -1로 설정하여 화면에 보이지 않도록 설정
    */
-
   div.style.position = 'absolute';
   div.style.top = '-9999px';
   div.style.zIndex = '-1';
