@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 
 export const useDeleteImage = () => {
   const workspaceApi = WorkspaceApi();
-  const userId = getUserId();
+  const userId = getUserId() || '';
   const { deleteImagePath } = useImageModalStore();
 
   const { mutate } = useMutation({

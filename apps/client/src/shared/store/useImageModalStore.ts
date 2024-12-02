@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 
 type TImageModalStore = {
-  isImageUpload: boolean;
-  imagePathList: Map<string, string>;
+  isModalOpen: boolean;
+  imageList: Map<string, string>;
   imageMap: Map<string, string>;
   nowId: string;
   nowImage: string;
   setNowId: (id: string) => void;
-  setIsImageUpload: (isImageUpload: boolean) => void;
+  setIsModalOpen: (isModalOpen: boolean) => void;
   pushImagePath: (filename: string, item: string) => void;
   deleteImagePath: (filename: string) => void;
   updateImageMap: (path: string) => void;
@@ -17,30 +17,30 @@ type TImageModalStore = {
 };
 
 export const useImageModalStore = create<TImageModalStore>()((set) => ({
-  isImageUpload: false,
-  imagePathList: new Map<string, string>(),
+  isModalOpen: false,
+  imageList: new Map<string, string>(),
   nowId: '',
   nowImage: '',
   imageMap: new Map<string, string>(),
   setNowId: (id) => set({ nowId: id }),
-  setIsImageUpload: (isImageUpload) => set({ isImageUpload: isImageUpload }),
+  setIsModalOpen: (isModalOpen) => set({ isModalOpen: isModalOpen }),
   pushImagePath: (filename, item) =>
     set((state) => {
-      const newImagePathList = new Map(state.imagePathList);
-      newImagePathList.set(filename, item);
-      return { imagePathList: newImagePathList };
+      const newImageList = new Map(state.imageList);
+      newImageList.set(filename, item);
+      return { imageList: newImageList };
     }),
   deleteImagePath: (filename) =>
     set((state) => {
-      const newImagePathList = new Map(state.imagePathList);
-      newImagePathList.delete(filename);
+      const newImageList = new Map(state.imageList);
+      newImageList.delete(filename);
       const newImageMap = new Map(state.imageMap);
       for (const [key, value] of newImageMap) {
         if (value === filename) {
           newImageMap.set(key, '');
         }
       }
-      return { imagePathList: newImagePathList, imageMap: newImageMap };
+      return { imageList: newImageList, imageMap: newImageMap };
     }),
   updateImageMap: (path) =>
     set((state) => {
@@ -64,6 +64,6 @@ export const useImageModalStore = create<TImageModalStore>()((set) => ({
           ? new Map<string, string>()
           : new Map(Object.entries(JSON.parse(imageListStr)));
 
-      return { imagePathList: imageListJson as Map<string, string> };
+      return { imageList: imageListJson as Map<string, string> };
     }),
 }));

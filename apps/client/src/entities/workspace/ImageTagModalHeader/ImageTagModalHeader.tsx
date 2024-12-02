@@ -8,7 +8,7 @@ import { useImageModalStore } from '@/shared/store';
  * 제목과 닫기 버튼을 포함하며, 닫기 버튼 클릭 시 모달을 닫습니다.
  */
 export const ImageTagModalHeader = () => {
-  const { setIsImageUpload } = useImageModalStore();
+  const { setIsModalOpen } = useImageModalStore();
 
   return (
     <span className="text-gray-black flex w-full flex-shrink-0 flex-row items-baseline justify-between">
@@ -17,7 +17,7 @@ export const ImageTagModalHeader = () => {
         className="fill-gray-black cursor-pointer"
         width={'16'}
         height={'16'}
-        onClick={() => setIsImageUpload(false)}
+        onClick={() => setIsModalOpen(false)}
       />
     </span>
   );

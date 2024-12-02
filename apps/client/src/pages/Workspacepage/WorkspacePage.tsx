@@ -1,4 +1,4 @@
-import { ImageUploadModal, WorkspaceContent, WorkspacePageHeader } from '@/widgets';
+import { ImageTagModal, WorkspaceContent, WorkspacePageHeader } from '@/widgets';
 import { useGetWorkspace, usePreventLeaveWorkspacePage } from '@/shared/hooks';
 
 import { Helmet } from 'react-helmet-async';
@@ -34,7 +34,7 @@ export const WorkspacePage = () => {
         <WorkspacePageHeader />
         <WorkspaceContent />
       </div>
-      <ImageUploadModal />
+      <ImageTagModal />
     </>
   );
 };

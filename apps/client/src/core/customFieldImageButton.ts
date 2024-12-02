@@ -96,7 +96,7 @@ export class CustomFieldImageButton extends Blockly.Field<String> {
    * @private
    */
   private onClick_(): void {
-    useImageModalStore.getState().setIsImageUpload(true); // 이미지 업로드 모달 표시
+    useImageModalStore.getState().setIsModalOpen(true); // 이미지 업로드 모달 표시
     useImageModalStore.getState().setNowId(this.getSourceBlock()?.id as string); // 현재 블록 ID 설정
     useImageModalStore
       .getState()

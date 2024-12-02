@@ -19,7 +19,7 @@ import {
  * 이미지 업로드 및 태그 선택을 위한 모달 컴포넌트입니다.
  * 사용자는 이미지를 업로드하거나, 태그를 선택하고, 업로드된 이미지를 저장할 수 있습니다.
  */
-export const ImageUploadModal = () => {
+export const ImageTagModal = () => {
   const { isModalOpen, imageList, nowImage, setNowImage } = useImageModalStore();
   const workspaceId = useParams().workspaceId as string;
 

@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 
 export const usePostImage = () => {
   const workspaceApi = WorkspaceApi();
-  const userId = getUserId();
+  const userId = getUserId() || '';
   const { pushImagePath, setNowImage } = useImageModalStore();
   const { mutate, isPending } = useMutation({
     mutationFn: ({

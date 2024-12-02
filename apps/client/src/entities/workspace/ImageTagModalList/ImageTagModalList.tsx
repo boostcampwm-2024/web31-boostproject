@@ -16,7 +16,7 @@ type ImageListProps = {
  * 실제 해당 워크스페이스 db 내에 저장되어있는 imgList 목록의 파일 이름들을 보여주는 컴포넌트입니다.
  */
 export const ImageTagModalList = ({ tagSrc, onSetTagSrc, onHandleReset }: ImageListProps) => {
-  const { imagePathList } = useImageModalStore();
+  const { imageList } = useImageModalStore();
   const workspaceId = useParams().workspaceId as string;
   const { mutate: deleteImage } = useDeleteImage();
 
@@ -53,9 +53,9 @@ export const ImageTagModalList = ({ tagSrc, onSetTagSrc, onHandleReset }: ImageL
 
   return (
     <div className="h-full w-1/2 overflow-auto rounded-md bg-gray-100 p-4">
-      {Array.from(imagePathList.entries()).map(([filename, realSrc], index) => (
+      {Array.from(imageList.entries()).map(([filename, realSrc], index) => (
         <div
-          key={`imagePathList${index}`}
+          key={`imageList${index}`}
           className={`flex flex-row items-center justify-between rounded-md px-2 py-1 ${
             realSrc === tagSrc ? 'bg-white bg-opacity-80' : 'bg-transparent'
           }`}
