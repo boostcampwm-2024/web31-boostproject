@@ -11,43 +11,31 @@ export const htmlCodeGenerator = new Blockly.Generator('HTML');
 // 함수: 태그 블록(html, head, body, p, button) 정보를 코드로 변환
 const transferTagBlockToCode = (tagName: string) => {
   htmlCodeGenerator.forBlock[tagName] = function (block) {
-    let cssClass = '';
-    const cssClassBlock = block.getInputTargetBlock('css class'); // 블록에서 직접 연결된 블록을 가져옴
-    if (cssClassBlock) {
-      cssClass = cssClassBlock.getFieldValue('CLASS') || ''; // 직접 연결된 블록의 필드 값을 가져옴
-    }
-
-    const children = htmlCodeGenerator.statementToCode(block, 'children').trim();
+    const cssClassBlock = block.getInputTargetBlock('css class');
+    const cssClass = cssClassBlock?.getFieldValue('CLASS') || ''; // CSS 클래스 값 추출
+    const children = htmlCodeGenerator.statementToCode(block, 'children').trim(); // 자식 블록 코드 추출
     const blockId = block.id; // 블록 ID 가져오기
-    const realTagName = removePreviousTypeName(tagName);
+    const realTagName = removePreviousTypeName(tagName); // 실제 태그명 가져오기
+
     let code = '';
 
     if (realTagName === 'a') {
-      let href = '';
-      const hrefBlock = block.getField('HREF');
-      if (hrefBlock) {
-        href = hrefBlock.getValue();
-      }
+      // a태그에 대해 별도 속성 처리
+      const href = block.getField('HREF')?.getValue() || ''; // href 값 추출
+      const target = block.getFieldValue('TARGET') || ''; // target 값 추출
 
-      let target = '';
-      const targetBlock = block.getField('TARGET');
-      if (targetBlock) {
-        target = block.getFieldValue('TARGET') || '';
-      }
-      if (!children) {
-        code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} href="${href}" target="${target}" data-block-id="${blockId}">\n</${realTagName}>`;
-      }
-      code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} href="${href}" target="${target}" data-block-id="${blockId}">\n${children}\n</${realTagName}>`;
+      code = `<${realTagName}${cssClass ? ` class="${cssClass}"` : ''} href="${href}" target="${target}" data-block-id="${blockId}">`;
     } else {
-      if (!children) {
-        // 자식 노드가 없으면 한 줄 공백 추가
-        code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} data-block-id="${blockId}">\n</${realTagName}>`;
-      }
-      // 자식 노드가 있는 경우
-      code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} data-block-id="${blockId}">\n${children}\n</${realTagName}>`;
+      code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} data-block-id="${blockId}">`;
     }
 
-    return code;
+    if (!children) {
+      // 자식 노드가 없으면 한 줄 공백 추가
+      return code + `\n</${realTagName}>`;
+    }
+
+    // 자식 노드가 있는 경우
+    return code + `\n${children}\n</${realTagName}>`;
   };
 };
 
@@ -133,6 +121,11 @@ htmlCodeGenerator.forBlock[addPreviousTypeName('br')] = function (block) {
   return `<br data-block-id="${block.id}" />`;
 };
 
+/**
+ * @description img 블록에 대한 코드 생성을 정의합니다.
+ * img 태그는 src 속성 및 선택적인 class 속성을 지원하며,
+ * 각 블록은 data-block-id 속성을 통해 고유 ID를 가집니다.
+ */
 htmlCodeGenerator.forBlock[addPreviousTypeName('img')] = function (block) {
   let cssClass = '';
   const cssClassBlock = block.getInputTargetBlock('css class');
