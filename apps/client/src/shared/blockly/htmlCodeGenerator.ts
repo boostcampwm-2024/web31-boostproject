@@ -41,10 +41,10 @@ const transferTagBlockToCode = (tagName: string) => {
     } else {
       if (!children) {
         // 자식 노드가 없으면 한 줄 공백 추가
-        code = `<${realTagName} class="${cssClass}" data-block-id="${blockId}">\n</${realTagName}>`;
+        code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} data-block-id="${blockId}">\n</${realTagName}>`;
       }
       // 자식 노드가 있는 경우
-      code = `<${realTagName} class="${cssClass}" data-block-id="${blockId}">\n${children}\n</${realTagName}>`;
+      code = `<${realTagName}${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} data-block-id="${blockId}">\n${children}\n</${realTagName}>`;
     }
 
     return code;
