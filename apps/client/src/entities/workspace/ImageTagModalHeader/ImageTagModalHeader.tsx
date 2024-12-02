@@ -1,6 +1,12 @@
 import XIcon from '@/shared/assets/x_icon.svg?react';
 import { useImageModalStore } from '@/shared/store';
 
+/**
+ * @component
+ * @description
+ * 이미지 선택 모달의 헤더를 구성하는 컴포넌트입니다.
+ * 제목과 닫기 버튼을 포함하며, 닫기 버튼 클릭 시 모달을 닫습니다.
+ */
 export const ImageTagModalHeader = () => {
   const { setIsImageUpload } = useImageModalStore();
 
