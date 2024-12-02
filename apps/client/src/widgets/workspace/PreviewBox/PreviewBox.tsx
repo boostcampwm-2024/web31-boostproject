@@ -114,7 +114,6 @@ export const PreviewBox = ({
             selectedBlockType={selectedBlockType}
           />
         )}
-        {activeTab === 'css' && <CodeViewer code={cssCode} type="css" theme="light" />}
       </div>
     </section>
   );

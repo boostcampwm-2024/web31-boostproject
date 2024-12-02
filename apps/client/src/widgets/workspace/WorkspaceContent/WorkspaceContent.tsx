@@ -125,8 +125,11 @@ export const WorkspaceContent = () => {
       }
 
       const block = newWorkspace.getBlockById(event.blockId || '');
+      console.log(block?.type);
 
-      setSelectedBlockType(block && !block.type.startsWith('BOOLOCK_SYSTEM_') ? block.type : null);
+      setSelectedBlockType(
+        block && block.type.startsWith('CSS_') ? block.type.replace(/^CSS_/, '') : null
+      );
 
       // 블록 미 선택시 초기화
       if (!block) {
