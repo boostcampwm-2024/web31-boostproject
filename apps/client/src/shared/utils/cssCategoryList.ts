@@ -41,6 +41,42 @@ export const cssCategoryList: TCssCategoryList = [
         type: 'input',
         description: '요소의 쌓이는 순서를 지정합니다.',
       },
+      {
+        label: 'flex-direction',
+        type: 'select',
+        option: ['row', 'row-reverse', 'column', 'column-reverse'],
+        description: 'flex 컨테이너 내의 아이템 배치 방향을 지정합니다.',
+      },
+      {
+        label: 'justify-content',
+        type: 'select',
+        option: [
+          'flex-start',
+          'flex-end',
+          'center',
+          'space-between',
+          'space-around',
+          'space-evenly',
+        ],
+        description: '주축(main axis)을 따라 flex 아이템들을 정렬하는 방법을 지정합니다.',
+      },
+      {
+        label: 'align-items',
+        type: 'select',
+        option: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline'],
+        description: '교차축(cross axis)을 따라 flex 아이템들을 정렬하는 방법을 지정합니다.',
+      },
+      {
+        label: 'flex-wrap',
+        type: 'select',
+        option: ['nowrap', 'wrap', 'wrap-reverse'],
+        description: 'flex 아이템들의 줄 바꿈 여부를 지정합니다.',
+      },
+      {
+        label: 'gap',
+        type: 'input',
+        description: 'flex 항목 사이의 간격을 지정합니다.',
+      },
     ],
   },
   {
@@ -74,6 +110,26 @@ export const cssCategoryList: TCssCategoryList = [
     category: '타이포그래피',
     items: [
       {
+        label: 'font-family',
+        type: 'select',
+        option: [
+          'Pretendard',
+          'Noto Sans KR',
+          'Noto Serif KR',
+          'Nanum Gothic',
+          'Gaegu',
+          'IBM Plex Sans KR',
+          'Gothic A1',
+        ],
+        description: '폰트를 지정합니다.',
+      },
+      {
+        label: 'font-weight',
+        type: 'select',
+        option: ['300', '400', '700'],
+        description: '폰트의 굵기를 설정합니다. 숫자가 커질수록 굵어집니다.',
+      },
+      {
         label: 'line-height',
         type: 'input',
         description: '줄 높이를 지정합니다.',
@@ -103,6 +159,11 @@ export const cssCategoryList: TCssCategoryList = [
         label: 'background-color',
         type: 'color',
         description: '요소의 배경 색상을 지정합니다.',
+      },
+      {
+        label: 'box-shadow',
+        type: 'input',
+        description: '요소에 그림자 효과를 추가합니다. (예: 2px 2px 4px rgba(0,0,0,0.2))',
       },
     ],
   },

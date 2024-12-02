@@ -64,6 +64,18 @@ export default class FixedFlyout extends Blockly.VerticalFlyout {
   }
 
   /**
+   * Flyout을 크기 비율을 반환하는 함수입니다.
+   *
+   * @description
+   * 기본적으로 workspace의 비율을 따라가지만 고정하기 위해 1을 빈환합니다.
+   *
+   * @override
+   */
+  override getFlyoutScale(): number {
+    return 1;
+  }
+
+  /**
    * 새로운 블록이 추가될 때 위치를 지정합니다.
    *
    * @description

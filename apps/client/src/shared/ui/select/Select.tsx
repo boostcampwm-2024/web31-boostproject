@@ -1,13 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
-
+import { createPortal } from 'react-dom';
+import { useWindowSize } from '@/shared/hooks';
 import ArrowDown from '@/shared/assets/arrow_down.svg?react';
 import ArrowUp from '@/shared/assets/arrow_up.svg?react';
 
 export enum SelectSize {
   // eslint-disable-next-line no-unused-vars
-  SMALL = 'SM',
+  SMALL = 'SMALL',
   // eslint-disable-next-line no-unused-vars
-  MEDIUM = 'MD',
+  MEDIUM = 'MEDIUM',
 }
 
 export type TOption = {
@@ -26,11 +27,6 @@ interface SelectProps {
   disabled?: boolean;
 }
 
-/**
- *
- * @description
- * 커스텀 select 컴포넌트
- */
 export const Select = ({
   id,
   options,
@@ -42,18 +38,81 @@ export const Select = ({
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedOption, setSelectedOption] = useState<string>(value);
-  const dropdownRef = useRef<HTMLDivElement | null>(null);
+  const [dropdownPosition, setDropdownPosition] = useState<'bottom' | 'top'>('bottom');
+  const [dropdownHeight, setDropdownHeight] = useState<number>(0);
+  const [isCalculated, setIsCalculated] = useState<boolean>(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+  const { screenHeight } = useWindowSize();
+
+  useEffect(() => {
+    setSelectedOption(value);
+  }, [value]);
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+      const isContainerClicked = containerRef.current?.contains(event.target as Node);
+      const isDropdownClicked = dropdownRef.current?.contains(event.target as Node);
+
+      if (!isContainerClicked && !isDropdownClicked) {
         setIsOpen(false);
       }
     };
 
+    const handleScroll = (event: Event) => {
+      if (isOpen) {
+        const isDropdownScroll = dropdownRef.current?.contains(event.target as Node);
+        if (!isDropdownScroll) {
+          setIsOpen(false);
+        }
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+    document.addEventListener('scroll', handleScroll, true);
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('scroll', handleScroll, true);
+    };
+  }, [isOpen]);
+
+  useEffect(() => {
+    if (isOpen && dropdownRef.current) {
+      setIsCalculated(false); // 드롭다운이 열릴 때마다 초기화
+
+      const resizeObserver = new ResizeObserver((entries) => {
+        const height = entries[0].contentRect.height;
+        if (height > 0) {
+          setDropdownHeight(height);
+
+          if (containerRef.current) {
+            const containerRect = containerRef.current.getBoundingClientRect();
+            const bottomSpace = screenHeight - containerRect.bottom;
+            const topSpace = containerRect.top;
+
+            setDropdownPosition(bottomSpace < height && topSpace > height ? 'top' : 'bottom');
+            setIsCalculated(true); // 계산이 완료되면 표시
+          }
+        }
+      });
+
+      resizeObserver.observe(dropdownRef.current);
+      return () => resizeObserver.disconnect();
+    }
+  }, [isOpen, screenHeight]);
+
+  const handleOpen = () => {
+    if (disabled) return;
+
+    if (isOpen) {
+      setIsOpen(false);
+      return;
+    }
+
+    setIsOpen(true);
+    setDropdownPosition('bottom');
+  };
 
   const handleSelect = (option: string) => {
     setSelectedOption(option);
@@ -79,7 +138,6 @@ export const Select = ({
     }
 
     const objectOpts = opts as TOption[];
-
     return objectOpts.map((option) => (
       <li
         key={option.value}
@@ -107,32 +165,49 @@ export const Select = ({
 
   const selectedLabel = getSelectedLabel(selectedOption, options);
 
-  // className="bg-gray-white focus:ring-gray-black text-semibold-md focus:border-gray-black w-[120px] truncate rounded-lg border border-gray-100 px-2 py-1 outline-none"
   return (
     <div
-      className={`${size === SelectSize.MEDIUM ? 'w-52' : 'w-36'} truncate`}
-      ref={dropdownRef}
-      id={id && ''}
+      className={`${size === SelectSize.MEDIUM ? 'w-52' : 'w-36'} relative text-ellipsis whitespace-nowrap`}
+      ref={containerRef}
+      id={id || undefined}
     >
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleOpen}
         disabled={disabled}
         className="text-medium-md w-full rounded-lg border border-gray-100 bg-white px-4 py-1.5 text-left focus:outline-none disabled:border disabled:border-gray-100 disabled:bg-gray-50"
       >
         <div className="flex items-center justify-between gap-2">
-          <span className={` ${!selectedOption ? 'text-gray-200' : 'text-gray-500'}`}>
+          <span className={`${!selectedOption ? 'text-gray-200' : 'text-gray-500'}`}>
             {selectedLabel}
           </span>
           {isOpen ? <ArrowDown width={12} /> : <ArrowUp width={12} />}
         </div>
       </button>
 
-      {isOpen && (
-        <div className="absolute z-10 mt-1 min-w-24 rounded-lg border border-gray-100 bg-white shadow-lg">
-          <ul className="flex flex-col gap-1 px-2 py-2">{renderOptions(options)}</ul>
-        </div>
-      )}
+      {isOpen &&
+        createPortal(
+          <div
+            ref={dropdownRef}
+            className={`fixed z-[9999] min-w-24 rounded-lg border border-gray-100 bg-white shadow-lg transition-opacity duration-200`}
+            style={{
+              left: containerRef.current
+                ? `${containerRef.current.getBoundingClientRect().left}px`
+                : '0',
+              top:
+                dropdownPosition === 'bottom'
+                  ? `${(containerRef.current?.getBoundingClientRect().bottom || 0) + 4}px`
+                  : `${(containerRef.current?.getBoundingClientRect().top || 0) - dropdownHeight - 4}px`,
+              opacity: isCalculated ? 1 : 0,
+              visibility: isCalculated ? 'visible' : 'hidden',
+            }}
+          >
+            <ul className="flex max-h-48 flex-col gap-1 overflow-y-auto px-2 py-2">
+              {renderOptions(options)}
+            </ul>
+          </div>,
+          document.getElementById('dropdownDiv')!
+        )}
     </div>
   );
 };

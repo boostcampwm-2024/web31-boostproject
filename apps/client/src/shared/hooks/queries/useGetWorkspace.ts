@@ -7,7 +7,7 @@ import {
 } from '@/shared/store';
 
 import { WorkspaceApi } from '@/shared/api';
-import { getUserId } from '@/shared/utils';
+import { createUserId, getUserId, removeCssClassNamePrefix } from '@/shared/utils';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
@@ -16,7 +16,7 @@ import { createCssClassBlock, cssStyleToolboxConfig } from '@/shared/blockly';
 
 export const useGetWorkspace = (workspaceId: string) => {
   const workspaceApi = WorkspaceApi();
-  const userId = getUserId();
+  const userId = getUserId() || createUserId();
   const { initCssPropertyObj } = useCssPropsStore();
   const { initClassBlockList } = useClassBlockStore();
   const { setCanvasInfo } = useWorkspaceStore();
@@ -47,7 +47,11 @@ export const useGetWorkspace = (workspaceId: string) => {
     }
 
     initCssPropertyObj(data.workspaceDto.totalCssPropertyObj);
-    initClassBlockList(Object.keys(data.workspaceDto.totalCssPropertyObj));
+    initClassBlockList(
+      Object.keys(data.workspaceDto.totalCssPropertyObj).map((className) =>
+        removeCssClassNamePrefix(className)
+      )
+    );
     setCanvasInfo(data.workspaceDto.canvas);
     cssStyleToolboxConfig.contents = data.workspaceDto.classBlockList
       ? JSON.parse(data.workspaceDto.classBlockList)

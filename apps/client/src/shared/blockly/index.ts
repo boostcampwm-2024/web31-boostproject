@@ -9,4 +9,7 @@ export { initTheme } from './initTheme';
 export { tabToolboxConfig } from './tabConfig';
 export { createCssClassBlock } from './createCssClassBlock';
 export { cssCodeGenerator } from './cssCodeGenerator';
-export { generateFullCode } from './htmlCodeGenerator';
+export { generateFullCodeWithBlockId } from './htmlCodeGenerator';
+export { removeBlockIdFromCode } from './htmlCodeGenerator';
+export { calculateBlockLength } from './calculateBlockLength';
+export { findBlockStartLine } from './findBlockStartLine';

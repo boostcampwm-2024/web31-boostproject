@@ -4,10 +4,10 @@ import toast from 'react-hot-toast';
 import { useLoadingStore } from '@/shared/store';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { getUserId } from '@/shared/utils';
+import { getUserId, createUserId } from '@/shared/utils';
 import { workspaceKeys } from '@/shared/hooks';
 
-export const useCreateWorkspace = () => {
+export const useCreateWorkspace = (isSample = false) => {
   const workspaceApi = WorkspaceApi();
   const navigate = useNavigate();
   const setPending = useLoadingStore((state) => state.setIsPending);
@@ -15,12 +15,14 @@ export const useCreateWorkspace = () => {
   const { mutate } = useMutation<TCreatedWorkspaceDto, Error, void, unknown>({
     mutationFn: () => {
       setPending(true);
-      const userId = getUserId();
-      return workspaceApi.createWorkspace(userId);
+      const userId = getUserId() || createUserId();
+      return workspaceApi.createWorkspace(userId, isSample);
     },
     onSuccess: (newWorkspace) => {
       queryClient.invalidateQueries({ queryKey: workspaceKeys.list() });
-      navigate(`/workspace/${newWorkspace.newWorkspaceId}`);
+      if (!isSample) {
+        navigate(`/workspace/${newWorkspace.newWorkspaceId}`);
+      }
     },
     onError: (error) => {
       console.error(error);

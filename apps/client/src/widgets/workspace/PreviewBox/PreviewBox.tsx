@@ -1,15 +1,16 @@
-import CodeMirror from '@uiw/react-codemirror';
-import CopyIcon from '@/shared/assets/code_copy.svg?react';
-import { css } from '@codemirror/lang-css';
-import { html } from '@codemirror/lang-html';
-import { resetCss } from '@/shared/utils/resetCss';
-import toast from 'react-hot-toast';
-import { useResetCssStore } from '@/shared/store';
 import { useState } from 'react';
+import { useResetCssStore } from '@/shared/store';
+import { resetCss } from '@/shared/utils/resetCss';
+import CopyIcon from '@/shared/assets/code_copy.svg?react';
+import toast from 'react-hot-toast';
+import { CodeViewer } from '@/shared/code-highlighter';
 
 type PreviewBoxProps = {
   htmlCode: string;
   cssCode: string;
+  selectedBlockStartLine?: number;
+  selectedBlockLength?: number;
+  selectedBlockType?: string | null;
 };
 
 /**
@@ -17,14 +18,26 @@ type PreviewBoxProps = {
  * @description
  * 웹사이트, HTML, CSS 코드 미리보기 박스 컴포넌트
  */
-export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
+export const PreviewBox = ({
+  htmlCode,
+  cssCode,
+  selectedBlockStartLine,
+  selectedBlockLength,
+  selectedBlockType,
+}: PreviewBoxProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
   const { isResetCssChecked } = useResetCssStore();
 
+  const googleFontsLinksCode = `
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard-dynamic-subset.min.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Gothic+A1:wght@300;400;700&family=IBM+Plex+Sans+KR:wght@300;400;700&family=Nanum+Gothic:wght@400;700&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR:wght@200..900&display=swap" rel="stylesheet" />
+  `;
   const finalCssCode = isResetCssChecked ? `${resetCss}\n${cssCode}` : cssCode;
-  const styleCode = `<style> * { box-sizing : border-box; margin : 0; padding : 0; } html, head, body { width : 100%; height : 100%; } ${finalCssCode}</style>`;
+  const styleCode = `<style> * { box-sizing : border-box; margin : 0; padding : 0; ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: #cdd9e4; border-radius: 4px; } } html, head, body { width : 100%; height : 100%;  } ${finalCssCode}</style>`;
   const indexOfHead = htmlCode.indexOf('</head>');
-  const totalCode = `${htmlCode.slice(0, indexOfHead)}${styleCode}${htmlCode.slice(indexOfHead)}`;
+  const totalCode = `${htmlCode.slice(0, indexOfHead)}${googleFontsLinksCode}${styleCode}${htmlCode.slice(indexOfHead)}`;
 
   // TODO: 상수 분리한 후 재사용성 높이기
   /* eslint-disable */
@@ -85,11 +98,24 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
           ></iframe>
         )}
         {activeTab === 'html' && (
-          <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />
+          <CodeViewer
+            code={htmlCode}
+            type="html"
+            theme="light"
+            selectedBlockStartLine={selectedBlockStartLine}
+            selectedBlockLength={selectedBlockLength}
+            selectedBlockType={selectedBlockType}
+          />
         )}
         {activeTab === 'css' && (
-          <CodeMirror value={cssCode} height="100%" extensions={[css()]} theme="light" />
+          <CodeViewer
+            code={cssCode}
+            type="css"
+            theme="light"
+            selectedBlockType={selectedBlockType}
+          />
         )}
+        {activeTab === 'css' && <CodeViewer code={cssCode} type="css" theme="light" />}
       </div>
     </section>
   );
