@@ -4,6 +4,7 @@ import { resetCss } from '@/shared/utils/resetCss';
 import CopyIcon from '@/shared/assets/code_copy.svg?react';
 import toast from 'react-hot-toast';
 import { CodeViewer } from '@/shared/code-highlighter';
+import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
 
 type PreviewBoxProps = {
   htmlCode: string;
@@ -27,6 +28,7 @@ export const PreviewBox = ({
 }: PreviewBoxProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
   const { isResetCssChecked } = useResetCssStore();
+  const { currentStep } = useCoachMarkStore();
 
   const googleFontsLinksCode = `
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -57,7 +59,7 @@ export const PreviewBox = ({
   };
 
   return (
-    <section className="flex-1 border-b border-gray-100">
+    <section className={`flex-1 border-b border-gray-100 ${currentStep === 3 ? 'z-[99999]' : ''}`}>
       <nav className="flex h-10 border-b border-gray-100">
         <button
           onClick={() => setActiveTab('preview')}
