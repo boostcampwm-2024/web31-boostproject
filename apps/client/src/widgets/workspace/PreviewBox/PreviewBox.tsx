@@ -1,15 +1,16 @@
-import CodeMirror from '@uiw/react-codemirror';
-import CopyIcon from '@/shared/assets/code_copy.svg?react';
-import { css } from '@codemirror/lang-css';
-import { html } from '@codemirror/lang-html';
-import { resetCss } from '@/shared/utils/resetCss';
-import toast from 'react-hot-toast';
-import { useResetCssStore } from '@/shared/store';
 import { useState } from 'react';
+import { useResetCssStore } from '@/shared/store';
+import { resetCss } from '@/shared/utils/resetCss';
+import CopyIcon from '@/shared/assets/code_copy.svg?react';
+import toast from 'react-hot-toast';
+import { CodeViewer } from '@/shared/code-highlighter';
 
 type PreviewBoxProps = {
   htmlCode: string;
   cssCode: string;
+  selectedBlockStartLine?: number;
+  selectedBlockLength?: number;
+  selectedBlockType?: string | null;
 };
 
 /**
@@ -17,7 +18,13 @@ type PreviewBoxProps = {
  * @description
  * 웹사이트, HTML, CSS 코드 미리보기 박스 컴포넌트
  */
-export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
+export const PreviewBox = ({
+  htmlCode,
+  cssCode,
+  selectedBlockStartLine,
+  selectedBlockLength,
+  selectedBlockType,
+}: PreviewBoxProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
   const { isResetCssChecked } = useResetCssStore();
 
@@ -91,11 +98,24 @@ export const PreviewBox = ({ htmlCode, cssCode }: PreviewBoxProps) => {
           ></iframe>
         )}
         {activeTab === 'html' && (
-          <CodeMirror value={htmlCode} height="100%" extensions={[html()]} theme="light" />
+          <CodeViewer
+            code={htmlCode}
+            type="html"
+            theme="light"
+            selectedBlockStartLine={selectedBlockStartLine}
+            selectedBlockLength={selectedBlockLength}
+            selectedBlockType={selectedBlockType}
+          />
         )}
         {activeTab === 'css' && (
-          <CodeMirror value={cssCode} height="100%" extensions={[css()]} theme="light" />
+          <CodeViewer
+            code={cssCode}
+            type="css"
+            theme="light"
+            selectedBlockType={selectedBlockType}
+          />
         )}
+        {activeTab === 'css' && <CodeViewer code={cssCode} type="css" theme="light" />}
       </div>
     </section>
   );

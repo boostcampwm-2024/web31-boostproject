@@ -1,6 +1,7 @@
 import { Select, TOption } from '@/shared/ui';
 import { useClassBlockStore, useCssPropsStore } from '@/shared/store';
 import { useEffect, useState } from 'react';
+import { addPrefixToCssClassName } from '@/shared/utils';
 
 /**
  *
@@ -30,7 +31,7 @@ export const CssPropsSelectBoxHeader = () => {
       <Select
         options={selectOptions}
         value={currentCssClassName}
-        onChange={(selected: string) => setCurrentCssClassName(selected)}
+        onChange={(selected: string) => setCurrentCssClassName(addPrefixToCssClassName(selected))}
         placeholder="클래스를 선택해주세요"
       />
     </header>

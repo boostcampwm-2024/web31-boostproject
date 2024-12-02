@@ -1,0 +1,73 @@
+.viewer {
+  display: flex;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.dark {
+  background-color: #1e1e1e;
+  color: #d4d4d4;
+}
+
+.lineNumbers {
+  padding: 10px;
+  text-align: right;
+  background-color: #f5f5f5;
+  color: #888888;
+  border-right: 1px solid #ddd;
+}
+
+.lineNumber {
+  padding: 0px 5px;
+}
+
+.lineHighlight {
+  color: #02d085;
+}
+
+.codeContent {
+  width: 100%;
+  padding: 10px 0;
+  overflow: auto;
+}
+
+.codeContent .tag {
+  color: #007acc;
+}
+
+.codeContent .attribute {
+  color: #d19a66;
+}
+
+.codeContent .value {
+  color: #98c379;
+}
+
+.codeContent .selector {
+  color: #c678dd;
+}
+
+.codeContent .property {
+  color: #61afef;
+}
+
+.codeContent .property-value {
+  color: #e06c75;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.newLine {
+  animation: fadeIn 1s ease-in-out;
+}
+
+.blockHighlight {
+  background-color: #e5fbf3;
+}
