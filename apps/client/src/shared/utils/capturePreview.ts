@@ -18,7 +18,6 @@ export const capturePreview = async () => {
     throw new Error(ERROR_MESSAGE.FAIL_TO_SAVE);
   }
   const div = document.createElement('div'); // iframe의 내용을 담을 div 생성
-  console.log(previewDocument.documentElement.outerHTML);
   if (isResetCssChecked) {
     div.classList.add('reset-css');
 
