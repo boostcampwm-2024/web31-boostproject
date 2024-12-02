@@ -210,3 +210,7 @@ input[type='color']::-webkit-color-swatch-wrapper {
   @apply text-gray-400;
   padding: 0 6px 0 12px;
 }
+
+.blocklyTooltipDiv {
+  @apply text-gray-white text-tooltip-sm rounded-md border-none bg-green-500 px-3 py-2 opacity-100;
+}
