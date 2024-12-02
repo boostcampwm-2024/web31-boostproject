@@ -22,7 +22,9 @@ export const useClassBlockStore = create<TClassBlock>((set, get) => ({
   },
   removeClassBlock: (classBlockName: string) => {
     set((state) => ({
-      classBlockList: state.classBlockList.filter((name) => name !== classBlockName),
+      classBlockList: state.classBlockList.filter(
+        (name) => name !== removeCssClassNamePrefix(classBlockName)
+      ),
     }));
   },
   initClassBlockList: (classList: string[]) => {
