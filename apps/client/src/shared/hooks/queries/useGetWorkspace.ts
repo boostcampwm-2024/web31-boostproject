@@ -19,9 +19,10 @@ export const useGetWorkspace = (workspaceId: string) => {
   const userId = getUserId() || createUserId();
   const { initCssPropertyObj } = useCssPropsStore();
   const { initClassBlockList } = useClassBlockStore();
-  const { setCanvasInfo } = useWorkspaceStore();
+  const { setCanvasInfo, setName } = useWorkspaceStore();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const { setIsResetCssChecked } = useResetCssStore();
+
   const { data, isPending, isError } = useQuery({
     queryKey: workspaceKeys.detail(workspaceId),
     queryFn: () => {
@@ -45,6 +46,7 @@ export const useGetWorkspace = (workspaceId: string) => {
     if (!data.workspaceDto) {
       return;
     }
+    setName(data.workspaceDto.name);
     Object.keys(data.workspaceDto.totalCssPropertyObj).forEach((className) => {
       createCssClassBlock(className);
     });
