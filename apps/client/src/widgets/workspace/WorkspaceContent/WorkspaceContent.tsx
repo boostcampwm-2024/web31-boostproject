@@ -16,7 +16,13 @@ import {
   initializeBlocks,
   tabToolboxConfig,
 } from '@/shared/blockly';
-import { useCssPropsStore, useWorkspaceChangeStatusStore, useWorkspaceStore } from '@/shared/store';
+
+import {
+  useClassBlockStore,
+  useCssPropsStore,
+  useWorkspaceChangeStatusStore,
+  useWorkspaceStore,
+} from '@/shared/store';
 import { useEffect, useRef, useState } from 'react';
 
 import CustomTrashcan from '@/core/customTrashcan';
@@ -58,11 +64,13 @@ export const WorkspaceContent = () => {
   const { totalCssPropertyObj } = useCssPropsStore();
   const { workspace, setWorkspace, canvasInfo } = useWorkspaceStore();
   const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
+  const { setCurrentCssClassName } = useCssPropsStore();
+  const { findClassBlock } = useClassBlockStore();
   const [selectedBlockStartLine, setSelectedBlockStartLine] = useState<number>(0);
   const [selectedBlockLength, setSelectedBlockLength] = useState<number>(0);
   const [selectedBlockType, setSelectedBlockType] = useState<string | null>(null);
   const isBlockLoadingFinish = useRef<boolean>(false);
-
+  
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
@@ -161,6 +169,25 @@ export const WorkspaceContent = () => {
       newWorkspace.dispose();
     };
   }, []);
+
+  useEffect(() => {
+    if (!workspace) return;
+
+    const handleBlockClick = (event: Blockly.Events.Abstract) => {
+      if (event.type === 'click') {
+        const block = workspace.getBlockById((event as any).blockId);
+        if (block && findClassBlock(block.type)) {
+          setCurrentCssClassName(block.type);
+        }
+      }
+    };
+
+    workspace.addChangeListener(handleBlockClick);
+
+    return () => {
+      workspace.removeChangeListener(handleBlockClick);
+    };
+  }, [workspace]);
 
   useEffect(() => {
     if (!workspace || !canvasInfo || canvasInfo.length === 0) {

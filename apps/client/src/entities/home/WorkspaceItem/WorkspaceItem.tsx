@@ -45,7 +45,7 @@ export const WorkspaceItem = ({
   };
 
   return (
-    <li className="shadow-drop relative rounded-lg">
+    <li className="shadow-drop relative overflow-hidden rounded-lg">
       <button
         className="absolute right-2 top-2 text-gray-300 hover:text-red-500"
         onClick={handleOnclick}
@@ -53,7 +53,7 @@ export const WorkspaceItem = ({
         <TrashSVG width={16} />
       </button>
       <div className="cursor-pointer" onClick={onClick}>
-        <div className="flex h-[180px] overflow-hidden bg-gray-50">
+        <div className="flex h-[180px] overflow-hidden border-b border-gray-50 bg-gray-50">
           {thumbnail && (
             <img
               src={thumbnail}

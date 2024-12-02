@@ -3,14 +3,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { TBlock } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
-import { getUserId } from '@/shared/utils';
+import { createUserId, getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
 import { useWorkspaceChangeStatusStore } from '@/shared/store';
 import { workspaceKeys } from '../query-key/workspaceKeys';
 
 export const useSaveWorkspace = (workspaceId: string) => {
   const workspaceApi = WorkspaceApi();
-  const userId = getUserId();
+  const userId = getUserId() || createUserId();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({

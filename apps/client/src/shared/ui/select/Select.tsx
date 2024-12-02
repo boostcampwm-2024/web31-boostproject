@@ -46,6 +46,10 @@ export const Select = ({
   const { screenHeight } = useWindowSize();
 
   useEffect(() => {
+    setSelectedOption(value);
+  }, [value]);
+
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const isContainerClicked = containerRef.current?.contains(event.target as Node);
       const isDropdownClicked = dropdownRef.current?.contains(event.target as Node);
