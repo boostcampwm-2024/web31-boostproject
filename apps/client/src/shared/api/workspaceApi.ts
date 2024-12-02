@@ -3,6 +3,7 @@ import {
   TCanvas,
   TCreatedWorkspaceDto,
   TGetWorkspaceResponse,
+  TImage,
   TPagedWorkspaceListResultDto,
   TTotalCssPropertyObj,
   TWorkspaceDto,
@@ -56,6 +57,32 @@ export const WorkspaceApi = () => {
     });
   };
 
+  const postImage = async (userId: string, workspaceId: string, imageName: string, image: File) => {
+    const formData = new FormData();
+    formData.append('workspaceId', workspaceId);
+    formData.append('imageName', imageName);
+    formData.append('image', image);
+
+    const response = await Instance.post('/workspace/image', formData, {
+      headers: {
+        'user-id': userId,
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+    return response.data as TImage;
+  };
+
+  const deleteImage = async (userId: string, workspaceId: string, imageName: string) => {
+    const response = await Instance.delete(
+      `/workspace/image?workspaceId=${encodeURIComponent(workspaceId)}&imageName=${encodeURIComponent(imageName)}`,
+      {
+        headers: { 'user-id': userId },
+      }
+    );
+
+    return response.data as { imageName: string };
+  };
+
   const saveWorkspace = async (
     userId: string,
     workspaceId: string,
@@ -63,7 +90,8 @@ export const WorkspaceApi = () => {
     canvas: TCanvas,
     classBlockList: TBlock[],
     isCssReset: boolean,
-    thumbnail: File
+    thumbnail: File,
+    imageMap: Map<string, string>
   ) => {
     const formData = new FormData();
     formData.append('workspaceId', workspaceId);
@@ -72,6 +100,9 @@ export const WorkspaceApi = () => {
     formData.append('classBlockList', JSON.stringify(classBlockList));
     formData.append('cssResetStatus', isCssReset.toString());
     formData.append('thumbnail', thumbnail);
+
+    const imageMapObject = Object.fromEntries(imageMap); // Map -> 일반 객체 변환
+    formData.append('imageMap', JSON.stringify(imageMapObject));
 
     await Instance.patch('/workspace', formData, {
       headers: {
@@ -88,5 +119,7 @@ export const WorkspaceApi = () => {
     updateWorkspaceName,
     deleteWorkspace,
     saveWorkspace,
+    postImage,
+    deleteImage,
   };
 };

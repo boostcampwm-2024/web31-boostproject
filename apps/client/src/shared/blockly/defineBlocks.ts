@@ -1,9 +1,12 @@
-import { CustomFieldTextInput } from '@/core/customFieldTextInput';
-import { TBlockContents } from '@/shared/types';
-import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
-import { CustomTagFieldLabel } from '../../core/customTagFieldLabel';
+
+import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
+
+import { CustomFieldImageButton } from '@/core/customFieldImageButton';
+import { CustomFieldTextInput } from '@/core/customFieldTextInput';
 import { CustomOptionFieldLabel } from '@/core/customOptionFieldLabel';
+import { CustomTagFieldLabel } from '../../core/customTagFieldLabel';
+import { TBlockContents } from '@/shared/types';
 
 /**
  * html 태그 블록을 생성할 때 좀 더 편리하게 생성하기 위해 만든 헬퍼함수입니다.
@@ -12,6 +15,7 @@ import { CustomOptionFieldLabel } from '@/core/customOptionFieldLabel';
  * @param blockDefinition 기본 html태그 블록 설정을 사용하는 것이 아닌 사용자 정의 속성을 위한 옵션 변수
  * @param isDefault 기본 html태그 블록 설정을 사용할 것인지, 사용자 정의 속성을 사용할 것인지 정하는 변수
  */
+
 const defineBlockWithDefaults = (
   blockName: string,
   blockColorNum: number | string,
@@ -149,6 +153,26 @@ export const defineBlocks = (blockContents: TBlockContents) => {
                 .appendField(new CustomOptionFieldLabel('href'))
                 .appendField(new CustomFieldTextInput(), 'HREF');
               this.appendStatementInput('children').appendField();
+              this.setInputsInline(false);
+            },
+          },
+          false
+        );
+      } else if (blockInfo.type === addPreviousTypeName('img')) {
+        defineBlockWithDefaults(
+          blockInfo.type,
+          (index % 3) + 1,
+          blockInfo.description,
+          {
+            init: function () {
+              this.setPreviousStatement(true);
+              this.setNextStatement(true);
+              this.appendValueInput('css class')
+                .setCheck('CSS-CLASS')
+                .appendField(new CustomTagFieldLabel('img'));
+              this.appendDummyInput()
+                .appendField(new CustomOptionFieldLabel('src'))
+                .appendField(new CustomFieldImageButton(''), 'SRC');
               this.setInputsInline(false);
             },
           },

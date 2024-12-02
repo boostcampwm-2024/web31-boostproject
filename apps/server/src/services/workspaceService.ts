@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+
 import 'dotenv/config';
 
 import { S3, Upload } from '@/config/s3';
@@ -68,6 +69,8 @@ export const WorkspaceService = () => {
       totalCssPropertyObj,
       canvas: workspace.canvas,
       classBlockList: workspace.class_block_list,
+      imageList: workspace.image_list,
+      imageMap: workspace.image_map,
     };
   };
 
@@ -110,7 +113,8 @@ export const WorkspaceService = () => {
     classBlockList: string,
     cssResetStatus: string,
     // eslint-disable-next-line no-undef
-    thumbnail: Express.Multer.File
+    thumbnail: Express.Multer.File,
+    imageMap: Map<string, string>
   ) => {
     const session = await Workspace.startSession();
     session.startTransaction();
@@ -151,6 +155,7 @@ export const WorkspaceService = () => {
             is_css_reset: cssResetStatus === 'true',
             updated_at: Date.now(),
             thumbnail: uploadResult.Location,
+            image_map: imageMap,
           },
         },
         { new: true }
@@ -169,6 +174,88 @@ export const WorkspaceService = () => {
     }
   };
 
+  const saveImage = async (
+    userId: string,
+    workspaceId: string,
+    imageName: string,
+    // eslint-disable-next-line no-undef
+    image: Express.Multer.File
+  ) => {
+    const session = await Workspace.startSession();
+    session.startTransaction();
+    try {
+      const upload = new Upload({
+        client: S3,
+        params: {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: `image/${workspaceId}/${imageName}`,
+          ACL: 'public-read',
+          Body: image.buffer,
+          ContentType: image.mimetype,
+        },
+      });
+      const uploadResult = await upload.done();
+      if (!uploadResult) {
+        throw new Error('Failed to upload image');
+      }
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            [`image_list.${imageName}`]: uploadResult.Location,
+            updated_at: Date.now(),
+          },
+        },
+        { new: true }
+      );
+      if (!updatedWorkspace) {
+        throw new Error('Failed to update workspace');
+      }
+      await session.commitTransaction();
+      return uploadResult.Location;
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
+  };
+
+  const deleteImage = async (userId: string, workspaceId: string, imageName: string) => {
+    const session = await Workspace.startSession();
+    session.startTransaction();
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $unset: {
+            [`image_list.${imageName}`]: '',
+          },
+          $set: {
+            updated_at: Date.now(),
+          },
+        },
+        { new: true }
+      );
+      if (!updatedWorkspace) {
+        throw new Error('Failed to update workspace');
+      }
+      await session.commitTransaction();
+      return updatedWorkspace;
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
+  };
+
   return {
     createWorkspace,
     findWorkspaceListByPage,
@@ -176,5 +263,7 @@ export const WorkspaceService = () => {
     updateWorkspaceName,
     deleteWorkspace,
     saveWorkspace,
+    saveImage,
+    deleteImage,
   };
 };

@@ -23,6 +23,8 @@ const workspaceScheme = new mongoose.Schema({
   class_block_list: { type: String },
   is_css_reset: { type: Boolean, required: true, default: false },
   thumbnail: { type: String },
+  image_list: { type: Map, of: String },
+  image_map: { type: Map, of: String },
   updated_at: { type: Date, required: true, default: Date.now },
 });
 

@@ -1,12 +1,11 @@
 import { create } from 'zustand';
-import { TImageMap, TImageItem } from '../types';
 
 type TModalStore = {
   isModalOpen: boolean;
   modalContent: string;
   isLoading: boolean;
   isImageUpload: boolean;
-  imagePathList: TImageMap;
+  imagePathList: Map<string, string>;
   imageMap: Map<string, string>;
   nowId: string;
   nowImage: string;
@@ -20,9 +19,9 @@ type TModalStore = {
   setHandleModalCloseButton: (action: () => void) => void;
   setNowId: (id: string) => void;
   setIsImageUpload: (isImageUpload: boolean) => void;
-  pushImagePath: (filename: string, item: TImageItem) => void;
+  pushImagePath: (filename: string, item: string) => void;
   deleteImagePath: (filename: string) => void;
-  updateImageMap: (id: string, path: string) => void;
+  updateImageMap: (path: string) => void;
   setNowImage: (filename: string) => void;
 };
 
@@ -31,7 +30,7 @@ export const useModalStore = create<TModalStore>()((set) => ({
   modalContent: '워크스페이스 이름',
   isLoading: false,
   isImageUpload: false,
-  imagePathList: {},
+  imagePathList: new Map<string, string>(),
   nowId: '',
   nowImage: '',
   imageMap: new Map<string, string>(),
@@ -46,13 +45,15 @@ export const useModalStore = create<TModalStore>()((set) => ({
   setNowId: (id) => set({ nowId: id }),
   setIsImageUpload: (isImageUpload) => set({ isImageUpload: isImageUpload }),
   pushImagePath: (filename, item) =>
-    set((state) => ({
-      imagePathList: { ...state.imagePathList, [filename]: item },
-    })),
+    set((state) => {
+      const newImagePathList = new Map(state.imagePathList);
+      newImagePathList.set(filename, item);
+      return { imagePathList: newImagePathList };
+    }),
   deleteImagePath: (filename) =>
     set((state) => {
-      const newImagePathList = { ...state.imagePathList };
-      delete newImagePathList[filename];
+      const newImagePathList = new Map(state.imagePathList);
+      newImagePathList.delete(filename);
       const newImageMap = new Map(state.imageMap);
       for (const [key, value] of newImageMap) {
         if (value === filename) {

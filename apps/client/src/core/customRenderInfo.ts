@@ -2,6 +2,7 @@ import * as Blockly from 'blockly/core';
 import { CustomRenderer } from './customRenderer';
 import { CustomFieldTextInput } from './customFieldTextInput';
 import { hasField } from '@/shared/utils';
+import { CustomFieldImageButton } from './customFieldImageButton';
 
 const Types = Blockly.blockRendering.Types;
 
@@ -49,7 +50,13 @@ export class CustomRenderInfo extends Blockly.zelos.RenderInfo {
               (el as Blockly.blockRendering.Field).field instanceof Blockly.FieldDropdown
           );
 
-          if (hasCustomInput) {
+          const hasImageButton = row.elements.some(
+            (el) =>
+              Types.isField(el) &&
+              (el as Blockly.blockRendering.Field).field instanceof CustomFieldImageButton
+          );
+
+          if (hasCustomInput || hasImageButton) {
             maxWidth = this.handleCustomInput(row, maxWidth);
             adjusted = true;
           } else if (hasDropdown) {

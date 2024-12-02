@@ -27,15 +27,6 @@ export const useSaveWorkspace = (workspaceId: string) => {
       cssResetStatus: boolean;
       thumbnail: File;
     }) => {
-      /*
-       * return Promise.all([
-       *   workspaceApi.saveWorkspaceCssProperty(userId, workspaceId, totalCssPropertyObj),
-       *   workspaceApi.saveWorkspaceCanvas(userId, workspaceId, canvas),
-       *   workspaceApi.saveWorkspaceClassBlockList(userId, workspaceId, classBlockList),
-       *   workspaceApi.saveWorkspaceCssResetStatus(userId, workspaceId, cssResetStatus),
-       * ]);
-       */
-
       return workspaceApi.saveWorkspace(
         userId,
         workspaceId,

@@ -25,7 +25,7 @@ const transferTagBlockToCode = (tagName: string) => {
       let href = '';
       const hrefBlock = block.getField('HREF');
       if (hrefBlock) {
-        href = block.getFieldValue('HREF') || '';
+        href = hrefBlock.getValue();
       }
 
       let target = '';
@@ -71,6 +71,23 @@ htmlCodeGenerator.forBlock[addPreviousTypeName('hr')] = function () {
 // br 블록에 대한 코드 생성을 별도로 정의
 htmlCodeGenerator.forBlock[addPreviousTypeName('br')] = function () {
   return '<br/>';
+};
+
+htmlCodeGenerator.forBlock[addPreviousTypeName('img')] = function (block) {
+  let cssClass = '';
+  const cssClassBlock = block.getInputTargetBlock('css class');
+  if (cssClassBlock) {
+    cssClass = cssClassBlock.getFieldValue('CLASS') || '';
+  }
+
+  let src = '';
+  const srcBlock = block.getField('SRC');
+  if (srcBlock) {
+    src = srcBlock.getValue();
+    src = src === '사진을 넣어주세요' ? '' : src;
+  }
+
+  return `<img${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} src="${src}">`;
 };
 
 // 연속적인 코드 블록을 생성하기 위해 블록 연결을 처리하도록 코드 생성을 커스터마이즈
@@ -120,7 +137,8 @@ Object.values(blockContents).forEach((blockInfoList) => {
     if (
       blockInfo.type !== addPreviousTypeName('text') &&
       blockInfo.type !== addPreviousTypeName('hr') &&
-      blockInfo.type !== addPreviousTypeName('br')
+      blockInfo.type !== addPreviousTypeName('br') &&
+      blockInfo.type !== addPreviousTypeName('img')
     ) {
       transferTagBlockToCode(blockInfo.type);
     }
