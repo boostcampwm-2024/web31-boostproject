@@ -2,6 +2,8 @@
   display: flex;
   font-family: monospace;
   font-size: 14px;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .dark {

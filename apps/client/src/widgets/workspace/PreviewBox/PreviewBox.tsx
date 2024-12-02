@@ -78,7 +78,7 @@ export const PreviewBox = ({
           CSS
         </button>
       </nav>
-      <div className="relative h-full max-h-[calc(100%-26rem)] min-h-[20rem] w-full">
+      <div className="relative h-[calc(100%-43px)] w-full">
         {(activeTab === 'html' || activeTab === 'css') && (
           <div className="absolute right-4 top-5 z-50">
             <CopyIcon
@@ -98,22 +98,26 @@ export const PreviewBox = ({
           ></iframe>
         )}
         {activeTab === 'html' && (
-          <CodeViewer
-            code={htmlCode}
-            type="html"
-            theme="light"
-            selectedBlockStartLine={selectedBlockStartLine}
-            selectedBlockLength={selectedBlockLength}
-            selectedBlockType={selectedBlockType}
-          />
+          <div className="h-full max-h-full w-full overflow-y-auto">
+            <CodeViewer
+              code={activeTab === 'html' ? htmlCode : cssCode}
+              type={activeTab}
+              theme="light"
+              selectedBlockStartLine={selectedBlockStartLine}
+              selectedBlockLength={selectedBlockLength}
+              selectedBlockType={selectedBlockType}
+            />
+          </div>
         )}
         {activeTab === 'css' && (
-          <CodeViewer
-            code={cssCode}
-            type="css"
-            theme="light"
-            selectedBlockType={selectedBlockType}
-          />
+          <div className="h-full max-h-full w-full overflow-y-auto">
+            <CodeViewer
+              code={cssCode}
+              type="css"
+              theme="light"
+              selectedBlockType={selectedBlockType}
+            />
+          </div>
         )}
       </div>
     </section>
