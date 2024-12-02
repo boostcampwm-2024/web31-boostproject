@@ -60,7 +60,7 @@ export const CoachMark = () => {
               그만 보기
             </CircleButton>
 
-            {/* TODO: 이전 버튼 추가 논의 필요 */}
+            {/* TODO: 이전 버튼 - 기능 구현 후 삭제 */}
             <CircleButton
               className="text-bold-sm h-8 w-16"
               onClick={prevStep}

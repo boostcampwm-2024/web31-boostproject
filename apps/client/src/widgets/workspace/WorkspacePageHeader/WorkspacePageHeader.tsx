@@ -24,7 +24,7 @@ export const WorkspacePageHeader = () => {
           onClick={openCoachMark}
         >
           도움말 <Question />
-          {/* TODO: 아이콘 색깔 논의 필요 & hover시 효과 */}
+          {/* TODO: hover시 효과 */}
         </button>
         <WorkspaceHeaderButtons />
       </div>
