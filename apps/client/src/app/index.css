@@ -210,3 +210,7 @@ input[type='color']::-webkit-color-swatch-wrapper {
   @apply text-gray-400;
   padding: 0 6px 0 12px;
 }
+
+.coachMarkHighlight {
+  z-index: 99999;
+}

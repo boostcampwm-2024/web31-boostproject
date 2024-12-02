@@ -1,5 +1,8 @@
+import { useEffect } from 'react';
 import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
 import { CircleButton } from '@/shared/ui';
+import * as Blockly from 'blockly/core';
+import TabbedToolbox from '@/core/tabbedToolbox';
 
 const steps = [
   {
@@ -41,6 +44,29 @@ export const CoachMark = () => {
       setCurrentStep(currentStep - 1);
     }
   };
+
+  useEffect(() => {
+    const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
+    const blockCanvas = document.querySelector('.blocklyBlockCanvas');
+
+    const toolbox = Blockly.getMainWorkspace()?.getToolbox() as TabbedToolbox;
+
+    if (currentStep === 1) {
+      toolbox.clickTab('css');
+    } else if (currentStep === 2) {
+      toolbox.clickTab('html');
+    }
+
+    if (toolboxDiv) {
+      if (currentStep <= 1) {
+        toolboxDiv.classList.add('coachMarkHighlight');
+        blockCanvas.classList.add('coachMarkHighlight');
+      } else {
+        toolboxDiv.classList.remove('coachMarkHighlight');
+        blockCanvas.classList.remove('coachMarkHighlight');
+      }
+    }
+  }, [currentStep]);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-70">

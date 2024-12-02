@@ -77,6 +77,21 @@ export default class TabbedToolbox extends Blockly.Toolbox {
   }
 
   /**
+   * TabbedToolbox의 특정 탭을 클릭한 것처럼 동작합니다.
+   * @param id - 클릭할 탭의 ID
+   */
+
+  public clickTab(id: string) {
+    const tabElement = Array.from(this.tabContainer_!.children).find(
+      (child) => child.dataset.id === id
+    ) as HTMLDivElement;
+
+    if (tabElement) {
+      this.selectTab_(id, tabElement);
+    }
+  }
+
+  /**
    * TabbedToolbox에 Tab과 관련된 설정을 추가하고 Tab을 초기화합니다.
    * @param config - Tab에 대한 정보
    * @throws {Error} Flyout이 초기화되지 않았을 경우
