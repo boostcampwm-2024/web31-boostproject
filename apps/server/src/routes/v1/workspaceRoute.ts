@@ -58,6 +58,12 @@ workspaceRouter.post(
       type: 'string',
       required: true,
     }
+    #swagger.parameters['sample'] = {
+      in: 'header',
+      description: 'sample 여부',
+      type: 'boolean',
+      required: false,
+    }
     #swagger.responses[201] = {
       description: 'success',
       content : {

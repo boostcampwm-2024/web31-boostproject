@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { WorkspaceApi } from '@/shared/api';
-import { getUserId } from '@/shared/utils';
+import { createUserId, getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
 import { useModalStore } from '@/shared/store';
 import { workspaceKeys } from '@/shared/hooks';
@@ -9,7 +9,7 @@ import { workspaceKeys } from '@/shared/hooks';
 export const useDeleteWorkspace = () => {
   const queryClient = useQueryClient();
   const workspaceApi = WorkspaceApi();
-  const userId = getUserId();
+  const userId = getUserId() || createUserId();
   const { closeModal, setIsLoading } = useModalStore();
 
   const { mutate } = useMutation({

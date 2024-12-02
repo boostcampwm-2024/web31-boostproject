@@ -18,6 +18,42 @@ export const WorkspaceService = () => {
     return newWorkspaceId;
   };
 
+  const createSampleWorkspace = async (userId: string) => {
+    const sampleWorkspace = await Workspace.findOne({ workspace_id: 'sample' });
+
+    if (!sampleWorkspace) {
+      throw new Error('Sample workspace가 존재하지 않습니다.');
+    }
+
+    const newWorkspaceId = crypto.randomUUID();
+
+    try {
+      const sampleThumbnailResponse = await fetch(sampleWorkspace.thumbnail!);
+      const imageBuffer = Buffer.from(await sampleThumbnailResponse.arrayBuffer());
+      const thumbnailUrl = await uploadThumbnailImage(userId, newWorkspaceId, imageBuffer);
+
+      const clonedWorkspaceData = {
+        workspace_id: newWorkspaceId,
+        user_id: userId,
+        name: sampleWorkspace.name,
+        canvas: sampleWorkspace.canvas,
+        css_list: sampleWorkspace.css_list,
+        class_block_list: sampleWorkspace.class_block_list,
+        is_css_reset: sampleWorkspace.is_css_reset,
+        thumbnail: thumbnailUrl,
+        updated_at: new Date(),
+      };
+
+      const clonedWorkspace = new Workspace(clonedWorkspaceData);
+      await clonedWorkspace.save();
+
+      return newWorkspaceId;
+    } catch (error) {
+      console.error('Error while cloning workspace:', error);
+      throw new Error('워크스페이스 복제 중 오류가 발생했습니다.');
+    }
+  };
+
   const findWorkspaceListByPage = async (
     userId: string,
     cursor: { updatedAt: string; workspaceId: string } | null
@@ -188,6 +224,42 @@ export const WorkspaceService = () => {
     }
   };
 
+  const uploadThumbnailImage = async (
+    userId: string,
+    workspaceId: string,
+    imageBuffer: Buffer
+  ): Promise<string> => {
+    // 이미지 리사이징 및 webp 변환
+    const webpThumbnail = await sharp(imageBuffer)
+      .resize({
+        width: 528,
+        height: 360,
+        fit: 'inside',
+        background: { r: 255, g: 255, b: 255, alpha: 1 },
+      })
+      .webp()
+      .toBuffer();
+
+    // S3 업로드
+    const upload = new Upload({
+      client: S3,
+      params: {
+        Bucket: process.env.S3_BUCKET_NAME,
+        Key: `thumbnail/${userId}/${workspaceId}.webp`,
+        ACL: 'public-read',
+        Body: webpThumbnail,
+        ContentType: 'image/webp',
+      },
+    });
+
+    const uploadResult = await upload.done();
+    if (!uploadResult) {
+      throw new Error('Failed to upload thumbnail');
+    }
+
+    return uploadResult.Location as string;
+  };
+
   const saveImage = async (
     userId: string,
     workspaceId: string,
@@ -272,6 +344,7 @@ export const WorkspaceService = () => {
 
   return {
     createWorkspace,
+    createSampleWorkspace,
     findWorkspaceListByPage,
     findWorkspaceByWorkspaceId,
     updateWorkspaceName,

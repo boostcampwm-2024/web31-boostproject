@@ -4,6 +4,7 @@ export { WorkspaceAddBtn } from './home/WorkspaceAddBtn/WorkspaceAddBtn';
 export { WorkspaceLoadError } from './home/WorkspaceLoadError/WorkspaceLoadError';
 export { HoveredEmptyWorkspace } from './home/HoveredEmptyWorkspace/HoveredEmptyWorkspace';
 export { NotHoveredEmptyWorkspace } from './home/NotHoveredEmptyWorkspace/NotHoveredEmptyWorkspace';
+export { WorkspaceSampleButton } from './home/WorkspaceSampleButton/WorkspaceSampleButton';
 
 export { RedoButton } from './workspace/RedoButton/RedoButton';
 export { UndoButton } from './workspace/UndoButton/UndoButton';

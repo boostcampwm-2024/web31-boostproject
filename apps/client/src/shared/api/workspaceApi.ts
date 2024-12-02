@@ -12,13 +12,14 @@ import {
 import { Instance } from '@/shared/api';
 
 export const WorkspaceApi = () => {
-  const createWorkspace = async (userId: string) => {
+  const createWorkspace = async (userId: string, isSample = false) => {
     const response = await Instance.post(
       '/workspace',
       { userId },
       {
         headers: {
           'user-id': userId,
+          sample: isSample,
         },
       }
     );

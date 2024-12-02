@@ -2,14 +2,14 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { TWorkspaceDto } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
-import { getUserId } from '@/shared/utils';
+import { createUserId, getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
 import { workspaceKeys } from '@/shared/hooks';
 
 export const useUpdateWorkspaceName = () => {
   const queryClient = useQueryClient();
   const workspaceApi = WorkspaceApi();
-  const userId = getUserId();
+  const userId = getUserId() || createUserId();
 
   const { mutate, isPending } = useMutation({
     mutationFn: ({ workspaceId, newName }: { workspaceId: string; newName: string }) => {
