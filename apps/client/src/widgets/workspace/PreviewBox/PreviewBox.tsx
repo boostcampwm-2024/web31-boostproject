@@ -26,10 +26,15 @@ export const PreviewBox = ({
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
   const { isResetCssChecked } = useResetCssStore();
 
+  const googleFontsLinksCode = `
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&family=Gothic+A1:wght@300;400;700&family=IBM+Plex+Sans+KR:wght@300;400;700&family=Nanum+Gothic:wght@400;700&family=Noto+Sans+KR:wght@100..900&family=Noto+Serif+KR:wght@200..900&display=swap" rel="stylesheet" />
+  `;
   const finalCssCode = isResetCssChecked ? `${resetCss}\n${cssCode}` : cssCode;
   const styleCode = `<style> * { box-sizing : border-box; margin : 0; padding : 0; } html, head, body { width : 100%; height : 100%; } ${finalCssCode}</style>`;
   const indexOfHead = htmlCode.indexOf('</head>');
-  const totalCode = `${htmlCode.slice(0, indexOfHead)}${styleCode}${htmlCode.slice(indexOfHead)}`;
+  const totalCode = `${htmlCode.slice(0, indexOfHead)}${googleFontsLinksCode}${styleCode}${htmlCode.slice(indexOfHead)}`;
 
   // TODO: 상수 분리한 후 재사용성 높이기
   /* eslint-disable */
