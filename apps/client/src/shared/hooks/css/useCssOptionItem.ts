@@ -14,7 +14,9 @@ export const useCssOptionItem = (cssItem: TCssCategoryItem) => {
   const [indexOfHover, setIndexOfHover] = useState<number>(-1);
 
   const [isChecked, setIsChecked] = useState<boolean>(false);
-  const [cssOption, setCssOption] = useState<string>('');
+  const [cssOption, setCssOption] = useState<string>(
+    cssItem.type === 'select' && cssItem.option!.length > 0 ? cssItem.option![0] : ''
+  );
 
   useEffect(() => {
     if (totalCssPropertyObj[currentCssClassName]) {

@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { WorkspaceList } from './WorkspaceList';
-import { getUserId } from '@/shared/utils';
+import { createUserId, getUserId } from '@/shared/utils';
 import { v4 } from 'uuid';
 
 const meta: Meta<typeof WorkspaceList> = {
@@ -30,7 +30,7 @@ export const Default: Story = {
       {
         name: 'Workspace 1',
         updated_at: new Date().toISOString(),
-        user_id: getUserId(),
+        user_id: getUserId() || createUserId(),
         workspace_id: v4(),
         isCssReset: false,
         thumbnail: '',
@@ -51,7 +51,7 @@ export const MultipleItems: Story = {
       return {
         name: `Workspace ${idx}`,
         updated_at: new Date().toISOString(),
-        user_id: getUserId(),
+        user_id: getUserId() || createUserId(),
         workspace_id: v4(),
         isCssReset: false,
         thumbnail: '',

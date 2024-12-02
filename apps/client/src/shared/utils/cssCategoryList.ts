@@ -41,6 +41,42 @@ export const cssCategoryList: TCssCategoryList = [
         type: 'input',
         description: '요소의 쌓이는 순서를 지정합니다.',
       },
+      {
+        label: 'flex-direction',
+        type: 'select',
+        option: ['row', 'row-reverse', 'column', 'column-reverse'],
+        description: 'flex 컨테이너 내의 아이템 배치 방향을 지정합니다.',
+      },
+      {
+        label: 'justify-content',
+        type: 'select',
+        option: [
+          'flex-start',
+          'flex-end',
+          'center',
+          'space-between',
+          'space-around',
+          'space-evenly',
+        ],
+        description: '주축(main axis)을 따라 flex 아이템들을 정렬하는 방법을 지정합니다.',
+      },
+      {
+        label: 'align-items',
+        type: 'select',
+        option: ['flex-start', 'flex-end', 'center', 'stretch', 'baseline'],
+        description: '교차축(cross axis)을 따라 flex 아이템들을 정렬하는 방법을 지정합니다.',
+      },
+      {
+        label: 'flex-wrap',
+        type: 'select',
+        option: ['nowrap', 'wrap', 'wrap-reverse'],
+        description: 'flex 아이템들의 줄 바꿈 여부를 지정합니다.',
+      },
+      {
+        label: 'gap',
+        type: 'input',
+        description: 'flex 항목 사이의 간격을 지정합니다.',
+      },
     ],
   },
   {
@@ -77,6 +113,7 @@ export const cssCategoryList: TCssCategoryList = [
         label: 'font-family',
         type: 'select',
         option: [
+          'Pretendard',
           'Noto Sans KR',
           'Noto Serif KR',
           'Nanum Gothic',
@@ -122,6 +159,11 @@ export const cssCategoryList: TCssCategoryList = [
         label: 'background-color',
         type: 'color',
         description: '요소의 배경 색상을 지정합니다.',
+      },
+      {
+        label: 'box-shadow',
+        type: 'input',
+        description: '요소에 그림자 효과를 추가합니다. (예: 2px 2px 4px rgba(0,0,0,0.2))',
       },
     ],
   },

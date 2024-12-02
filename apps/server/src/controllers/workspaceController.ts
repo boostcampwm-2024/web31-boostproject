@@ -8,7 +8,10 @@ export const WorkspaceController = () => {
 
   const createNewWorkspace = async (req: Request, res: Response) => {
     const userId = req.get('user-id') as string;
-    const newWorkspaceId = await workspaceService.createWorkspace(userId);
+    const isSample = (req.get('sample') as unknown as boolean) || false;
+    const newWorkspaceId = isSample
+      ? await workspaceService.createSampleWorkspace(userId)
+      : await workspaceService.createWorkspace(userId);
     res.status(201).json({ newWorkspaceId });
   };
 
