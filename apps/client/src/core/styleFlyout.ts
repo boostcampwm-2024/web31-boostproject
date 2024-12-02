@@ -198,7 +198,7 @@ export default class StyleFlyout extends FixedFlyout {
 
         const flyout = (Blockly.getMainWorkspace() as any).getToolbox().getFlyout();
         flyout.show(cssStyleToolboxConfig.contents);
-        toast.success(`"${blockType}" 클래스 블록이 삭제되었습니다.`);
+        toast.success(`"${blockType.replace('CSS_', '')}" 클래스 블록이 삭제되었습니다.`);
       },
     };
 
