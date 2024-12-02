@@ -7,7 +7,10 @@ import {
   blockContents,
   cssCodeGenerator,
   defineBlocks,
-  generateFullCode,
+  removeBlockIdFromCode,
+  generateFullCodeWithBlockId,
+  calculateBlockLength,
+  findBlockStartLine,
   htmlTagToolboxConfig,
   initTheme,
   initializeBlocks,
@@ -55,6 +58,8 @@ export const WorkspaceContent = () => {
   const { totalCssPropertyObj } = useCssPropsStore();
   const { workspace, setWorkspace, canvasInfo } = useWorkspaceStore();
   const { setIsBlockChanged } = useWorkspaceChangeStatusStore();
+  const [selectedBlockStartLine, setSelectedBlockStartLine] = useState<number>(0);
+  const [selectedBlockLength, setSelectedBlockLength] = useState<number>(0);
   const isBlockLoadingFinish = useRef<boolean>(false);
 
   useEffect(() => {
@@ -66,9 +71,8 @@ export const WorkspaceContent = () => {
       renderer: 'boolock',
       toolboxPosition: 'end',
       toolbox: htmlTagToolboxConfig,
-      theme: initTheme, // 커스텀 테마 적용
+      theme: initTheme,
       zoom: {
-        // 확대 및 축소 버튼 설정
         controls: true,
         wheel: true,
         startScale: 1.0,
@@ -91,8 +95,13 @@ export const WorkspaceContent = () => {
         event.type === Blockly.Events.BLOCK_CHANGE ||
         event.type === Blockly.Events.BLOCK_DELETE
       ) {
-        const code = generateFullCode(newWorkspace);
-        setHtmlCode(code);
+        // data-block-id 포함된 코드 (내부 처리용)
+        const codeWithId = generateFullCodeWithBlockId(newWorkspace);
+
+        // data-block-id 제거된 코드 (사용자에게 보여지는 코드)
+        const codeWithNoId = removeBlockIdFromCode(codeWithId);
+
+        setHtmlCode(codeWithNoId);
 
         if (isBlockLoadingFinish.current) {
           setIsBlockChanged(true);
@@ -100,7 +109,6 @@ export const WorkspaceContent = () => {
       }
 
       if (event.type === Blockly.Events.VIEWPORT_CHANGE && isBlockLoadingFinish.current) {
-        // 캔버스에 있는 블록을 드래그할 때 발생하는 이벤트
         setIsBlockChanged(true);
       }
 
@@ -109,7 +117,36 @@ export const WorkspaceContent = () => {
       }
     };
 
+    // 블록 클릭 이벤트 핸들러
+    const handleBlockClick = (event: Blockly.Events.Abstract) => {
+      if (!(event instanceof Blockly.Events.Click)) {
+        return;
+      }
+
+      const block = newWorkspace.getBlockById(event.blockId || '');
+
+      // 블록 미 선택시 초기화
+      if (!block) {
+        setSelectedBlockStartLine(0);
+        setSelectedBlockLength(0);
+
+        return;
+      }
+
+      // 블록 ID가 포함된 전체 코드 생성
+      const codeWithIds = generateFullCodeWithBlockId(newWorkspace);
+
+      // 선택한 블록 시작 줄 계산
+      const blockStartLine = findBlockStartLine(codeWithIds, block.id);
+      setSelectedBlockStartLine(blockStartLine);
+
+      // 선택한 블록 길이 계산
+      const blockLength = calculateBlockLength(block);
+      setSelectedBlockLength(blockLength);
+    };
+
     newWorkspace.addChangeListener(handleAutoConversion);
+    newWorkspace.addChangeListener(handleBlockClick);
 
     if (workspace === null) {
       setWorkspace(newWorkspace);
@@ -117,6 +154,7 @@ export const WorkspaceContent = () => {
 
     return () => {
       newWorkspace.removeChangeListener(handleAutoConversion);
+      newWorkspace.removeChangeListener(handleBlockClick);
       newWorkspace.dispose();
     };
   }, []);
@@ -125,6 +163,7 @@ export const WorkspaceContent = () => {
     if (!workspace || !canvasInfo || canvasInfo.length === 0) {
       return;
     }
+
     Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
   }, [workspace, canvasInfo]);
 
@@ -135,7 +174,12 @@ export const WorkspaceContent = () => {
   return (
     <div className="flex flex-1">
       <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
-        <PreviewBox htmlCode={htmlCode} cssCode={cssCode} />
+        <PreviewBox
+          htmlCode={htmlCode}
+          cssCode={cssCode}
+          selectedBlockStartLine={selectedBlockStartLine}
+          selectedBlockLength={selectedBlockLength}
+        />
         <CssPropsSelectBox />
       </div>
       <div id="blocklyDiv" className="h-full w-full"></div>
