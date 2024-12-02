@@ -62,10 +62,7 @@ export const WorkspaceController = () => {
     const userId = req.get('user-id') as string;
     const { workspaceId, totalCssPropertyObj, canvas, classBlockList, cssResetStatus, imageMap } =
       req.body;
-
-    console.log(imageMap);
     const imageMapJson = new Map(Object.entries(JSON.parse(imageMap)));
-    console.log(imageMapJson);
 
     if (!thumbnail) {
       throw new Error('Thumbnail is required');
@@ -88,7 +85,6 @@ export const WorkspaceController = () => {
     const userId = req.get('user-id') as string;
 
     const { workspaceId, imageName } = req.body;
-    // console.log(image, userId, workspaceId, imageName);
     if (!image) {
       throw new Error('Image is required');
     }

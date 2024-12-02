@@ -139,7 +139,6 @@ export const WorkspaceContent = () => {
       }
 
       const block = newWorkspace.getBlockById(event.blockId || '');
-      console.log('block type', block?.type);
 
       setSelectedBlockType(
         block && block.type.startsWith('CSS_') ? block.type.replace(/^CSS_/, '') : null

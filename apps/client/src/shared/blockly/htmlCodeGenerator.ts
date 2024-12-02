@@ -147,7 +147,7 @@ htmlCodeGenerator.forBlock[addPreviousTypeName('img')] = function (block) {
     src = src === '사진을 넣어주세요' ? '' : src;
   }
 
-  return `<img${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} src="${src}" data-block-id="${block.id}" >`;
+  return `<img${cssClassBlock && cssClass !== '' ? ` class="${cssClass}"` : ''} src="${src}" data-block-id="${block.id}" />`;
 };
 
 // 연속적인 코드 블록을 생성하기 위해 블록 연결을 처리하도록 코드 생성을 커스터마이즈
