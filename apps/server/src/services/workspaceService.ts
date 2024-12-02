@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+
 import 'dotenv/config';
 
 import { S3, Upload } from '@/config/s3';
@@ -153,8 +154,7 @@ export const WorkspaceService = () => {
     try {
       const webpThumbnail = await sharp(thumbnail.buffer)
         .resize({
-          width: 528,
-          height: 360,
+          width: 800,
           fit: 'inside',
           background: { r: 255, g: 255, b: 255, alpha: 1 },
         })
@@ -213,8 +213,7 @@ export const WorkspaceService = () => {
     // 이미지 리사이징 및 webp 변환
     const webpThumbnail = await sharp(imageBuffer)
       .resize({
-        width: 528,
-        height: 360,
+        width: 800,
         fit: 'inside',
         background: { r: 255, g: 255, b: 255, alpha: 1 },
       })
