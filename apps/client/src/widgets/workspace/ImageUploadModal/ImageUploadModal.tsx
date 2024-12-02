@@ -44,8 +44,6 @@ export const ImageUploadModal = () => {
   }, [nowImage]);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(tagSrc);
-
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
@@ -121,14 +119,9 @@ export const ImageUploadModal = () => {
   };
 
   const handleSelectImage = (selectImage: string) => {
-    console.log(selectImage);
-    console.log(imagePathList);
-
     if (selectImage === tagSrc) {
-      // setNowImage('');
       setTagSrc('');
     } else {
-      // setNowImage(selectImage);
       setTagSrc(selectImage);
     }
     handleReset();
