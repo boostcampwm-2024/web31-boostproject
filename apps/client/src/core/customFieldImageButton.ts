@@ -17,7 +17,6 @@ export class CustomFieldImageButton extends Blockly.Field<String> {
     if (this.value_ === '') {
       this.setValue('사진을 넣어주세요');
     }
-    // this.EDITABLE = false;
   }
 
   protected override createTextElement_(): void {
@@ -41,7 +40,6 @@ export class CustomFieldImageButton extends Blockly.Field<String> {
   override initView(): void {
     super.initView();
 
-    // // 클릭 이벤트 리스너를 추가합니다.
     if (this.fieldGroup_) {
       this.fieldGroup_.addEventListener('click', this.onClick_.bind(this));
       const fieldRect = this.fieldGroup_.querySelector('.blocklyFieldRect') as SVGRectElement;
@@ -57,7 +55,6 @@ export class CustomFieldImageButton extends Blockly.Field<String> {
     }
   }
 
-  // 클릭 이벤트 핸들러
   private onClick_(): void {
     useImageModalStore.getState().setIsImageUpload(true);
     useImageModalStore.getState().setNowId(this.getSourceBlock()?.id as string);
