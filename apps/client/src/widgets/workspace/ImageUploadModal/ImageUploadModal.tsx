@@ -6,9 +6,9 @@ import { useDeleteImage, usePostImage } from '@/shared/hooks';
 import { ModalConfirm } from '@/shared/ui';
 import XIcon from '@/shared/assets/x_icon.svg?react';
 import toast from 'react-hot-toast';
-import { useModalStore } from '@/shared/store/useModalStore';
 import { useParams } from 'react-router-dom';
 import { parseBase64Info, parseFilename } from '@/shared/utils';
+import { useImageModalStore } from '@/shared/store';
 
 /**
  *
@@ -17,7 +17,6 @@ import { parseBase64Info, parseFilename } from '@/shared/utils';
  */
 export const ImageUploadModal = () => {
   const {
-    isModalOpen: isOpen,
     isImageUpload,
     imagePathList,
     nowImage,
@@ -25,8 +24,7 @@ export const ImageUploadModal = () => {
     setNowImage,
     updateImageMap,
     setIsImageUpload,
-    closeModal,
-  } = useModalStore();
+  } = useImageModalStore();
 
   const workspaceId = useParams().workspaceId as string;
 
@@ -136,7 +134,6 @@ export const ImageUploadModal = () => {
 
   const handleCloseModal = () => {
     setIsImageUpload(false);
-    closeModal();
   };
 
   const handleInputSrc = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -164,14 +161,14 @@ export const ImageUploadModal = () => {
       return;
     }
 
-    imageField.setValue(tagSrc); // 필드 값 업데이트
+    imageField.setValue(tagSrc);
     toast.success('필드 값이 성공적으로 업데이트되었습니다!');
 
     handleCloseModal();
   };
 
   return (
-    <ModalConfirm isOpen={isOpen && isImageUpload}>
+    <ModalConfirm isOpen={isImageUpload}>
       <div className="flex h-[36rem] w-[48rem] flex-col">
         <span className="text-gray-black flex w-full flex-shrink-0 flex-row items-baseline justify-between">
           <span className="text-bold-lg">이미지 선택</span>

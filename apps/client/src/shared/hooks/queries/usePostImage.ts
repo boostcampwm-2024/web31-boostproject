@@ -1,13 +1,13 @@
 import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
-import { useModalStore } from '@/shared/store';
+import { useImageModalStore } from '@/shared/store';
 import { useMutation } from '@tanstack/react-query';
 
 export const usePostImage = () => {
   const workspaceApi = WorkspaceApi();
   const userId = getUserId();
-  const { pushImagePath, setNowImage } = useModalStore();
+  const { pushImagePath, setNowImage } = useImageModalStore();
   const { mutate, isPending } = useMutation({
     mutationFn: ({
       workspaceId,

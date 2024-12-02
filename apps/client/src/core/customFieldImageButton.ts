@@ -1,4 +1,4 @@
-import { useModalStore } from '@/shared/store';
+import { useImageModalStore } from '@/shared/store';
 import * as Blockly from 'blockly/core';
 
 const dom = Blockly.utils.dom;
@@ -62,10 +62,9 @@ export class CustomFieldImageButton extends Blockly.Field<String> {
 
   // 클릭 이벤트 핸들러
   private onClick_(): void {
-    useModalStore.getState().openModal();
-    useModalStore.getState().setIsImageUpload(true);
-    useModalStore.getState().setNowId(this.getSourceBlock()?.id as string);
-    useModalStore
+    useImageModalStore.getState().setIsImageUpload(true);
+    useImageModalStore.getState().setNowId(this.getSourceBlock()?.id as string);
+    useImageModalStore
       .getState()
       .setNowImage(this.value_ === '사진을 넣어주세요' ? '' : (this.value_ as string));
   }

@@ -1,10 +1,10 @@
 import {
   useClassBlockStore,
   useCssPropsStore,
-  useModalStore,
   useResetCssStore,
   useWorkspaceChangeStatusStore,
   useWorkspaceStore,
+  useImageModalStore,
 } from '@/shared/store';
 
 import { WorkspaceApi } from '@/shared/api';
@@ -23,7 +23,7 @@ export const useGetWorkspace = (workspaceId: string) => {
   const { setCanvasInfo } = useWorkspaceStore();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const { setIsResetCssChecked } = useResetCssStore();
-  const { setInitialImageMap, setInitialImageList } = useModalStore();
+  const { setInitialImageMap, setInitialImageList } = useImageModalStore();
   const { data, isPending, isError } = useQuery({
     queryKey: workspaceKeys.detail(workspaceId),
     queryFn: () => {
