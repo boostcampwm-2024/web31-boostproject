@@ -43,6 +43,7 @@ export const Select = ({
   const [isCalculated, setIsCalculated] = useState<boolean>(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { screenHeight } = useWindowSize();
 
   useEffect(() => {
     setSelectedOption(value);
