@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { removeCssClassNamePrefix } from '../utils';
 
 type TClassBlock = {
   classBlockList: string[];
@@ -11,7 +12,7 @@ export const useClassBlockStore = create<TClassBlock>((set) => ({
   classBlockList: [],
   addClassBlock: (newClassBlockName: string) => {
     set((state) => ({
-      classBlockList: [...state.classBlockList, newClassBlockName],
+      classBlockList: [...state.classBlockList, removeCssClassNamePrefix(newClassBlockName)],
     }));
   },
   removeClassBlock: (classBlockName: string) => {

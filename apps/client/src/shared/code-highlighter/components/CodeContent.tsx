@@ -30,7 +30,10 @@ export const CodeContent = ({
     });
 
     setHighlightedLines(newLineList);
+
+    // 애니메이션이 끝난 후 강조 제거
     const timeout = setTimeout(() => setHighlightedLines([]), 1000);
+
     setPreviousCodeLines(codeLineList);
 
     return () => clearTimeout(timeout);
