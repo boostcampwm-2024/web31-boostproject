@@ -71,22 +71,31 @@ export const ImageUploadModal = () => {
   };
 
   const handleSaveImage = async () => {
-    if (!imageSrc || !inputValue.trim()) {
-      return toast.error('파일 업로드 후 이름을 입력해주세요.');
+    if (!imageSrc) {
+      return toast.error('파일 업로드 후 시도해주세요');
+    }
+
+    if (!inputValue.trim()) {
+      return toast.error('파일 이름 입력 후 시도해주세요');
+    }
+
+    const invalidChars = /[\\/:*?"<>|]/;
+    if (invalidChars.test(inputValue)) {
+      return toast.error('파일 이름에 다음 문자를 포함할 수 없습니다: \\ / : * ? " < > |');
     }
 
     const temp = parseBase64Info(imageSrc);
-    if (!temp || !['png', 'jpg'].includes(temp.format)) {
-      return toast.error('유효한 이미지 파일만 업로드 가능합니다.');
+    if (!temp || !['png', 'jpg'].includes(temp.format || '')) {
+      return toast.error('파일이 존재하지 않거나 유효하지 않은 타입입니다.');
     }
 
-    const newImageName = `${inputValue.trim()}.${temp.format}`;
+    const newImageName = `${inputValue.trim()}<${temp.format}`;
     if (imagePathList.has(newImageName)) {
       return toast.error('이미 존재하는 파일 이름입니다.');
     }
 
     if (!realFileRef.current) {
-      return toast.error('업로드할 이미지 파일이 없습니다.');
+      return toast.error('이미지 파일이 존재하지 않습니다.');
     }
 
     postImage({ workspaceId, imageName: newImageName, image: realFileRef.current });
