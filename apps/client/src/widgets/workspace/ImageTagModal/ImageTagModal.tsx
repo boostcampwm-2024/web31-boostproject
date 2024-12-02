@@ -118,7 +118,7 @@ export const ImageTagModal = () => {
       return toast.error('파일이 존재하지 않거나 유효하지 않은 타입입니다.');
     }
 
-    const newImageName = `${inputValue.trim()}.${temp.format}`;
+    const newImageName = `${inputValue.trim()}<${temp.format}`;
     if (imageList.has(newImageName)) {
       return toast.error('이미 존재하는 파일 이름입니다.');
     }
@@ -134,7 +134,7 @@ export const ImageTagModal = () => {
   return (
     <ModalConfirm isOpen={isModalOpen}>
       <div className="flex h-[36rem] w-[48rem] flex-col">
-        <ImageTagModalHeader />
+        <ImageTagModalHeader onClose={handleReset} />
         <div className="flex h-full flex-grow flex-row pb-4 pt-2">
           <ImageTagModalList tagSrc={tagSrc} onSetTagSrc={setTagSrc} onHandleReset={handleReset} />
           <div className="flex h-full w-1/2 flex-col items-center py-2 pl-4">
