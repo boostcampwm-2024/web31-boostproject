@@ -70,7 +70,7 @@ export const WorkspaceContent = () => {
   const [selectedBlockLength, setSelectedBlockLength] = useState<number>(0);
   const [selectedBlockType, setSelectedBlockType] = useState<string | null>(null);
   const isBlockLoadingFinish = useRef<boolean>(false);
-  
+
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {
@@ -127,19 +127,17 @@ export const WorkspaceContent = () => {
     };
 
     // 블록 클릭 이벤트 핸들러
-    const handleBlockClick = (event: Blockly.Events.Abstract) => {
+    const handleBlockClick2 = (event: Blockly.Events.Abstract) => {
       if (!(event instanceof Blockly.Events.Click)) {
         return;
       }
 
       const block = newWorkspace.getBlockById(event.blockId || '');
-      console.log(block?.type);
+      console.log('block type', block?.type);
 
       setSelectedBlockType(
         block && block.type.startsWith('CSS_') ? block.type.replace(/^CSS_/, '') : null
       );
-
-      setSelectedBlockType(block && !block.type.startsWith('BOOLOCK_SYSTEM_') ? block.type : null);
 
       // 블록 미 선택시 초기화
       if (!block) {
@@ -162,7 +160,7 @@ export const WorkspaceContent = () => {
     };
 
     newWorkspace.addChangeListener(handleAutoConversion);
-    newWorkspace.addChangeListener(handleBlockClick);
+    newWorkspace.addChangeListener(handleBlockClick2);
 
     if (workspace === null) {
       setWorkspace(newWorkspace);
@@ -170,7 +168,7 @@ export const WorkspaceContent = () => {
 
     return () => {
       newWorkspace.removeChangeListener(handleAutoConversion);
-      newWorkspace.removeChangeListener(handleBlockClick);
+      newWorkspace.removeChangeListener(handleBlockClick2);
       newWorkspace.dispose();
     };
   }, []);
