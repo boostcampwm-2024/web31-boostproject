@@ -17,7 +17,6 @@ export const useGetWorkspaceList = () => {
     queryFn: async ({ pageParam }) => {
       const isNewUser = !getUserId();
       const userId = getUserId() || createUserId();
-      console.log('isNewUser', isNewUser);
       if (isNewUser) {
         await workspaceApi.createWorkspace(userId, true);
       }
