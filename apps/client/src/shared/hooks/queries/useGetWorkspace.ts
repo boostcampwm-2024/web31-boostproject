@@ -1,6 +1,7 @@
 import {
   useClassBlockStore,
   useCssPropsStore,
+  useModalStore,
   useResetCssStore,
   useWorkspaceChangeStatusStore,
   useWorkspaceStore,
@@ -22,6 +23,7 @@ export const useGetWorkspace = (workspaceId: string) => {
   const { setCanvasInfo } = useWorkspaceStore();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const { setIsResetCssChecked } = useResetCssStore();
+  const { setInitialImageMap, setInitialImageList } = useModalStore();
   const { data, isPending, isError } = useQuery({
     queryKey: workspaceKeys.detail(workspaceId),
     queryFn: () => {
@@ -56,6 +58,8 @@ export const useGetWorkspace = (workspaceId: string) => {
     Object.keys(data.workspaceDto.totalCssPropertyObj).forEach((className) => {
       createCssClassBlock(className);
     });
+    setInitialImageMap(data.workspaceDto.imageMap);
+    setInitialImageList(data.workspaceDto.imageList);
   }, [isError, data]);
   return { data, isPending, isError };
 };

@@ -19,6 +19,8 @@ export type TWorkspaceDto = {
   classBlockList: string;
   thumbnail: string;
   updatedAt: string;
+  imageMap: string;
+  imageList: string;
 };
 
 export type TPagedWorkspaceListResult = {

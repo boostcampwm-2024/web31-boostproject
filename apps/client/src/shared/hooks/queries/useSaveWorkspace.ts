@@ -5,13 +5,14 @@ import { TBlock } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
 import { getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
-import { useWorkspaceChangeStatusStore } from '@/shared/store';
+import { useModalStore, useWorkspaceChangeStatusStore } from '@/shared/store';
 import { workspaceKeys } from '../query-key/workspaceKeys';
 
 export const useSaveWorkspace = (workspaceId: string) => {
   const workspaceApi = WorkspaceApi();
   const userId = getUserId();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
+  const { imageMap } = useModalStore();
   const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: ({
@@ -34,7 +35,8 @@ export const useSaveWorkspace = (workspaceId: string) => {
         canvas,
         classBlockList,
         cssResetStatus,
-        thumbnail
+        thumbnail,
+        imageMap
       );
     },
     onSuccess: () => {

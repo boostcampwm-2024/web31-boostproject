@@ -60,7 +60,9 @@ export const WorkspaceController = () => {
     const { workspaceId, totalCssPropertyObj, canvas, classBlockList, cssResetStatus, imageMap } =
       req.body;
 
+    console.log(imageMap);
     const imageMapJson = new Map(Object.entries(JSON.parse(imageMap)));
+    console.log(imageMapJson);
 
     if (!thumbnail) {
       throw new Error('Thumbnail is required');

@@ -23,6 +23,8 @@ type TModalStore = {
   deleteImagePath: (filename: string) => void;
   updateImageMap: (path: string) => void;
   setNowImage: (filename: string) => void;
+  setInitialImageMap: (imageMapStr: string) => void;
+  setInitialImageList: (imageListStr: string) => void;
 };
 
 export const useModalStore = create<TModalStore>()((set) => ({
@@ -69,4 +71,18 @@ export const useModalStore = create<TModalStore>()((set) => ({
       return { imageMap: newMap };
     }),
   setNowImage: (filename) => set({ nowImage: filename }),
+  setInitialImageMap: (imageMapStr) => {
+    const imageMapJson =
+      imageMapStr === ''
+        ? new Map<string, string>()
+        : new Map(Object.entries(JSON.parse(imageMapStr)));
+    return { imageMap: imageMapJson };
+  },
+  setInitialImageList: (imageListStr) => {
+    const imageListJson =
+      imageListStr === ''
+        ? new Map<string, string>()
+        : new Map(Object.entries(JSON.parse(imageListStr)));
+    return { imagePathList: imageListJson };
+  },
 }));

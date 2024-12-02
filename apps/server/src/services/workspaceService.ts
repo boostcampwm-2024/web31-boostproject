@@ -62,6 +62,12 @@ export const WorkspaceService = () => {
       return workspace;
     }
     const totalCssPropertyObj = generateTotalCssPropertyObj(workspace as TWorkspace);
+    const imageList = workspace.image_list
+      ? JSON.stringify(Object.fromEntries(workspace.image_list))
+      : '';
+    const imageMap = workspace.image_map
+      ? JSON.stringify(Object.fromEntries(workspace.image_map))
+      : '';
     return {
       workspace_id: workspace.workspace_id,
       name: workspace.name,
@@ -69,8 +75,8 @@ export const WorkspaceService = () => {
       totalCssPropertyObj,
       canvas: workspace.canvas,
       classBlockList: workspace.class_block_list,
-      imageList: workspace.image_list,
-      imageMap: workspace.image_map,
+      imageMap,
+      imageList,
     };
   };
 
@@ -85,6 +91,12 @@ export const WorkspaceService = () => {
     }
 
     const totalCssPropertyObj = generateTotalCssPropertyObj(updatedWorkspace as TWorkspace);
+    const imageList = updatedWorkspace.image_list
+      ? JSON.stringify(Object.fromEntries(updatedWorkspace.image_list))
+      : '';
+    const imageMap = updatedWorkspace.image_map
+      ? JSON.stringify(Object.fromEntries(updatedWorkspace.image_map))
+      : '';
     return {
       name: updatedWorkspace.name,
       workspaceId: updatedWorkspace.workspace_id,
@@ -94,6 +106,8 @@ export const WorkspaceService = () => {
       userId: updatedWorkspace.user_id,
       updatedAt: updatedWorkspace.updated_at,
       thumbnail: updatedWorkspace.thumbnail,
+      imageMap,
+      imageList,
     };
   };
 

@@ -79,7 +79,7 @@ export const ImageUploadModal = () => {
     }
   };
 
-  const handleSaveImage = () => {
+  const handleSaveImage = async () => {
     const isValidFileFormat = (format: string | null) => {
       return format === 'png' || format === 'jpg';
     };
@@ -97,12 +97,17 @@ export const ImageUploadModal = () => {
       return showError('파일 이름 입력 후 시도해주세요');
     }
 
+    const invalidChars = /[\\/:*?"<>|]/;
+    if (invalidChars.test(inputValue)) {
+      return showError('파일 이름에 다음 문자를 포함할 수 없습니다: \\ / : * ? " < > |');
+    }
+
     const temp = parseBase64Info(imageSrc);
     if (!temp || !isValidFileFormat(temp.format)) {
       return showError('파일이 존재하지 않거나 유효하지 않은 타입입니다.');
     }
 
-    const newImageName = `${inputValue.trim()}.${temp.format}`;
+    const newImageName = `${inputValue.trim()}<${temp.format}`;
     if (imagePathList.has(newImageName)) {
       return showError('이미 존재하는 파일 이름입니다.');
     }
@@ -148,19 +153,19 @@ export const ImageUploadModal = () => {
   const handleSaveSrc = () => {
     updateImageMap(tagSrc);
 
-    const workspace = Blockly.getMainWorkspace(); // 워크스페이스 가져오기
+    const workspace = Blockly.getMainWorkspace();
     if (!workspace) {
       toast.error('워크스페이스를 찾을 수 없습니다.');
       return;
     }
 
-    const targetBlock = workspace.getBlockById(nowId); // 현재 선택된 블록 ID로 블록 가져오기
+    const targetBlock = workspace.getBlockById(nowId);
     if (!targetBlock) {
       toast.error('블록을 찾을 수 없습니다.');
       return;
     }
 
-    const imageField = targetBlock.getField('SRC'); // 블록 내 필드 이름으로 필드 가져오기
+    const imageField = targetBlock.getField('SRC');
     if (!imageField) {
       toast.error('이미지 필드를 찾을 수 없습니다.');
       return;
@@ -174,7 +179,7 @@ export const ImageUploadModal = () => {
 
   return (
     <ModalConfirm isOpen={isOpen && isImageUpload}>
-      <div className="flex h-[36rem] w-[40rem] flex-col">
+      <div className="flex h-[36rem] w-[48rem] flex-col">
         <span className="text-gray-black flex w-full flex-shrink-0 flex-row items-baseline justify-between">
           <span className="text-bold-lg">이미지 선택</span>
           <XIcon
@@ -196,7 +201,7 @@ export const ImageUploadModal = () => {
                   handleSelectImage(realSrc);
                 }}
               >
-                {filename}
+                {filename.replace(/</g, '.')}
                 <XIcon onClick={() => handleDeleteImage(filename, realSrc)} />
               </div>
             ))}
