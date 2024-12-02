@@ -71,18 +71,21 @@ export const useModalStore = create<TModalStore>()((set) => ({
       return { imageMap: newMap };
     }),
   setNowImage: (filename) => set({ nowImage: filename }),
-  setInitialImageMap: (imageMapStr) => {
-    const imageMapJson =
-      imageMapStr === ''
-        ? new Map<string, string>()
-        : new Map(Object.entries(JSON.parse(imageMapStr)));
-    return { imageMap: imageMapJson };
-  },
-  setInitialImageList: (imageListStr) => {
-    const imageListJson =
-      imageListStr === ''
-        ? new Map<string, string>()
-        : new Map(Object.entries(JSON.parse(imageListStr)));
-    return { imagePathList: imageListJson };
-  },
+  setInitialImageMap: (imageMapStr) =>
+    set(() => {
+      const imageMapJson =
+        imageMapStr === ''
+          ? new Map<string, string>()
+          : new Map(Object.entries(JSON.parse(imageMapStr)));
+      return { imageMap: imageMapJson as Map<string, string> };
+    }),
+  setInitialImageList: (imageListStr) =>
+    set(() => {
+      const imageListJson =
+        imageListStr === ''
+          ? new Map<string, string>()
+          : new Map(Object.entries(JSON.parse(imageListStr)));
+
+      return { imagePathList: imageListJson as Map<string, string> };
+    }),
 }));
