@@ -56,7 +56,6 @@ export const generateFullCodeWithBlockId = (workspace: Blockly.Workspace) => {
       }
     });
 
-  console.log('codeList:', codeList);
   return codeList.join('\n');
 };
 

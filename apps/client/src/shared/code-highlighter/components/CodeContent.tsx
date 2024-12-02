@@ -6,6 +6,7 @@ type CodeViewerProps = {
   codeLineList: string[];
   selectedBlockStartLine?: number;
   selectedBlockLength?: number;
+  selectedBlockType?: string | null;
 };
 
 export const CodeContent = ({
@@ -13,11 +14,12 @@ export const CodeContent = ({
   codeLineList,
   selectedBlockStartLine,
   selectedBlockLength,
+  selectedBlockType,
 }: CodeViewerProps) => {
   const [previousCodeLines, setPreviousCodeLines] = useState<string[]>([]);
   const [highlightedLines, setHighlightedLines] = useState<number[]>([]);
 
-  // 수정된 코드 애니메이션 효과
+  // 코드 애니메이션 효과
   useEffect(() => {
     const newLineList: number[] = [];
 
@@ -48,12 +50,15 @@ export const CodeContent = ({
               index + 1 >= selectedBlockStartLine &&
               index + 1 < selectedBlockStartLine + selectedBlockLength;
 
+            // selectedBlockType에 해당하는 부분 강조
+            const containsSelectedType = selectedBlockType && line.includes(selectedBlockType);
+
             return (
               <div
                 key={index}
                 className={`${highlightedLines.includes(index) ? styles.newLine : ''} ${
                   isWithinSelectedBlock ? styles.blockHighlight : ''
-                }`}
+                } ${containsSelectedType ? styles.highlightBg : ''}`}
                 dangerouslySetInnerHTML={{ __html: line }}
               />
             );

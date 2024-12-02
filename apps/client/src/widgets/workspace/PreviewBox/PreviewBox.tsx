@@ -10,6 +10,7 @@ type PreviewBoxProps = {
   cssCode: string;
   selectedBlockStartLine?: number;
   selectedBlockLength?: number;
+  selectedBlockType?: string | null;
 };
 
 /**
@@ -22,6 +23,7 @@ export const PreviewBox = ({
   cssCode,
   selectedBlockStartLine,
   selectedBlockLength,
+  selectedBlockType,
 }: PreviewBoxProps) => {
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
   const { isResetCssChecked } = useResetCssStore();
@@ -101,6 +103,15 @@ export const PreviewBox = ({
             theme="light"
             selectedBlockStartLine={selectedBlockStartLine}
             selectedBlockLength={selectedBlockLength}
+            selectedBlockType={selectedBlockType}
+          />
+        )}
+        {activeTab === 'css' && (
+          <CodeViewer
+            code={cssCode}
+            type="css"
+            theme="light"
+            selectedBlockType={selectedBlockType}
           />
         )}
         {activeTab === 'css' && <CodeViewer code={cssCode} type="css" theme="light" />}

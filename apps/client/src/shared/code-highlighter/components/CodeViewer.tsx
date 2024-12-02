@@ -10,6 +10,7 @@ type CodeViewerProps = {
   theme?: 'light' | 'dark';
   selectedBlockStartLine?: number;
   selectedBlockLength?: number;
+  selectedBlockType?: string | null;
 };
 
 export const CodeViewer = ({
@@ -18,9 +19,12 @@ export const CodeViewer = ({
   theme,
   selectedBlockStartLine,
   selectedBlockLength,
+  selectedBlockType,
 }: CodeViewerProps) => {
   const parsedCode =
-    type === 'html' ? parseHighlightHtml(code, styles) : parseHighlightCss(code, styles);
+    type === 'html'
+      ? parseHighlightHtml(code, styles, selectedBlockType!)
+      : parseHighlightCss(code, styles, selectedBlockType!);
   const codeLineList = parsedCode.split('\n').filter((line) => line.trim() !== '');
 
   return (
@@ -32,6 +36,7 @@ export const CodeViewer = ({
         codeLineList={codeLineList}
         selectedBlockLength={selectedBlockLength}
         selectedBlockStartLine={selectedBlockStartLine}
+        selectedBlockType={selectedBlockType}
       />
     </div>
   );
