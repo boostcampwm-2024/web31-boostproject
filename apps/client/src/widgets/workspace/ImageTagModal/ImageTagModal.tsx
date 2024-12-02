@@ -20,7 +20,7 @@ import {
  * 사용자는 이미지를 업로드하거나, 태그를 선택하고, 업로드된 이미지를 저장할 수 있습니다.
  */
 export const ImageUploadModal = () => {
-  const { isImageUpload, imagePathList, nowImage, setNowImage } = useImageModalStore();
+  const { isModalOpen, imageList, nowImage, setNowImage } = useImageModalStore();
   const workspaceId = useParams().workspaceId as string;
 
   // 로컬 상태 관리
@@ -119,7 +119,7 @@ export const ImageUploadModal = () => {
     }
 
     const newImageName = `${inputValue.trim()}.${temp.format}`;
-    if (imagePathList.has(newImageName)) {
+    if (imageList.has(newImageName)) {
       return toast.error('이미 존재하는 파일 이름입니다.');
     }
 
@@ -132,7 +132,7 @@ export const ImageUploadModal = () => {
   };
 
   return (
-    <ModalConfirm isOpen={isImageUpload}>
+    <ModalConfirm isOpen={isModalOpen}>
       <div className="flex h-[36rem] w-[48rem] flex-col">
         <ImageTagModalHeader />
         <div className="flex h-full flex-grow flex-row pb-4 pt-2">
