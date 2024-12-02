@@ -45,10 +45,10 @@ export const ImageTagModalList = ({ tagSrc, onSetTagSrc, onHandleReset }: ImageL
    * 해당 이미지 파일을 db및 store에서 삭제합니다.
    */
   const handleDeleteImage = (imageName: string, imageSrc: string) => {
+    deleteImage({ workspaceId, imageName });
     if (imageSrc === tagSrc) {
       onSetTagSrc('');
     }
-    deleteImage({ workspaceId, imageName });
   };
 
   return (

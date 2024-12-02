@@ -20,7 +20,7 @@ import {
  * 사용자는 이미지를 업로드하거나, 태그를 선택하고, 업로드된 이미지를 저장할 수 있습니다.
  */
 export const ImageTagModal = () => {
-  const { isModalOpen, imageList, nowImage, setNowImage } = useImageModalStore();
+  const { isModalOpen, imageList, nowImage } = useImageModalStore();
   const workspaceId = useParams().workspaceId as string;
 
   // 로컬 상태 관리
@@ -60,7 +60,6 @@ export const ImageTagModal = () => {
         if (e.target) {
           const src = e.target.result as string;
           setImageSrc(src); // 이미지 소스 업데이트
-          setNowImage(''); // 현재 이미지 초기화
           setInputValue(parseFilename(fileInputRef.current?.value || '')); // 파일명 파싱 후 설정
         }
       };
