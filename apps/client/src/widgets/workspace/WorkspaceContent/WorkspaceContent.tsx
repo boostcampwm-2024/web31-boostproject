@@ -5,18 +5,17 @@ import * as Blockly from 'blockly/core';
 import { CssPropsSelectBox, PreviewBox } from '@/widgets';
 import {
   blockContents,
+  calculateBlockLength,
   cssCodeGenerator,
   defineBlocks,
-  removeBlockIdFromCode,
-  generateFullCodeWithBlockId,
-  calculateBlockLength,
   findBlockStartLine,
+  generateFullCodeWithBlockId,
   htmlTagToolboxConfig,
   initTheme,
   initializeBlocks,
+  removeBlockIdFromCode,
   tabToolboxConfig,
 } from '@/shared/blockly';
-
 import {
   useClassBlockStore,
   useCssPropsStore,
@@ -98,6 +97,7 @@ export const WorkspaceContent = () => {
 
     // workspace 변화 감지해 자동 변환
     const handleAutoConversion = (event: Blockly.Events.Abstract) => {
+      console.log(event.type);
       if (
         event.type === Blockly.Events.BLOCK_CREATE ||
         event.type === Blockly.Events.BLOCK_MOVE ||
@@ -111,13 +111,14 @@ export const WorkspaceContent = () => {
         const codeWithNoId = removeBlockIdFromCode(codeWithId);
 
         setHtmlCode(codeWithNoId);
-
-        if (isBlockLoadingFinish.current) {
-          setIsBlockChanged(true);
-        }
       }
 
-      if (event.type === Blockly.Events.VIEWPORT_CHANGE && isBlockLoadingFinish.current) {
+      if (
+        event.type === Blockly.Events.VIEWPORT_CHANGE ||
+        event.type === Blockly.Events.BLOCK_DRAG ||
+        event.type === Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE ||
+        (event.type === Blockly.Events.BLOCK_DELETE && isBlockLoadingFinish.current)
+      ) {
         setIsBlockChanged(true);
       }
 
@@ -133,7 +134,6 @@ export const WorkspaceContent = () => {
       }
 
       const block = newWorkspace.getBlockById(event.blockId || '');
-      console.log('block type', block?.type);
 
       setSelectedBlockType(
         block && block.type.startsWith('CSS_') ? block.type.replace(/^CSS_/, '') : null

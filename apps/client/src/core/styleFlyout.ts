@@ -74,6 +74,7 @@ export default class StyleFlyout extends FixedFlyout {
       class: 'resetCssCheckbox',
     });
     resetCssCheckboxElement.checked = useResetCssStore.getState().isResetCssChecked;
+    useWorkspaceChangeStatusStore.getState().setIsCssChanged(true);
     resetCssCheckboxElement.addEventListener('change', () => {
       useResetCssStore.getState().toggleResetCss();
     });
@@ -241,6 +242,7 @@ export default class StyleFlyout extends FixedFlyout {
 
     if (!Blockly.Blocks[createClassType!]) {
       useCssPropsStore.getState().addNewCssClass(createClassType);
+      useWorkspaceChangeStatusStore.getState().setIsBlockChanged(true);
       Blockly.Blocks[createClassType!] = {
         init: function () {
           this.appendDummyInput().appendField(
