@@ -17,6 +17,5 @@ export { RenderResetCssTooltip } from './workspace/RenderResetCssTooltip/RenderR
 export { ImageTagModalList } from './workspace/ImageTagModalList/ImageTagModalList';
 export { ImageTagModalHeader } from './workspace/ImageTagModalHeader/ImageTagModalHeader';
 export { ImageTagModalImg } from './workspace/ImageTagModalImg/ImageTagModalImg';
-export { ImageTagModalSrc } from './workspace/ImageTagModalSrc/ImageTagModalSrc';
 export { ImageTagModalButton } from './workspace/ImageTagModalButton/ImageTagModalButton';
 export { ImageTagModalListItem } from './workspace/ImageTagModalListItem/ImageTagModalListItem';

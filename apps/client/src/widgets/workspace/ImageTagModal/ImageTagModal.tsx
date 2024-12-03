@@ -5,12 +5,7 @@ import toast from 'react-hot-toast';
 
 import { ModalConfirm } from '@/shared/ui';
 import { useImageModalStore } from '@/shared/store';
-import {
-  ImageTagModalList,
-  ImageTagModalImg,
-  ImageTagModalSrc,
-  ImageTagModalButton,
-} from '@/entities';
+import { ImageTagModalList, ImageTagModalImg, ImageTagModalButton } from '@/entities';
 
 /**
  * @component
@@ -61,7 +56,11 @@ export const ImageTagModal = () => {
           <div className="flex h-full w-full flex-col gap-3">
             <span className="text-semibold-md w-full text-gray-400">이미지 미리보기</span>
             <ImageTagModalImg imageSrc={tagSrc} />
-            <ImageTagModalSrc tagSrc={tagSrc} onSetTagSrc={setTagSrc} />
+            <input
+              className="w-full rounded-lg border-[1px] px-5 py-3 align-middle text-gray-200 focus:outline-none"
+              value={tagSrc}
+              onChange={(e) => setTagSrc(e.target.value)}
+            />
           </div>
         </div>
         <div className="mt-9 flex w-full flex-row justify-end gap-3">
