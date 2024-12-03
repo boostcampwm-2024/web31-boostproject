@@ -31,6 +31,10 @@ export const CoachMark = () => {
 
   useEffect(() => {
     const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
+    if (!workspace) {
+      return;
+    }
+
     const toolbox = workspace.getToolbox() as TabbedToolbox;
 
     if (!toolbox) return;
