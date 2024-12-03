@@ -1,0 +1,2 @@
+import{j as e}from"./jsx-runtime-DR9Q75dM.js";const s=()=>e.jsxs("div",{className:"flex h-[23rem] flex-col items-center justify-center bg-gray-50 text-gray-200",children:[e.jsx("img",{src:"https://kr.object.ncloudstorage.com/boolock-storage/static/empty_logo.png",alt:"",className:"h-40 w-40 grayscale"}),e.jsxs("p",{className:"text-center",children:["아직 워크스페이스가 없어요! ",e.jsx("br",{})," 새로운 웹 페이지를 만들어보세요!"]})]});s.__docgenInfo={description:`@description
+워크스페이스가 없을 때, 마우스가 올라가지 않은 상태의 빈 워크스페이스 컴포넌트`,methods:[],displayName:"NotHoveredEmptyWorkspace"};export{s as N};

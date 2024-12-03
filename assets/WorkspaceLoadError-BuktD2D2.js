@@ -1,0 +1,2 @@
+import{j as e}from"./jsx-runtime-DR9Q75dM.js";const r=()=>e.jsxs("div",{className:"flex h-[23rem] w-full flex-col items-center justify-center gap-4 rounded-lg bg-gray-50 text-gray-200",children:[e.jsx("img",{src:"https://kr.object.ncloudstorage.com/boolock-storage/static/not_found.png",className:"h-40 w-40"}),e.jsx("p",{className:"text-center",children:"워크스페이스를 불러오지 못했습니다."})]});r.__docgenInfo={description:`@description
+워크스페이스 불러오기 실패 시 렌더링 되는 에러 컴포넌트`,methods:[],displayName:"WorkspaceLoadError"};export{r as W};
