@@ -57,7 +57,7 @@ export const PreviewBox = ({
   };
 
   return (
-    <section className="flex-1 border-b border-gray-100">
+    <section className="flex h-[calc(100vh-475px)] flex-1 flex-col border-b border-gray-100">
       <nav className="flex h-10 border-b border-gray-100">
         <button
           onClick={() => setActiveTab('preview')}
@@ -78,7 +78,7 @@ export const PreviewBox = ({
           CSS
         </button>
       </nav>
-      <div className="relative h-full max-h-[calc(100%-26rem)] min-h-[20rem] w-full">
+      <div className="relative flex-1 overflow-hidden">
         {(activeTab === 'html' || activeTab === 'css') && (
           <div className="absolute right-4 top-5 z-50">
             <CopyIcon
@@ -99,8 +99,8 @@ export const PreviewBox = ({
         )}
         {activeTab === 'html' && (
           <CodeViewer
-            code={htmlCode}
-            type="html"
+            code={activeTab === 'html' ? htmlCode : cssCode}
+            type={activeTab}
             theme="light"
             selectedBlockStartLine={selectedBlockStartLine}
             selectedBlockLength={selectedBlockLength}

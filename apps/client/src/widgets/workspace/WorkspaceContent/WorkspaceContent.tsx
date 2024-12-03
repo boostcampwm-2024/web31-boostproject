@@ -5,18 +5,17 @@ import * as Blockly from 'blockly/core';
 import { CssPropsSelectBox, PreviewBox } from '@/widgets';
 import {
   blockContents,
+  calculateBlockLength,
   cssCodeGenerator,
   defineBlocks,
-  removeBlockIdFromCode,
-  generateFullCodeWithBlockId,
-  calculateBlockLength,
   findBlockStartLine,
+  generateFullCodeWithBlockId,
   htmlTagToolboxConfig,
   initTheme,
   initializeBlocks,
+  removeBlockIdFromCode,
   tabToolboxConfig,
 } from '@/shared/blockly';
-
 import {
   useClassBlockStore,
   useCssPropsStore,
@@ -117,13 +116,14 @@ export const WorkspaceContent = () => {
         const codeWithNoId = removeBlockIdFromCode(codeWithId);
 
         setHtmlCode(codeWithNoId);
-
-        if (isBlockLoadingFinish.current) {
-          setIsBlockChanged(true);
-        }
       }
 
-      if (event.type === Blockly.Events.VIEWPORT_CHANGE && isBlockLoadingFinish.current) {
+      if (
+        event.type === Blockly.Events.VIEWPORT_CHANGE ||
+        event.type === Blockly.Events.BLOCK_DRAG ||
+        event.type === Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE ||
+        (event.type === Blockly.Events.BLOCK_DELETE && isBlockLoadingFinish.current)
+      ) {
         setIsBlockChanged(true);
       }
 
@@ -211,7 +211,7 @@ export const WorkspaceContent = () => {
 
   return (
     <div className="flex flex-1">
-      <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
+      <div className="flex h-[calc(100vh-56px)] w-[32rem] flex-shrink-0 flex-col">
         <PreviewBox
           htmlCode={htmlCode}
           cssCode={cssCode}

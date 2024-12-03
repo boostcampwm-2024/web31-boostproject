@@ -1,4 +1,4 @@
-import { GuidesBox, HomeHeader, WorkspaceContainer, WorkspaceModal } from '@/widgets';
+import { Banner, HomeHeader, WorkspaceContainer, WorkspaceModal } from '@/widgets';
 import { useClassBlockStore, useLoadingStore, useWorkspaceStore } from '@/shared/store';
 
 import { Helmet } from 'react-helmet-async';
@@ -32,8 +32,8 @@ export const HomePage = () => {
       </Helmet>
       {isPending && <Loading />}
       <div className="flex h-full w-full flex-col items-center">
-        <HomeHeader isBlack={true} />
-        <GuidesBox />
+        <HomeHeader />
+        <Banner />
         <WorkspaceContainer />
         <WorkspaceModal />
       </div>
