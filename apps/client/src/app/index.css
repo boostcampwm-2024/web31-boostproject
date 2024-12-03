@@ -212,6 +212,37 @@ input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0 6px 0 12px;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInBlock {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateX {
+  from {
+    transform: rotateX(37deg) rotateZ(0deg) translateY(-350px);
+  }
+  to {
+    transform: rotateX(70deg) rotateZ(0deg) translateY(-350px);
+  }
+}
+
 .reset-css {
   html,
   body,
