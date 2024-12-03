@@ -1,4 +1,4 @@
-import{j as o}from"./jsx-runtime-DR9Q75dM.js";import{P as s}from"./PreviewBox-feT3CZwu.js";import"./index-DRjF_FHU.js";import"./useWorkspaceStore-BD1duu30.js";import"./index-D1AAVYfs.js";const h={title:"widgets/workspace/PreviewBox",component:s,parameters:{layout:"centered"},decorators:[n=>o.jsx("div",{style:{width:"500px",height:"100%"},children:o.jsx(n,{})})],tags:["autodocs"]},e={args:{htmlCode:`<html>
+import{j as o}from"./jsx-runtime-DR9Q75dM.js";import{P as s}from"./PreviewBox-CZruGxvx.js";import"./index-DRjF_FHU.js";import"./useWorkspaceStore-BD1duu30.js";import"./index-D1AAVYfs.js";const h={title:"widgets/workspace/PreviewBox",component:s,parameters:{layout:"centered"},decorators:[n=>o.jsx("div",{style:{width:"500px",height:"100%"},children:o.jsx(n,{})})],tags:["autodocs"]},e={args:{htmlCode:`<html>
       <head></head>
       <body>
         <div class="container">
