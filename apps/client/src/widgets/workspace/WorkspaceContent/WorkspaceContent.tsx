@@ -70,7 +70,7 @@ export const WorkspaceContent = () => {
   const [selectedBlockLength, setSelectedBlockLength] = useState<number>(0);
   const [selectedBlockType, setSelectedBlockType] = useState<string | null>(null);
   const isBlockLoadingFinish = useRef<boolean>(false);
-  
+
   useEffect(() => {
     const newWorkspace = Blockly.inject('blocklyDiv', {
       plugins: {

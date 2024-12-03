@@ -20,8 +20,8 @@ export const Banner = () => {
               animation: '1s fadeIn .4s ease-out forwards',
             }}
           >
-            Build Your Own Website
-            <br /> With BooLock
+            BooLock과 함께하는
+            <br /> 정적 웹 개발 학습하기
           </h1>
         </div>
       </div>

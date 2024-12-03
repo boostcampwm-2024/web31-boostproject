@@ -232,3 +232,12 @@ input[type='color']::-webkit-color-swatch-wrapper {
     transform: translateY(0);
   }
 }
+
+@keyframes rotateX {
+  from {
+    transform: rotateX(37deg) rotateZ(0deg) translateY(-350px);
+  }
+  to {
+    transform: rotateX(70deg) rotateZ(0deg) translateY(-350px);
+  }
+}
