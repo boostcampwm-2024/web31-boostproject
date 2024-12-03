@@ -27,10 +27,15 @@ export const CoachMark = () => {
 
     const toolbox = Blockly.getMainWorkspace()?.getToolbox() as TabbedToolbox;
 
-    if (currentStep === 1) {
-      toolbox.clickTab('css');
-    } else if (currentStep === 2) {
-      toolbox.clickTab('html');
+    switch (currentStep) {
+      case 0:
+        toolbox.clickTab('html');
+        break;
+      case 1:
+        toolbox.clickTab('css');
+        break;
+      case 2:
+        toolbox.clickTab('html');
     }
 
     if (toolboxDiv) {

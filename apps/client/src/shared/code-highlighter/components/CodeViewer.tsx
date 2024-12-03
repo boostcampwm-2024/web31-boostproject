@@ -3,6 +3,7 @@ import { LineNumbers } from './LineNumbers';
 import { parseHighlightCss } from '../utils/parseHighlightCss';
 import { parseHighlightHtml } from '../utils/parseHighlightHtml';
 import styles from '../styles/CodeViewer.module.css';
+import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
 
 type CodeViewerProps = {
   code: string;
@@ -26,9 +27,12 @@ export const CodeViewer = ({
       ? parseHighlightHtml(code, styles, selectedBlockType!)
       : parseHighlightCss(code, styles, selectedBlockType!);
   const codeLineList = parsedCode.split('\n').filter((line) => line.trim() !== '');
+  const { currentStep } = useCoachMarkStore();
 
   return (
-    <div className={`${styles.viewer} ${theme === 'dark' ? styles.dark : styles.light}`}>
+    <div
+      className={`${styles.viewer} ${theme === 'dark' ? styles.dark : styles.light} ${currentStep === 3 ? 'z-[99999] bg-white' : ''}`}
+    >
       <LineNumbers codeLineList={codeLineList} />
 
       <CodeContent

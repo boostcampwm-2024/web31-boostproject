@@ -10,7 +10,9 @@ export const CssPropsSelectBox = () => {
   const { currentStep } = useCoachMarkStore();
 
   return (
-    <section className={`flex h-[26rem] w-full flex-col ${currentStep === 2 ? 'z-[99999]' : ''}`}>
+    <section
+      className={`flex h-[26rem] w-full flex-col ${currentStep === 2 ? 'z-[99999] bg-white' : ''}`}
+    >
       <CssPropsSelectBoxHeader />
       <div className="flex h-full w-full overflow-hidden">
         <CssCategoryBar />
