@@ -1,18 +1,18 @@
 import { TCanvas, TTotalCssPropertyObj } from '@/shared/types/workspaceType';
+import { createUserId, getUserId } from '@/shared/utils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { TBlock } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
-import { createUserId, getUserId } from '@/shared/utils';
 import toast from 'react-hot-toast';
 import { useWorkspaceChangeStatusStore } from '@/shared/store';
-import { workspaceKeys } from '../query-key/workspaceKeys';
+import { workspaceKeys } from '@/shared/hooks/query-key/workspaceKeys';
 
 export const useSaveWorkspace = (workspaceId: string) => {
   const workspaceApi = WorkspaceApi();
   const userId = getUserId() || createUserId();
-  const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const queryClient = useQueryClient();
+  const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const { mutate, isPending } = useMutation({
     mutationFn: ({
       totalCssPropertyObj,
@@ -27,15 +27,6 @@ export const useSaveWorkspace = (workspaceId: string) => {
       cssResetStatus: boolean;
       thumbnail: File;
     }) => {
-      /*
-       * return Promise.all([
-       *   workspaceApi.saveWorkspaceCssProperty(userId, workspaceId, totalCssPropertyObj),
-       *   workspaceApi.saveWorkspaceCanvas(userId, workspaceId, canvas),
-       *   workspaceApi.saveWorkspaceClassBlockList(userId, workspaceId, classBlockList),
-       *   workspaceApi.saveWorkspaceCssResetStatus(userId, workspaceId, cssResetStatus),
-       * ]);
-       */
-
       return workspaceApi.saveWorkspace(
         userId,
         workspaceId,
@@ -48,7 +39,7 @@ export const useSaveWorkspace = (workspaceId: string) => {
     },
     onSuccess: () => {
       resetChangedStatusState();
-      queryClient.invalidateQueries({ queryKey: workspaceKeys.detail(workspaceId) });
+      queryClient.invalidateQueries({ queryKey: workspaceKeys.list() });
       toast.success('성공적으로 저장되었습니다.');
     },
     onError: () => {

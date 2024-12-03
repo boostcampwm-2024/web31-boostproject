@@ -1,8 +1,8 @@
-import styles from '../styles/CodeViewer.module.css';
-import { parseHighlightCss } from '../utils/parseHighlightCss';
-import { parseHighlightHtml } from '../utils/parseHighlightHtml';
 import { CodeContent } from './CodeContent';
 import { LineNumbers } from './LineNumbers';
+import { parseHighlightCss } from '../utils/parseHighlightCss';
+import { parseHighlightHtml } from '../utils/parseHighlightHtml';
+import styles from '../styles/CodeViewer.module.css';
 
 type CodeViewerProps = {
   code: string;
@@ -21,15 +21,11 @@ export const CodeViewer = ({
   selectedBlockLength,
   selectedBlockType,
 }: CodeViewerProps) => {
-  console.log('type', type);
   const parsedCode =
     type === 'html'
       ? parseHighlightHtml(code, styles, selectedBlockType!)
       : parseHighlightCss(code, styles, selectedBlockType!);
   const codeLineList = parsedCode.split('\n').filter((line) => line.trim() !== '');
-
-  console.log('parsedCode', parsedCode);
-  console.log('codeLineList', codeLineList);
 
   return (
     <div className={`${styles.viewer} ${theme === 'dark' ? styles.dark : styles.light}`}>
