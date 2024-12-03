@@ -10,8 +10,8 @@ export const coachMarkContent: CoachMarkStep[] = [
     title: 'HTML 태그 블록 조립하기',
     content: (
       <>
-        오른쪽 <span className="coachMarkHighlightText">HTML 태그 탭</span>에서 블록을 가져와 작업
-        공간에서 조립할 수 있어요
+        오른쪽 <span className="coachMarkHighlightText">HTML 태그 탭</span>에서 블록을 가져와 <br />
+        작업 공간에서 조립할 수 있어요
       </>
     ),
   },
@@ -29,7 +29,8 @@ export const coachMarkContent: CoachMarkStep[] = [
     title: '스타일 속성 추가하기',
     content: (
       <>
-        생성한 <span className="coachMarkHighlightText">CSS 클래스 블록</span>을 선택해 원하는
+        생성한 <span className="coachMarkHighlightText">CSS 클래스 블록</span>을 선택해 <br />
+        원하는
         <span className="coachMarkHighlightText">스타일 속성</span>을 추가할 수 있어요
       </>
     ),

@@ -46,13 +46,13 @@ export const CoachMark = () => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-70">
-      <div className="z-[99999] min-h-40 max-w-96 rounded-2xl bg-white p-6 shadow-lg">
+      <div className="z-[99999] min-h-40 min-w-96 rounded-2xl bg-white p-6 pb-4 shadow-lg">
         <h2 className="text-bold-sm mb-4 text-gray-200">{coachMarkContent[currentStep].title}</h2>
         <p className="text-medium-md mb-6 whitespace-pre-line">
           {coachMarkContent[currentStep].content}
         </p>
-        <div className="flex justify-between">
-          <div>
+        <div className="flex items-center justify-between">
+          <div className="text-bold-sm text-green-500">
             {currentStep + 1}/{stepsLength}
           </div>
           <div className="flex gap-2">
