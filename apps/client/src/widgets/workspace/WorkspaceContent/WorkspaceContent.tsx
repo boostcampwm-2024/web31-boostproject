@@ -5,18 +5,17 @@ import * as Blockly from 'blockly/core';
 import { CssPropsSelectBox, PreviewBox } from '@/widgets';
 import {
   blockContents,
+  calculateBlockLength,
   cssCodeGenerator,
   defineBlocks,
-  removeBlockIdFromCode,
-  generateFullCodeWithBlockId,
-  calculateBlockLength,
   findBlockStartLine,
+  generateFullCodeWithBlockId,
   htmlTagToolboxConfig,
   initTheme,
   initializeBlocks,
+  removeBlockIdFromCode,
   tabToolboxConfig,
 } from '@/shared/blockly';
-
 import {
   useClassBlockStore,
   useCssPropsStore,
@@ -111,13 +110,14 @@ export const WorkspaceContent = () => {
         const codeWithNoId = removeBlockIdFromCode(codeWithId);
 
         setHtmlCode(codeWithNoId);
-
-        if (isBlockLoadingFinish.current) {
-          setIsBlockChanged(true);
-        }
       }
 
-      if (event.type === Blockly.Events.VIEWPORT_CHANGE && isBlockLoadingFinish.current) {
+      if (
+        event.type === Blockly.Events.VIEWPORT_CHANGE ||
+        event.type === Blockly.Events.BLOCK_DRAG ||
+        event.type === Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE ||
+        (event.type === Blockly.Events.BLOCK_DELETE && isBlockLoadingFinish.current)
+      ) {
         setIsBlockChanged(true);
       }
 
@@ -127,14 +127,16 @@ export const WorkspaceContent = () => {
     };
 
     // 블록 클릭 이벤트 핸들러
-    const handleBlockClick = (event: Blockly.Events.Abstract) => {
+    const handleBlockClick2 = (event: Blockly.Events.Abstract) => {
       if (!(event instanceof Blockly.Events.Click)) {
         return;
       }
 
       const block = newWorkspace.getBlockById(event.blockId || '');
 
-      setSelectedBlockType(block && !block.type.startsWith('BOOLOCK_SYSTEM_') ? block.type : null);
+      setSelectedBlockType(
+        block && block.type.startsWith('CSS_') ? block.type.replace(/^CSS_/, '') : null
+      );
 
       // 블록 미 선택시 초기화
       if (!block) {
@@ -157,7 +159,7 @@ export const WorkspaceContent = () => {
     };
 
     newWorkspace.addChangeListener(handleAutoConversion);
-    newWorkspace.addChangeListener(handleBlockClick);
+    newWorkspace.addChangeListener(handleBlockClick2);
 
     if (workspace === null) {
       setWorkspace(newWorkspace);
@@ -165,7 +167,7 @@ export const WorkspaceContent = () => {
 
     return () => {
       newWorkspace.removeChangeListener(handleAutoConversion);
-      newWorkspace.removeChangeListener(handleBlockClick);
+      newWorkspace.removeChangeListener(handleBlockClick2);
       newWorkspace.dispose();
     };
   }, []);

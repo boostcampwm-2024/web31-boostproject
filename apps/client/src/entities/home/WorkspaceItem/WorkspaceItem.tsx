@@ -58,7 +58,7 @@ export const WorkspaceItem = ({
             <img
               src={thumbnail}
               alt="workspace thumbnail"
-              className="h-full w-full object-cover object-top"
+              className="h-full w-full object-cover object-left-top"
               loading="lazy"
             />
           )}

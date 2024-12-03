@@ -1,7 +1,7 @@
 import { Select, TOption } from '@/shared/ui';
+import { addPrefixToCssClassName, removeCssClassNamePrefix } from '@/shared/utils';
 import { useClassBlockStore, useCssPropsStore } from '@/shared/store';
 import { useEffect, useState } from 'react';
-import { addPrefixToCssClassName } from '@/shared/utils';
 
 /**
  *
@@ -30,7 +30,7 @@ export const CssPropsSelectBoxHeader = () => {
       <p className="text-semibold-md text-gray-black truncate">CSS 클래스 속성 편집</p>
       <Select
         options={selectOptions}
-        value={currentCssClassName}
+        value={removeCssClassNamePrefix(currentCssClassName)}
         onChange={(selected: string) => setCurrentCssClassName(addPrefixToCssClassName(selected))}
         placeholder="클래스를 선택해주세요"
       />

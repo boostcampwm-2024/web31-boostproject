@@ -1,10 +1,11 @@
+import { createUserId, getUserId } from '@/shared/utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+
 import { TCreatedWorkspaceDto } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
 import toast from 'react-hot-toast';
 import { useLoadingStore } from '@/shared/store';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import { getUserId, createUserId } from '@/shared/utils';
 import { workspaceKeys } from '@/shared/hooks';
 
 export const useCreateWorkspace = (isSample = false) => {
@@ -24,8 +25,7 @@ export const useCreateWorkspace = (isSample = false) => {
         navigate(`/workspace/${newWorkspace.newWorkspaceId}`);
       }
     },
-    onError: (error) => {
-      console.error(error);
+    onError: () => {
       toast.error('워크스페이스 생성 실패');
     },
     onSettled: () => {
