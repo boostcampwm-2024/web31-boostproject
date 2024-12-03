@@ -31,7 +31,7 @@ export const CodeViewer = ({
 
   return (
     <div
-      className={`${styles.viewer} ${theme === 'dark' ? styles.dark : styles.light} ${currentStep === 3 ? 'z-[99999] bg-white' : ''}`}
+      className={`${styles.viewer} ${theme === 'dark' ? styles.dark : styles.light} ${currentStep === 3 ? 'z-[200] bg-white' : ''}`}
     >
       <div className={styles.scrollContainer}>
         <LineNumbers codeLineList={codeLineList} />

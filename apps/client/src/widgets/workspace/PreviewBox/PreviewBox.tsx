@@ -59,8 +59,9 @@ export const PreviewBox = ({
   };
 
   return (
+    // TODO: 사용자가이드 - 겹치는 현상
     <section
-      className={`flex h-[calc(100vh-475px)] flex-1 flex-col border-b border-gray-100 ${currentStep === 3 ? 'z-[99999]' : ''}`}
+      className={`flex h-[calc(100vh-475px)] flex-1 flex-col border-b border-gray-100 ${currentStep === 3 ? 'z-[200]' : ''}`}
     >
       <nav className="flex h-10 border-b border-gray-100">
         <button

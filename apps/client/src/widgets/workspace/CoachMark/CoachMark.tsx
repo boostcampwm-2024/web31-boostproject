@@ -8,6 +8,9 @@ import { coachMarkContent } from '@/shared/utils';
 export const CoachMark = () => {
   const { currentStep, setCurrentStep, closeCoachMark } = useCoachMarkStore();
   const stepsLength = coachMarkContent.length;
+  const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
+  const blockCanvas = document.querySelector('.blocklyBlockCanvas');
+  // TODO: 사용자가이드 - 블록 하이라이팅
 
   const nextStep = () => {
     if (currentStep < stepsLength - 1) {
@@ -21,11 +24,15 @@ export const CoachMark = () => {
     }
   };
 
-  useEffect(() => {
-    const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
-    const blockCanvas = document.querySelector('.blocklyBlockCanvas');
+  const handleDismiss = () => {
+    localStorage.setItem('isCoachMarkDismissed', 'true');
+    closeCoachMark();
+  };
 
+  useEffect(() => {
     const toolbox = Blockly.getMainWorkspace()?.getToolbox() as TabbedToolbox;
+
+    if (!toolbox) return;
 
     switch (currentStep) {
       case 0:
@@ -47,11 +54,11 @@ export const CoachMark = () => {
         blockCanvas.classList.remove('coachMarkHighlight');
       }
     }
-  }, [currentStep]);
+  }, [currentStep, toolboxDiv]);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-70">
-      <div className="z-[99999] min-h-40 min-w-96 rounded-2xl bg-white p-6 pb-4 shadow-lg">
+      <div className="z-[99999] min-h-40 min-w-96 rounded-2xl bg-white p-6 pb-4 shadow-2xl">
         <h2 className="text-bold-sm mb-4 text-gray-200">{coachMarkContent[currentStep].title}</h2>
         <p className="text-medium-md mb-6 whitespace-pre-line">
           {coachMarkContent[currentStep].content}
@@ -62,7 +69,7 @@ export const CoachMark = () => {
           </div>
           <div className="flex gap-2">
             <CircleButton
-              onClick={closeCoachMark}
+              onClick={handleDismiss}
               disable={currentStep === stepsLength}
               className="text-bold-sm h-8 w-16"
               variant="outlined"
