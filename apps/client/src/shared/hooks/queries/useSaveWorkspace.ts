@@ -1,15 +1,17 @@
 import { TCanvas, TTotalCssPropertyObj } from '@/shared/types/workspaceType';
 import { createUserId, getUserId } from '@/shared/utils';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { TBlock } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
 import toast from 'react-hot-toast';
-import { useMutation } from '@tanstack/react-query';
 import { useWorkspaceChangeStatusStore } from '@/shared/store';
+import { workspaceKeys } from '@/shared/hooks/query-key/workspaceKeys';
 
 export const useSaveWorkspace = (workspaceId: string) => {
   const workspaceApi = WorkspaceApi();
   const userId = getUserId() || createUserId();
+  const queryClient = useQueryClient();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const { mutate, isPending } = useMutation({
     mutationFn: ({
@@ -37,6 +39,7 @@ export const useSaveWorkspace = (workspaceId: string) => {
     },
     onSuccess: () => {
       resetChangedStatusState();
+      queryClient.invalidateQueries({ queryKey: workspaceKeys.list() });
       toast.success('성공적으로 저장되었습니다.');
     },
     onError: () => {
