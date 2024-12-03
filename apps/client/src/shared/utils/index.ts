@@ -13,4 +13,3 @@ export {
 export { debounce } from './debounce';
 export { cssCategoryList } from './cssCategoryList';
 export { hasField } from './typeGuard';
-export { parseBase64Info, parseFilename } from './imageUtils';

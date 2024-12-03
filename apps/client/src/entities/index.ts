@@ -18,3 +18,5 @@ export { ImageTagModalList } from './workspace/ImageTagModalList/ImageTagModalLi
 export { ImageTagModalHeader } from './workspace/ImageTagModalHeader/ImageTagModalHeader';
 export { ImageTagModalImg } from './workspace/ImageTagModalImg/ImageTagModalImg';
 export { ImageTagModalSrc } from './workspace/ImageTagModalSrc/ImageTagModalSrc';
+export { ImageTagModalButton } from './workspace/ImageTagModalButton/ImageTagModalButton';
+export { ImageTagModalListItem } from './workspace/ImageTagModalListItem/ImageTagModalListItem';

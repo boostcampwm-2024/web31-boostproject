@@ -23,7 +23,7 @@ export const useImageModalStore = create<TImageModalStore>()((set) => ({
   nowImage: '',
   imageMap: new Map<string, string>(),
   setNowId: (id) => set({ nowId: id }),
-  setIsModalOpen: (isModalOpen) => set({ isModalOpen: isModalOpen }),
+  setIsModalOpen: (isModalOpen) => set({ isModalOpen: isModalOpen, nowImage: '' }),
   pushImagePath: (filename, item) =>
     set((state) => {
       const newImageList = new Map(state.imageList);
