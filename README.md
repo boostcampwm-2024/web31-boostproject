@@ -35,7 +35,7 @@
 
 # 📜 목차
 
-1. <img width="16" alt="boolock_logo" src="https://github.com/user-attachments/assets/469d65f4-d33d-46d9-a91c-29443d9080fe"> [프로젝트 소개](#introduce)
+1. &nbsp;<img width="16" alt="boolock_logo" src="https://github.com/user-attachments/assets/469d65f4-d33d-46d9-a91c-29443d9080fe">&nbsp; [프로젝트 소개](#introduce)
 2. 🐥 [주요 기능](#major_feature)
 3. 🌐 [시스템 아키텍처](#system_architecture)
 4. ⚒️ [기술 스택](#tech_stack)
@@ -121,7 +121,7 @@
 
 <br/>
 
-# ⌛ 기술적 경험 [[학습기록 자세히 보기]](https://laced-riverbed-47c.notion.site/12d77ba9a1b681a5927ef7561f25af5e?v=31f16944c187499cbcf75c2c90f0b98d&pvs=4) <a id="tech_exprience"></a>
+# ⌛ 기술적 경험 [[학습기록 자세히 보기]](https://laced-riverbed-47c.notion.site/12d77ba9a1b681a5927ef7561f25af5e?v=31f16944c187499cbcf75c2c90f0b98d&pvs=4) <a id="tech_experience"></a>
 
 ## FE
 
