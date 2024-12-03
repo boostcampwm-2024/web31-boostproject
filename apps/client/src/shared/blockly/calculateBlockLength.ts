@@ -5,6 +5,7 @@ const singleLineBlocks = [
   'BOOLOCK_SYSTEM_text',
   'BOOLOCK_SYSTEM_br',
   'BOOLOCK_SYSTEM_hr',
+  'BOOLOCK_SYSTEM_img',
 ];
 
 const containerBlocks = [
@@ -42,6 +43,7 @@ const containerBlocks = [
   'BOOLOCK_SYSTEM_ul',
   'BOOLOCK_SYSTEM_ol',
   'BOOLOCK_SYSTEM_li',
+  'BOOLOCK_SYSTEM_a',
 ];
 
 // 특정 블록의 자식 블록들을 가져오는 공통 함수

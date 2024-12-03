@@ -94,6 +94,12 @@ export const WorkspaceService = () => {
       return workspace;
     }
     const totalCssPropertyObj = generateTotalCssPropertyObj(workspace as TWorkspace);
+    const imageList = workspace.image_list
+      ? JSON.stringify(Object.fromEntries(workspace.image_list))
+      : '';
+    const imageMap = workspace.image_map
+      ? JSON.stringify(Object.fromEntries(workspace.image_map))
+      : '';
     return {
       workspace_id: workspace.workspace_id,
       name: workspace.name,
@@ -101,6 +107,8 @@ export const WorkspaceService = () => {
       totalCssPropertyObj,
       canvas: workspace.canvas,
       classBlockList: workspace.class_block_list,
+      imageMap,
+      imageList,
     };
   };
 
@@ -115,6 +123,12 @@ export const WorkspaceService = () => {
     }
 
     const totalCssPropertyObj = generateTotalCssPropertyObj(updatedWorkspace as TWorkspace);
+    const imageList = updatedWorkspace.image_list
+      ? JSON.stringify(Object.fromEntries(updatedWorkspace.image_list))
+      : '';
+    const imageMap = updatedWorkspace.image_map
+      ? JSON.stringify(Object.fromEntries(updatedWorkspace.image_map))
+      : '';
     return {
       name: updatedWorkspace.name,
       workspaceId: updatedWorkspace.workspace_id,
@@ -124,6 +138,8 @@ export const WorkspaceService = () => {
       userId: updatedWorkspace.user_id,
       updatedAt: updatedWorkspace.updated_at,
       thumbnail: updatedWorkspace.thumbnail,
+      imageMap,
+      imageList,
     };
   };
 
@@ -143,7 +159,8 @@ export const WorkspaceService = () => {
     classBlockList: string,
     cssResetStatus: string,
     // eslint-disable-next-line no-undef
-    thumbnail: Express.Multer.File
+    thumbnail: Express.Multer.File,
+    imageMap: Map<string, string>
   ) => {
     const session = await Workspace.startSession();
     session.startTransaction();
@@ -176,6 +193,7 @@ export const WorkspaceService = () => {
             is_css_reset: cssResetStatus === 'true',
             updated_at: Date.now(),
             thumbnail: uploadResult.Location,
+            image_map: imageMap,
           },
         },
         { new: true }
@@ -194,6 +212,88 @@ export const WorkspaceService = () => {
     }
   };
 
+  const saveImage = async (
+    userId: string,
+    workspaceId: string,
+    imageName: string,
+    // eslint-disable-next-line no-undef
+    image: Express.Multer.File
+  ) => {
+    const session = await Workspace.startSession();
+    session.startTransaction();
+    try {
+      const upload = new Upload({
+        client: S3,
+        params: {
+          Bucket: process.env.S3_BUCKET_NAME,
+          Key: `image/${workspaceId}/${imageName}`,
+          ACL: 'public-read',
+          Body: image.buffer,
+          ContentType: image.mimetype,
+        },
+      });
+      const uploadResult = await upload.done();
+      if (!uploadResult) {
+        throw new Error('Failed to upload image');
+      }
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $set: {
+            [`image_list.${imageName}`]: uploadResult.Location,
+            updated_at: Date.now(),
+          },
+        },
+        { new: true }
+      );
+      if (!updatedWorkspace) {
+        throw new Error('Failed to update workspace');
+      }
+      await session.commitTransaction();
+      return uploadResult.Location;
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
+  };
+
+  const deleteImage = async (userId: string, workspaceId: string, imageName: string) => {
+    const session = await Workspace.startSession();
+    session.startTransaction();
+    try {
+      const updatedWorkspace = await Workspace.findOneAndUpdate(
+        {
+          user_id: userId,
+          workspace_id: workspaceId,
+        },
+        {
+          $unset: {
+            [`image_list.${imageName}`]: '',
+          },
+          $set: {
+            updated_at: Date.now(),
+          },
+        },
+        { new: true }
+      );
+      if (!updatedWorkspace) {
+        throw new Error('Failed to update workspace');
+      }
+      await session.commitTransaction();
+      return updatedWorkspace;
+    } catch (error) {
+      await session.abortTransaction();
+      throw error;
+    } finally {
+      session.endSession();
+    }
+  };
+
   return {
     createWorkspace,
     createSampleWorkspace,
@@ -202,5 +302,7 @@ export const WorkspaceService = () => {
     updateWorkspaceName,
     deleteWorkspace,
     saveWorkspace,
+    saveImage,
+    deleteImage,
   };
 };

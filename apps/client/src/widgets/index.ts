@@ -15,3 +15,4 @@ export { CssCategoryBar } from './workspace/css/CssCategoryBar/CssCategoryBar';
 export { CssPropsSelectBox } from './workspace/css/CssPropsSelectBox/CssPropsSelectBox';
 export { CssOptionItemList } from './workspace/css/CssOptionItemList/CssOptionItemList';
 export { CssPropsSelectBoxHeader } from './workspace/css/CssPropsSelectBoxHeader/CssPropsSelectBoxHeader';
+export { ImageTagModal } from './workspace/ImageTagModal/ImageTagModal';

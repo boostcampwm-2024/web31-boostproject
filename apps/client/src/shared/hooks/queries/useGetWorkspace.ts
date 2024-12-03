@@ -6,6 +6,7 @@ import {
   useResetCssStore,
   useWorkspaceChangeStatusStore,
   useWorkspaceStore,
+  useImageModalStore,
 } from '@/shared/store';
 
 import { WorkspaceApi } from '@/shared/api';
@@ -22,7 +23,7 @@ export const useGetWorkspace = (workspaceId: string) => {
   const { setCanvasInfo, setName } = useWorkspaceStore();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const { setIsResetCssChecked } = useResetCssStore();
-
+  const { setInitialImageMap, setInitialImageList } = useImageModalStore();
   const { data, isPending, isError } = useQuery({
     queryKey: workspaceKeys.detail(workspaceId),
     queryFn: () => {
@@ -62,6 +63,8 @@ export const useGetWorkspace = (workspaceId: string) => {
       ? JSON.parse(data.workspaceDto.classBlockList)
       : [];
     setIsResetCssChecked(data.workspaceDto.isCssReset);
+    setInitialImageMap(data.workspaceDto.imageMap);
+    setInitialImageList(data.workspaceDto.imageList);
   }, [isError, data]);
   return { data, isPending, isError };
 };

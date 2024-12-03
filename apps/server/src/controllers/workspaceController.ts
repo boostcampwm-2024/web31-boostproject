@@ -60,7 +60,9 @@ export const WorkspaceController = () => {
   const storeWorkspace = async (req: Request, res: Response) => {
     const thumbnail = req.file;
     const userId = req.get('user-id') as string;
-    const { workspaceId, totalCssPropertyObj, canvas, classBlockList, cssResetStatus } = req.body;
+    const { workspaceId, totalCssPropertyObj, canvas, classBlockList, cssResetStatus, imageMap } =
+      req.body;
+    const imageMapJson = new Map(Object.entries(JSON.parse(imageMap)));
 
     if (!thumbnail) {
       throw new Error('Thumbnail is required');
@@ -72,9 +74,29 @@ export const WorkspaceController = () => {
       canvas,
       classBlockList,
       cssResetStatus,
-      thumbnail
+      thumbnail,
+      imageMapJson as Map<string, string>
     );
     res.status(200).json({ message: 'success' });
+  };
+
+  const uploadImage = async (req: Request, res: Response) => {
+    const image = req.file;
+    const userId = req.get('user-id') as string;
+
+    const { workspaceId, imageName } = req.body;
+    if (!image) {
+      throw new Error('Image is required');
+    }
+    const imageUrl = await workspaceService.saveImage(userId, workspaceId, imageName, image);
+    res.status(200).json({ imageName, imageUrl });
+  };
+
+  const deleteImage = async (req: Request, res: Response) => {
+    const userId = req.get('user-id') as string;
+    const { workspaceId, imageName } = req.query;
+    await workspaceService.deleteImage(userId, workspaceId as string, imageName as string);
+    res.status(200).json({ imageName });
   };
 
   return {
@@ -84,5 +106,7 @@ export const WorkspaceController = () => {
     editWorkspaceName,
     removeWorkspace,
     storeWorkspace,
+    uploadImage,
+    deleteImage,
   };
 };

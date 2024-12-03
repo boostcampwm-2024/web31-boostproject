@@ -4,6 +4,8 @@ export { useGetWorkspace } from './queries/useGetWorkspace';
 export { useUpdateWorkspaceName } from './queries/useUpdateWorkspaceName';
 export { useDeleteWorkspace } from './queries/useDeleteWorkspace';
 export { useSaveWorkspace } from './queries/useSaveWorkspace';
+export { usePostImage } from './queries/usePostImage';
+export { useDeleteImage } from './queries/useDeleteImage';
 
 export { useWindowSize } from './css/useWindowSize';
 export { useCssTooltip } from './css/useCssTooltip';

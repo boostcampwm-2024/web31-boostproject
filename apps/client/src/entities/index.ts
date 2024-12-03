@@ -14,3 +14,8 @@ export { CssTooltip } from './workspace/CssTooltip/CssTooltip';
 export { CssOptionItem } from './workspace/CssOptionItem/CssOptionItem';
 export { CssCategoryButton } from './workspace/CssCategoryButton/CssCategoryButton';
 export { RenderResetCssTooltip } from './workspace/RenderResetCssTooltip/RenderResetCssTooltip';
+export { ImageTagModalList } from './workspace/ImageTagModalList/ImageTagModalList';
+export { ImageTagModalHeader } from './workspace/ImageTagModalHeader/ImageTagModalHeader';
+export { ImageTagModalImg } from './workspace/ImageTagModalImg/ImageTagModalImg';
+export { ImageTagModalButton } from './workspace/ImageTagModalButton/ImageTagModalButton';
+export { ImageTagModalListItem } from './workspace/ImageTagModalListItem/ImageTagModalListItem';

@@ -31,6 +31,12 @@ import TabbedToolbox from '@/core/tabbedToolbox';
 import { customTooltip } from '@/core/customTooltip';
 import { registerCustomComponents } from '@/core/register';
 
+for (const blockType in Blockly.Blocks) {
+  if (Object.prototype.hasOwnProperty.call(Blockly.Blocks, blockType)) {
+    delete Blockly.Blocks[blockType];
+  }
+}
+
 registerCustomComponents();
 defineBlocks(blockContents);
 

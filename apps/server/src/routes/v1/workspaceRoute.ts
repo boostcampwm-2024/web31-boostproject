@@ -1,4 +1,5 @@
 /* eslint-disable multiline-comment-style */
+
 import { WorkspaceController } from '@/controllers/workspaceController';
 import { asyncWrapper } from '@/utils/asyncWrapper';
 import express from 'express';
@@ -258,3 +259,11 @@ workspaceRouter.patch(
   */
   asyncWrapper(workspaceController.storeWorkspace)
 );
+
+workspaceRouter.post(
+  '/image',
+  upload.single('image'),
+  asyncWrapper(workspaceController.uploadImage)
+);
+
+workspaceRouter.delete('/image', asyncWrapper(workspaceController.deleteImage));

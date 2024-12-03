@@ -1,7 +1,12 @@
-import { CustomFieldTextInput } from '@/core/customFieldTextInput';
-import { TBlockContents } from '@/shared/types';
-import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
 import * as Blockly from 'blockly/core';
+
+import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
+
+import { CustomFieldImageButton } from '@/core/customFieldImageButton';
+import { CustomFieldTextInput } from '@/core/customFieldTextInput';
+import { CustomOptionFieldLabel } from '@/core/customOptionFieldLabel';
+import { CustomTagFieldLabel } from '../../core/customTagFieldLabel';
+import { TBlockContents } from '@/shared/types';
 
 /**
  * html 태그 블록을 생성할 때 좀 더 편리하게 생성하기 위해 만든 헬퍼함수입니다.
@@ -10,6 +15,7 @@ import * as Blockly from 'blockly/core';
  * @param blockDefinition 기본 html태그 블록 설정을 사용하는 것이 아닌 사용자 정의 속성을 위한 옵션 변수
  * @param isDefault 기본 html태그 블록 설정을 사용할 것인지, 사용자 정의 속성을 사용할 것인지 정하는 변수
  */
+
 const defineBlockWithDefaults = (
   blockName: string,
   blockColorNum: number | string,
@@ -31,7 +37,7 @@ const defineBlockWithDefaults = (
       this.setNextStatement(true);
       this.appendValueInput('css class')
         .setCheck('CSS-CLASS')
-        .appendField(removePreviousTypeName(blockName));
+        .appendField(new CustomTagFieldLabel(removePreviousTypeName(blockName)));
       this.appendStatementInput('children').appendField();
     }
   };
@@ -46,7 +52,9 @@ export const defineBlocks = (blockContents: TBlockContents) => {
     '웹페이지의 시작과 끝을 알려주는 가장 큰 상자예요.\n모든 내용을 담고 있는 책의 겉표지 같은 거예요.',
     {
       init: function () {
-        this.appendDummyInput().appendField('html');
+        this.appendValueInput('css class')
+          .setCheck('CSS-CLASS')
+          .appendField(new CustomTagFieldLabel('html'));
         this.appendStatementInput('children').appendField('');
       },
     },
@@ -61,7 +69,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
       init: function () {
         this.setPreviousStatement(true);
         this.setNextStatement(true);
-        this.appendDummyInput().appendField('head');
+        this.appendDummyInput().appendField(new CustomTagFieldLabel('head'));
       },
     },
     false
@@ -92,7 +100,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
               this.setPreviousStatement(true); // 다른 블록 위에 연결 가능
               this.setNextStatement(true); // 다른 블록 아래에 연결 가능
               this.appendDummyInput()
-                .appendField(removePreviousTypeName(blockInfo.type))
+                .appendField(new CustomTagFieldLabel(removePreviousTypeName(blockInfo.type)))
                 .appendField(new CustomFieldTextInput(), 'TEXT');
               this.setTooltip(blockInfo.description);
             },
@@ -111,7 +119,61 @@ export const defineBlocks = (blockContents: TBlockContents) => {
             init: function () {
               this.setPreviousStatement(true);
               this.setNextStatement(true);
-              this.appendDummyInput().appendField(removePreviousTypeName(blockInfo.type));
+              this.appendDummyInput().appendField(
+                new CustomTagFieldLabel(removePreviousTypeName(blockInfo.type))
+              );
+            },
+          },
+          false
+        );
+      } else if (blockInfo.type === addPreviousTypeName('a')) {
+        defineBlockWithDefaults(
+          blockInfo.type,
+          (index % 3) + 1,
+          blockInfo.description,
+          {
+            init: function () {
+              this.setPreviousStatement(true);
+              this.setNextStatement(true);
+              this.appendValueInput('css class')
+                .setCheck('CSS-CLASS')
+                .appendField(new CustomTagFieldLabel('a'));
+              this.appendDummyInput()
+                .appendField(new CustomOptionFieldLabel('target'))
+                .appendField(
+                  new Blockly.FieldDropdown([
+                    ['_blank', '_blank'],
+                    ['_self', '_self'],
+                    ['_parent', '_parent'],
+                    ['_top', '_top'],
+                  ]),
+                  'TARGET'
+                );
+              this.appendDummyInput()
+                .appendField(new CustomOptionFieldLabel('href'))
+                .appendField(new CustomFieldTextInput(), 'HREF');
+              this.appendStatementInput('children').appendField();
+              this.setInputsInline(false);
+            },
+          },
+          false
+        );
+      } else if (blockInfo.type === addPreviousTypeName('img')) {
+        defineBlockWithDefaults(
+          blockInfo.type,
+          (index % 3) + 1,
+          blockInfo.description,
+          {
+            init: function () {
+              this.setPreviousStatement(true);
+              this.setNextStatement(true);
+              this.appendValueInput('css class')
+                .setCheck('CSS-CLASS')
+                .appendField(new CustomTagFieldLabel('img'));
+              this.appendDummyInput()
+                .appendField(new CustomOptionFieldLabel('src'))
+                .appendField(new CustomFieldImageButton(''), 'SRC');
+              this.setInputsInline(false);
             },
           },
           false

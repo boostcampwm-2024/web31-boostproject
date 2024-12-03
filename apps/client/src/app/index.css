@@ -212,6 +212,17 @@ input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0 6px 0 12px;
 }
 
+.blocklyTooltipDiv {
+  @apply text-gray-white text-tooltip-sm rounded-md border-none bg-green-500 px-3 py-2 opacity-100;
+}
+
+.blocklyContextMenu {
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;

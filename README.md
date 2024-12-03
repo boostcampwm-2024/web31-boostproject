@@ -13,6 +13,12 @@
   <strong>👇 배포 사이트</strong> <br />
   https://boolock.site/
 </p>
+<<<<<<< HEAD
+
+=======
+
+> > > > > > > dev
+
 <p align="center"> 
   <strong>👇 스토리북 사이트</strong> <br />
   https://boostcampwm-2024.github.io/web31-BooLock/
@@ -47,6 +53,12 @@
 # <img width="27" alt="boolock_logo" src="https://github.com/user-attachments/assets/469d65f4-d33d-46d9-a91c-29443d9080fe"> 프로젝트 소개 <a id="introduce"></a>
 
 ### 웹개발 입문자를 위한 HTML과 CSS 블록코딩 플랫폼
+
+<<<<<<< HEAD
+
+# `console.log("Hello, World!");`
+
+> > > > > > > dev
 
 ```html
 <h1>hello world!</h1>
@@ -103,7 +115,15 @@
 
 <br />
 
+<<<<<<< HEAD
+
+# 🍀 시스템 아키텍처 [[서비스 흐름 살펴보기]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%F0%9F%8D%80-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98)
+
+=======
+
 # 🌐 시스템 아키텍처 [[서비스 흐름 살펴보기]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%F0%9F%8D%80-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98) <a id="system_architecture"></a>
+
+> > > > > > > dev
 
 ![Group 1764](https://github.com/user-attachments/assets/123c2511-491a-4c77-9dc5-0da877908307)
 
@@ -148,17 +168,26 @@
      </table>
    </div>
 
-   Blockly에서는 이런 작은 블록 하나를 생성하고 동작시키기 위해 다양한 클래스들이 사용됩니다. 블록 객체 인스턴스를 생성하는 **BlockSvg**, 블록 내부 구성 요소(Field) 인스턴스를 생성하는 **Field 관련 클래스들**, 블록 정보를 렌더링하는 **Renderer**, 블록 구성 요소를 정의하고 사이즈 및 좌표를 계산하는 **RenderInfo**, 그리고 블록의 배경을 그려주는 **Drawer** 등 여러 핵심 클래스들이 있습니다.
+<<<<<<< HEAD
 
-   블록은 **SVGElement**로 구성되어 있기 때문에, 원하는 모양으로 블록을 커스텀하려면 아래와 같이, 블록 모양 구성을 구성하는 주요 클래스들을 **상속받아 오버라이딩**하는 것이 핵심이었습니다.
+### 코드 하이라이팅
 
-   - 사이즈 및 좌표계산을 해주는 RenderInfo 클래스
-   - 블록 모양을 그려주는 Drawer 클래스의 메소드를 실행하기 전 SVG의 path를 그려주는 ConstantProvider 클래스
-   - 사이즈와 디자인을 동적으로 업데이트 해주는 각 Field클래스들의 update, view 관련 메소드들
+### 성능 개선 (SEO)
 
-   이 클래스들을 오버라이딩 하여 기획한 디자인대로 블록을 커스텀하며 겪었던 트러블 슈팅과 개발과정은 아래 문서들에서 더 자세하게 확인 가능합니다.
+### 사용자 경험 개선
 
-   > **학습 및 개발 기록** <br/> > [Blockly 클래스들을 이용한 Block 커스텀하기!](https://www.notion.so/Blockly-Block-94e1e9651c6747ecbe75c6ccefb75444?pvs=21)
+=======
+Blockly에서는 이런 작은 블록 하나를 생성하고 동작시키기 위해 다양한 클래스들이 사용됩니다. 블록 객체 인스턴스를 생성하는 **BlockSvg**, 블록 내부 구성 요소(Field) 인스턴스를 생성하는 **Field 관련 클래스들**, 블록 정보를 렌더링하는 **Renderer**, 블록 구성 요소를 정의하고 사이즈 및 좌표를 계산하는 **RenderInfo**, 그리고 블록의 배경을 그려주는 **Drawer** 등 여러 핵심 클래스들이 있습니다.
+
+블록은 **SVGElement**로 구성되어 있기 때문에, 원하는 모양으로 블록을 커스텀하려면 아래와 같이, 블록 모양 구성을 구성하는 주요 클래스들을 **상속받아 오버라이딩**하는 것이 핵심이었습니다.
+
+- 사이즈 및 좌표계산을 해주는 RenderInfo 클래스
+- 블록 모양을 그려주는 Drawer 클래스의 메소드를 실행하기 전 SVG의 path를 그려주는 ConstantProvider 클래스
+- 사이즈와 디자인을 동적으로 업데이트 해주는 각 Field클래스들의 update, view 관련 메소드들
+
+이 클래스들을 오버라이딩 하여 기획한 디자인대로 블록을 커스텀하며 겪었던 트러블 슈팅과 개발과정은 아래 문서들에서 더 자세하게 확인 가능합니다.
+
+> **학습 및 개발 기록** <br/> > [Blockly 클래스들을 이용한 Block 커스텀하기!](https://www.notion.so/Blockly-Block-94e1e9651c6747ecbe75c6ccefb75444?pvs=21)
 
 2. **HTML 블록을 선택하고 CSS 클래스를 추가를 위한 탭 만들기**
 
@@ -290,9 +319,11 @@ React는 SPA 특성상 하나의 `index.html` 파일로 모든 페이지를 렌�
   - 구역과 가까이 말풍선 위치하기
   - 처음 워크스페이스 접근시에만 띄움
 
-  <br/>
+    <br/>
 
   > **학습 및 개발 기록** <br/> > [사용자 가이드](https://www.notion.so/51679d3e288b485f9a0ea9068eb621f5?pvs=21) <br/>
+  >
+  > > > > > > > dev
 
 ### 스토리북 테스트
 

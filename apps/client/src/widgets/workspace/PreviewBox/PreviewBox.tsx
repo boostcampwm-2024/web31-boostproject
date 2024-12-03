@@ -94,7 +94,7 @@ export const PreviewBox = ({
             srcDoc={totalCode}
             className="h-full w-full"
             title="Preview"
-            sandbox="allow-same-origin"
+            sandbox="allow-same-origin allow-scripts allow-popups allow-top-navigation-by-user-activation"
           ></iframe>
         )}
         {activeTab === 'html' && (
