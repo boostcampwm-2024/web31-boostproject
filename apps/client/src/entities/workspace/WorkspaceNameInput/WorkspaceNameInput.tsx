@@ -1,9 +1,9 @@
-import { FocusEventHandler, KeyboardEventHandler } from 'react';
-import { useUpdateWorkspaceName, workspaceKeys } from '@/shared/hooks';
+import { FocusEventHandler, KeyboardEventHandler, useEffect, useState } from 'react';
+
 import { Spinner } from '@/shared/ui';
-import { TGetWorkspaceResponse } from '@/shared/types';
 import { useParams } from 'react-router-dom';
-import { useQueryClient } from '@tanstack/react-query';
+import { useUpdateWorkspaceName } from '@/shared/hooks';
+import { useWorkspaceStore } from '@/shared/store';
 
 /**
  * @description
@@ -12,11 +12,16 @@ import { useQueryClient } from '@tanstack/react-query';
 export const WorkspaceNameInput = () => {
   const { workspaceId } = useParams() as { workspaceId: string };
   const { mutate, isPending } = useUpdateWorkspaceName();
-  const queryClient = useQueryClient();
-  const workspaceData = queryClient.getQueryData<TGetWorkspaceResponse>(
-    workspaceKeys.detail(workspaceId)
-  );
-  const name = workspaceData?.workspaceDto?.name || '워크스페이스 이름';
+  const { name } = useWorkspaceStore();
+  const [editableWorkspaceName, setEditableWorkspaceName] = useState<string>('');
+
+  useEffect(() => {
+    setEditableWorkspaceName(name);
+  }, [name]);
+
+  const handleOnChange = (value: string) => {
+    setEditableWorkspaceName(value);
+  };
 
   const handleBlur: FocusEventHandler<HTMLInputElement> = (
     event: React.FocusEvent<HTMLInputElement>
@@ -46,12 +51,14 @@ export const WorkspaceNameInput = () => {
     <>
       <div className="relative flex items-center">
         <input
-          placeholder={name === '' ? '워크스페이스 이름' : name}
+          placeholder="이름을 입력해주세요"
           className="placeholder:text-semibold-rg w-[272px] rounded-md border border-green-500 px-3 py-1 placeholder:text-gray-100 focus:outline-none"
           onBlur={handleBlur}
           onKeyDown={handleEnter}
           maxLength={20}
           disabled={isPending}
+          value={editableWorkspaceName}
+          onChange={(e) => handleOnChange(e.target.value)}
         />
         {isPending && (
           <div className="absolute right-5">

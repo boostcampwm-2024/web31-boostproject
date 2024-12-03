@@ -1,8 +1,8 @@
-import styles from '../styles/CodeViewer.module.css';
-import { parseHighlightCss } from '../utils/parseHighlightCss';
-import { parseHighlightHtml } from '../utils/parseHighlightHtml';
 import { CodeContent } from './CodeContent';
 import { LineNumbers } from './LineNumbers';
+import { parseHighlightCss } from '../utils/parseHighlightCss';
+import { parseHighlightHtml } from '../utils/parseHighlightHtml';
+import styles from '../styles/CodeViewer.module.css';
 
 type CodeViewerProps = {
   code: string;
