@@ -1,3 +1,5 @@
+import { createCssClassBlock, cssStyleToolboxConfig } from '@/shared/blockly';
+import { createUserId, getUserId, removeCssClassNamePrefix } from '@/shared/utils';
 import {
   useClassBlockStore,
   useCssPropsStore,
@@ -7,21 +9,20 @@ import {
 } from '@/shared/store';
 
 import { WorkspaceApi } from '@/shared/api';
-import { createUserId, getUserId, removeCssClassNamePrefix } from '@/shared/utils';
 import toast from 'react-hot-toast';
 import { useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { workspaceKeys } from '@/shared/hooks';
-import { createCssClassBlock, cssStyleToolboxConfig } from '@/shared/blockly';
 
 export const useGetWorkspace = (workspaceId: string) => {
   const workspaceApi = WorkspaceApi();
   const userId = getUserId() || createUserId();
   const { initCssPropertyObj } = useCssPropsStore();
   const { initClassBlockList } = useClassBlockStore();
-  const { setCanvasInfo } = useWorkspaceStore();
+  const { setCanvasInfo, setName } = useWorkspaceStore();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
   const { setIsResetCssChecked } = useResetCssStore();
+
   const { data, isPending, isError } = useQuery({
     queryKey: workspaceKeys.detail(workspaceId),
     queryFn: () => {
@@ -45,6 +46,10 @@ export const useGetWorkspace = (workspaceId: string) => {
     if (!data.workspaceDto) {
       return;
     }
+    setName(data.workspaceDto.name);
+    Object.keys(data.workspaceDto.totalCssPropertyObj).forEach((className) => {
+      createCssClassBlock(className);
+    });
 
     initCssPropertyObj(data.workspaceDto.totalCssPropertyObj);
     initClassBlockList(
@@ -57,9 +62,6 @@ export const useGetWorkspace = (workspaceId: string) => {
       ? JSON.parse(data.workspaceDto.classBlockList)
       : [];
     setIsResetCssChecked(data.workspaceDto.isCssReset);
-    Object.keys(data.workspaceDto.totalCssPropertyObj).forEach((className) => {
-      createCssClassBlock(className);
-    });
   }, [isError, data]);
   return { data, isPending, isError };
 };

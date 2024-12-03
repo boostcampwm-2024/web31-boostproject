@@ -1,4 +1,5 @@
 /* eslint-disable camelcase */
+
 import 'dotenv/config';
 
 import { S3, Upload } from '@/config/s3';
@@ -7,7 +8,6 @@ import { TTotalCssPropertyObj, TWorkspace } from '@/types/workspaceType';
 import { Workspace } from '@/models/workspaceModel';
 import { generateCssList } from '@/services/utils/generateCssList';
 import { generateTotalCssPropertyObj } from '@/services/utils/generateTotalCssPropertyObj';
-import sharp from 'sharp';
 
 export const WorkspaceService = () => {
   const createWorkspace = async (userId: string) => {
@@ -27,10 +27,6 @@ export const WorkspaceService = () => {
     const newWorkspaceId = crypto.randomUUID();
 
     try {
-      const sampleThumbnailResponse = await fetch(sampleWorkspace.thumbnail!);
-      const imageBuffer = Buffer.from(await sampleThumbnailResponse.arrayBuffer());
-      const thumbnailUrl = await uploadThumbnailImage(userId, newWorkspaceId, imageBuffer);
-
       const clonedWorkspaceData = {
         workspace_id: newWorkspaceId,
         user_id: userId,
@@ -39,7 +35,8 @@ export const WorkspaceService = () => {
         css_list: sampleWorkspace.css_list,
         class_block_list: sampleWorkspace.class_block_list,
         is_css_reset: sampleWorkspace.is_css_reset,
-        thumbnail: thumbnailUrl,
+        thumbnail:
+          'https://kr.object.ncloudstorage.com/boolock-storage/thumbnail/default/sample_thumbnail.webp',
         updated_at: new Date(),
       };
 
@@ -151,26 +148,18 @@ export const WorkspaceService = () => {
     const session = await Workspace.startSession();
     session.startTransaction();
     try {
-      const webpThumbnail = await sharp(thumbnail.buffer)
-        .resize({
-          width: 528,
-          height: 360,
-          fit: 'inside',
-          background: { r: 255, g: 255, b: 255, alpha: 1 },
-        })
-        .webp()
-        .toBuffer();
       const upload = new Upload({
         client: S3,
         params: {
           Bucket: process.env.S3_BUCKET_NAME,
           Key: `thumbnail/${userId}/${workspaceId}.webp`,
           ACL: 'public-read',
-          Body: webpThumbnail,
+          Body: thumbnail.buffer,
           ContentType: 'image/webp',
         },
       });
       const uploadResult = await upload.done();
+      console.log(uploadResult);
       if (!uploadResult) {
         throw new Error('Failed to upload thumbnail');
       }
@@ -203,42 +192,6 @@ export const WorkspaceService = () => {
     } finally {
       session.endSession();
     }
-  };
-
-  const uploadThumbnailImage = async (
-    userId: string,
-    workspaceId: string,
-    imageBuffer: Buffer
-  ): Promise<string> => {
-    // 이미지 리사이징 및 webp 변환
-    const webpThumbnail = await sharp(imageBuffer)
-      .resize({
-        width: 528,
-        height: 360,
-        fit: 'inside',
-        background: { r: 255, g: 255, b: 255, alpha: 1 },
-      })
-      .webp()
-      .toBuffer();
-
-    // S3 업로드
-    const upload = new Upload({
-      client: S3,
-      params: {
-        Bucket: process.env.S3_BUCKET_NAME,
-        Key: `thumbnail/${userId}/${workspaceId}.webp`,
-        ACL: 'public-read',
-        Body: webpThumbnail,
-        ContentType: 'image/webp',
-      },
-    });
-
-    const uploadResult = await upload.done();
-    if (!uploadResult) {
-      throw new Error('Failed to upload thumbnail');
-    }
-
-    return uploadResult.Location as string;
   };
 
   return {
