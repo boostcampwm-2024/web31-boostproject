@@ -5,6 +5,8 @@ import { errorStatus } from '../utils/constants';
 // eslint-disable-next-line no-unused-vars
 export const errorMiddleware = (err: Error, req: Request, res: Response, _next: NextFunction) => {
   const handler = errorHandlers[err.constructor.name] || errorHandlers['DefaultError'];
+  console.error(err);
+
   handler(err as any, res);
 };
 

@@ -7,3 +7,4 @@ export { useWorkspaceChangeStatusStore } from './useWorkspaceChangeStatusStore';
 export { useBlocklyWorkspaceStore } from './useBlocklyWorkspaceStore';
 export { useResetCssStore } from './useResetCssStore';
 export { useWorkspaceStore } from './useWorkspaceStore';
+export { useImageModalStore } from './useImageModalStore';

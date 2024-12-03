@@ -5,14 +5,15 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { TBlock } from '@/shared/types';
 import { WorkspaceApi } from '@/shared/api';
 import toast from 'react-hot-toast';
-import { useWorkspaceChangeStatusStore } from '@/shared/store';
+import { useImageModalStore, useWorkspaceChangeStatusStore } from '@/shared/store';
 import { workspaceKeys } from '@/shared/hooks/query-key/workspaceKeys';
 
 export const useSaveWorkspace = (workspaceId: string) => {
   const workspaceApi = WorkspaceApi();
   const userId = getUserId() || createUserId();
-  const queryClient = useQueryClient();
   const { resetChangedStatusState } = useWorkspaceChangeStatusStore();
+  const { imageMap } = useImageModalStore();
+  const queryClient = useQueryClient();
   const { mutate, isPending } = useMutation({
     mutationFn: ({
       totalCssPropertyObj,
@@ -34,7 +35,8 @@ export const useSaveWorkspace = (workspaceId: string) => {
         canvas,
         classBlockList,
         cssResetStatus,
-        thumbnail
+        thumbnail,
+        imageMap
       );
     },
     onSuccess: () => {

@@ -31,6 +31,12 @@ import TabbedToolbox from '@/core/tabbedToolbox';
 import { customTooltip } from '@/core/customTooltip';
 import { registerCustomComponents } from '@/core/register';
 
+for (const blockType in Blockly.Blocks) {
+  if (Object.prototype.hasOwnProperty.call(Blockly.Blocks, blockType)) {
+    delete Blockly.Blocks[blockType];
+  }
+}
+
 registerCustomComponents();
 defineBlocks(blockContents);
 
@@ -205,7 +211,7 @@ export const WorkspaceContent = () => {
 
   return (
     <div className="flex flex-1">
-      <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
+      <div className="flex h-[calc(100vh-56px)] w-[32rem] flex-shrink-0 flex-col">
         <PreviewBox
           htmlCode={htmlCode}
           cssCode={cssCode}

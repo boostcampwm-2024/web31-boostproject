@@ -124,6 +124,7 @@
 
 ::-webkit-scrollbar {
   width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
@@ -209,6 +210,48 @@ input[type='color']::-webkit-color-swatch-wrapper {
 .resetCssText {
   @apply text-gray-400;
   padding: 0 6px 0 12px;
+}
+
+.blocklyTooltipDiv {
+  @apply text-gray-white text-tooltip-sm rounded-md border-none bg-green-500 px-3 py-2 opacity-100;
+}
+
+.blocklyContextMenu {
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInBlock {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateX {
+  from {
+    transform: rotateX(37deg) rotateZ(0deg) translateY(-350px);
+  }
+  to {
+    transform: rotateX(70deg) rotateZ(0deg) translateY(-350px);
+  }
 }
 
 .reset-css {

@@ -1,4 +1,4 @@
-import { CoachMark, WorkspaceContent, WorkspacePageHeader } from '@/widgets';
+import { ImageTagModal, CoachMark, WorkspaceContent, WorkspacePageHeader } from '@/widgets';
 import { useGetWorkspace, usePreventLeaveWorkspacePage } from '@/shared/hooks';
 import { Helmet } from 'react-helmet-async';
 import { Loading } from '@/shared/ui';
@@ -37,6 +37,7 @@ export const WorkspacePage = () => {
         <WorkspacePageHeader />
         <WorkspaceContent />
       </div>
+      <ImageTagModal />
     </>
   );
 };

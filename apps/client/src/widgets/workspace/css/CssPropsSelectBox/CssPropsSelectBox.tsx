@@ -14,7 +14,7 @@ export const CssPropsSelectBox = () => {
       className={`flex h-[26rem] w-full flex-col ${currentStep === 2 ? 'z-[99999] bg-white' : ''}`}
     >
       <CssPropsSelectBoxHeader />
-      <div className="flex h-full w-full overflow-hidden">
+      <div className="flex h-[calc(100%-48px)] w-full overflow-hidden">
         <CssCategoryBar />
         <CssOptionItemList />
       </div>

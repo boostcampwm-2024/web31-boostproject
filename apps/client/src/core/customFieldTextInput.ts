@@ -10,9 +10,6 @@ const dom = Blockly.utils.dom;
  *만약 text블록 이외의 다른 곳에서 사용된다고 했을 때, widgetCreate_() 메소드에 인해 포커싱이 되어도 블록 모양이 망가지지 않고 잘 작동됩니다.
  */
 export class CustomFieldTextInput extends Blockly.FieldTextInput {
-  protected textGroup_!: SVGGElement;
-  protected backgroundRect_!: SVGRectElement;
-  protected isFixed: boolean = false;
   width = 0;
 
   updateWidth(width: number) {

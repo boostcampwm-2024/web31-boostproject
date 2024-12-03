@@ -31,7 +31,7 @@ export const parseHighlightHtml = (
       .join('');
 
     // 예외 처리: br와 hr 태그는 한 줄로 출력
-    if (['br', 'hr'].includes(element.tagName.toLowerCase())) {
+    if (['br', 'hr', 'img'].includes(element.tagName.toLowerCase())) {
       return `\n${indent}&lt;${tag}${attrs ? ' ' + attrs : ''} /&gt;`;
     }
 
