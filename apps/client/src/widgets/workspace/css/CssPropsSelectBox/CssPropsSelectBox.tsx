@@ -9,7 +9,7 @@ export const CssPropsSelectBox = () => {
   return (
     <section className="flex h-[26rem] w-full flex-col">
       <CssPropsSelectBoxHeader />
-      <div className="flex h-full w-full overflow-hidden">
+      <div className="flex h-[calc(100%-48px)] w-full overflow-hidden">
         <CssCategoryBar />
         <CssOptionItemList />
       </div>

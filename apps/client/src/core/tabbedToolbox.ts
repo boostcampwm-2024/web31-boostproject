@@ -329,9 +329,9 @@ Blockly.Css.register(`
   justify-content: center;
   border-top-left-radius: 0.5rem; /* rounded-t-lg */
   border-top-right-radius: 0.5rem; /* rounded-t-lg */
-  background-color: #f9fafb; /* bg-gray-50 */
+  background-color: white; /* bg-gray-50 */
   padding: 0.75rem; /* py-3 */
-  color: #e5e7eb; /* text-gray-200 */
+  color: #56687A; /* text-gray-400 */
 }
 
 .tabSelected {

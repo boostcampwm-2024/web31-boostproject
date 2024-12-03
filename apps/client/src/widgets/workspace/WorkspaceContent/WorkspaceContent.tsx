@@ -205,7 +205,7 @@ export const WorkspaceContent = () => {
 
   return (
     <div className="flex flex-1">
-      <div className="flex h-full w-[32rem] flex-shrink-0 flex-col">
+      <div className="flex h-[calc(100vh-56px)] w-[32rem] flex-shrink-0 flex-col">
         <PreviewBox
           htmlCode={htmlCode}
           cssCode={cssCode}

@@ -29,15 +29,17 @@ export const CodeViewer = ({
 
   return (
     <div className={`${styles.viewer} ${theme === 'dark' ? styles.dark : styles.light}`}>
-      <LineNumbers codeLineList={codeLineList} />
+      <div className={styles.scrollContainer}>
+        <LineNumbers codeLineList={codeLineList} />
 
-      <CodeContent
-        code={code}
-        codeLineList={codeLineList}
-        selectedBlockLength={selectedBlockLength}
-        selectedBlockStartLine={selectedBlockStartLine}
-        selectedBlockType={selectedBlockType}
-      />
+        <CodeContent
+          code={code}
+          codeLineList={codeLineList}
+          selectedBlockLength={selectedBlockLength}
+          selectedBlockStartLine={selectedBlockStartLine}
+          selectedBlockType={selectedBlockType}
+        />
+      </div>
     </div>
   );
 };

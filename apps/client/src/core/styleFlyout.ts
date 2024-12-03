@@ -239,7 +239,6 @@ export default class StyleFlyout extends FixedFlyout {
     }
 
     // 새롭게 생성되는 CSS 클래스 블록 정보
-
     if (!Blockly.Blocks[createClassType!]) {
       useCssPropsStore.getState().addNewCssClass(createClassType);
       useWorkspaceChangeStatusStore.getState().setIsBlockChanged(true);
