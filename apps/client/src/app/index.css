@@ -302,3 +302,7 @@ input[type='color']::-webkit-color-swatch-wrapper {
 .coachMarkHighlight {
   z-index: 99999;
 }
+
+.coachMarkHighlightText {
+  @apply text-semibold-md text-green-500;
+}
