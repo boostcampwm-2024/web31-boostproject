@@ -1,14 +1,11 @@
 /* eslint-disable camelcase */
 
 import 'dotenv/config';
-
 import { S3, Upload } from '@/config/s3';
 import { TTotalCssPropertyObj, TWorkspace } from '@/types/workspaceType';
-
 import { Workspace } from '@/models/workspaceModel';
 import { generateCssList } from '@/services/utils/generateCssList';
 import { generateTotalCssPropertyObj } from '@/services/utils/generateTotalCssPropertyObj';
-
 export const WorkspaceService = () => {
   const createWorkspace = async (userId: string) => {
     const newWorkspaceId = crypto.randomUUID();
@@ -16,16 +13,38 @@ export const WorkspaceService = () => {
     await workspace.save();
     return newWorkspaceId;
   };
-
-  const createSampleWorkspace = async (userId: string) => {
-    const sampleWorkspace = await Workspace.findOne({ workspace_id: 'sample' });
-
+  const cloneDefaultWorkspace = async (userId: string) => {
+    const sampleWorkspace = await Workspace.findOne({ workspace_id: 'default' });
     if (!sampleWorkspace) {
       throw new Error('Sample workspace가 존재하지 않습니다.');
     }
-
     const newWorkspaceId = crypto.randomUUID();
-
+    try {
+      const clonedWorkspaceData = {
+        workspace_id: newWorkspaceId,
+        user_id: userId,
+        name: sampleWorkspace.name,
+        canvas: sampleWorkspace.canvas,
+        css_list: sampleWorkspace.css_list,
+        class_block_list: sampleWorkspace.class_block_list,
+        is_css_reset: sampleWorkspace.is_css_reset,
+        thumbnail: '',
+        updated_at: new Date(),
+      };
+      const clonedWorkspace = new Workspace(clonedWorkspaceData);
+      await clonedWorkspace.save();
+      return newWorkspaceId;
+    } catch (error) {
+      console.error('Error while cloning workspace:', error);
+      throw new Error('워크스페이스 복제 중 오류가 발생했습니다.');
+    }
+  };
+  const createSampleWorkspace = async (userId: string) => {
+    const sampleWorkspace = await Workspace.findOne({ workspace_id: 'sample' });
+    if (!sampleWorkspace) {
+      throw new Error('Sample workspace가 존재하지 않습니다.');
+    }
+    const newWorkspaceId = crypto.randomUUID();
     try {
       const clonedWorkspaceData = {
         workspace_id: newWorkspaceId,
@@ -39,17 +58,14 @@ export const WorkspaceService = () => {
           'https://kr.object.ncloudstorage.com/boolock-storage/thumbnail/default/sample_thumbnail.webp',
         updated_at: new Date(),
       };
-
       const clonedWorkspace = new Workspace(clonedWorkspaceData);
       await clonedWorkspace.save();
-
       return newWorkspaceId;
     } catch (error) {
       console.error('Error while cloning workspace:', error);
       throw new Error('워크스페이스 복제 중 오류가 발생했습니다.');
     }
   };
-
   const findWorkspaceListByPage = async (
     userId: string,
     cursor: { updatedAt: string; workspaceId: string } | null
@@ -81,7 +97,6 @@ export const WorkspaceService = () => {
       nextCursor,
     };
   };
-
   const findWorkspaceByWorkspaceId = async (userId: string, workspaceId: string) => {
     const workspace = await Workspace.findOne(
       {
@@ -111,7 +126,6 @@ export const WorkspaceService = () => {
       imageList,
     };
   };
-
   const updateWorkspaceName = async (userId: string, workspaceId: string, newName: string) => {
     const updatedWorkspace = await Workspace.findOneAndUpdate(
       { user_id: userId, workspace_id: workspaceId },
@@ -121,7 +135,6 @@ export const WorkspaceService = () => {
     if (!updatedWorkspace) {
       return updatedWorkspace;
     }
-
     const totalCssPropertyObj = generateTotalCssPropertyObj(updatedWorkspace as TWorkspace);
     const imageList = updatedWorkspace.image_list
       ? JSON.stringify(Object.fromEntries(updatedWorkspace.image_list))
@@ -142,7 +155,6 @@ export const WorkspaceService = () => {
       imageList,
     };
   };
-
   const deleteWorkspace = async (userId: string, workspaceId: string) => {
     const deletedWorkspace = await Workspace.findOneAndDelete({
       user_id: userId,
@@ -150,7 +162,6 @@ export const WorkspaceService = () => {
     }).exec();
     return deletedWorkspace;
   };
-
   const saveWorkspace = async (
     userId: string,
     workspaceId: string,
@@ -202,7 +213,6 @@ export const WorkspaceService = () => {
         throw new Error('Failed to update workspace');
       }
       await session.commitTransaction();
-
       return { uploadResult, updatedWorkspace };
     } catch (error) {
       await session.abortTransaction();
@@ -211,7 +221,6 @@ export const WorkspaceService = () => {
       session.endSession();
     }
   };
-
   const saveImage = async (
     userId: string,
     workspaceId: string,
@@ -261,7 +270,6 @@ export const WorkspaceService = () => {
       session.endSession();
     }
   };
-
   const deleteImage = async (userId: string, workspaceId: string, imageName: string) => {
     const session = await Workspace.startSession();
     session.startTransaction();
@@ -293,9 +301,9 @@ export const WorkspaceService = () => {
       session.endSession();
     }
   };
-
   return {
     createWorkspace,
+    cloneDefaultWorkspace,
     createSampleWorkspace,
     findWorkspaceListByPage,
     findWorkspaceByWorkspaceId,

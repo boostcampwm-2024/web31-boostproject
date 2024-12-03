@@ -158,8 +158,7 @@
 
    이 클래스들을 오버라이딩 하여 기획한 디자인대로 블록을 커스텀하며 겪었던 트러블 슈팅과 개발과정은 아래 문서들에서 더 자세하게 확인 가능합니다.
 
-   > **학습 및 개발 기록** <br/>
-   > [Blockly 클래스들을 이용한 Block 커스텀하기!](https://www.notion.so/Blockly-Block-94e1e9651c6747ecbe75c6ccefb75444?pvs=21)
+   > **학습 및 개발 기록** <br/> > [Blockly 클래스들을 이용한 Block 커스텀하기!](https://www.notion.so/Blockly-Block-94e1e9651c6747ecbe75c6ccefb75444?pvs=21)
 
 2. **HTML 블록을 선택하고 CSS 클래스를 추가를 위한 탭 만들기**
 
@@ -193,11 +192,7 @@
 
    구현 과정 도중 겪었던 트러블 슈팅과 개발과정은 아래 문서들에서 더 자세하게 확인 가능합니다.
 
-   > **학습 및 개발 기록** <br/>
-   > [커스텀 toolbox 만들기](https://www.notion.so/toolbox-6f70906d35c0460590a2dbf1e5ac978d?pvs=21) <br/>
-   > [Flyout toolbox에 커스텀 여부 파악하기](https://www.notion.so/Flyout-toolbox-9e798913012045218f577ef62e56a547?pvs=21) <br/>
-   > [Flyout toolbox에 동적 블록 생성하기 (DOM)](https://www.notion.so/Flyout-toolbox-DOM-f329b63f9d2e4262a8f70eadfd3ea790?pvs=21) <br/>
-   > [Flyout toolbox에 동적 블록 생성하기 (svg)](https://www.notion.so/Flyout-toolbox-svg-8ff41d9a4b3947b7817f0e281c426ba4?pvs=21)
+   > **학습 및 개발 기록** <br/> > [커스텀 toolbox 만들기](https://www.notion.so/toolbox-6f70906d35c0460590a2dbf1e5ac978d?pvs=21) <br/> > [Flyout toolbox에 커스텀 여부 파악하기](https://www.notion.so/Flyout-toolbox-9e798913012045218f577ef62e56a547?pvs=21) <br/> > [Flyout toolbox에 동적 블록 생성하기 (DOM)](https://www.notion.so/Flyout-toolbox-DOM-f329b63f9d2e4262a8f70eadfd3ea790?pvs=21) <br/> > [Flyout toolbox에 동적 블록 생성하기 (svg)](https://www.notion.so/Flyout-toolbox-svg-8ff41d9a4b3947b7817f0e281c426ba4?pvs=21)
 
 3. **스타일 동적 추가하기**
    <div align="center">
@@ -206,8 +201,7 @@
 
    Blockly의 Flyout 내부에 DOM 요소(input, button)를 동적으로 생성하여 사용자 인터페이스를 구성하고, 이를 통해 CSS 클래스 블록을 입력값에 따라 동적으로 생성하거나 삭제할 수 있도록 설계되었습니다. 사용자는 Flyout에서 클래스명을 입력한 후 버튼 클릭이나 Enter 키를 눌러 블록을 생성하며, 입력값은 유효성 검사를 거쳐 중복 여부를 확인한 뒤, 유효한 경우 접두사(`CSS_`)를 추가한 블록으로 등록됩니다. 생성된 블록은 Flyout에 즉시 반영되어 바로 사용할 수 있습니다. 또한, 블록을 우클릭하면 "블록 삭제" 옵션이 나타나며, 해당 블록과 관련된 모든 인스턴스를 삭제하도록 컨텍스트 메뉴가 구현되었습니다. Reset CSS 체크박스와 툴팁 기능도 추가되어 브라우저 기본 스타일 초기화 여부를 선택하고, 사용자 경험을 개선했습니다.
 
-   > **학습 및 개발 기록** <br/>
-   > [Blockly 커스텀](https://www.notion.so/Blockly-14077ba9a1b680ccafcbd5b3781bf390?pvs=21) 
+   > **학습 및 개발 기록** <br/> > [Blockly 커스텀](https://www.notion.so/Blockly-14077ba9a1b680ccafcbd5b3781bf390?pvs=21)
 
 <br/>
 
@@ -228,8 +222,7 @@
   </table>
 </div>
 
-> **학습 및 개발 기록** <br/>
-> [Code 하이라이팅… (파싱 지옥…)](https://www.notion.so/Code-14f77ba9a1b680578ef2d06a68976d45?pvs=21)
+> **학습 및 개발 기록** <br/> > [Code 하이라이팅… (파싱 지옥…)](https://www.notion.so/Code-14f77ba9a1b680578ef2d06a68976d45?pvs=21)
 
 <br/>
 
@@ -258,8 +251,7 @@ React는 SPA 특성상 하나의 `index.html` 파일로 모든 페이지를 렌�
   <img src="https://github.com/user-attachments/assets/2f9a84f0-24e9-404d-9f09-07d1937d8a99" alt="seo description" width="700"/>
 </div>
 
-> **학습 및 개발 기록** <br/>
-> [검색하면 나오게 해줘~ (SEO)](https://www.notion.so/SEO-13f77ba9a1b6807e898df1871e9f72bb?pvs=21)
+> **학습 및 개발 기록** <br/> > [검색하면 나오게 해줘~ (SEO)](https://www.notion.so/SEO-13f77ba9a1b6807e898df1871e9f72bb?pvs=21)
 
 <br/>
 
@@ -268,12 +260,11 @@ React는 SPA 특성상 하나의 `index.html` 파일로 모든 페이지를 렌�
 - **무한스크롤**
 
   사용자가 이전에 생성했던 워크스페이스들을 추가적으로 조회하기 위해 별도의 버튼 클릭 없이, 스크롤만으로 데이터를 자동으로 불러올 수 있도록 무한스크롤을 적용하였습니다. 이때 데이터 페칭은 단순히 `fetch` 나 `axios` 호출을 통해 이루어진 것이 아닌 tanstack-query의 `useInfiniteQuery`를 통해효율적인 데이터 페칭과 상태관리를 둘 다 챙길 수 있었습니다. `useInfiniteQuery`를 통해 추가적인 상태 관리 코드 작성 없이 간결하게 무한스크롤을 구현할 수 있습니다. 또한 InterSectionObserver API를 활용하여 사용자가 스크롤 끝에 도달했을 때 `fetchNextPage` 메서드가 호출되도록 설정했습니다.
-      <div align="center">
-        <img src="https://github.com/user-attachments/assets/3ea711de-74af-487b-9f6e-e83d1fbd3980" alt="scroll description" width="200"/>
-      </div>
-  
-  > **학습 및 개발 기록** <br/>
-  > [tanstack-query를 알아보자](https://www.notion.so/tanstack-query-3402301d64d444a682091bd5011e2c3b?pvs=21)
+  <div align="center">
+  <img src="https://github.com/user-attachments/assets/3ea711de-74af-487b-9f6e-e83d1fbd3980" alt="scroll description" width="200"/>
+  </div>
+
+  > **학습 및 개발 기록** <br/> > [tanstack-query를 알아보자](https://www.notion.so/tanstack-query-3402301d64d444a682091bd5011e2c3b?pvs=21)
 
 - **CSS 툴팁 컴포넌트 위치 조정**
 
@@ -285,9 +276,8 @@ React는 SPA 특성상 하나의 `index.html` 파일로 모든 페이지를 렌�
     <div align="center">
       <img src="https://github.com/user-attachments/assets/ec0dacbf-ab52-4b66-b634-9aac58cf4203" alt="tooltip description" width="600"/>
     </div>
-  
-  > **학습 및 개발 기록** <br/>
-  > [Tooltip 컴포넌트 제작기](https://www.notion.so/Tooltip-ebe1ad7c4afc46c0955f9a667e1b9737?pvs=21)
+
+  > **학습 및 개발 기록** <br/> > [Tooltip 컴포넌트 제작기](https://www.notion.so/Tooltip-ebe1ad7c4afc46c0955f9a667e1b9737?pvs=21)
 
 - **사용법 단계별로 안내 [튜토리얼]**
 
@@ -295,15 +285,14 @@ React는 SPA 특성상 하나의 `index.html` 파일로 모든 페이지를 렌�
   처음에는 단순히 하나의 레이어만 더 띄워서 모든 기능을 소개하고자 하였습니다.
   하지만 서비스를 처음 접하는 분들은 순서를 파악하기 어려울 것이라 에상되어 코치마크를 활용하기로 하였습니다.
   구현하면서 신경쓴 점은 다음과 같습니다.
+
   - 단계별로 조작해야 하는 구역 하이라이팅
   - 구역과 가까이 말풍선 위치하기
   - 처음 워크스페이스 접근시에만 띄움
-  
-  <br/>
-  
 
-  > **학습 및 개발 기록** <br/>
-  > [사용자 가이드](https://www.notion.so/51679d3e288b485f9a0ea9068eb621f5?pvs=21) <br/>
+  <br/>
+
+  > **학습 및 개발 기록** <br/> > [사용자 가이드](https://www.notion.so/51679d3e288b485f9a0ea9068eb621f5?pvs=21) <br/>
 
 ### 스토리북 테스트
 
@@ -313,9 +302,7 @@ React는 SPA 특성상 하나의 `index.html` 파일로 모든 페이지를 렌�
 
 저희는 UI 중심의 서비스를 설계하였기 때문에 이를 극대화할 수 있는 Storybook을 사용하여 테스트를 진행하였고, **GitHub Pages**를 활용해 정적 웹사이트로 배포하였습니다. 어떤 구조로 작성하면 효율적일지 고민했는데요. 공식 페이지에서 잘 작성했다고 추천한 사이트들도 구조는 다 가지각색이었습니다. 그 중에서 대부분이 최상위 계층에서 모든 컴포넌트를 보여주면서 관리했지만, 저희는 이 부분이 관리 및 확인이 힘들다고 판단하였습니다. 그래서 기존 프로젝트에서 사용하던 **FSD**구조를 Storybook에도 그대로 적용하였습니다.
 
-> **학습 및 개발 기록** <br/>
-> [Storybook 입문 슈웃~](https://velog.io/@chlruddlf73/Storybook-%EC%9E%85%EB%AC%B8-%EA%B0%80%EC%9D%B4%EB%93%9C) <br/>
-> [organization 레포에서의 Storybook 배포 참 쉽죠?](https://velog.io/@chlruddlf73/organization-%EB%A0%88%ED%8F%AC%EC%97%90%EC%84%9C%EC%9D%98-Storybook-%EB%B0%B0%ED%8F%AC.-%EC%B0%B8-%EC%89%BD%EC%A3%A0)
+> **학습 및 개발 기록** <br/> > [Storybook 입문 슈웃~](https://velog.io/@chlruddlf73/Storybook-%EC%9E%85%EB%AC%B8-%EA%B0%80%EC%9D%B4%EB%93%9C) <br/> > [organization 레포에서의 Storybook 배포 참 쉽죠?](https://velog.io/@chlruddlf73/organization-%EB%A0%88%ED%8F%AC%EC%97%90%EC%84%9C%EC%9D%98-Storybook-%EB%B0%B0%ED%8F%AC.-%EC%B0%B8-%EC%89%BD%EC%A3%A0)
 
 <br/>
 
@@ -344,9 +331,7 @@ React는 SPA 특성상 하나의 `index.html` 파일로 모든 페이지를 렌�
 
 시행착오와 개발 기록은 아래에서 자세하게 확인 가능합니다.
 
-> **학습 및 개발 기록** <br/>
-> [나는 BE 개발자 분들을 존경한다. (Cloud MongoDB 연동편)](https://www.notion.so/BE-Cloud-MongoDB-507fd1641d3b46208421242ccfffe44f?pvs=21) <br/>
-> [docker 코드 해석과 수동 배포 방식](https://www.notion.so/docker-42c725a845ad4d4bb99fb71de7522e17?pvs=21)
+> **학습 및 개발 기록** <br/> > [나는 BE 개발자 분들을 존경한다. (Cloud MongoDB 연동편)](https://www.notion.so/BE-Cloud-MongoDB-507fd1641d3b46208421242ccfffe44f?pvs=21) <br/> > [docker 코드 해석과 수동 배포 방식](https://www.notion.so/docker-42c725a845ad4d4bb99fb71de7522e17?pvs=21)
 
 <br/>
 

@@ -14,3 +14,4 @@ export { debounce } from './debounce';
 export { cssCategoryList } from './cssCategoryList';
 export { hasField } from './typeGuard';
 export { capturePreview } from './capturePreview';
+export { coachMarkContent } from './coachMarkContent';
