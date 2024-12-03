@@ -211,7 +211,6 @@ input[type='color']::-webkit-color-swatch-wrapper {
   padding: 0 6px 0 12px;
 }
 
-<<<<<<< HEAD
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -240,7 +239,8 @@ input[type='color']::-webkit-color-swatch-wrapper {
   }
   to {
     transform: rotateX(70deg) rotateZ(0deg) translateY(-350px);
-=======
+  }
+}
 .reset-css {
   html,
   body,
@@ -326,6 +326,5 @@ input[type='color']::-webkit-color-swatch-wrapper {
   table {
     border-collapse: collapse;
     border-spacing: 0;
->>>>>>> d4f58c677d194491bf3188a9d60ae7cb9e61d735
   }
 }
