@@ -21,6 +21,10 @@ jobs:
 
       - name: Install dependencies
         run: pnpm install
+      - name: Set FE .env
+        run: |
+          echo "VITE_SERVER_URL=http://localhost:3000" > apps/client/.env
+          echo "VITE_STATIC_STORAGE_URL=${{ secrets.VITE_STATIC_STORAGE_URL }}" >> apps/client/.env
 
       - name: Build Storybook
         run: pnpm --filter client run build-storybook
