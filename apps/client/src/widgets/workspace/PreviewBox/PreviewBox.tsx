@@ -90,7 +90,6 @@ export const PreviewBox = ({
           </div>
         )}
 
-        {/* TODO: 코드 수정 금지 [논의 필요] */}
         {activeTab === 'preview' && (
           <iframe
             srcDoc={totalCode}
