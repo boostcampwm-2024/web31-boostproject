@@ -83,7 +83,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
 
   public clickTab(id: string) {
     const tabElement = Array.from(this.tabContainer_!.children).find(
-      (child) => child.dataset.id === id
+      (child) => (child as HTMLElement).dataset.id === id
     ) as HTMLDivElement;
 
     if (tabElement) {

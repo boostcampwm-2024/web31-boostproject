@@ -9,7 +9,7 @@ export const CoachMark = () => {
   const { currentStep, setCurrentStep, closeCoachMark } = useCoachMarkStore();
   const stepsLength = coachMarkContent.length;
   const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
-  const blockCanvas = document.querySelector('.blocklyBlockCanvas');
+  // const blockCanvas = document.querySelector('.blocklyBlockCanvas');
   // TODO: 사용자가이드 - 블록 하이라이팅
 
   const nextStep = () => {
@@ -30,7 +30,8 @@ export const CoachMark = () => {
   };
 
   useEffect(() => {
-    const toolbox = Blockly.getMainWorkspace()?.getToolbox() as TabbedToolbox;
+    const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
+    const toolbox = workspace.getToolbox() as TabbedToolbox;
 
     if (!toolbox) return;
 
@@ -48,10 +49,10 @@ export const CoachMark = () => {
     if (toolboxDiv) {
       if (currentStep <= 1) {
         toolboxDiv.classList.add('coachMarkHighlight');
-        blockCanvas.classList.add('coachMarkHighlight');
+        // blockCanvas.classList.add('coachMarkHighlight');
       } else {
         toolboxDiv.classList.remove('coachMarkHighlight');
-        blockCanvas.classList.remove('coachMarkHighlight');
+        // blockCanvas.classList.remove('coachMarkHighlight');
       }
     }
   }, [currentStep, toolboxDiv]);
