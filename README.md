@@ -178,7 +178,7 @@ BooLock은 HTML과 CSS를 블록코딩 방식으로 학습할 수 있는 플랫�
      </table>
    </div>
 
-   HTML 블록 선택과 CSS 클래스 추가를 위한 탭 메뉴를 구현하고자 했으나, Blockly 라이브러리가 탭 인터페이스를 지원하지 않고 기본 UI가 기획과 달라 수정 과정에서 여러 어려움이 있었습니다. 이를 해결하기 위해 Blockly의 오픈소스를 분석하여 블록 메뉴 관련 클래스(Flyout, Toolbox)를 상속받아 서비스에 적합한 새로운 탭 메뉴를 만들었습니다.
+   HTML 블록 선택과 CSS 클래스 추가를 위한 탭 메뉴를 구현하고자 했으나, Blockly 라이브러리가 탭 인터페이스를 지원하지 않고 기본 UI가 기획과 달라 수정 과정에서 여러 어려움이 있었습니다. 이를 해결하기 위해 Blockly의 오픈소스를 분석한 후 블록 메뉴 관련 클래스(Flyout, Toolbox)를 상속받아 주요 함수를 overriding하여 서비스에 적합한 새로운 탭 메뉴를 만들었습니다.
 
    > **👇 더 자세한 기록 및 과정 확인하기 👇** <br/> > [커스텀 toolbox 만들기](https://www.notion.so/toolbox-6f70906d35c0460590a2dbf1e5ac978d?pvs=21) <br/> > [Flyout toolbox에 커스텀 여부 파악하기](https://www.notion.so/Flyout-toolbox-9e798913012045218f577ef62e56a547?pvs=21) <br/> > [Flyout toolbox에 동적 블록 생성하기 (DOM)](https://www.notion.so/Flyout-toolbox-DOM-f329b63f9d2e4262a8f70eadfd3ea790?pvs=21) <br/> > [Flyout toolbox에 동적 블록 생성하기 (svg)](https://www.notion.so/Flyout-toolbox-svg-8ff41d9a4b3947b7817f0e281c426ba4?pvs=21)
 
