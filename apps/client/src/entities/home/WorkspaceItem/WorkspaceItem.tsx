@@ -45,8 +45,7 @@ export const WorkspaceItem = ({
   };
 
   return (
-
-    <li className="shadow-md relative overflow-hidden rounded-lg bg-white">
+    <div className="relative overflow-hidden rounded-lg bg-white shadow-md">
       <button
         className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white p-2 text-gray-300 transition-colors hover:bg-red-500 hover:text-white"
         onClick={handleOnclick}
@@ -69,6 +68,6 @@ export const WorkspaceItem = ({
           <p className="text-medium-sm text-gray-400">{formatRelativeOrAbsoluteDate(lastEdited)}</p>
         </aside>
       </div>
-    </li>
+    </div>
   );
 };
