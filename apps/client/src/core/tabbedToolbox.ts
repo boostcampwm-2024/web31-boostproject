@@ -344,7 +344,7 @@ Blockly.Css.register(`
   justify-content: center;
   border-top-left-radius: 0.5rem; /* rounded-t-lg */
   border-top-right-radius: 0.5rem; /* rounded-t-lg */
-  background-color: white; /* bg-gray-50 */
+  background: linear-gradient(0deg, rgb(210 218 231) 0%, #eaeff6 30%);
   padding: 0.75rem; /* py-3 */
   color: #56687A; /* text-gray-400 */
 }
@@ -354,6 +354,7 @@ Blockly.Css.register(`
   flex: 1;
   border-top-left-radius: 0.5rem; /* rounded-t-lg */
   border-top-right-radius: 0.5rem; /* rounded-t-lg */
+  background: transparent;
   background-color: #3b82f6; /* bg-blue-500 */
   padding: 0.75rem; /* py-3 */
   color: #ffffff; /* text-white */

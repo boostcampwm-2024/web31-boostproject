@@ -1,8 +1,10 @@
 /* eslint-disable camelcase */
 
 import 'dotenv/config';
+
 import { S3, Upload } from '@/config/s3';
 import { TTotalCssPropertyObj, TWorkspace } from '@/types/workspaceType';
+
 import { Workspace } from '@/models/workspaceModel';
 import { generateCssList } from '@/services/utils/generateCssList';
 import { generateTotalCssPropertyObj } from '@/services/utils/generateTotalCssPropertyObj';
@@ -187,7 +189,6 @@ export const WorkspaceService = () => {
         },
       });
       const uploadResult = await upload.done();
-      console.log(uploadResult);
       if (!uploadResult) {
         throw new Error('Failed to upload thumbnail');
       }

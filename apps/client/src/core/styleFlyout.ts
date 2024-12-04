@@ -74,9 +74,9 @@ export default class StyleFlyout extends FixedFlyout {
       class: 'resetCssCheckbox',
     });
     resetCssCheckboxElement.checked = useResetCssStore.getState().isResetCssChecked;
-    useWorkspaceChangeStatusStore.getState().setIsCssChanged(true);
     resetCssCheckboxElement.addEventListener('change', () => {
       useResetCssStore.getState().toggleResetCss();
+      useWorkspaceChangeStatusStore.getState().setIsCssChanged(true);
     });
 
     const resetCssTextElement = Dom.createElement<HTMLSpanElement>('span', {

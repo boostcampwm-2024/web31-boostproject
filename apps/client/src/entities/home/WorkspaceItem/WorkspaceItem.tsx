@@ -45,9 +45,10 @@ export const WorkspaceItem = ({
   };
 
   return (
+
     <li className="relative overflow-hidden rounded-lg shadow-md">
       <button
-        className="absolute right-2 top-2 text-gray-300 hover:text-red-500"
+        className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white p-2 text-gray-300 transition-colors hover:bg-red-500 hover:text-white"
         onClick={handleOnclick}
         aria-label="워크스페이스 삭제 버튼"
       >

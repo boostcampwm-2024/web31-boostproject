@@ -7,6 +7,7 @@ import {
   blockContents,
   calculateBlockLength,
   cssCodeGenerator,
+  cssStyleToolboxConfig,
   defineBlocks,
   findBlockStartLine,
   generateFullCodeWithBlockId,
@@ -88,7 +89,7 @@ export const WorkspaceContent = () => {
       theme: initTheme,
       zoom: {
         controls: true,
-        wheel: true,
+        wheel: false,
         startScale: 1.0,
         maxScale: 3,
         minScale: 0.3,
@@ -164,6 +165,20 @@ export const WorkspaceContent = () => {
       setSelectedBlockLength(blockLength);
     };
 
+    newWorkspace.getParentSvg().addEventListener(
+      'wheel',
+      (event) => {
+        if (event.ctrlKey) {
+          event.preventDefault();
+          const zoomAmount = event.deltaY > 0 ? -1 : 1;
+          newWorkspace.zoomCenter(zoomAmount);
+        } else {
+          event.preventDefault();
+        }
+      },
+      { passive: false }
+    );
+
     newWorkspace.addChangeListener(handleAutoConversion);
     newWorkspace.addChangeListener(handleBlockClick2);
 
@@ -201,8 +216,15 @@ export const WorkspaceContent = () => {
     if (!workspace || !canvasInfo || canvasInfo.length === 0) {
       return;
     }
-
     Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
+    cssStyleToolboxConfig.contents.length = 0;
+    Object.keys(totalCssPropertyObj).forEach((className) => {
+      cssStyleToolboxConfig.contents.push({
+        type: className,
+        kind: 'block',
+        enabled: true,
+      });
+    });
   }, [workspace, canvasInfo]);
 
   useEffect(() => {
