@@ -7,6 +7,7 @@ import {
   blockContents,
   calculateBlockLength,
   cssCodeGenerator,
+  cssStyleToolboxConfig,
   defineBlocks,
   findBlockStartLine,
   generateFullCodeWithBlockId,
@@ -215,8 +216,15 @@ export const WorkspaceContent = () => {
     if (!workspace || !canvasInfo || canvasInfo.length === 0) {
       return;
     }
-
     Blockly.serialization.workspaces.load(JSON.parse(canvasInfo), workspace);
+    cssStyleToolboxConfig.contents.length = 0;
+    Object.keys(totalCssPropertyObj).forEach((className) => {
+      cssStyleToolboxConfig.contents.push({
+        type: className,
+        kind: 'block',
+        enabled: true,
+      });
+    });
   }, [workspace, canvasInfo]);
 
   useEffect(() => {
