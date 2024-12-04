@@ -88,7 +88,7 @@ export const WorkspaceContent = () => {
       theme: initTheme,
       zoom: {
         controls: true,
-        wheel: true,
+        wheel: false,
         startScale: 1.0,
         maxScale: 3,
         minScale: 0.3,
@@ -163,6 +163,20 @@ export const WorkspaceContent = () => {
       const blockLength = calculateBlockLength(block);
       setSelectedBlockLength(blockLength);
     };
+
+    newWorkspace.getParentSvg().addEventListener(
+      'wheel',
+      (event) => {
+        if (event.ctrlKey) {
+          event.preventDefault();
+          const zoomAmount = event.deltaY > 0 ? -1 : 1;
+          newWorkspace.zoomCenter(zoomAmount);
+        } else {
+          event.preventDefault();
+        }
+      },
+      { passive: false }
+    );
 
     newWorkspace.addChangeListener(handleAutoConversion);
     newWorkspace.addChangeListener(handleBlockClick2);
