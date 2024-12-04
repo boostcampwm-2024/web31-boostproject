@@ -35,6 +35,7 @@ export const CircleButton = ({
       onClick={onClick}
       className={`${baseClasses} ${variantClasses} ${className}`}
       disabled={disable}
+      aria-label="재사용 원형 버튼"
     >
       {children}
     </button>
