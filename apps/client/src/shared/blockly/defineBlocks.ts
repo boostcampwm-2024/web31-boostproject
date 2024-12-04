@@ -141,7 +141,6 @@ export const defineBlocks = (blockContents: TBlockContents) => {
                 .appendField(
                   new Blockly.FieldDropdown([
                     ['_blank', '_blank'],
-                    ['_self', '_self'],
                     ['_parent', '_parent'],
                     ['_top', '_top'],
                   ]),
