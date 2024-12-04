@@ -5,7 +5,7 @@ import { addPreviousTypeName, removePreviousTypeName } from '@/shared/utils';
 import { CustomFieldImageButton } from '@/core/customFieldImageButton';
 import { CustomFieldTextInput } from '@/core/customFieldTextInput';
 import { CustomOptionFieldLabel } from '@/core/customOptionFieldLabel';
-import { CustomTagFieldLabel } from '../../core/customTagFieldLabel';
+import { CustomTagFieldLabel } from '@/core/customTagFieldLabel';
 import { TBlockContents } from '@/shared/types';
 
 /**
