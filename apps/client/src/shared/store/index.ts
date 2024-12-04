@@ -8,3 +8,4 @@ export { useBlocklyWorkspaceStore } from './useBlocklyWorkspaceStore';
 export { useResetCssStore } from './useResetCssStore';
 export { useWorkspaceStore } from './useWorkspaceStore';
 export { useImageModalStore } from './useImageModalStore';
+export { useIframeStore } from './useIframeStore';

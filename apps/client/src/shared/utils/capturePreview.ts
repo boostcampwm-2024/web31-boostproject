@@ -1,21 +1,19 @@
-import html2canvas from 'html2canvas';
-import { useResetCssStore } from '@/shared/store';
+import { useIframeStore, useResetCssStore } from '@/shared/store';
 
-const ERROR_MESSAGE = {
-  SELECT_PREVIEW_TAB: '미리보기 탭을 선택해주세요.',
-  FAIL_TO_SAVE: '저장에 실패했습니다.',
-};
+import { IFRAME_ERROR_MESSAGE } from '@/shared/utils';
+import html2canvas from 'html2canvas';
 
 export const capturePreview = async () => {
   const isResetCssChecked = useResetCssStore.getState().isResetCssChecked;
 
-  const previewIframe = document.querySelector('iframe');
+  const previewIframe = useIframeStore.getState().iframeRef?.current;
+
   if (!previewIframe) {
-    throw new Error(ERROR_MESSAGE.SELECT_PREVIEW_TAB);
+    throw new Error(IFRAME_ERROR_MESSAGE.SELECT_PREVIEW_TAB);
   }
   const previewDocument = previewIframe?.contentDocument || previewIframe?.contentWindow?.document;
   if (!previewDocument) {
-    throw new Error(ERROR_MESSAGE.FAIL_TO_SAVE);
+    throw new Error(IFRAME_ERROR_MESSAGE.FAIL_TO_SAVE);
   }
 
   /**
@@ -34,7 +32,6 @@ export const capturePreview = async () => {
      * 그래서 해당 문제를 해결하기 위해 기존 css 클래스들에 대한 특이성을 높이기 위해
      * .reset-css 클래스를 부모 클래스로 설정하여 특이성 문제를 해결
      */
-
     div.innerHTML = previewHtml
       .replace('<style>', '<style>.reset-css {')
       .replace('</style>', '} </style>') as Element['outerHTML'];

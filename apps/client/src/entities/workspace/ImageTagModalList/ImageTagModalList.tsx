@@ -1,9 +1,10 @@
 import { useDeleteImage, usePostImage } from '@/shared/hooks';
-import { useImageModalStore } from '@/shared/store';
-import { useRef } from 'react';
-import toast from 'react-hot-toast';
-import { useParams } from 'react-router-dom';
+
 import { ImageTagModalListItem } from '../ImageTagModalListItem/ImageTagModalListItem';
+import toast from 'react-hot-toast';
+import { useImageModalStore } from '@/shared/store';
+import { useParams } from 'react-router-dom';
+import { useRef } from 'react';
 
 type ImageListProps = {
   tagSrc: string;
@@ -43,7 +44,6 @@ export const ImageTagModalList = ({ tagSrc, onSetTagSrc }: ImageListProps) => {
 
           const filename = file.name.replace(/\.(png|jpeg|jpg|svg)$/i, '');
           const invalidChars = /[\\/:*?"<>|]/;
-          console.log(filename);
 
           if (invalidChars.test(filename)) {
             return handleShowError(

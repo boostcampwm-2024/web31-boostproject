@@ -1,9 +1,10 @@
-import { useState } from 'react';
-import { useResetCssStore } from '@/shared/store';
-import { resetCss } from '@/shared/utils/resetCss';
-import CopyIcon from '@/shared/assets/code_copy.svg?react';
-import toast from 'react-hot-toast';
+import { useEffect, useRef, useState } from 'react';
+import { useIframeStore, useResetCssStore } from '@/shared/store';
+
 import { CodeViewer } from '@/shared/code-highlighter';
+import CopyIcon from '@/shared/assets/code_copy.svg?react';
+import { resetCss } from '@/shared/utils/resetCss';
+import toast from 'react-hot-toast';
 import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
 
 type PreviewBoxProps = {
@@ -29,6 +30,8 @@ export const PreviewBox = ({
   const [activeTab, setActiveTab] = useState<'preview' | 'html' | 'css'>('preview');
   const { isResetCssChecked } = useResetCssStore();
   const { currentStep } = useCoachMarkStore();
+  const { setIframeRef } = useIframeStore();
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const googleFontsLinksCode = `
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -40,6 +43,12 @@ export const PreviewBox = ({
   const styleCode = `<style> * { box-sizing : border-box; margin : 0; padding : 0; ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: #cdd9e4; border-radius: 4px; } } html, head, body { width : 100%; height : 100%;  } ${finalCssCode}</style>`;
   const indexOfHead = htmlCode.indexOf('</head>');
   const totalCode = `${htmlCode.slice(0, indexOfHead)}${googleFontsLinksCode}${styleCode}${htmlCode.slice(indexOfHead)}`;
+
+  useEffect(() => {
+    if (iframeRef.current) {
+      setIframeRef(iframeRef);
+    }
+  }, [iframeRef]);
 
   // TODO: 상수 분리한 후 재사용성 높이기
   /* eslint-disable */
@@ -95,6 +104,7 @@ export const PreviewBox = ({
 
         {activeTab === 'preview' && (
           <iframe
+            ref={iframeRef}
             srcDoc={totalCode}
             className="h-full w-full"
             title="Preview"
