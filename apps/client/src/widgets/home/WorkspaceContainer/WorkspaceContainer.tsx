@@ -1,9 +1,8 @@
 import { EmptyWorkspace, WorkspaceGrid, WorkspaceHeader, WorkspaceList } from '@/widgets';
-import { useEffect, useRef } from 'react';
+import { useGetWorkspaceList, useInfiniteScroll } from '@/shared/hooks';
 
 import { SkeletonWorkspaceList } from '@/shared/ui';
 import { WorkspaceLoadError } from '@/entities';
-import { useGetWorkspaceList } from '@/shared/hooks';
 
 /**
  *
@@ -14,36 +13,25 @@ export const WorkspaceContainer = () => {
   const { hasNextPage, fetchNextPage, isPending, isFetchingNextPage, isError, workspaceList } =
     useGetWorkspaceList();
 
-  const nextFetchTargetRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    const options = {
-      root: null,
-      rootMargin: '0px',
-      threshold: 0.5,
-    };
-    const fetchCallback: IntersectionObserverCallback = (entries, observer) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && hasNextPage) {
-          fetchNextPage();
-          observer.unobserve(entry.target);
-        }
-      });
-    };
-    const observer = new IntersectionObserver(fetchCallback, options);
-    if (nextFetchTargetRef.current) {
-      observer.observe(nextFetchTargetRef.current);
-    }
-    return () => {
-      if (nextFetchTargetRef.current) {
-        observer.unobserve(nextFetchTargetRef.current);
+  const fetchCallback: IntersectionObserverCallback = (entries, observer) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && hasNextPage) {
+        fetchNextPage();
+        observer.unobserve(entry.target);
       }
-    };
-  }, [workspaceList]);
+    });
+  };
+
+  const nextFetchTargetRef = useInfiniteScroll({ intersectionCallback: fetchCallback });
 
   return (
     <section className="w-full max-w-[1152px] px-3 pb-48">
       <WorkspaceHeader />
+      {isPending && (
+        <WorkspaceGrid>
+          <SkeletonWorkspaceList skeletonNum={8} />
+        </WorkspaceGrid>
+      )}
       {isError ? (
         <WorkspaceLoadError />
       ) : (
@@ -53,7 +41,7 @@ export const WorkspaceContainer = () => {
         ) : (
           <WorkspaceGrid>
             <WorkspaceList workspaceList={workspaceList} />
-            {(isPending || isFetchingNextPage) && <SkeletonWorkspaceList skeletonNum={8} />}
+            {isFetchingNextPage && <SkeletonWorkspaceList skeletonNum={8} />}
           </WorkspaceGrid>
         ))
       )}

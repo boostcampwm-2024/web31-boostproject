@@ -15,3 +15,4 @@ export { useCssOptionItem } from './css/useCssOptionItem';
 export { workspaceKeys } from './query-key/workspaceKeys';
 
 export { usePreventLeaveWorkspacePage } from './usePreventLeaveWorkspacePage';
+export { useInfiniteScroll } from './useInfiniteScroll';
