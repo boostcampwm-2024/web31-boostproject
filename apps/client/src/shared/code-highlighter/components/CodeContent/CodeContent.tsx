@@ -1,5 +1,6 @@
-import styles from '../styles/CodeViewer.module.css';
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+import styles from '../../styles/CodeViewer.module.css';
 
 type CodeViewerProps = {
   code: string;
@@ -9,6 +10,11 @@ type CodeViewerProps = {
   selectedBlockType?: string | null;
 };
 
+/**
+ *
+ * @description
+ * 변환된 HTML, CSS 코드를 보여주는 컴포넌트
+ */
 export const CodeContent = ({
   code,
   codeLineList,

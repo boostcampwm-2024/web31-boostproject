@@ -1,10 +1,15 @@
+import styles from '../../styles/CodeViewer.module.css';
 import { useState } from 'react';
-import styles from '../styles/CodeViewer.module.css';
 
 type LineNumbersProps = {
   codeLineList: string[];
 };
 
+/**
+ *
+ * @description
+ * 코드의 줄 수를 표시하는 컴포넌트
+ */
 export const LineNumbers = ({ codeLineList }: LineNumbersProps) => {
   const [hoveredLineNumber, setHoveredLineNumber] = useState<number | null>(null);
 
