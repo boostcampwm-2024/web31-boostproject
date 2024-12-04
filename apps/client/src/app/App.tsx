@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import { ToasterWithMax } from '@/shared/ui';
 import { ErrorPage } from '@/pages/ErrorPage/ErrorPage';
 import { lazy, Suspense } from 'react';
+import { Loading } from '@/shared/ui';
 
 // lazy 로딩
 const HomePage = lazy(() =>
@@ -22,7 +23,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: (
-      <Suspense fallback={<div>홈 페이지로 로딩중...</div>}>
+      <Suspense fallback={<Loading />}>
         <HomePage />
       </Suspense>
     ),
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
   {
     path: '/workspace/:workspaceId',
     element: (
-      <Suspense fallback={<div>워크스페이스 페이지로 로딩중...</div>}>
+      <Suspense fallback={<Loading />}>
         <WorkspacePage />
       </Suspense>
     ),
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
   {
     path: '*',
     element: (
-      <Suspense fallback={<div>페이지를 찾을 수 없습니다...</div>}>
+      <Suspense fallback={<Loading />}>
         <NotFound />
       </Suspense>
     ),
