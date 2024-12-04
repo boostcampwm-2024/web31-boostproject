@@ -1,7 +1,8 @@
 import { ResizePanelAlign } from '@/shared/hooks/useResize';
 
 interface ResizePanelProps {
-  onMouseDown: () => void;
+  /* eslint-disable */
+  onMouseDown: (_e: React.MouseEvent<HTMLDivElement>) => void;
   invalid?: boolean;
   align?: ResizePanelAlign;
 }

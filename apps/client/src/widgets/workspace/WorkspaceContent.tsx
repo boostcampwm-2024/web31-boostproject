@@ -50,30 +50,11 @@ export const WorkspaceContent = () => {
   const [cssCode, setCssCode] = useState<string>('');
   const { totalCssPropertyObj } = useCssPropsStore();
   const { workspace, setWorkspace } = useWorkspaceStore();
-  const {
-    size: leftWidth,
-    isMinOrMax: isMinOrMaxWidth,
-    handleResizeStart: handleHorizontalResizeStart,
-    handleResize: handleHorizontalResize,
-    handleResizeEnd: handleHorizontalResizeEnd,
-  } = useResizePanel({
-    minSize: 20,
+  const { size, handleResizeStart, handleResize, handleResizeEnd } = useResizePanel({
+    minSize: 28,
     maxSize: 80,
-    initialSize: 32,
+    initialSize: 28,
     align: ResizePanelAlign.VERTICAL,
-  });
-
-  const {
-    size: previewHeight,
-    isMinOrMax: isMinOrMaxHeight,
-    handleResizeStart: handleVerticalResizeStart,
-    handleResize: handleVerticalResize,
-    handleResizeEnd: handleVerticalResizeEnd,
-  } = useResizePanel({
-    minSize: 30,
-    maxSize: 70,
-    initialSize: 50,
-    align: ResizePanelAlign.HORIZONTAL,
   });
 
   useEffect(() => {
@@ -137,38 +118,23 @@ export const WorkspaceContent = () => {
   return (
     <div
       className="flex flex-1"
-      onMouseMove={handleHorizontalResize}
-      onMouseUp={handleHorizontalResizeEnd}
-      onMouseLeave={handleHorizontalResizeEnd}
+      onMouseMove={handleResize}
+      onMouseUp={handleResizeEnd}
+      onMouseLeave={handleResizeEnd}
     >
-      <div
-        className="flex h-full w-[32rem] flex-shrink-0 flex-col"
-        style={{ width: `${leftWidth}%` }}
-      >
-        <div
-          className="flex-shrink-0"
-          style={{ height: `${previewHeight}%` }}
-          onMouseMove={handleVerticalResize}
-          onMouseUp={handleVerticalResizeEnd}
-          onMouseLeave={handleVerticalResizeEnd}
-        >
+      <div className="flex h-full w-[32rem] flex-shrink-0 flex-col" style={{ width: `${size}%` }}>
+        <div className="flex-shrink-0">
           <PreviewBox htmlCode={htmlCode} cssCode={cssCode} />
         </div>
-        <ResizePanel
-          onMouseDown={handleVerticalResizeStart(ResizePanelType.PROPERTY)}
-          invalid={isMinOrMaxHeight(previewHeight)}
-          align={ResizePanelAlign.HORIZONTAL}
-        />
-        <div style={{ height: `${100 - previewHeight}%` }}>
+        <div>
           <CssPropsSelectBox />
         </div>
       </div>
       <ResizePanel
-        onMouseDown={handleHorizontalResizeStart(ResizePanelType.WORKSPACE)}
-        invalid={isMinOrMaxWidth(leftWidth)}
+        onMouseDown={handleResizeStart(ResizePanelType.WORKSPACE)}
         align={ResizePanelAlign.VERTICAL}
       />
-      <div id="blocklyDiv" className="h-full w-full" style={{ width: `${100 - leftWidth}%` }}></div>
+      <div id="blocklyDiv" className="h-full w-full" style={{ width: `${100 - size}%` }}></div>
     </div>
   );
 };
