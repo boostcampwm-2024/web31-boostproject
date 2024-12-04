@@ -65,7 +65,7 @@ export const WorkspaceItem = ({
           )}
         </div>
         <aside className="p-4 pb-6">
-          <h4 className="text-bold-md mb-1.5 text-gray-500">{title}</h4>
+          <h2 className="text-bold-md mb-1.5 text-gray-500">{title}</h2>
           <p className="text-medium-sm text-gray-200">{formatRelativeOrAbsoluteDate(lastEdited)}</p>
         </aside>
       </div>
