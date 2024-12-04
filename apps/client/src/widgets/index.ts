@@ -1,4 +1,3 @@
-export { GuidesBox } from './home/GuidesBox/GuidesBox';
 export { Banner } from './home/Banner/Banner';
 export { HomeHeader } from './home/HomeHeader/HomeHeader';
 export { WorkspaceList } from './home/WorkspaceList/WorkspaceList';
