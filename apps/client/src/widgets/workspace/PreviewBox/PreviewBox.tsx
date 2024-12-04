@@ -76,18 +76,21 @@ export const PreviewBox = ({
         <button
           onClick={() => setActiveTab('preview')}
           className={`${activeTab === 'preview' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full flex-1 border-r border-gray-100 bg-green-500`}
+          aria-label="미리보기 탭 버튼"
         >
           미리보기
         </button>
         <button
           onClick={() => setActiveTab('html')}
           className={`${activeTab === 'html' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full flex-1 border-r border-gray-100 bg-green-500`}
+          aria-label="HTML 탭 버튼"
         >
           HTML
         </button>
         <button
           onClick={() => setActiveTab('css')}
           className={`${activeTab === 'css' ? 'bg-green-500 text-white' : 'bg-white text-gray-200'} h-full flex-1 bg-green-500`}
+          aria-label="CSS 탭 버튼"
         >
           CSS
         </button>
@@ -98,6 +101,7 @@ export const PreviewBox = ({
             <CopyIcon
               className="h-6 w-6 cursor-pointer text-gray-300 hover:text-green-500"
               onClick={handleCopy}
+              aria-label="코드 복사 버튼"
             />
           </div>
         )}

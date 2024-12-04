@@ -17,6 +17,7 @@ export const CssCategoryButton = ({ cssCategory }: CssCategoryButtonProps) => {
       key={cssCategory}
       onClick={() => setSelectedCssCategory(cssCategory)}
       className={`text-bold-sm flex cursor-pointer rounded px-3 py-2.5 text-gray-200 ${selectedCssCategory === cssCategory && 'text-gray-black bg-yellow-500'}`}
+      aria-label=" CSS 카테고리 선택 버튼"
     >
       {cssCategory}
     </button>

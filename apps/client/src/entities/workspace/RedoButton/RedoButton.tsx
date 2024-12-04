@@ -16,7 +16,7 @@ export const RedoButton = () => {
   };
 
   return (
-    <CircleButton onClick={handleRedo} width="w-[30px]" height="h-[30px]">
+    <CircleButton onClick={handleRedo} width="w-[30px]" height="h-[30px] " aria-label="redo 버튼">
       <RightArrow />
     </CircleButton>
   );

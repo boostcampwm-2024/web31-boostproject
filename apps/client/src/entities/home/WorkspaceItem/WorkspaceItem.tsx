@@ -45,10 +45,12 @@ export const WorkspaceItem = ({
   };
 
   return (
-    <li className="shadow-drop relative overflow-hidden rounded-lg bg-white">
+
+    <li className="relative overflow-hidden rounded-lg shadow-md">
       <button
         className="absolute right-2 top-2 flex h-8 w-8 items-center justify-center rounded-full bg-white p-2 text-gray-300 transition-colors hover:bg-red-500 hover:text-white"
         onClick={handleOnclick}
+        aria-label="워크스페이스 삭제 버튼"
       >
         <TrashSVG width={16} />
       </button>
@@ -58,14 +60,13 @@ export const WorkspaceItem = ({
             <img
               src={thumbnail}
               alt="workspace thumbnail"
-              className="h-full w-full object-cover object-left-top"
-              loading="lazy"
+              className="h-[180px] w-[264px] object-cover object-left-top"
             />
           )}
         </div>
         <aside className="p-4 pb-6">
-          <h4 className="text-bold-md mb-1.5 text-gray-500">{title}</h4>
-          <p className="text-medium-sm text-gray-200">{formatRelativeOrAbsoluteDate(lastEdited)}</p>
+          <h2 className="text-bold-md mb-1.5 text-gray-500">{title}</h2>
+          <p className="text-medium-sm text-gray-400">{formatRelativeOrAbsoluteDate(lastEdited)}</p>
         </aside>
       </div>
     </li>

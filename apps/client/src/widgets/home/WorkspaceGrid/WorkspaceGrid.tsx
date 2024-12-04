@@ -7,8 +7,8 @@ import { PropsWithChildren } from 'react';
  */
 export const WorkspaceGrid = ({ children }: PropsWithChildren) => {
   return (
-    <ul className="grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-      {children}
+    <ul className="grid-cols-list grid w-[1128px] justify-start gap-x-6 gap-y-8">
+      <li>{children}</li>
     </ul>
   );
 };

@@ -60,6 +60,7 @@ export const ImageTagModal = () => {
               className="w-full rounded-lg border-[1px] px-5 py-3 align-middle text-gray-200 focus:outline-none"
               value={tagSrc}
               onChange={(e) => setTagSrc(e.target.value)}
+              placeholder="이미지 URL을 일력해주세요."
             />
           </div>
         </div>
@@ -70,11 +71,13 @@ export const ImageTagModal = () => {
             onClick={() => {
               setIsModalOpen(false);
             }}
+            aria-label="이미지 태그 모달 닫기 버튼"
           />
           <ImageTagModalButton
             content="이미지 선택하기"
             isBlue={true}
             onClick={() => handleSaveSrc()}
+            aria-label="이미지 선택하기 버튼"
           />
         </div>
       </div>

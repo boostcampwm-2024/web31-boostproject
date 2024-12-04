@@ -176,6 +176,7 @@ export const Select = ({
         onClick={handleOpen}
         disabled={disabled}
         className="text-medium-md w-full rounded-lg border border-gray-100 bg-white px-4 py-1.5 text-left focus:outline-none disabled:border disabled:border-gray-100 disabled:bg-gray-50"
+        aria-label="선택 옵션 열고 닫기 버튼"
       >
         <div className="flex items-center justify-between gap-2">
           <span className={`${!selectedOption ? 'text-gray-200' : 'text-gray-500'}`}>

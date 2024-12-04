@@ -127,10 +127,12 @@ export const ImageTagModalList = ({ tagSrc, onSetTagSrc }: ImageListProps) => {
       <button
         className="w-full rounded-lg bg-black py-3 text-center align-middle text-gray-50"
         onClick={handleClickFileInput}
+        aria-label="이미지 업로드 버튼"
       >
         이미지 업로드하기
       </button>
       <input
+        title="이미지 업로드"
         className="hidden"
         type="file"
         accept="image/png, image/jpg, image/jpeg, image/svg+xml"

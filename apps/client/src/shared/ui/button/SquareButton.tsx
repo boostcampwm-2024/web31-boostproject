@@ -27,6 +27,7 @@ export const SquareButton = ({
       onClick={onClick}
       className={`text-bold-md rounded-lg px-[72px] py-4 ${colorClasses} w-[200px]`}
       disabled={isDisabled}
+      aria-label="재사용 사각형 버튼"
     >
       {children}
     </button>
