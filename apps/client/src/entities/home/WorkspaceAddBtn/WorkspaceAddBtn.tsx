@@ -17,7 +17,13 @@ export const WorkspaceAddBtn = () => {
   };
 
   return (
-    <CircleButton width="w-5" height="h-5" onClick={handleClick} disable={isPending}>
+    <CircleButton
+      width="w-5"
+      height="h-5"
+      onClick={handleClick}
+      disable={isPending}
+      aria-label="워크스페이스 추가 버튼"
+    >
       <PlusSVG width="12" height="12" />
     </CircleButton>
   );

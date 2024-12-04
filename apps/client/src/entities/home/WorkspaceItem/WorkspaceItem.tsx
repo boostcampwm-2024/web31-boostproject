@@ -49,6 +49,7 @@ export const WorkspaceItem = ({
       <button
         className="absolute right-2 top-2 text-gray-300 hover:text-red-500"
         onClick={handleOnclick}
+        aria-label="워크스페이스 삭제 버튼"
       >
         <TrashSVG width={16} />
       </button>

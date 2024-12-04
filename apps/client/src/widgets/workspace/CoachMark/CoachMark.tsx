@@ -78,6 +78,7 @@ export const CoachMark = () => {
               disable={currentStep === stepsLength}
               className="text-bold-sm h-8 w-16"
               variant="outlined"
+              aria-label="가이드 그만 보기 버튼"
             >
               그만 보기
             </CircleButton>
@@ -87,6 +88,7 @@ export const CoachMark = () => {
               className="text-bold-sm h-8 w-16"
               onClick={prevStep}
               disable={currentStep === 0}
+              aria-label="가이드 이전 보기 버튼"
             >
               이전
             </CircleButton>
@@ -95,6 +97,7 @@ export const CoachMark = () => {
               onClick={currentStep < 4 ? nextStep : closeCoachMark}
               disable={currentStep === stepsLength}
               className="text-bold-sm h-8 w-16"
+              aria-label="가이드 다음 보기 버튼"
             >
               {currentStep < 4 ? '다음' : '시작하기'}
             </CircleButton>

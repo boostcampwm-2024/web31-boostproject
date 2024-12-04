@@ -46,6 +46,7 @@ const router = createBrowserRouter([
     ),
   },
 ]);
+
 export const App = () => (
   <>
     <ToasterWithMax />

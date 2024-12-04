@@ -52,6 +52,7 @@ export const SaveButton = () => {
         onClick={handleClick}
         className="text-bold-rg w-16 rounded-[30px] bg-green-500 py-2 text-green-100 hover:border hover:border-green-500 hover:bg-green-100 hover:text-green-500"
         disabled={isPending}
+        aria-label="워크스페이스 저장 버튼"
       >
         {isPending || isCapture ? (
           <Spinner width={4} height={4} backgroundColor="gray200" foregroundColor="grayWhite" />

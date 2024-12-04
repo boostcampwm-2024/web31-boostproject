@@ -17,7 +17,7 @@ export const UndoButton = () => {
   };
 
   return (
-    <CircleButton onClick={handleUndo} width="w-[30px]" height="h-[30px]">
+    <CircleButton onClick={handleUndo} width="w-[30px]" height="h-[30px] " aria-label="undo 버튼">
       <LeftArrow />
     </CircleButton>
   );

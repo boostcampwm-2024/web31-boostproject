@@ -30,6 +30,7 @@ export const WorkspaceModal = () => {
             src={`${import.meta.env.VITE_STATIC_STORAGE_URL}booduck_modal.png`}
             width={100}
             height={100}
+            alt="Booduck Modal"
           />
           <p className="text-semibold-lg whitespace-pre-line text-gray-500">{modalContent}</p>
         </div>
@@ -41,6 +42,7 @@ export const WorkspaceModal = () => {
               onClick={() => content.func()}
               variant={content.type}
               isDisabled={content.isDisabled}
+              aria-label="워크스페이스 삭제 여부 버튼"
             >
               <>
                 {content.isDisabled ? (
