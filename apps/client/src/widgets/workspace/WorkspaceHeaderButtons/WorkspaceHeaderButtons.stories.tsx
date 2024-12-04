@@ -1,7 +1,6 @@
 import { Meta, StoryObj } from '@storybook/react';
 
 import { WorkspaceHeaderButtons } from './WorkspaceHeaderButtons';
-import { ImageTagModalListItem } from '@/entities';
 
 const meta: Meta<typeof WorkspaceHeaderButtons> = {
   title: 'entities/workspace/WorkspaceHeaderButtons',
@@ -10,7 +9,7 @@ const meta: Meta<typeof WorkspaceHeaderButtons> = {
     layout: 'centered',
     docs: {
       description: {
-        component: 'img 태그 src 속성 적용을 위한 모달창에 사용되는 이미지 리스트 아이템 컴포넌트',
+        component: '워크스페이스 헤더 버튼 모음 컴포넌트',
       },
     },
   },
@@ -21,21 +20,4 @@ export default meta;
 
 type Story = StoryObj<typeof WorkspaceHeaderButtons>;
 
-export const Default: Story = {
-  args: {
-    isSelected: false,
-    onDeleteImage: () => {},
-    onSelectImage: () => {},
-    filename: 'logo.png',
-  },
-  render: (args) => {
-    return (
-      <ImageTagModalListItem
-        isSelected={args.isSelected}
-        onDeleteImage={args.onDeleteImage}
-        onSelectImage={args.onSelectImage}
-        filename={args.filename}
-      />
-    );
-  },
-};
+export const Default: Story = {};
