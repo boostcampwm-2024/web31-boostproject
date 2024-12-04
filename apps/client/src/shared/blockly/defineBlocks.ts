@@ -52,9 +52,7 @@ export const defineBlocks = (blockContents: TBlockContents) => {
     '웹페이지의 시작과 끝을 알려주는 가장 큰 상자예요.\n모든 내용을 담고 있는 책의 겉표지 같은 거예요.',
     {
       init: function () {
-        this.appendValueInput('css class')
-          .setCheck('CSS-CLASS')
-          .appendField(new CustomTagFieldLabel('html'));
+        this.appendDummyInput().appendField(new CustomTagFieldLabel('html'));
         this.appendStatementInput('children').appendField('');
       },
     },
