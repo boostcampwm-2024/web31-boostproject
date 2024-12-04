@@ -2,5 +2,5 @@
 * @boostcampwm-2024/Web31
 
 # chore와 hotfix 브랜치에 대해서는 리뷰어를 지정하지 않음
-chore_*
-hotfix_*
+chore_* -
+hotfix_* -
