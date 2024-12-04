@@ -123,6 +123,7 @@ export const WorkspaceContent = () => {
         event.type === Blockly.Events.VIEWPORT_CHANGE ||
         event.type === Blockly.Events.BLOCK_DRAG ||
         event.type === Blockly.Events.BLOCK_FIELD_INTERMEDIATE_CHANGE ||
+        (event.type === Blockly.Events.BLOCK_MOVE && isBlockLoadingFinish.current) ||
         (event.type === Blockly.Events.BLOCK_DELETE && isBlockLoadingFinish.current)
       ) {
         setIsBlockChanged(true);
