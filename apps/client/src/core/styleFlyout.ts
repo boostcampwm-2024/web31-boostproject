@@ -240,8 +240,6 @@ export default class StyleFlyout extends FixedFlyout {
 
     // 새롭게 생성되는 CSS 클래스 블록 정보
     if (!Blockly.Blocks[createClassType!]) {
-      useCssPropsStore.getState().addNewCssClass(createClassType);
-      useWorkspaceChangeStatusStore.getState().setIsBlockChanged(true);
       Blockly.Blocks[createClassType!] = {
         init: function () {
           this.appendDummyInput().appendField(
@@ -254,6 +252,8 @@ export default class StyleFlyout extends FixedFlyout {
       };
     }
 
+    useCssPropsStore.getState().addNewCssClass(createClassType);
+    useWorkspaceChangeStatusStore.getState().setIsBlockChanged(true);
     // 기존 블록들이 있는 cssStyleToolboxConfig.ts에 새 블록 추가
     cssStyleToolboxConfig!.contents = [
       ...existingBlocks,
