@@ -1,4 +1,3 @@
-export { GuideVideo } from './home/GuideVideo/GuideVideo';
 export { WorkspaceItem } from './home/WorkspaceItem/WorkspaceItem';
 export { WorkspaceAddBtn } from './home/WorkspaceAddBtn/WorkspaceAddBtn';
 export { WorkspaceLoadError } from './home/WorkspaceLoadError/WorkspaceLoadError';
