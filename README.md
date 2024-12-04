@@ -13,10 +13,6 @@
   <strong>👇 배포 사이트</strong> <br />
   https://boolock.site/
 </p>
-<p align="center"> 
-  <strong>👇 스토리북 사이트</strong> <br />
-  https://boostcampwm-2024.github.io/web31-BooLock/
-</p>
 
 <br/>
 
@@ -81,24 +77,17 @@ BooLock은 HTML과 CSS를 블록코딩 방식으로 학습할 수 있는 플랫�
 
 - 오른쪽 HTML 태그 탭에서 블록을 가져와 가운데의 작업 공간에서 조립할 수 있어요.
 
-![블록조립gif](https://github.com/user-attachments/assets/d03aa9c3-dab1-4e77-af54-93127b9e44be)
+![html](https://github.com/user-attachments/assets/38d75f0a-ae42-48a4-bee0-6799445eed43)
 
 <br/>
 
-### [ CSS 클래스 블록 생성 및 조립 ]
+### [ CSS 클래스 블록 생성 및 조립, 속성 적용 ]
 
 - 원하는 CSS 클래스 블록을 생성할 수 있어요.
 - 생성된 블록은 HTML 블록에 조립할 수 있어요.
+- 왼쪽 하단에 있는 CSS 속성 설정 패널에서 생성한 CSS 클래스 블록을 선택해 원하는 스타일 속성을 추가할 수 있어요.
 
-![css블록조립gif](https://github.com/user-attachments/assets/8a9130d6-a8ed-406f-b52b-a85c27a1c2e9)
-
-<br/>
-
-### [ CSS 속성 적용 ]
-
-- 왼쪽 하단에 있는 CSS 속성 설정 패널에서 생성한 CSS 클래스 블록을 선택해 원하는 스타일 속성을 추가할 수 있어요
-
-![css속성적용gif](https://github.com/user-attachments/assets/f6b9b252-7b29-4629-9d2a-4ea71f75c776)
+![_2024_12_04_19_18_22_466-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/9712dd05-e24f-4b03-b6ea-5d5b22010441)
 
 <br/>
 
@@ -106,13 +95,21 @@ BooLock은 HTML과 CSS를 블록코딩 방식으로 학습할 수 있는 플랫�
 
 - 왼쪽 상단 프리뷰창 미리보기 탭에서는 블록 코딩으로 만든 화면을 확인할 수 있고, HTML/CSS 탭에서는 코드 확인 및 복사 가능해요.
 
-![프리뷰창gif](https://github.com/user-attachments/assets/5f107bc7-d9e2-4ca3-93c8-2d84ef20084b)
+![_2024_12_04_19_26_51_875-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/f19f97c2-fa55-4ee8-970b-6a9abb93505d)
+
+### [ 코드 내보내기 ]
+
+- 오른쪽 상단 `코드 내보내기` 버튼을 통해 HTML코드와 CSS코드를 HTML파일로 다운받을 수 있어요.
+
+![_2024_12_04_19_26_51_875-ezgif com-video-to-gif-converter (2)](https://github.com/user-attachments/assets/471f1cf3-e09b-45d0-9907-76097f88b99b)
 
 <br/>
 
 ### [ 작업중인 워크스페이스 확인 ]
 
 - 홈페이지에서는 작업중이 워크스페이스 목록들과, 웹사이트 화면을 미리 볼 수 있어요.
+
+![_2024_12_04_17_56_47_598-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/0ecd36c3-d15b-4886-937d-3f9faff283f5)
 
 <br />
 
@@ -271,9 +268,10 @@ React의 SPA 구조로 인해 검색 엔진이 페이지 정보를 인식하지 
   > **👇 더 자세한 기록 및 과정 확인하기 👇** <br/> > [사용자 가이드](https://www.notion.so/51679d3e288b485f9a0ea9068eb621f5?pvs=21) <br/>
 
 ### 스토리북 테스트<a id="fe-storybook"></a>
+[**Storybook 배포 링크**](https://boolock.site/)
 
 <div align="center">
-  <img src="https://github.com/user-attachments/assets/9d7e3acc-ab0f-4123-b7b3-0d11dd5a36da" alt="storybook description" width="600"/>
+  <img src="https://github.com/user-attachments/assets/c1d1390c-229d-4cf3-a15f-34f62bdb78c2" alt="storybook description" width="600"/>
 </div>
 
 저희는 UI 중심의 서비스를 설계하였기 때문에 이를 극대화할 수 있는 Storybook을 사용하여 테스트를 진행하였고, GitHub Pages를 활용해 정적 웹사이트로 배포하였습니다. 스토리북 구조는 FSD구조를 Storybook에도 그대로 적용하였습니다.
@@ -317,7 +315,7 @@ React의 SPA 구조로 인해 검색 엔진이 페이지 정보를 인식하지 
 
 # 🌐 시스템 아키텍처 [[서비스 흐름 살펴보기]](https://github.com/boostcampwm-2024/web31-BooLock/wiki/%F0%9F%8D%80-%EC%8B%9C%EC%8A%A4%ED%85%9C-%EC%95%84%ED%82%A4%ED%85%8D%EC%B2%98) <a id="system_architecture"></a>
 
-![Group 1764](https://github.com/user-attachments/assets/123c2511-491a-4c77-9dc5-0da877908307)
+![image 99](https://github.com/user-attachments/assets/d4de1750-67ee-4d4d-9abe-70c833b8fbef)
 
 <br />
 
