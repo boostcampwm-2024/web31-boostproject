@@ -1,0 +1,4 @@
+import{j as e}from"./jsx-runtime-DR9Q75dM.js";import{r as t}from"./index-DRjF_FHU.js";const a=({imageSrc:r})=>{const[o,s]=t.useState(!1);return t.useEffect(()=>{s(!1)},[r]),e.jsx("div",{className:"relative mb-2 flex h-full w-full items-center justify-center overflow-hidden rounded-xl border-[1px] border-gray-100 bg-gray-50",children:o?e.jsxs("div",{className:"text-medium-rg text-center text-gray-200",children:["오른쪽 목록에서",e.jsx("br",{}),"이미지를 선택해주세요"]}):e.jsx("img",{className:"absolute h-full w-full object-contain",src:r,alt:"Preview",onError:()=>s(!0)})})};a.__docgenInfo={description:`@component
+@description
+임시로 업로드된 이미지 또는 실제 src로부터 제공된 이미지의 미리보기를 표시하는 컴포넌트입니다.
+유효하지 않은 이미지일 경우 에러 메시지를 표시합니다.`,methods:[],displayName:"ImageTagModalImg",props:{imageSrc:{required:!0,tsType:{name:"string"},description:""}}};export{a as I};

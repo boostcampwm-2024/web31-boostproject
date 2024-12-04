@@ -1,0 +1,1 @@
+import{e as a}from"./html2canvas.esm-BTtajP0W.js";const o=a()(e=>({isCoachMarkOpen:!0,currentStep:0,openCoachMark:()=>e({isCoachMarkOpen:!0,currentStep:0}),closeCoachMark:()=>e({isCoachMarkOpen:!1}),setCurrentStep:r=>e({currentStep:r})}));export{o as u};
