@@ -14,7 +14,7 @@ type workspaceListProps = {
 export const WorkspaceList = ({ workspaceList }: workspaceListProps) => {
   const navigate = useNavigate();
   return (
-    <ul className="grid-cols-list grid w-[1128px] justify-start gap-x-6 gap-y-8">
+    <>
       {workspaceList.map((workspace) => (
         <WorkspaceItem
           key={workspace.workspace_id}
@@ -27,6 +27,6 @@ export const WorkspaceList = ({ workspaceList }: workspaceListProps) => {
           }}
         />
       ))}
-    </ul>
+    </>
   );
 };

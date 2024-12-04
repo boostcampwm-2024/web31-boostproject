@@ -42,7 +42,7 @@ export const WorkspaceContainer = () => {
   }, [workspaceList]);
 
   return (
-    <section className="w-full max-w-[1128px] pb-48">
+    <section className="w-full max-w-[1152px] px-3 pb-48">
       <WorkspaceHeader />
       {isError ? (
         <WorkspaceLoadError />
