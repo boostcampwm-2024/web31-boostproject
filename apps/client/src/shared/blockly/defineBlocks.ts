@@ -40,6 +40,7 @@ const defineBlockWithDefaults = (
         .appendField(new CustomTagFieldLabel(removePreviousTypeName(blockName)));
       this.appendStatementInput('children').appendField();
     }
+    this.showContextMenu = () => {};
   };
 
   Blockly.Blocks[blockName] = blockDefinition;
