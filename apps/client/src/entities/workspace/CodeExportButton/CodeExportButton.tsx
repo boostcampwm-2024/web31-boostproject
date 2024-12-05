@@ -22,7 +22,7 @@ export const CodeExportButton = () => {
   return (
     <button
       onClick={handleClick}
-      className="text-bold-rg rounded-full border border-gray-100 px-4 py-2 text-gray-400 transition-colors ease-in-out hover:border-gray-300 hover:bg-gray-50 hover:text-gray-300"
+      className="text-bold-rg rounded-full border border-gray-100 bg-white px-4 py-2 text-gray-400 transition-colors ease-in-out hover:border-gray-300 hover:bg-gray-50 hover:text-gray-300"
       disabled={isLoading}
     >
       {isLoading ? (
