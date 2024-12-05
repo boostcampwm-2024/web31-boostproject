@@ -330,7 +330,7 @@ export default class TabbedToolbox extends Blockly.Toolbox {
   }
 
   // eslint-disable-next-line no-unused-vars
-  protected onClick_(e: PointerEvent): void {}
+  protected onClick_(_e: PointerEvent): void {}
 }
 
 Blockly.Css.register(`
