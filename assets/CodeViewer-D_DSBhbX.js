@@ -1,0 +1,16 @@
+import{j as f}from"./jsx-runtime-DR9Q75dM.js";import{C as v}from"./CodeContent-DoxBelqC.js";import{L as F}from"./LineNumbers-eZdDlBqZ.js";import{s as $}from"./CodeViewer.module-CZ8GGqUa.js";import{u as w}from"./useCoachMarkStore-Bn0-Ay5q.js";const x=(l,n,s)=>{const g=l.split(`
+`);let o=!1;return g.map(r=>s&&r.includes(`.${s}`)?(o=!0,`<span style="background-color: #FFF3AD;">${r}</span>`):o&&!r.includes("}")?`<span style="background-color: #FFF3AD;">${r}</span>`:o&&r.includes("}")?(o=!1,`<span style="background-color: #FFF3AD;">${r}</span>`):r.replace(/([^\s{}]+)\s*{/g,(i,t)=>{const e=s&&t.includes(`.${s}`)?`<span>${t}</span>`:t;return`<span class="${n.selector}">${e}</span> {`}).replace(/([\w-]+):/g,(i,t)=>`&nbsp;&nbsp;<span class="${n.property}">${t}</span>:`).replace(/:\s*([^;]+);/g,(i,t)=>`: <span class="${n["property-value"]}">${t}</span>;`)).join(`
+`).split(`
+`).map(r=>`  ${r}`).join(`
+`)},j=(l,n,s)=>{const o=new DOMParser().parseFromString(l,"text/html"),d=(e,p)=>{const c="  ".repeat(p),u=`<span class="${n.tag}">${e.tagName.toLowerCase()}</span>`,a=Array.from(e.attributes).map(m=>{const b=m.name==="class"&&s&&m.value.includes(s)?m.value.replace(s,`<span style="background-color: #FFF3AD; color: green">${s}</span>`):m.value;return`<span class="${n.attribute}">${m.name}</span>=<span class="${n.value}">"${b}"</span>`}).join(" "),C=`${c}&lt;${u}${a?" "+a:""}&gt;`,N=`${c}&lt;/${u}&gt;`,h=Array.from(e.childNodes).map(m=>i(m,p+1)).join("");return["br","hr","img"].includes(e.tagName.toLowerCase())?`
+${c}&lt;${u}${a?" "+a:""} /&gt;`:e.tagName.toLowerCase()==="head"?`${c}&lt;${u}${a?" "+a:""}&gt;${h.trim()}&lt;/${u}&gt;`:h.trim()?`
+${C}
+${h}
+${N}`:`
+${C}
+${N}`},r=(e,p)=>{var a;const c=(a=e.textContent)==null?void 0:a.trim(),u="  ".repeat(p);return c?`
+${u}<span class="${n.text}">${c}</span>`:""},i=(e,p=0)=>e.nodeType===Node.ELEMENT_NODE?d(e,p):e.nodeType===Node.TEXT_NODE?r(e,p):"";return i(o.documentElement,0).trim().split(`
+`).map(e=>`  ${e}`).join(`
+`)},L=({code:l,type:n,theme:s,selectedBlockStartLine:g,selectedBlockLength:o,selectedBlockType:d})=>{const i=(n==="html"?j(l,$,d):x(l,$,d)).split(`
+`).filter(e=>e.trim()!==""),{currentStep:t}=w();return f.jsx("div",{className:`${$.viewer} ${s==="dark"?$.dark:$.light} ${t===3?"z-[200] bg-white":""}`,children:f.jsxs("div",{className:$.scrollContainer,children:[f.jsx(F,{codeLineList:i}),f.jsx(v,{code:l,codeLineList:i,selectedBlockLength:o,selectedBlockStartLine:g,selectedBlockType:d})]})})};L.__docgenInfo={description:`@description
+변환된 HTML, CSS 코드를 줄 수와 함께 보여주는 컴포넌트`,methods:[],displayName:"CodeViewer",props:{code:{required:!0,tsType:{name:"string"},description:""},type:{required:!0,tsType:{name:"union",raw:"'html' | 'css'",elements:[{name:"literal",value:"'html'"},{name:"literal",value:"'css'"}]},description:""},theme:{required:!1,tsType:{name:"union",raw:"'light' | 'dark'",elements:[{name:"literal",value:"'light'"},{name:"literal",value:"'dark'"}]},description:""},selectedBlockStartLine:{required:!1,tsType:{name:"number"},description:""},selectedBlockLength:{required:!1,tsType:{name:"number"},description:""},selectedBlockType:{required:!1,tsType:{name:"union",raw:"string | null",elements:[{name:"string"},{name:"null"}]},description:""}}};export{L as C};
