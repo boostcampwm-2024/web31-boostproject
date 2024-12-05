@@ -248,6 +248,14 @@ export default class StyleFlyout extends FixedFlyout {
           );
           this.setOutput(true);
           this.setStyle(`defaultBlockCss`);
+          this.showContextMenu = (e: PointerEvent) => {
+            const transfromX = this.getSvgRoot().transform.baseVal[0].matrix.e;
+            if (transfromX !== 8) {
+              return;
+            }
+            const menuOptions = this.generateContextMenu();
+            Blockly.ContextMenu.show(e, menuOptions, this.RTL);
+          };
         },
       };
     }
