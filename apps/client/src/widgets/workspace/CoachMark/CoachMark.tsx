@@ -1,6 +1,9 @@
 import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
 import { CircleButton } from '@/shared/ui';
 import { coachMarkContent } from '@/shared/utils';
+import { useEffect } from 'react';
+import * as Blockly from 'blockly/core';
+import TabbedToolbox from '@/core/tabbedToolbox';
 
 export const CoachMark = () => {
   const { currentStep, setCurrentStep, closeCoachMark } = useCoachMarkStore();
@@ -22,6 +25,27 @@ export const CoachMark = () => {
     localStorage.setItem('isCoachMarkDismissed', 'true');
     closeCoachMark();
   };
+
+  useEffect(() => {
+    const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
+    if (!workspace) {
+      return;
+    }
+
+    const toolbox = workspace.getToolbox() as TabbedToolbox;
+    if (!toolbox) return;
+
+    switch (currentStep) {
+      case 0:
+        toolbox.clickTab('html');
+        break;
+      case 1:
+        toolbox.clickTab('css');
+        break;
+      case 2:
+        toolbox.clickTab('html');
+    }
+  }, [currentStep]);
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black bg-opacity-70">

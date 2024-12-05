@@ -6,8 +6,6 @@ import { NotFound } from '@/pages/NotFound/NotFound';
 import { useParams } from 'react-router-dom';
 import { useLayoutEffect, useEffect } from 'react';
 import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
-import * as Blockly from 'blockly/core';
-import TabbedToolbox from '@/core/tabbedToolbox';
 
 /**
  *
@@ -30,32 +28,12 @@ export const WorkspacePage = () => {
   }, []);
 
   useEffect(() => {
-    const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
-    if (!workspace) {
-      return;
-    }
+    if (!toolboxDiv) return;
 
-    const toolbox = workspace.getToolbox() as TabbedToolbox;
-
-    if (!toolbox) return;
-
-    switch (currentStep < 5) {
-      case 0:
-        toolbox.clickTab('html');
-        break;
-      case 1:
-        toolbox.clickTab('css');
-        break;
-      case 2:
-        toolbox.clickTab('html');
-    }
-
-    if (toolboxDiv) {
-      if (currentStep <= 1) {
-        toolboxDiv.classList.add('coachMarkHighlight');
-      } else {
-        toolboxDiv.classList.remove('coachMarkHighlight');
-      }
+    if (currentStep <= 1) {
+      toolboxDiv.classList.add('coachMarkHighlight');
+    } else {
+      toolboxDiv.classList.remove('coachMarkHighlight');
     }
   }, [currentStep, toolboxDiv]);
 
