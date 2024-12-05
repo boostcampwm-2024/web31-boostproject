@@ -329,8 +329,41 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     this.contentArea_.innerHTML = '';
   }
 
-  // eslint-disable-next-line no-unused-vars
-  protected onClick_(_e: PointerEvent): void {}
+  protected onClick_(e: PointerEvent): void {
+    const element = e.target as HTMLElement;
+    if (element.tagName === 'INPUT') {
+      return;
+    }
+
+    if (element.textContent === '컨테이너') {
+      this.setSelectedItem(this.getToolboxItems()![0]);
+      return;
+    }
+    if (element.textContent === '텍스트') {
+      this.setSelectedItem(this.getToolboxItems()![1]);
+      return;
+    }
+    if (element.textContent === '폼') {
+      this.setSelectedItem(this.getToolboxItems()![2]);
+      return;
+    }
+    if (element.textContent === '표') {
+      this.setSelectedItem(this.getToolboxItems()![3]);
+      return;
+    }
+    if (element.textContent === '리스트') {
+      this.setSelectedItem(this.getToolboxItems()![4]);
+      return;
+    }
+    if (element.textContent === '링크') {
+      this.setSelectedItem(this.getToolboxItems()![5]);
+      return;
+    }
+    if (element.textContent === '내용') {
+      this.setSelectedItem(this.getToolboxItems()![6]);
+      return;
+    }
+  }
 }
 
 Blockly.Css.register(`
