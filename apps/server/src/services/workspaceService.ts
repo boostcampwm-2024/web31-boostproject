@@ -30,7 +30,7 @@ export const WorkspaceService = () => {
         css_list: sampleWorkspace.css_list,
         class_block_list: sampleWorkspace.class_block_list,
         is_css_reset: sampleWorkspace.is_css_reset,
-        thumbnail: '',
+        thumbnail: sampleWorkspace.thumbnail,
         updated_at: new Date(),
       };
       const clonedWorkspace = new Workspace(clonedWorkspaceData);

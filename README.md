@@ -268,7 +268,7 @@ React의 SPA 구조로 인해 검색 엔진이 페이지 정보를 인식하지 
 
 ### 스토리북 테스트<a id="fe-storybook"></a>
 
-[**Storybook 배포 링크**](https://boolock.site/)
+[**스토리북 배포 링크**](https://boostcampwm-2024.github.io/web31-BooLock/)
 
 <div align="center">
   <img src="https://github.com/user-attachments/assets/c1d1390c-229d-4cf3-a15f-34f62bdb78c2" alt="storybook description" width="600"/>
