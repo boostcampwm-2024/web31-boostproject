@@ -4,8 +4,10 @@ import { Helmet } from 'react-helmet-async';
 import { Loading } from '@/shared/ui';
 import { NotFound } from '@/pages/NotFound/NotFound';
 import { useParams } from 'react-router-dom';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
+import * as Blockly from 'blockly/core';
+import TabbedToolbox from '@/core/tabbedToolbox';
 
 /**
  *
@@ -16,21 +18,50 @@ export const WorkspacePage = () => {
   const { workspaceId } = useParams();
   const { isPending, isError } = useGetWorkspace(workspaceId as string);
   usePreventLeaveWorkspacePage();
-  const { isCoachMarkOpen, openCoachMark, closeCoachMark } = useCoachMarkStore();
-
-  if (isError) {
-    return <NotFound />;
-  }
+  const { currentStep, isCoachMarkOpen, openCoachMark } = useCoachMarkStore();
+  const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
 
   useLayoutEffect(() => {
     const isCoachMarkDismissed = localStorage.getItem('isCoachMarkDismissed');
 
     if (!isCoachMarkDismissed) {
       openCoachMark();
-    } else {
-      closeCoachMark();
     }
   }, []);
+
+  useEffect(() => {
+    const workspace = Blockly.getMainWorkspace() as Blockly.WorkspaceSvg;
+    if (!workspace) {
+      return;
+    }
+
+    const toolbox = workspace.getToolbox() as TabbedToolbox;
+
+    if (!toolbox) return;
+
+    switch (currentStep < 5) {
+      case 0:
+        toolbox.clickTab('html');
+        break;
+      case 1:
+        toolbox.clickTab('css');
+        break;
+      case 2:
+        toolbox.clickTab('html');
+    }
+
+    if (toolboxDiv) {
+      if (currentStep <= 1) {
+        toolboxDiv.classList.add('coachMarkHighlight');
+      } else {
+        toolboxDiv.classList.remove('coachMarkHighlight');
+      }
+    }
+  }, [currentStep, toolboxDiv]);
+
+  if (isError) {
+    return <NotFound />;
+  }
 
   return (
     <>
