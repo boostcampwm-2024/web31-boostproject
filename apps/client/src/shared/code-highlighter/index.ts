@@ -1,1 +1,1 @@
-export { CodeViewer } from './components/CodeViewer';
+export { CodeViewer } from './components/CodeViewer/CodeViewer';

@@ -1,8 +1,8 @@
-import { CodeContent } from './CodeContent';
-import { LineNumbers } from './LineNumbers';
-import { parseHighlightCss } from '../utils/parseHighlightCss';
-import { parseHighlightHtml } from '../utils/parseHighlightHtml';
-import styles from '../styles/CodeViewer.module.css';
+import { CodeContent } from '../CodeContent/CodeContent';
+import { LineNumbers } from '../LineNumbers/LineNumbers';
+import { parseHighlightCss } from '../../utils/parseHighlightCss';
+import { parseHighlightHtml } from '../../utils/parseHighlightHtml';
+import styles from '../../styles/CodeViewer.module.css';
 import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
 
 type CodeViewerProps = {
@@ -14,6 +14,11 @@ type CodeViewerProps = {
   selectedBlockType?: string | null;
 };
 
+/**
+ *
+ * @description
+ * 변환된 HTML, CSS 코드를 줄 수와 함께 보여주는 컴포넌트
+ */
 export const CodeViewer = ({
   code,
   type,

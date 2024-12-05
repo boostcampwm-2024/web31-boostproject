@@ -4,7 +4,7 @@ import { useWorkspaceChangeStatusStore } from '@/shared/store';
 
 export const usePreventLeaveWorkspacePage = () => {
   const { isBlockChanged, isCssChanged } = useWorkspaceChangeStatusStore();
-  let blocker = useBlocker(
+  const blocker = useBlocker(
     ({ currentLocation, nextLocation }) =>
       currentLocation.pathname !== nextLocation.pathname && (isBlockChanged || isCssChanged)
   );
