@@ -328,6 +328,9 @@ export default class TabbedToolbox extends Blockly.Toolbox {
     }
     this.contentArea_.innerHTML = '';
   }
+
+  // eslint-disable-next-line no-unused-vars
+  protected onClick_(e: PointerEvent): void {}
 }
 
 Blockly.Css.register(`
