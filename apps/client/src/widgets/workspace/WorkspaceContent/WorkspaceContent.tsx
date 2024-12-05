@@ -180,6 +180,8 @@ export const WorkspaceContent = () => {
       { passive: false }
     );
 
+    newWorkspace.showContextMenu = () => {};
+
     newWorkspace.addChangeListener(handleAutoConversion);
     newWorkspace.addChangeListener(handleBlockClick2);
 
