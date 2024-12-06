@@ -1,6 +1,5 @@
 import { ImageTagModal, CoachMark, WorkspaceContent, WorkspacePageHeader } from '@/widgets';
 import { useGetWorkspace, usePreventLeaveWorkspacePage } from '@/shared/hooks';
-import { Helmet } from 'react-helmet-async';
 import { Loading } from '@/shared/ui';
 import { NotFound } from '@/pages/NotFound/NotFound';
 import { useParams } from 'react-router-dom';
@@ -43,13 +42,6 @@ export const WorkspacePage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>BooLock - 작업 공간</title>
-        <meta
-          name="description"
-          content={`작업 공간 ID: ${workspaceId}에서 HTML과 CSS를 연습해보세요.`}
-        />
-      </Helmet>
       <div className="flex h-screen flex-col">
         {isPending && <Loading />}
         {isCoachMarkOpen && <CoachMark />}
