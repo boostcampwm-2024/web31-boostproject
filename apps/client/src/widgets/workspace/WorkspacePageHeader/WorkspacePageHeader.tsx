@@ -20,12 +20,11 @@ export const WorkspacePageHeader = () => {
       </div>
       <div className="flex gap-11">
         <button
-          className="text-medium-rg hover flex items-center gap-1 text-gray-300"
+          className="text-medium-rg hover flex items-center gap-1 text-gray-300 hover:text-gray-500"
           onClick={openCoachMark}
           aria-label="도움말 버튼"
         >
           도움말 <Question />
-          {/* TODO: hover시 효과 */}
         </button>
         <WorkspaceHeaderButtons />
       </div>

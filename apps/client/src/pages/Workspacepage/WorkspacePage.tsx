@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet-async';
 import { Loading } from '@/shared/ui';
 import { NotFound } from '@/pages/NotFound/NotFound';
 import { useParams } from 'react-router-dom';
-import { useLayoutEffect } from 'react';
+import { useLayoutEffect, useEffect } from 'react';
 import { useCoachMarkStore } from '@/shared/store/useCoachMarkStore';
 
 /**
@@ -16,21 +16,30 @@ export const WorkspacePage = () => {
   const { workspaceId } = useParams();
   const { isPending, isError } = useGetWorkspace(workspaceId as string);
   usePreventLeaveWorkspacePage();
-  const { isCoachMarkOpen, openCoachMark, closeCoachMark } = useCoachMarkStore();
-
-  if (isError) {
-    return <NotFound />;
-  }
+  const { currentStep, isCoachMarkOpen, openCoachMark } = useCoachMarkStore();
+  const toolboxDiv = document.querySelector('.blocklyToolboxDiv');
 
   useLayoutEffect(() => {
     const isCoachMarkDismissed = localStorage.getItem('isCoachMarkDismissed');
 
     if (!isCoachMarkDismissed) {
       openCoachMark();
-    } else {
-      closeCoachMark();
     }
   }, []);
+
+  useEffect(() => {
+    if (!toolboxDiv) return;
+
+    if (currentStep <= 1) {
+      toolboxDiv.classList.add('coachMarkHighlight');
+    } else {
+      toolboxDiv.classList.remove('coachMarkHighlight');
+    }
+  }, [currentStep, toolboxDiv]);
+
+  if (isError) {
+    return <NotFound />;
+  }
 
   return (
     <>
