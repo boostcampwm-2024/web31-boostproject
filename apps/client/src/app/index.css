@@ -1,0 +1,351 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-family: 'SUIT Variable';
+    font-weight: 100 900;
+    src: url('/fonts/SUIT-Variable.woff2') format('woff2-variations');
+  }
+
+  body {
+    font-family: 'SUIT Variable', serif;
+  }
+}
+
+@layer utilities {
+  .text-bold-xl {
+    @apply text-2xl font-bold leading-5;
+  }
+  .text-bold-lg {
+    @apply text-xl font-bold leading-4;
+  }
+  .text-bold-md {
+    @apply text-base font-bold leading-5;
+  }
+  .text-bold-rg {
+    @apply text-sm font-bold leading-4;
+  }
+  .text-bold-sm {
+    @apply text-xs font-bold leading-4;
+  }
+
+  .text-semibold-lg {
+    @apply text-xl font-semibold leading-7;
+  }
+
+  .text-semibold-md {
+    @apply text-base font-semibold leading-5;
+  }
+
+  .text-semibold-rg {
+    @apply text-sm font-semibold leading-4;
+  }
+
+  .text-semibold-sm {
+    @apply text-xs font-semibold leading-4;
+  }
+
+  .text-medium-md {
+    @apply text-base font-medium leading-6;
+  }
+
+  .text-medium-rg {
+    @apply text-sm font-medium leading-6;
+  }
+
+  .text-medium-sm {
+    @apply text-xs font-medium leading-4;
+  }
+
+  .text-tooltip-sm {
+    @apply text-xs font-medium leading-[1.15rem];
+  }
+}
+
+.blocklyToolboxDiv {
+  padding: 0;
+  background-color: transparent;
+  margin: 1rem;
+  display: flex !important;
+  height: calc(100% - 2rem) !important;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: flex-end;
+  box-shadow: 0px 4px 4px rgba(118, 118, 118, 0.25);
+  border-bottom-right-radius: 0.5rem;
+  border-bottom-left-radius: 0.5rem;
+  overflow-y: hidden;
+}
+
+.blocklyToolboxContents {
+  background-color: white;
+  height: 100%;
+  border-left: 1px #cdd9e4 solid;
+}
+
+.blocklyToolboxCategory {
+  padding: 0;
+  margin: 0;
+}
+
+.blocklyTreeRow {
+  width: 6rem;
+  height: auto;
+  background-color: white;
+  padding: 0.5rem 0;
+  margin: 0;
+  border-bottom: 1px #cdd9e4 solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.blocklyTreeRowContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.blocklyTreeRow:hover {
+  cursor: pointer;
+}
+
+.blocklyTreeLabel {
+  @apply text-semibold-sm;
+}
+
+.blocklyFlyout {
+  z-index: 70;
+  transform: translate(800px, 40px);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cdd9e4;
+  border-radius: 4px;
+}
+
+input[type='color']::-webkit-color-swatch {
+  border-radius: 100%;
+  border: none;
+}
+input[type='color']::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+.contentCreatingBlock {
+  display: flex;
+  flex-direction: column;
+  padding: 1.25rem 1rem 0.5rem 1rem;
+}
+
+.creatingBlockLabel {
+  @apply text-bold-rg text-gray-black;
+  margin-bottom: 0.75rem;
+}
+
+/* TODO: placeholder와 색상 차이 (논의 필요) */
+.creatingBlockInput {
+  @apply text-semibold-rg bg-gray-50 text-gray-400;
+  border: 1px solid #cdd9e4;
+  border-radius: 0.5rem;
+  padding: 0.5rem 1.25rem;
+  width: 100%;
+  height: 2.5rem;
+}
+
+.creatingBlockInput::placeholder {
+  @apply text-gray-200;
+}
+
+.creatingBlockButton {
+  @apply text-gray-white bg-blue-500;
+  margin-top: 0.5rem;
+  font-size: 1.25rem;
+  border-radius: 0.5rem;
+  width: 100%;
+  height: 2.5rem;
+}
+
+.creatingBlockButton:hover {
+  @apply bg-blue-300;
+}
+
+.blocklyTrash {
+  opacity: 1 !important;
+}
+
+.listBlockLabel {
+  @apply text-bold-rg text-gray-black;
+  margin-top: 1.75rem;
+}
+
+.resetCssDiv {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0 0 0;
+}
+
+.resetCssCheckbox {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.resetCssCheckbox {
+  @apply h-5 w-5 appearance-none rounded border border-gray-100 bg-white bg-center bg-no-repeat;
+}
+
+.resetCssCheckbox:checked {
+  @apply bg-white;
+  background-image: url('@/shared/assets/check.svg');
+}
+
+.resetCssText {
+  @apply text-gray-400;
+  padding: 0 6px 0 12px;
+}
+
+.blocklyTooltipDiv {
+  @apply text-gray-white text-tooltip-sm rounded-md border-none bg-green-500 px-3 py-2 opacity-100;
+}
+
+.blocklyContextMenu {
+  padding: 0 !important;
+  box-sizing: border-box !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInBlock {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes rotateX {
+  from {
+    transform: rotateX(37deg) rotateZ(0deg) translateY(-350px);
+  }
+  to {
+    transform: rotateX(70deg) rotateZ(0deg) translateY(-350px);
+  }
+}
+
+.reset-css {
+  html,
+  body,
+  div,
+  span,
+  header,
+  section,
+  nav,
+  main,
+  article,
+  footer,
+  p,
+  strong,
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  small,
+  br,
+  em,
+  i,
+  blockquote,
+  hr,
+  input,
+  button,
+  form,
+  option,
+  textarea,
+  select,
+  fieldset,
+  legend,
+  label,
+  td,
+  tr,
+  th,
+  caption,
+  table,
+  ul,
+  ol,
+  li,
+  a {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+  }
+
+  article,
+  header,
+  section,
+  nav,
+  main,
+  footer {
+    display: block;
+  }
+
+  body {
+    line-height: 1;
+  }
+
+  ol,
+  ul {
+    list-style: none;
+  }
+
+  blockquote,
+  q {
+    quotes: none;
+  }
+
+  blockquote:before,
+  blockquote:after,
+  q:before,
+  q:after {
+    content: '';
+    content: none;
+  }
+
+  table {
+    border-collapse: collapse;
+    border-spacing: 0;
+  }
+}
+
+.coachMarkHighlight {
+  z-index: 99999;
+}
+
+.coachMarkHighlightText {
+  @apply text-semibold-md text-green-500;
+}

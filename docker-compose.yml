@@ -1,0 +1,30 @@
+services:
+  base:
+    build:
+      context: .
+      dockerfile: Dockerfile.base
+    image: base-image
+    command: ['echo', 'Base image built']
+
+  frontend:
+    build:
+      context: .
+      dockerfile: ./apps/client/Dockerfile
+      cache_from:
+        - base-image
+    depends_on:
+      - base
+    ports:
+      - '80:80'
+      - '443:443'
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./apps/server/Dockerfile
+      cache_from:
+        - base-image
+    depends_on:
+      - base
+    ports:
+      - '3000:3000'
